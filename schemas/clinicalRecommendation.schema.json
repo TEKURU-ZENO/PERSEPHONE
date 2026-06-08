@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ClinicalRecommendation",
+  "type": "OBJECT",
+  "properties": {
+    "recommendationId": { "type": "STRING" },
+    "patientId": { "type": "STRING" },
+    "therapy": { "type": "STRING" },
+    "strategy": { "type": "STRING", "enum": ["MTD", "METRONOMIC", "ADAPTIVE"] },
+    "confidence": { "type": "NUMBER", "minimum": 0.0, "maximum": 1.0 },
+    "evidenceScore": { "type": "INTEGER", "minimum": 0, "maximum": 100 },
+    "progressionRisk": { "type": "STRING", "enum": ["Low", "Moderate", "High"] },
+    "safetyStatus": { "type": "STRING", "enum": ["Pass", "Warning", "Critical"] },
+    "expectedTTP": { "type": "NUMBER" },
+    "maxToxicity": { "type": "NUMBER" },
+    "matchedTrials": {
+      "type": "ARRAY",
+      "items": { "type": "STRING" }
+    },
+    "citations": {
+      "type": "ARRAY",
+      "items": { "type": "STRING" }
+    },
+    "generatedBy": {
+      "type": "ARRAY",
+      "items": { "type": "STRING" }
+    },
+    "timestamp": { "type": "STRING", "format": "date-time" }
+  },
+  "required": [
+    "recommendationId",
+    "patientId",
+    "therapy",
+    "strategy",
+    "confidence",
+    "evidenceScore",
+    "progressionRisk",
+    "safetyStatus",
+    "expectedTTP",
+    "maxToxicity",
+    "matchedTrials",
+    "citations",
+    "generatedBy",
+    "timestamp"
+  ]
+}

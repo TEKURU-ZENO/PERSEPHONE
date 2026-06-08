@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BoardSession",
+  "type": "OBJECT",
+  "properties": {
+    "sessionId": { "type": "STRING" },
+    "patientId": { "type": "STRING" },
+    "simulationId": { "type": "STRING" },
+    "recommendationId": { "type": "STRING" },
+    "agentOutputs": {
+      "type": "OBJECT",
+      "properties": {
+        "evolution": { "type": "OBJECT" },
+        "planning": { "type": "OBJECT" },
+        "evidence": { "type": "OBJECT" },
+        "safety": { "type": "OBJECT" }
+      },
+      "required": ["evolution", "planning", "evidence", "safety"]
+    },
+    "recommendation": { "type": "OBJECT" },
+    "timestamp": { "type": "STRING", "format": "date-time" }
+  },
+  "required": [
+    "sessionId",
+    "patientId",
+    "simulationId",
+    "recommendationId",
+    "agentOutputs",
+    "recommendation",
+    "timestamp"
+  ]
+}

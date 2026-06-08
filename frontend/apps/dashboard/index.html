@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PERSEPHONE OS // Digital Twin Operating Environment</title>
+  <link rel="stylesheet" href="./src/styles/globals.css">
+  <!-- Lucide Vector Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Palantir-Style Header Mount -->
+    <header></header>
+
+    <!-- WORKSPACE PANEL GRID -->
+    <main class="dashboard-grid">
+      
+      <!-- 1.0 DIGITAL TWIN OPERATING ENVIRONMENT (DTOE) PANEL -->
+      <section class="panel patient-panel">
+        <div class="panel-header">
+          <h2><i data-lucide="shield-alert" class="panel-icon-purple"></i> 1.0 DTOE Workstation</h2>
+          <span class="panel-badge badge-purple" id="patient-status-badge">Active</span>
+        </div>
+        <div class="panel-body">
+          <!-- Dynamically populated by Dashboard.js -->
+        </div>
+      </section>
+
+      <!-- 2.0 TEMPORAL EVOLUTION PANEL (PLACEHOLDER FOR PHASE 2) -->
+      <section class="panel simulator-panel">
+        <div class="panel-header">
+          <h2><i data-lucide="trending-up" class="panel-icon-cyan"></i> 2.0 Simulation & Modeling</h2>
+          <span class="panel-badge badge-cyan">Phase 2</span>
+        </div>
+        <div class="panel-body">
+          <div class="placeholder-screen">
+            <i data-lucide="line-chart" class="placeholder-icon" style="color: var(--accent-cyan)"></i>
+            <h3>Tumor Clonal Dynamics Engine</h3>
+            <p>Integrating continuous-time Runge-Kutta numerical solvers (Lotka-Volterra equations) to simulate Darwinian selection of drug-resistant subclones under treatment regimens.</p>
+            <span class="placeholder-phase-badge">Phase 2 Implementation</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3.0 MULTI-AGENT COGNITIVE DEBATE (PHASE 4) -->
+      <section class="panel agents-panel">
+        <div class="panel-header">
+          <h2><i data-lucide="cpu" class="panel-icon-amber"></i> 3.0 Multi-Agent Cognitive Debate</h2>
+          <span class="panel-badge badge-amber">Phase 4</span>
+        </div>
+        <div class="panel-body">
+          <!-- Dynamically populated by TumorBoard.js -->
+        </div>
+      </section>
+
+      <!-- 4.0 BIOMEDICAL KNOWLEDGE GRAPH EXPLORER (PHASE 3) -->
+      <section class="panel graph-panel">
+        <div class="panel-header">
+          <h2><i data-lucide="git-branch" class="panel-icon-green"></i> 4.0 Biomedical Knowledge Graph Explorer</h2>
+          <span class="panel-badge badge-green">Phase 3</span>
+        </div>
+        <div class="panel-body">
+          <!-- Dynamically populated by GraphExplorer.js -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Main ES6 Entry Point -->
+  <script type="module" src="./src/pages/Dashboard.js"></script>
+</body>
+</html>

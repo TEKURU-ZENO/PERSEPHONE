@@ -1,0 +1,27 @@
+{
+  "recommendationId": "REC-003",
+  "patientId": "patient-c",
+  "therapy": "Adagrasib",
+  "strategy": "ADAPTIVE",
+  "confidence": 0.78,
+  "evidenceScore": 80,
+  "progressionRisk": "Moderate",
+  "safetyStatus": "Warning",
+  "expectedTTP": 152.0,
+  "maxToxicity": 74.5,
+  "matchedTrials": [
+    "NCT04625881",
+    "NCT05086796"
+  ],
+  "citations": [
+    "PMID:19447936"
+  ],
+  "generatedBy": [
+    "EvolutionAgent",
+    "PlanningAgent",
+    "EvidenceAgent",
+    "SafetyAgent",
+    "ClinicalRecommendationAgent"
+  ],
+  "timestamp": "2026-06-08T10:02:00Z"
+}

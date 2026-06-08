@@ -1,0 +1,28 @@
+{
+  "recommendationId": "REC-002",
+  "patientId": "patient-b",
+  "therapy": "Osimertinib",
+  "strategy": "ADAPTIVE",
+  "confidence": 0.83,
+  "evidenceScore": 85,
+  "progressionRisk": "Moderate",
+  "safetyStatus": "Warning",
+  "expectedTTP": 137.5,
+  "maxToxicity": 68.2,
+  "matchedTrials": [
+    "NCT03944772",
+    "NCT04862780"
+  ],
+  "citations": [
+    "PMID:19447936",
+    "PMID:21685025"
+  ],
+  "generatedBy": [
+    "EvolutionAgent",
+    "PlanningAgent",
+    "EvidenceAgent",
+    "SafetyAgent",
+    "ClinicalRecommendationAgent"
+  ],
+  "timestamp": "2026-06-08T10:01:00Z"
+}

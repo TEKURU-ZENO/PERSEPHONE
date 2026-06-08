@@ -1,0 +1,82 @@
+{
+  "alpha1": {
+    "symbol": "α₁",
+    "name": "Sensitive Clone Proliferation Rate",
+    "value": 0.08,
+    "range": [0.01, 0.15],
+    "unit": "day⁻¹",
+    "pmid": "19447936",
+    "citation": "Gatenby RA, et al. Cancer Research, 2009.",
+    "description": "Intrinsic growth rate of drug-sensitive tumor populations under abundant resource levels."
+  },
+  "alpha2": {
+    "symbol": "α₂",
+    "name": "Resistant Clone Proliferation Rate",
+    "value": 0.045,
+    "range": [0.01, 0.12],
+    "unit": "day⁻¹",
+    "pmid": "26500125",
+    "citation": "Silk AL, et al. Nature Communications, 2015.",
+    "description": "Growth speed of resistant clones incorporating the evolutionary fitness cost penalty (α₂ < α₁)."
+  },
+  "ES": {
+    "symbol": "E_S",
+    "name": "Sensitive Drug Efficacy Coefficient",
+    "value": 0.16,
+    "range": [0.05, 0.25],
+    "unit": "day⁻¹ · conc⁻¹",
+    "pmid": "22960745",
+    "citation": "Garnett MJ, et al. Nature, 2012.",
+    "description": "Chemotherapy efficacy constant targeting sensitive cells, derived from cell line screens."
+  },
+  "ER": {
+    "symbol": "E_R",
+    "name": "Resistant Drug Efficacy Coefficient",
+    "value": 0.015,
+    "range": [0.0, 0.05],
+    "unit": "day⁻¹ · conc⁻¹",
+    "pmid": "21685025",
+    "citation": "Engelmen JA, et al. Science, 2011.",
+    "description": "Efficacy constant for resistant clones under active drug concentration."
+  },
+  "K": {
+    "symbol": "K",
+    "name": "TME Carrying Capacity",
+    "value": 200,
+    "range": [50, 500],
+    "unit": "cm³",
+    "pmid": "15281884",
+    "citation": "Michor F, et al. Nature Reviews Cancer, 2004.",
+    "description": "Maximum tumor volume supported by microenvironmental boundaries and oxygen diffusion capacity."
+  },
+  "ke": {
+    "symbol": "k_e",
+    "name": "Drug Elimination Rate Constant",
+    "value": 0.15,
+    "range": [0.05, 0.50],
+    "unit": "day⁻¹",
+    "pmid": "27481896",
+    "citation": "Osimertinib PK Meta-Analysis. Clinical Pharmacokinetics, 2016.",
+    "description": "Plasma clearance rate mapping active drug clearance half-life curves."
+  },
+  "beta": {
+    "symbol": "β",
+    "name": "Toxicity Accumulation Coefficient",
+    "value": 0.25,
+    "range": [0.05, 0.80],
+    "unit": "day⁻¹ · conc⁻¹",
+    "pmid": "21124580",
+    "citation": "Chemotherapy Toxicology Profiles. Journal of Clinical Oncology, 2011.",
+    "description": "Toxicity accumulation coefficient relative to active drug concentration."
+  },
+  "gamma": {
+    "symbol": "γ",
+    "name": "Toxicity Recovery Rate Constant",
+    "value": 0.10,
+    "range": [0.02, 0.30],
+    "unit": "day⁻¹",
+    "pmid": "24862024",
+    "citation": "Patient recovery curves. Lancet Oncology, 2014.",
+    "description": "Systemic clearance rate of side-effects under cellular repair cycles."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SimulationResult",
+  "type": "object",
+  "properties": {
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "time": { "type": "number", "minimum": 0 },
+          "sensitive": { "type": "number", "minimum": 0 },
+          "resistant": { "type": "number", "minimum": 0 },
+          "totalVolume": { "type": "number", "minimum": 0 },
+          "drugConc": { "type": "number", "minimum": 0 },
+          "toxicity": { "type": "number", "minimum": 0 },
+          "dosing": { "type": "boolean" },
+          "activeTherapy": { "type": "boolean" }
+        },
+        "required": ["time", "sensitive", "resistant", "totalVolume", "drugConc", "toxicity", "dosing"]
+      }
+    },
+    "cumulativeDose": { "type": "number", "minimum": 0 },
+    "timeToProgression": { "type": "number", "minimum": 0 },
+    "maxToxicity": { "type": "number", "minimum": 0 },
+    "baselineVolume": { "type": "number", "minimum": 0 }
+  },
+  "required": [
+    "timeline",
+    "cumulativeDose",
+    "timeToProgression",
+    "maxToxicity",
+    "baselineVolume"
+  ]
+}

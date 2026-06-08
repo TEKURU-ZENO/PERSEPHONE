@@ -1,0 +1,28 @@
+{
+  "recommendationId": "REC-001",
+  "patientId": "patient-a",
+  "therapy": "Olaparib",
+  "strategy": "ADAPTIVE",
+  "confidence": 0.93,
+  "evidenceScore": 95,
+  "progressionRisk": "Low",
+  "safetyStatus": "Pass",
+  "expectedTTP": 180,
+  "maxToxicity": 50.4,
+  "matchedTrials": [
+    "NCT04381884",
+    "NCT05206253"
+  ],
+  "citations": [
+    "PMID:19447936",
+    "PMID:22960745"
+  ],
+  "generatedBy": [
+    "EvolutionAgent",
+    "PlanningAgent",
+    "EvidenceAgent",
+    "SafetyAgent",
+    "ClinicalRecommendationAgent"
+  ],
+  "timestamp": "2026-06-08T10:00:00Z"
+}

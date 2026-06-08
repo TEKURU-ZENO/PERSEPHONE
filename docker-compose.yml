@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # DTOE Dashboard Frontend
+  dashboard:
+    build:
+      context: ./frontend/apps/dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./frontend/apps/dashboard:/app
+    restart: always
+
+  # Future Gateway Microservice
+  gateway:
+    image: node:18-alpine
+    command: echo "Gateway service standby"
+    ports:
+      - "8080:8080"
+    restart: on-failure
+
+  # Neo4j Knowledge Graph database
+  neo4j:
+    image: neo4j:5.12-community
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/persephone2026
+    volumes:
+      - neo4j_data:/data
+    restart: always
+
+volumes:
+  neo4j_data:

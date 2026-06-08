@@ -1,0 +1,18 @@
+{
+  "scenarioId": "SCEN-KRAS-003",
+  "expectedMetrics": {
+    "mtd": {
+      "minTimeToProgressionDays": 45,
+      "maxTimeToProgressionDays": 95,
+      "maxSystemicToxicityLimit": 110.0,
+      "expectedDominantClonalRebound": "resistant"
+    },
+    "adaptive": {
+      "minTimeToProgressionDays": 130,
+      "maxTimeToProgressionDays": 170,
+      "maxSystemicToxicityLimit": 85.0,
+      "expectedDominantClonalRebound": "stable_coexistence"
+    }
+  },
+  "scientificValidationTarget": "KRAS G12D mutant tumor models showing progressive dynamics with elevated baseline toxicity (transaminitis), requiring safety-driven dosage modifications to avoid critical organ toxicity violations."
+}

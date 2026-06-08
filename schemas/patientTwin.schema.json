@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PatientTwin",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "age": { "type": "integer", "minimum": 0 },
+    "gender": { "type": "string" },
+    "diagnosis": { "type": "string" },
+    "stage": { "type": "string" },
+    "avatar": { "type": "string" },
+    "status": { "type": "string" },
+    "clinicalSummary": { "type": "string" },
+    "genomics": {
+      "type": "object",
+      "properties": {
+        "tumorMutationalBurden": { "type": "string" },
+        "microsatelliteStatus": { "type": "string" },
+        "variants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "gene": { "type": "string" },
+              "variant": { "type": "string" },
+              "effect": { "type": "string" },
+              "type": { "type": "string" },
+              "classification": { "type": "string" },
+              "VAF": { "type": "string" },
+              "consequence": { "type": "string" }
+            },
+            "required": ["gene", "variant", "type", "classification", "VAF"]
+          }
+        },
+        "pathwayDisruption": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 100 }
+        }
+      },
+      "required": ["variants", "pathwayDisruption"]
+    },
+    "transcriptomics": {
+      "type": "object",
+      "properties": {
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "gene": { "type": "string" },
+              "level": { "type": "string" },
+              "significance": { "type": "string" }
+            },
+            "required": ["gene", "level"]
+          }
+        }
+      },
+      "required": ["markers"]
+    },
+    "clinicalMetrics": {
+      "type": "object",
+      "properties": {
+        "renal": { "type": "string" },
+        "hepatic": { "type": "string" },
+        "blood": { "type": "string" },
+        "toxicityGrade": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 4 }
+        }
+      },
+      "required": ["renal", "hepatic", "blood", "toxicityGrade"]
+    },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "heartRate": { "type": "number" },
+        "temperature": { "type": "number" },
+        "activity": { "type": "number" },
+        "sleepQuality": { "type": "number" },
+        "toxicityTrend": {
+          "type": "array",
+          "items": { "type": "number" }
+        }
+      },
+      "required": ["heartRate", "temperature", "activity", "sleepQuality", "toxicityTrend"]
+    },
+    "trials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "matchScore": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "rationale": { "type": "string" }
+        },
+        "required": ["id", "name", "matchScore"]
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string" },
+          "event": { "type": "string" },
+          "desc": { "type": "string" }
+        },
+        "required": ["date", "event"]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "age",
+    "gender",
+    "diagnosis",
+    "stage",
+    "status",
+    "genomics",
+    "transcriptomics",
+    "clinicalMetrics",
+    "telemetry",
+    "trials",
+    "timeline"
+  ]
+}

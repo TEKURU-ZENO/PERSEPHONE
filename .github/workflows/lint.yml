@@ -1,0 +1,25 @@
+name: PERSEPHONE Code Quality & Lint
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Run Syntax and Style Verification
+      run: |
+        echo "Verifying ES Module Syntax..."
+        find . -name "*.js" -not -path "*/node_modules/*" | xargs -I {} node --check {}
+        echo "All JS files passed syntax validation."

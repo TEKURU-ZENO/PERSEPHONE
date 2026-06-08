@@ -1,0 +1,18 @@
+{
+  "scenarioId": "SCEN-BRCA1-001",
+  "expectedMetrics": {
+    "mtd": {
+      "minTimeToProgressionDays": 90,
+      "maxTimeToProgressionDays": 160,
+      "maxSystemicToxicityLimit": 100.0,
+      "expectedDominantClonalRebound": "resistant"
+    },
+    "adaptive": {
+      "minTimeToProgressionDays": 170,
+      "maxTimeToProgressionDays": 180,
+      "maxSystemicToxicityLimit": 80.0,
+      "expectedDominantClonalRebound": "stable_coexistence"
+    }
+  },
+  "scientificValidationTarget": "Synthetic lethality via PARP inhibition (Olaparib) suppresses sensitive clone expansion, but triggers clonal selection of resistant cells unless competitive growth is preserved."
+}
