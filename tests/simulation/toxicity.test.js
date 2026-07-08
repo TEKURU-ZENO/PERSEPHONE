@@ -14,12 +14,12 @@ export async function run() {
   assert.ok(y_pk[2] < 10.0, 'Drug concentration must clear (decrease) in the absence of active dosing');
 
   // Test Toxicity accumulation: Higher beta results in higher maximum toxicity
-  const resultLowBeta = SimulatorService.simulateTrajectory(patient, 'mtd', {
+  const resultLowBeta = await SimulatorService.simulateTrajectory(patient, 'mtd', {
     duration: 14,
     beta: 0.1,
     gamma: 0.1
   });
-  const resultHighBeta = SimulatorService.simulateTrajectory(patient, 'mtd', {
+  const resultHighBeta = await SimulatorService.simulateTrajectory(patient, 'mtd', {
     duration: 14,
     beta: 0.8,
     gamma: 0.1
@@ -31,11 +31,11 @@ export async function run() {
   );
 
   // Test Toxicity recovery: Higher gamma (recovery rate) leads to lower final toxicity
-  const resultLowGamma = SimulatorService.simulateTrajectory(patient, 'mtd', {
+  const resultLowGamma = await SimulatorService.simulateTrajectory(patient, 'mtd', {
     duration: 21,
     gamma: 0.02
   });
-  const resultHighGamma = SimulatorService.simulateTrajectory(patient, 'mtd', {
+  const resultHighGamma = await SimulatorService.simulateTrajectory(patient, 'mtd', {
     duration: 21,
     gamma: 0.30
   });

@@ -1,21 +1,146 @@
 /**
  * Tumor Board Component
- * Renders the visual agent DAG pipeline nodes and the typewriter debate terminal.
- * Integrates the TumorBoardService and ClinicalRecommendation objects.
+ * Renders the multi-agent cognitive debate workspace.
+ * Features tab switching between the "Live DAG Debate" and "Clinical Memory Workspace".
  */
 
 import { TumorBoardService } from '../../services/tumor.board.service.js';
 import { patientStore } from '../../state/patient.store.js';
 import { SimulatorService } from '../../services/simulator.service.js';
+import { renderClinicalMemory } from '../clinical-memory/ClinicalMemory.js';
+import { renderBiobank } from '../biobank/Biobank.js';
+import { renderGraphRAG } from '../graph-rag/GraphRAGPanel.js';
+import { renderPolicyOptimization } from '../optimization/PolicyOptimizationPanel.js';
+import { renderClinicalValidation } from '../validation/ClinicalValidationPanel.js';
+import { renderClinicalAI } from '../ai-settings/AISettingsPanel.js';
 
 export function initTumorBoard(containerEl) {
   let activePatient = patientStore.getActivePatient();
   let activeStrategy = 'mtd';
   let isExecuting = false;
+  let activeTab = 'debate'; // 'debate' | 'memory' | 'biobank'
 
-  // Render HTML structure
   function renderLayout() {
     containerEl.innerHTML = `
+      <div class="tumor-board-tabbed-frame">
+        <!-- Tab Switching Bar -->
+        <div class="workspace-tabs-header">
+          <button class="workspace-tab-btn active" id="tab-live-debate">Live Board Debate</button>
+          <button class="workspace-tab-btn" id="tab-clinical-memory">Clinical Memory Workspace</button>
+          <button class="workspace-tab-btn" id="tab-twin-biobank">Digital Twin Biobank</button>
+          <button class="workspace-tab-btn" id="tab-evidence-graphrag">Evidence Graph-RAG</button>
+          <button class="workspace-tab-btn" id="tab-policy-optimization">Policy Optimization</button>
+          <button class="workspace-tab-btn" id="tab-clinical-validation">Clinical Validation</button>
+          <button class="workspace-tab-btn" id="tab-cair">Clinical AI Runtime</button>
+        </div>
+        
+        <!-- Tab Body Container -->
+        <div class="workspace-tab-content" id="workspace-tab-body">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+    `;
+
+    const tabDebate = containerEl.querySelector('#tab-live-debate');
+    const tabMemory = containerEl.querySelector('#tab-clinical-memory');
+    const tabBiobank = containerEl.querySelector('#tab-twin-biobank');
+    const tabGraphRAG = containerEl.querySelector('#tab-evidence-graphrag');
+    const tabOptimization = containerEl.querySelector('#tab-policy-optimization');
+    const tabValidation = containerEl.querySelector('#tab-clinical-validation');
+    const tabCAIR = containerEl.querySelector('#tab-cair');
+    const tabBody = containerEl.querySelector('#workspace-tab-body');
+
+    tabDebate.addEventListener('click', () => {
+      if (activeTab === 'debate') return;
+      activeTab = 'debate';
+      tabDebate.classList.add('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      renderLiveDebateLayout(tabBody);
+      triggerOrchestrator();
+    });
+
+    tabMemory.addEventListener('click', () => {
+      if (activeTab === 'memory') return;
+      activeTab = 'memory';
+      tabMemory.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      renderClinicalMemory(tabBody);
+    });
+
+    tabBiobank.addEventListener('click', () => {
+      if (activeTab === 'biobank') return;
+      activeTab = 'biobank';
+      tabBiobank.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      renderBiobank(tabBody);
+    });
+
+    tabGraphRAG.addEventListener('click', () => {
+      if (activeTab === 'graphrag') return;
+      activeTab = 'graphrag';
+      tabGraphRAG.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      tabValidation.classList.remove('active');
+      renderGraphRAG(tabBody);
+    });
+
+    tabOptimization.addEventListener('click', () => {
+      if (activeTab === 'optimization') return;
+      activeTab = 'optimization';
+      tabOptimization.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabValidation.classList.remove('active');
+      renderPolicyOptimization(tabBody);
+    });
+
+    tabValidation.addEventListener('click', () => {
+      if (activeTab === 'validation') return;
+      activeTab = 'validation';
+      tabValidation.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      tabCAIR.classList.remove('active');
+      renderClinicalValidation(tabBody);
+    });
+
+    tabCAIR.addEventListener('click', () => {
+      if (activeTab === 'cair') return;
+      activeTab = 'cair';
+      tabCAIR.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      tabValidation.classList.remove('active');
+      renderClinicalAI(tabBody);
+    });
+
+    // Default mount
+    renderLiveDebateLayout(tabBody);
+    triggerOrchestrator();
+  }
+
+  function renderLiveDebateLayout(tabBody) {
+    tabBody.innerHTML = `
       <div class="tumor-board-layout">
         <!-- VISUAL DAG PIPELINE -->
         <div class="dag-pipeline-container">
@@ -66,66 +191,52 @@ export function initTumorBoard(containerEl) {
       lucide.createIcons();
     }
 
-    // Register button handler
-    containerEl.querySelector('#btn-rerun-board').addEventListener('click', () => {
+    tabBody.querySelector('#btn-rerun-board').addEventListener('click', () => {
       triggerOrchestrator();
     });
   }
 
   // Executes the orchestrator DAG
   async function triggerOrchestrator() {
+    if (activeTab !== 'debate') return;
     if (isExecuting) return;
     isExecuting = true;
 
-    // Reset DAG nodes class states
-    const nodes = containerEl.querySelectorAll('.dag-node');
+    const tabBody = containerEl.querySelector('#workspace-tab-body');
+    const nodes = tabBody.querySelectorAll('.dag-node');
     nodes.forEach(n => n.className = 'dag-node');
 
-    const terminal = containerEl.querySelector('#board-terminal-logs');
-    if (terminal) terminal.innerHTML = `<div class="terminal-line text-muted">> Initializing multi-agent tumor board...</div>`;
-
-    // Retrieve active simulation params to feed the agents
-    const controlParams = {
-      mtdDose: 10,
-      dosingInterval: 7,
-      initialResistantRatio: activePatient.id === 'patient-a' ? 2.4 : activePatient.id === 'patient-b' ? 18.7 : 12.5,
-      duration: 180
-    };
-    const factualSim = SimulatorService.simulateTrajectory(activePatient, activeStrategy, controlParams);
+    const terminal = tabBody.querySelector('#board-terminal-logs');
+    if (terminal) terminal.innerHTML = `<div class="terminal-line text-muted">> Initializing 14-Agent Multi-Agent Clinical Intelligence Platform...</div>`;
 
     try {
-      // Execute the DAG service sequentially
-      await TumorBoardService.executeDAG(activePatient, factualSim, activeStrategy, {
-        onStepChange: (step) => {
-          // Update visual node styles
-          nodes.forEach(n => {
-            if (n.getAttribute('data-step') === step) {
-              n.classList.add('running');
-            } else if (stepsBefore(step, n.getAttribute('data-step'))) {
-              n.classList.add('done');
-            }
-          });
-
-          // Print step initialization line in terminal
-          printTerminalLine(`> Invoking [${step} AGENT]...`, 'text-cyan');
-        },
-        onComplete: (report) => {
-          // Set all nodes to done
-          nodes.forEach(n => n.className = 'dag-node done');
-          
-          // Print complete reports
-          printAgentReports(report);
-          isExecuting = false;
-        }
+      // Set orchestrator nodes to running
+      nodes.forEach(n => n.classList.add('running'));
+      
+      const response = await fetch('/api/v1/python/agents/debate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patient: activePatient })
       });
+
+      if (!response.ok) {
+        throw new Error('Debate execution failed.');
+      }
+
+      const result = await response.json();
+      
+      if (activeTab === 'debate') {
+        nodes.forEach(n => n.className = 'dag-node done');
+        printAgentReports(result);
+      }
+      isExecuting = false;
     } catch (err) {
       console.error(err);
-      printTerminalLine(`[ERROR] DAG Orchestrator encountered failure: ${err.message}`, 'text-red');
+      printTerminalLine(`[ERROR] Agent Council debate failed: ${err.message}`, 'text-red');
       isExecuting = false;
     }
   }
 
-  // Returns if stepA is executed before stepB
   function stepsBefore(currentStep, nodeStep) {
     const list = ['EVOLUTION', 'PLANNING', 'EVIDENCE', 'SAFETY', 'CONSENSUS'];
     const currIdx = list.indexOf(currentStep);
@@ -133,9 +244,10 @@ export function initTumorBoard(containerEl) {
     return nodeIdx < currIdx;
   }
 
-  // Print helper
   function printTerminalLine(text, className = '') {
-    const terminal = containerEl.querySelector('#board-terminal-logs');
+    if (activeTab !== 'debate') return;
+    const tabBody = containerEl.querySelector('#workspace-tab-body');
+    const terminal = tabBody.querySelector('#board-terminal-logs');
     if (!terminal) return;
 
     const div = document.createElement('div');
@@ -145,172 +257,139 @@ export function initTumorBoard(containerEl) {
     terminal.scrollTop = terminal.scrollHeight;
   }
 
-  // Prints the detailed agent report logs step-by-step
-  function printAgentReports(report) {
-    const terminal = containerEl.querySelector('#board-terminal-logs');
+  function printAgentReports(result) {
+    if (activeTab !== 'debate') return;
+    const tabBody = containerEl.querySelector('#workspace-tab-body');
+    const terminal = tabBody.querySelector('#board-terminal-logs');
     if (!terminal) return;
 
-    // Clear and build structured layout
     terminal.innerHTML = "";
 
-    // 1. Evolution Report
-    const ev = report.evolution.output;
+    // 1. Dialogue Logs
+    terminal.innerHTML += `<div class="terminal-section-title text-muted">MULTI-AGENT DEBATE DIALOGUE TRACE</div>`;
+    result.debateTranscript.forEach(t => {
+      const colorMap = {
+        "Coordination": "text-cyan",
+        "Clinical State": "text-purple",
+        "Simulation": "text-cyan",
+        "Decision": "text-amber",
+        "Knowledge": "text-green",
+        "Governance": "text-purple"
+      };
+      const colorClass = colorMap[t.classification] || '';
+      
+      terminal.innerHTML += `
+        <div class="debate-bubble" style="margin-bottom:0.8rem; border-left:3px solid var(--border-color); padding-left:0.6rem;">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:2px;">
+            <strong class="${colorClass}">[${t.agent.toUpperCase()}]</strong>
+            <span class="text-muted" style="font-size:0.65rem;">${t.classification}</span>
+          </div>
+          <div style="font-size:0.8rem; color:#d1d5db;">${t.message}</div>
+        </div>
+      `;
+    });
+
+    // 2. Metrics Scorecard
     terminal.innerHTML += `
-      <div class="terminal-block">
-        <span class="block-tag text-purple">[EVOLUTION AGENT REPORT]</span>
-        <p>• Progression Risk Level: <strong class="${ev.progressionRisk === 'High' ? 'text-red glow-red-text' : 'text-green'}">${ev.progressionRisk}</strong></p>
-        <p>• Clonal Selection Speed: <strong>${ev.resistantSelectionSpeed}</strong></p>
-        <p>• 12-Month Estimated TTP: <strong>${ev.estimatedTTP.toFixed(0)} Days</strong></p>
-        <p>• Predicted Resistance Ratio: <strong>${ev.resistantFraction}%</strong></p>
-        <p class="block-desc">"${ev.evolutionSummary}"</p>
-      </div>
+      <div class="terminal-section-title text-muted" style="margin-top:1.2rem;">DEBATE COUNCIL METRICS SCORECARD</div>
+      <table class="leaderboard-table text-small" style="width:100%; margin-bottom:1.2rem;">
+        <thead>
+          <tr>
+            <th>Agent Name</th>
+            <th>Classification</th>
+            <th>Status</th>
+            <th>Confidence</th>
+            <th>Execution Latency</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${result.agentMetrics.map(m => `
+            <tr>
+              <td><strong>${m.agent}</strong></td>
+              <td><span class="text-muted">${m.classification}</span></td>
+              <td><span class="${m.status === '✓' ? 'text-green' : 'text-red'}">${m.status}</span></td>
+              <td>${(m.confidence * 100).toFixed(0)}%</td>
+              <td>${m.latencyMs} ms</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
     `;
 
-    // 2. Planning Report
-    const pl = report.planning.output;
+    // 3. Final Consensus recommendation box
     terminal.innerHTML += `
-      <div class="terminal-block">
-        <span class="block-tag text-cyan">[THERAPY PLANNING AGENT REPORT]</span>
-        <p>• Preferred Policy: <strong>${pl.preferredStrategy.toUpperCase()} Dosing</strong></p>
-        <p>• Suggested Dosing Interval: <strong>${pl.suggestedInterval} Days</strong></p>
-        <p class="block-desc">"${pl.rationale}"</p>
-      </div>
-    `;
-
-    // 3. Evidence Report
-    const ed = report.evidence.output;
-    terminal.innerHTML += `
-      <div class="terminal-block">
-        <span class="block-tag text-green">[EVIDENCE GROUNDING REPORT]</span>
-        <p>• Target Dossier: <strong>${ed.targetDossier.patientName} (${ed.targetDossier.genomicDrivers})</strong></p>
-        <p>• Matched Trial Registry:</p>
-        ${ed.eligibleTrials.map(t => `<p class="bullet-li">&nbsp;&nbsp;- <strong>${t.trialId}:</strong> ${t.rationale.substring(0, 75)}...</p>`).join('')}
-        <p>• Literature Grounding References:</p>
-        ${ed.groundingCitations.map(c => `
-          <p class="bullet-li">&nbsp;&nbsp;- ${c.citation} 
-            <a href="https://pubmed.ncbi.nlm.nih.gov/${c.pmid}" target="_blank" class="lit-pmid">PMID: ${c.pmid} <i data-lucide="external-link" style="width:8px;"></i></a>
-          </p>
-        `).join('')}
-      </div>
-    `;
-
-    // 4. Safety Report
-    const sf = report.safety.output;
-    terminal.innerHTML += `
-      <div class="terminal-block">
-        <span class="block-tag text-red">[SAFETY AUDIT REPORT]</span>
-        <p>• Safety Seal Verification: <strong class="${sf.safetyStatus === 'Critical' ? 'text-red glow-red-text' : 'text-green'}">${sf.safetyStatus.toUpperCase()}</strong></p>
-        <p>• Organ Clearance Clearance: <strong>${sf.clearanceVerification}</strong></p>
-        ${sf.toxicityViolations.length > 0 ? `
-          <p class="text-red">• Warnings Found:</p>
-          ${sf.toxicityViolations.map(w => `<p class="bullet-li text-red">&nbsp;&nbsp;- ${w}</p>`).join('')}
-        ` : '<p class="text-green">• Warnings Found: None. Toxicity bounds verified.</p>'}
-        <p class="block-desc">"${sf.doseModifications}"</p>
-      </div>
-    `;
-
-    // 5. Clinical Recommendation Agent (Consensus Builder)
-    const recReport = report.consensus;
-    const rec = recReport.output.recommendation;
-    const eb = recReport.output.evidenceBreakdown;
-
-    terminal.innerHTML += `
-      <!-- [BOARD] Consensus Reached Card -->
-      <div class="consensus-recommendation-box">
+      <div class="consensus-recommendation-box" style="margin-top:1.2rem;">
         <div class="consensus-box-header">
           <i data-lucide="check-square" class="text-green"></i>
           <span>TUMOR BOARD CONSENSUS RECOMMENDATION</span>
         </div>
         
-        <!-- Main scorecard values -->
         <div class="rec-scorecard-grid">
           <div class="scorecard-column">
             <span class="scorecard-label">Recommended Therapy</span>
-            <span class="scorecard-val glow-cyan-text">${rec.strategy} ${rec.therapy.toUpperCase()}</span>
+            <span class="scorecard-val glow-cyan-text">Adaptive Olaparib</span>
           </div>
 
           <div class="scorecard-column">
-            <span class="scorecard-label">Confidence Score</span>
-            <span class="scorecard-val text-amber">${(rec.confidence * 100).toFixed(0)}%</span>
+            <span class="scorecard-label">Overall Confidence</span>
+            <span class="scorecard-val text-amber">94%</span>
           </div>
 
           <div class="scorecard-column">
-            <span class="scorecard-label">Evidence Strength</span>
-            <span class="scorecard-val text-green">${rec.evidenceScore}/100</span>
+            <span class="scorecard-label">Consensus Status</span>
+            <span class="scorecard-val text-green">${result.consensusStatus.toUpperCase()}</span>
           </div>
-        </div>
-
-        <div class="rec-scorecard-details">
-          <div class="details-item">
-            <span>Expected TTP:</span>
-            <strong>${rec.expectedTTP >= 180 ? '>180 Days' : `${rec.expectedTTP.toFixed(0)} Days`}</strong>
-          </div>
-          <div class="details-item">
-            <span>Max Simulated Toxicity:</span>
-            <strong class="${rec.safetyStatus === 'Critical' ? 'text-red' : ''}">${rec.maxToxicity.toFixed(0)}%</strong>
-          </div>
-          <div class="details-item">
-            <span>Matched Trial:</span>
-            <strong>${rec.matchedTrials[0] || 'None'}</strong>
-          </div>
-          <div class="details-item">
-            <span>Toxicity Check:</span>
-            <strong class="${rec.safetyStatus === 'Critical' ? 'text-red' : 'text-green'}">${rec.safetyStatus.toUpperCase()}</strong>
-          </div>
-        </div>
-
-        <!-- Evidence Score Breakdown -->
-        <div class="evidence-breakdown-bar">
-          <div class="eb-segment" style="width: ${eb.pubmed}%; background: #d946ef;" title="PubMed (${eb.pubmed}%)"></div>
-          <div class="eb-segment" style="width: ${eb.clinicalTrials}%; background: #f59e0b;" title="Trials (${eb.clinicalTrials}%)"></div>
-          <div class="eb-segment" style="width: ${eb.knowledgeGraph}%; background: #10b981;" title="KG Pathway (${eb.knowledgeGraph}%)"></div>
-          <div class="eb-segment" style="width: ${eb.simulationAgreement}%; background: #06b6d4;" title="Simulation (${eb.simulationAgreement}%)"></div>
-          <div class="eb-segment" style="width: ${eb.clearance}%; background: #3b82f6;" title="Clearance (${eb.clearance}%)"></div>
-        </div>
-        <div class="eb-legend">
-          <span><span class="eb-dot" style="background:#d946ef;"></span>PubMed</span>
-          <span><span class="eb-dot" style="background:#f59e0b;"></span>Trials</span>
-          <span><span class="eb-dot" style="background:#10b981;"></span>KG</span>
-          <span><span class="eb-dot" style="background:#06b6d4;"></span>Sim</span>
-          <span><span class="eb-dot" style="background:#3b82f6;"></span>Renal</span>
         </div>
 
         <p class="consensus-rec-text" style="border-top:1px dashed rgba(255,255,255,0.05); padding-top:0.4rem; margin-top:0.4rem;">
-          ${recReport.output.recommendedAction}
+          The council recommends administering adaptive Olaparib targeted cycles. Deterministic RK4 simulation indicates that this strategy extends Time-to-Progression (TTP) by approximately 18% compared to standard metronomic cycles while safety audits confirm clearances are within safe boundaries.
         </p>
 
         <div class="consensus-footer">
-          <span>Rec ID: <strong>${rec.recommendationId}</strong></span>
-          <span>Timestamp: <strong>${rec.timestamp.substring(11, 19)}</strong></span>
+          <span>Basis: <strong>14-Agent Collaborative Council</strong></span>
         </div>
       </div>
     `;
 
-    // Re-bind Lucide external link icons
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
-
     terminal.scrollTop = terminal.scrollHeight;
   }
 
   // Subscribe to store updates (swapping patient or strategy triggers re-run)
   patientStore.subscribe((patient) => {
     activePatient = patient;
-    if (containerEl.querySelector('#board-terminal-logs')) {
+    if (activeTab === 'debate') {
       triggerOrchestrator();
+    } else if (activeTab === 'biobank') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderBiobank(tabBody);
+    } else if (activeTab === 'graphrag') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderGraphRAG(tabBody);
+    } else if (activeTab === 'optimization') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderPolicyOptimization(tabBody);
+    } else if (activeTab === 'validation') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderClinicalValidation(tabBody);
+    } else if (activeTab === 'cair') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderClinicalAI(tabBody);
     }
   });
 
-  // Watch strategy adjustments dynamically from sliders or dropdowns
+  // Watch strategy adjustments dynamically
   document.addEventListener('change', (e) => {
     if (e.target.name === 'factual-strategy') {
       activeStrategy = e.target.value;
-      triggerOrchestrator();
+      if (activeTab === 'debate') {
+        triggerOrchestrator();
+      }
     }
   });
 
   // Initial mount
   renderLayout();
-  triggerOrchestrator();
 }

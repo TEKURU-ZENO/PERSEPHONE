@@ -1,0 +1,13 @@
+cellLineId,drugName,ic50_micromolar
+MCF7,Olaparib,0.05
+MCF7,Osimertinib,8.5
+MCF7,Adagrasib,12.0
+A549,Olaparib,4.5
+A549,Osimertinib,0.01
+A549,Adagrasib,8.5
+HCT116,Olaparib,6.2
+HCT116,Osimertinib,5.4
+HCT116,Adagrasib,0.02
+COLO205,Olaparib,7.8
+COLO205,Osimertinib,6.2
+COLO205,Adagrasib,0.05

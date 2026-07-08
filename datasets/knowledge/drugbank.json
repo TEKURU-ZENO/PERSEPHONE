@@ -1,0 +1,26 @@
+[
+  {
+    "drugbankId": "DB09071",
+    "name": "Olaparib",
+    "mechanism": "PARP1 and PARP2 selective inhibitor, exploiting synthetic lethality under BRCA1/2 repair deficiencies.",
+    "targets": ["PARP1", "PARP2"],
+    "brandNames": ["Lynparza"],
+    "halfLife": "11.9 hours"
+  },
+  {
+    "drugbankId": "DB09330",
+    "name": "Osimertinib",
+    "mechanism": "Third-generation, irreversible tyrosine kinase inhibitor targeting EGFR activating (L858R) and gatekeeper resistance (T790M) mutations.",
+    "targets": ["EGFR"],
+    "brandNames": ["Tagrisso"],
+    "halfLife": "48 hours"
+  },
+  {
+    "drugbankId": "DB17415",
+    "name": "Adagrasib",
+    "mechanism": "Highly selective, covalent small-molecule inhibitor of KRAS G12D mutation, blocking GTPase signaling cascades.",
+    "targets": ["KRAS"],
+    "brandNames": ["Krazati"],
+    "halfLife": "23 hours"
+  }
+]

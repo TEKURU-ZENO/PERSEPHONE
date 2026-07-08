@@ -65,7 +65,43 @@ export const SimulatorService = {
   },
 
   // Simulates a full trajectory over a set duration (e.g. 180 days)
-  simulateTrajectory(patient, strategy, controlParams = {}) {
+  async simulateTrajectory(patient, strategy, controlParams = {}) {
+    try {
+      const response = await fetch('/api/v1/python/simulation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ patient, strategy, controlParams })
+      });
+      if (response.ok) {
+        const payload = await response.json();
+        const pythonResult = payload.result;
+        const timeline = pythonResult.timeline.map(pt => ({
+          time: pt.day,
+          sensitive: pt.sensitive,
+          resistant: pt.resistant,
+          totalVolume: pt.totalVolume,
+          drugConc: pt.drugConcentration,
+          toxicity: pt.toxicity,
+          dosing: pt.dose > 0,
+          activeTherapy: true
+        }));
+        return {
+          timeline,
+          cumulativeDose: pythonResult.cumulativeDose,
+          timeToProgression: pythonResult.timeToProgression,
+          maxToxicity: pythonResult.maxToxicity,
+          baselineVolume: timeline[0] ? (timeline[0].sensitive + timeline[0].resistant) : 100
+        };
+      }
+    } catch (err) {
+      // Fallback below
+    }
+    return this.simulateTrajectoryJS(patient, strategy, controlParams);
+  },
+
+  simulateTrajectoryJS(patient, strategy, controlParams = {}) {
     const duration = controlParams.duration || 180;
     const h = 0.5; // step size (in days)
     const steps = duration / h;
@@ -170,9 +206,9 @@ export const SimulatorService = {
   },
 
   // Phase 2C: Causal Engine evaluating counterfactual intervention trajectories
-  evaluateCounterfactual(patient, factualStrategy, counterfactualStrategy, controlParams = {}) {
-    const factual = this.simulateTrajectory(patient, factualStrategy, controlParams);
-    const counterfactual = this.simulateTrajectory(patient, counterfactualStrategy, controlParams);
+  async evaluateCounterfactual(patient, factualStrategy, counterfactualStrategy, controlParams = {}) {
+    const factual = await this.simulateTrajectory(patient, factualStrategy, controlParams);
+    const counterfactual = await this.simulateTrajectory(patient, counterfactualStrategy, controlParams);
 
     // Calculate deltas
     const doseDelta = factual.cumulativeDose - counterfactual.cumulativeDose;

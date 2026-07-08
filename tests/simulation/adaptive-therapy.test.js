@@ -11,8 +11,8 @@ export async function run() {
   };
 
   // Run MTD and Adaptive simulations
-  const mtdSim = SimulatorService.simulateTrajectory(patient, 'mtd', { duration: 180 });
-  const adaptiveSim = SimulatorService.simulateTrajectory(patient, 'adaptive', { duration: 180 });
+  const mtdSim = await SimulatorService.simulateTrajectory(patient, 'mtd', { duration: 180 });
+  const adaptiveSim = await SimulatorService.simulateTrajectory(patient, 'adaptive', { duration: 180 });
 
   // Verify Fitness Cost: alpha2 < alpha1 (0.045 < 0.08)
   // Check that in the adaptive simulation, during treatment holidays (dosing = false),
@@ -35,8 +35,8 @@ export async function run() {
   // Verify that Adaptive therapy successfully extends Time-to-Progression compared to MTD for resistant-heavy twins
   const patientB = { id: 'patient-b', name: 'Arthur Pendelton' }; // Arthur has high baseline resistance (T790M)
   // Pass ER = 0.0 to represent complete drug resistance of the resistant subpopulation
-  const bMtd = SimulatorService.simulateTrajectory(patientB, 'mtd', { duration: 180, ER: 0.0 });
-  const bAdaptive = SimulatorService.simulateTrajectory(patientB, 'adaptive', { duration: 180, ER: 0.0 });
+  const bMtd = await SimulatorService.simulateTrajectory(patientB, 'mtd', { duration: 180, ER: 0.0 });
+  const bAdaptive = await SimulatorService.simulateTrajectory(patientB, 'adaptive', { duration: 180, ER: 0.0 });
 
   assert.ok(
     bAdaptive.timeToProgression > bMtd.timeToProgression,

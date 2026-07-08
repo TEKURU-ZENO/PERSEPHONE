@@ -8,16 +8,16 @@ export async function run() {
   const patient = {
     id: 'patient-a',
     name: 'Elena Rostova',
-    genomics: { variants: [{ gene: 'BRCA1' }] },
+    genomics: { variants: [{ gene: 'BRCA1', variant: 'c.1961delA' }] },
     clinicalMetrics: { renal: 'eGFR: 88 (Normal)' }
   };
 
-  const factualSim = SimulatorService.simulateTrajectory(patient, 'adaptive');
+  const factualSim = await SimulatorService.simulateTrajectory(patient, 'adaptive');
 
   // Trigger recommendation agent
   const evolution = TumorBoardService.runEvolutionAgent(patient, factualSim);
   const planning = TumorBoardService.runPlanningAgent(patient, evolution.output, 'adaptive');
-  const evidence = TumorBoardService.runEvidenceAgent(patient);
+  const evidence = await TumorBoardService.runEvidenceAgent(patient);
   const safety = TumorBoardService.runSafetyAgent(patient, factualSim);
   const consensus = TumorBoardService.runRecommendationAgent(
     patient,
@@ -35,8 +35,14 @@ export async function run() {
   assert.strictEqual(rec.therapy, 'Olaparib', 'patient-a drug selection should be Olaparib');
   assert.strictEqual(rec.strategy, 'ADAPTIVE', 'strategy should be uppercase');
   
-  assert.strictEqual(typeof rec.confidence, 'number', 'confidence should be a number');
-  assert.ok(rec.confidence >= 0 && rec.confidence <= 1, 'confidence should be between 0.0 and 1.0');
+  // Assert decomposed confidence objects
+  assert.strictEqual(typeof rec.confidence, 'object', 'confidence should be an object');
+  assert.strictEqual(typeof rec.confidence.overall, 'number', 'overall confidence should be a number');
+  assert.ok(rec.confidence.overall >= 0 && rec.confidence.overall <= 1, 'overall confidence should be between 0.0 and 1.0');
+  assert.strictEqual(typeof rec.confidence.simulation, 'number', 'simulation confidence should be a number');
+  assert.strictEqual(typeof rec.confidence.graph, 'number', 'graph confidence should be a number');
+  assert.strictEqual(typeof rec.confidence.evidence, 'number', 'evidence confidence should be a number');
+  assert.strictEqual(typeof rec.confidence.safety, 'number', 'safety confidence should be a number');
   
   assert.strictEqual(typeof rec.evidenceScore, 'number', 'evidenceScore should be a number');
   assert.ok(rec.evidenceScore >= 0 && rec.evidenceScore <= 100, 'evidenceScore should be between 0 and 100');
@@ -66,8 +72,8 @@ export async function run() {
   );
 
   assert.ok(
-    consensusCompromised.output.recommendation.confidence < rec.confidence,
-    'Safety warnings or renal clearance concerns must decrease the recommendation confidence score'
+    consensusCompromised.output.recommendation.confidence.overall < rec.confidence.overall,
+    'Safety warnings or renal clearance concerns must decrease the overall recommendation confidence score'
   );
 
   console.log('  ✅ Recommendation tests passed.');

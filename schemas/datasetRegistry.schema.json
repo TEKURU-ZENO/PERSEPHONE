@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DatasetRegistry",
+  "type": "object",
+  "properties": {
+    "registryId": { "type": "string" },
+    "datasets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "version": { "type": "string" },
+          "samples": { "type": "integer" },
+          "tumors": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "cellLines": { "type": "integer" }
+        },
+        "required": ["version"]
+      }
+    },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "required": ["registryId", "datasets"]
+}

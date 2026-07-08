@@ -18,6 +18,7 @@ export function initSimulationLab(containerEl) {
   let mtdDose = 10;
   let dosingInterval = 7;
   let resistanceRatio = activePatient.id === 'patient-a' ? 2.4 : activePatient.id === 'patient-b' ? 18.7 : 12.5;
+  let calibratedOverrides = null;
 
   // Subscribe to store updates (swapping patient resets defaults)
   patientStore.subscribe((patient) => {
@@ -133,7 +134,7 @@ export function initSimulationLab(containerEl) {
   }
 
   // Core execution trigger
-  function runSimulation() {
+  async function runSimulation() {
     if (!containerEl.querySelector('#simulation-chart-canvas')) {
       renderLayout();
     }
@@ -149,8 +150,16 @@ export function initSimulationLab(containerEl) {
       duration: 180
     };
 
+    if (calibratedOverrides) {
+      const activeDrug = activePatient.id === 'patient-a' ? 'olaparib' : activePatient.id === 'patient-b' ? 'osimertinib' : 'adagrasib';
+      if (calibratedOverrides[activeDrug]) {
+        controlParams.ES = calibratedOverrides[activeDrug].ES;
+        controlParams.ER = calibratedOverrides[activeDrug].ER;
+      }
+    }
+
     // Factual runs
-    const factualSim = SimulatorService.simulateTrajectory(activePatient, factualStrategy, controlParams);
+    const factualSim = await SimulatorService.simulateTrajectory(activePatient, factualStrategy, controlParams);
     
     // Check if counterfactual is selected
     const showCounterfactual = counterfactualStrategy !== 'none' && counterfactualStrategy !== factualStrategy;
@@ -159,7 +168,7 @@ export function initSimulationLab(containerEl) {
     let comparison = null;
 
     if (showCounterfactual) {
-      comparison = SimulatorService.evaluateCounterfactual(activePatient, factualStrategy, counterfactualStrategy, controlParams);
+      comparison = await SimulatorService.evaluateCounterfactual(activePatient, factualStrategy, counterfactualStrategy, controlParams);
       counterfactualSim = comparison.counterfactual;
     }
 
@@ -312,4 +321,10 @@ export function initSimulationLab(containerEl) {
 
   // Initial trigger
   runSimulation();
+
+  const handleCalibration = (e) => {
+    calibratedOverrides = e.detail.overrides;
+    runSimulation();
+  };
+  document.addEventListener('calibrate-tumor-efficacies', handleCalibration);
 }

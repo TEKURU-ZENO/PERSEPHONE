@@ -1,0 +1,19 @@
+{
+  "registryId": "REG-2026",
+  "datasets": {
+    "TCGA": {
+      "version": "2026.01",
+      "tumors": ["OV", "LUAD"],
+      "samples": 614
+    },
+    "CCLE": {
+      "version": "2025.08",
+      "cellLines": 128
+    },
+    "GDSC": {
+      "version": "2025.12",
+      "samples": 128
+    }
+  },
+  "timestamp": "2026-06-29T22:32:45Z"
+}

@@ -1,0 +1,38 @@
+{
+  "cohortId": "tcga-ov",
+  "name": "TCGA Ovarian Serous Cystadenocarcinoma (TCGA-OV)",
+  "disease": "Ovarian Cancer",
+  "patientCount": 8,
+  "stageDistribution": {
+    "Stage IIIC": 5,
+    "Stage IV": 2,
+    "Stage IIIB": 1
+  },
+  "survivalCurve": [
+    {
+      "timeDays": 0.0,
+      "survivalRate": 1.0
+    },
+    {
+      "timeDays": 180.0,
+      "survivalRate": 0.875
+    },
+    {
+      "timeDays": 360.0,
+      "survivalRate": 0.625
+    },
+    {
+      "timeDays": 540.0,
+      "survivalRate": 0.375
+    },
+    {
+      "timeDays": 720.0,
+      "survivalRate": 0.375
+    },
+    {
+      "timeDays": 900.0,
+      "survivalRate": 0.125
+    }
+  ],
+  "timestamp": "2026-06-29T17:22:48.155629Z"
+}

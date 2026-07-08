@@ -1,0 +1,34 @@
+[
+  {
+    "geneSymbol": "BRCA1",
+    "variationId": "VCV000055474",
+    "variantName": "BRCA1 c.1961delA",
+    "hgvsc": "c.1961delA",
+    "classification": "Pathogenic",
+    "consequence": "Frameshift leading to Homologous Recombination Deficiency (HRD)"
+  },
+  {
+    "geneSymbol": "EGFR",
+    "variationId": "VCV000016618",
+    "variantName": "EGFR L858R",
+    "hgvsc": "c.2573T>G",
+    "classification": "Pathogenic",
+    "consequence": "Constitutive kinase domain activation"
+  },
+  {
+    "geneSymbol": "EGFR",
+    "variationId": "VCV000016620",
+    "variantName": "EGFR T790M",
+    "hgvsc": "c.2369C>T",
+    "classification": "Pathogenic",
+    "consequence": "Acquired gatekeeper TKI resistance mutation"
+  },
+  {
+    "geneSymbol": "KRAS",
+    "variationId": "VCV000012574",
+    "variantName": "KRAS G12D",
+    "hgvsc": "c.35G>A",
+    "classification": "Pathogenic",
+    "consequence": "Hotspot mutation trapping GTP-bound active state"
+  }
+]

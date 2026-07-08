@@ -12,7 +12,7 @@ export async function run() {
     clinicalMetrics: { renal: 'eGFR: 88 (Normal)' }
   };
 
-  const factualSim = SimulatorService.simulateTrajectory(patient, 'adaptive');
+  const factualSim = await SimulatorService.simulateTrajectory(patient, 'adaptive');
 
   // We trace the order of callback triggers during executeDAG
   const stepsExecuted = [];

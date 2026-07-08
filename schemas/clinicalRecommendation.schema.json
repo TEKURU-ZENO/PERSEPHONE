@@ -1,31 +1,68 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ClinicalRecommendation",
-  "type": "OBJECT",
+  "type": "object",
   "properties": {
-    "recommendationId": { "type": "STRING" },
-    "patientId": { "type": "STRING" },
-    "therapy": { "type": "STRING" },
-    "strategy": { "type": "STRING", "enum": ["MTD", "METRONOMIC", "ADAPTIVE"] },
-    "confidence": { "type": "NUMBER", "minimum": 0.0, "maximum": 1.0 },
-    "evidenceScore": { "type": "INTEGER", "minimum": 0, "maximum": 100 },
-    "progressionRisk": { "type": "STRING", "enum": ["Low", "Moderate", "High"] },
-    "safetyStatus": { "type": "STRING", "enum": ["Pass", "Warning", "Critical"] },
-    "expectedTTP": { "type": "NUMBER" },
-    "maxToxicity": { "type": "NUMBER" },
+    "recommendationId": { "type": "string" },
+    "patientId": { "type": "string" },
+    "therapy": { "type": "string" },
+    "strategy": { "type": "string", "enum": ["MTD", "METRONOMIC", "ADAPTIVE"] },
+    "confidence": {
+      "type": "object",
+      "properties": {
+        "overall": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "simulation": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "graph": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "evidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "safety": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      },
+      "required": ["overall", "simulation", "graph", "evidence", "safety"]
+    },
+    "evidenceScore": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "progressionRisk": { "type": "string", "enum": ["Low", "Moderate", "High"] },
+    "safetyStatus": { "type": "string", "enum": ["Pass", "Warning", "Critical"] },
+    "expectedTTP": { "type": "number" },
+    "maxToxicity": { "type": "number" },
     "matchedTrials": {
-      "type": "ARRAY",
-      "items": { "type": "STRING" }
+      "type": "array",
+      "items": { "type": "string" }
     },
     "citations": {
-      "type": "ARRAY",
-      "items": { "type": "STRING" }
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pmid": { "type": "string" },
+          "year": { "type": "integer" },
+          "journal": { "type": "string" },
+          "evidenceLevel": { "type": "string" },
+          "citationText": { "type": "string" }
+        },
+        "required": ["pmid", "year", "journal", "evidenceLevel"]
+      }
+    },
+    "recommendationBasis": {
+      "type": "object",
+      "properties": {
+        "simulation": { "type": "boolean" },
+        "knowledgeGraph": { "type": "boolean" },
+        "literature": { "type": "boolean" },
+        "historicalMemory": { "type": "boolean" },
+        "safetyAudit": { "type": "boolean" }
+      },
+      "required": ["simulation", "knowledgeGraph", "literature", "historicalMemory", "safetyAudit"]
+    },
+    "version": { "type": "string" },
+    "status": { "type": "string", "enum": ["Accepted", "Rejected", "Modified", "Archived"] },
+    "datasetManifest": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
     },
     "generatedBy": {
-      "type": "ARRAY",
-      "items": { "type": "STRING" }
+      "type": "array",
+      "items": { "type": "string" }
     },
-    "timestamp": { "type": "STRING", "format": "date-time" }
+    "timestamp": { "type": "string", "format": "date-time" }
   },
   "required": [
     "recommendationId",
@@ -40,6 +77,10 @@
     "maxToxicity",
     "matchedTrials",
     "citations",
+    "recommendationBasis",
+    "version",
+    "status",
+    "datasetManifest",
     "generatedBy",
     "timestamp"
   ]

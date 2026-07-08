@@ -1,0 +1,20 @@
+[
+  {
+    "pathwayId": "R-HSA-5685939",
+    "name": "Homologous Recombination",
+    "description": "Double-strand DNA repair pathway critical for genome integrity.",
+    "genes": ["BRCA1", "BRCA2", "RAD51", "PALB2"]
+  },
+  {
+    "pathwayId": "R-HSA-177929",
+    "name": "EGFR Kinase Signaling",
+    "description": "Tyrosine kinase phosphorylation cascade driving cell survival and proliferation.",
+    "genes": ["EGFR", "GRB2", "SOS1", "GAB1"]
+  },
+  {
+    "pathwayId": "R-HSA-5673001",
+    "name": "RAS-MAPK Cascade",
+    "description": "Mitogen-activated protein kinase signaling loop transferring extracellular growth cues.",
+    "genes": ["KRAS", "HRAS", "NRAS", "BRAF", "RAF1", "MAP2K1", "MAPK1"]
+  }
+]

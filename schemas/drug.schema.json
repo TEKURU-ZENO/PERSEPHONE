@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Drug",
+  "type": "object",
+  "properties": {
+    "drugId": { "type": "string" },
+    "name": { "type": "string" },
+    "mechanism": { "type": "string" },
+    "targets": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "brandNames": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "halfLife": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "required": ["drugId", "name", "mechanism"]
+}

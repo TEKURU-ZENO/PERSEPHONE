@@ -10,7 +10,7 @@ export async function run() {
   const start = performance.now();
 
   for (let i = 0; i < iterations; i++) {
-    SimulatorService.simulateTrajectory(patient, 'adaptive', { duration: 180 });
+    await SimulatorService.simulateTrajectory(patient, 'adaptive', { duration: 180 });
   }
 
   const end = performance.now();

@@ -10,9 +10,9 @@ export async function run() {
 
   for (let i = 0; i < iterations; i++) {
     // Run path finding for all patients
-    GraphService.findCausalPathForPatient('patient-a');
-    GraphService.findCausalPathForPatient('patient-b');
-    GraphService.findCausalPathForPatient('patient-c');
+    await GraphService.findCausalPathForPatient('patient-a');
+    await GraphService.findCausalPathForPatient('patient-b');
+    await GraphService.findCausalPathForPatient('patient-c');
   }
 
   const end = performance.now();

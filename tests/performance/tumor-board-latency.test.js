@@ -12,7 +12,7 @@ export async function run() {
     clinicalMetrics: { renal: 'eGFR: 88 (Normal)' }
   };
 
-  const factualSim = SimulatorService.simulateTrajectory(patient, 'adaptive');
+  const factualSim = await SimulatorService.simulateTrajectory(patient, 'adaptive');
 
   const iterations = 100;
   const start = performance.now();
@@ -20,7 +20,7 @@ export async function run() {
   for (let i = 0; i < iterations; i++) {
     const evolution = TumorBoardService.runEvolutionAgent(patient, factualSim);
     const planning = TumorBoardService.runPlanningAgent(patient, evolution.output, 'adaptive');
-    const evidence = TumorBoardService.runEvidenceAgent(patient);
+    const evidence = await TumorBoardService.runEvidenceAgent(patient);
     const safety = TumorBoardService.runSafetyAgent(patient, factualSim);
     TumorBoardService.runRecommendationAgent(
       patient,

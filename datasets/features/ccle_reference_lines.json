@@ -1,0 +1,74 @@
+[
+  {
+    "cellLineId": "COLO205",
+    "tissueOrigin": "colon",
+    "mutations": [
+      "KRAS"
+    ],
+    "expression": {
+      "BRCA1": 3.0356,
+      "EGFR": 2.6323,
+      "KRAS": 5.6177
+    },
+    "drugSensitivity": {
+      "Olaparib": 7.8,
+      "Osimertinib": 6.2,
+      "Adagrasib": 0.05
+    },
+    "timestamp": "2026-06-29T17:22:48.159113Z"
+  },
+  {
+    "cellLineId": "HCT116",
+    "tissueOrigin": "colon",
+    "mutations": [
+      "KRAS"
+    ],
+    "expression": {
+      "BRCA1": 3.433,
+      "EGFR": 2.1375,
+      "KRAS": 5.8227
+    },
+    "drugSensitivity": {
+      "Olaparib": 6.2,
+      "Osimertinib": 5.4,
+      "Adagrasib": 0.02
+    },
+    "timestamp": "2026-06-29T17:22:48.159131Z"
+  },
+  {
+    "cellLineId": "A549",
+    "tissueOrigin": "lung",
+    "mutations": [
+      "EGFR"
+    ],
+    "expression": {
+      "BRCA1": 3.2327,
+      "EGFR": 5.5298,
+      "KRAS": 3.1859
+    },
+    "drugSensitivity": {
+      "Olaparib": 4.5,
+      "Osimertinib": 0.01,
+      "Adagrasib": 8.5
+    },
+    "timestamp": "2026-06-29T17:22:48.159140Z"
+  },
+  {
+    "cellLineId": "MCF7",
+    "tissueOrigin": "breast",
+    "mutations": [
+      "BRCA1"
+    ],
+    "expression": {
+      "BRCA1": 3.7549,
+      "EGFR": 1.1375,
+      "KRAS": 2.4594
+    },
+    "drugSensitivity": {
+      "Olaparib": 0.05,
+      "Osimertinib": 8.5,
+      "Adagrasib": 12.0
+    },
+    "timestamp": "2026-06-29T17:22:48.159146Z"
+  }
+]

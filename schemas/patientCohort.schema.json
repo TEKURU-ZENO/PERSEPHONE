@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PatientCohort",
+  "type": "object",
+  "properties": {
+    "cohortId": { "type": "string" },
+    "name": { "type": "string" },
+    "disease": { "type": "string" },
+    "patientCount": { "type": "integer" },
+    "stageDistribution": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    },
+    "survivalCurve": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timeDays": { "type": "number" },
+          "survivalRate": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+        },
+        "required": ["timeDays", "survivalRate"]
+      }
+    },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "required": ["cohortId", "name", "disease", "patientCount", "survivalCurve"]
+}

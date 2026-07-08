@@ -1,0 +1,13 @@
+cellLineId,tissueOrigin,gene,expression_level
+MCF7,breast,BRCA1,12.5
+MCF7,breast,EGFR,1.2
+MCF7,breast,KRAS,4.5
+A549,lung,BRCA1,8.4
+A549,lung,EGFR,45.2
+A549,lung,KRAS,8.1
+HCT116,colon,BRCA1,9.8
+HCT116,colon,EGFR,3.4
+HCT116,colon,KRAS,55.6
+COLO205,colon,BRCA1,7.2
+COLO205,colon,EGFR,5.2
+COLO205,colon,KRAS,48.1

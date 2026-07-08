@@ -1,0 +1,9 @@
+{
+  "cohortId": "tcga-ov",
+  "name": "TCGA Ovarian Serous Cystadenocarcinoma (TCGA-OV)",
+  "disease": "Ovarian Cancer",
+  "patientCount": 0,
+  "stageDistribution": {},
+  "survivalCurve": [],
+  "timestamp": "2026-06-29T17:17:56.511418Z"
+}

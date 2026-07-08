@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CellLine",
+  "type": "object",
+  "properties": {
+    "cellLineId": { "type": "string" },
+    "tissueOrigin": { "type": "string" },
+    "mutations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "expression": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "drugSensitivity": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "timestamp": { "type": "string", "format": "date-time" }
+  },
+  "required": ["cellLineId", "tissueOrigin", "mutations", "expression", "drugSensitivity"]
+}

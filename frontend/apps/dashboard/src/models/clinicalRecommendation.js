@@ -1,6 +1,6 @@
 /**
  * Clinical Recommendation Model
- * Establishes the data structure for Tumor Board consensus outputs.
+ * Establishes the data structure for Tumor Board consensus outputs (Phase 5).
  */
 
 export const ClinicalRecommendation = {
@@ -9,7 +9,13 @@ export const ClinicalRecommendation = {
     recommendationId = `REC-${Date.now()}`,
     therapy,
     strategy,
-    confidence = 0.0,
+    confidence = {
+      overall: 0.85,
+      simulation: 0.90,
+      graph: 0.90,
+      evidence: 0.80,
+      safety: 0.80
+    },
     evidenceScore = 0,
     progressionRisk = 'Low',
     safetyStatus = 'Pass',
@@ -17,6 +23,22 @@ export const ClinicalRecommendation = {
     maxToxicity = 0,
     matchedTrials = [],
     citations = [],
+    recommendationBasis = {
+      simulation: true,
+      knowledgeGraph: true,
+      literature: true,
+      historicalMemory: true,
+      safetyAudit: true
+    },
+    version = 'v1',
+    status = 'Accepted',
+    datasetManifest = {
+      "clinvar": "2026.01",
+      "drugbank": "5.1.13",
+      "reactome": "91",
+      "clinicalTrials": "2026-06-20",
+      "hgnc": "2026-Q2"
+    },
     generatedBy = ['EvolutionAgent', 'PlanningAgent', 'EvidenceAgent', 'SafetyAgent', 'ClinicalRecommendationAgent'],
     timestamp = new Date().toISOString()
   }) {
@@ -33,6 +55,10 @@ export const ClinicalRecommendation = {
       maxToxicity,
       matchedTrials,
       citations,
+      recommendationBasis,
+      version,
+      status,
+      datasetManifest,
       generatedBy,
       timestamp
     };

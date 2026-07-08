@@ -478,6 +478,58 @@ export function initGraphExplorer(containerEl) {
     }
   });
 
+  // --- PLAYBACK ANIMATION LISTENER ---
+  let activeTimeoutIds = [];
+  
+  const handlePlaybackEvent = (e) => {
+    // Clear active timeouts
+    activeTimeoutIds.forEach(id => clearTimeout(id));
+    activeTimeoutIds = [];
+
+    const nodesToHighlight = e.detail.nodes || [];
+    const bannerText = e.detail.name || 'Causal Path Trace';
+
+    if (pathwayText) {
+      pathwayText.textContent = bannerText;
+      pathwayText.className = "text-cyan glow-cyan-text";
+    }
+
+    // Reset all highlights
+    graphNodes.forEach(n => n.isHighlighted = false);
+    graphEdges.forEach(edge => edge.isHighlighted = false);
+    selectedNode = null;
+
+    // Trigger sequential highlights
+    nodesToHighlight.forEach((nodeId, index) => {
+      const timeoutId = setTimeout(() => {
+        const node = graphNodes.find(n => 
+          n.id.toLowerCase() === nodeId.toLowerCase() || 
+          n.label.toLowerCase() === nodeId.toLowerCase()
+        );
+
+        if (node) {
+          node.isHighlighted = true;
+          selectedNode = node;
+
+          // Highlight edges that connect already highlighted nodes
+          graphEdges.forEach(edge => {
+            const src = edge.sourceNode;
+            const tgt = edge.targetNode;
+            if (src && tgt && src.isHighlighted && tgt.isHighlighted) {
+              edge.isHighlighted = true;
+            }
+          });
+
+          // Focus sidebar
+          renderNodeDetails(node);
+        }
+      }, index * 800);
+      activeTimeoutIds.push(timeoutId);
+    });
+  };
+
+  document.addEventListener('playback-kg-path', handlePlaybackEvent);
+
   // Initialize
   initNodes();
   tick();
@@ -485,5 +537,7 @@ export function initGraphExplorer(containerEl) {
   // Return cleanup hook
   return () => {
     if (animFrameId) cancelAnimationFrame(animFrameId);
+    activeTimeoutIds.forEach(id => clearTimeout(id));
+    document.removeEventListener('playback-kg-path', handlePlaybackEvent);
   };
 }

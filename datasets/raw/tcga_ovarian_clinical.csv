@@ -1,0 +1,9 @@
+patientId,age,stage,survival_days,vital_status,mutation_gene
+TCGA-OY-A567,58,Stage IIIC,450,deceased,BRCA1
+TCGA-OY-A568,62,Stage IV,230,deceased,BRCA2
+TCGA-OY-A569,54,Stage IIIB,720,living,BRCA1
+TCGA-OY-A570,68,Stage IIIC,310,deceased,TP53
+TCGA-OY-A571,49,Stage IIIC,980,living,BRCA1
+TCGA-OY-A572,55,Stage IV,180,deceased,BRCA2
+TCGA-OY-A573,61,Stage IIIC,810,living,TP53
+TCGA-OY-A574,57,Stage IIIC,540,deceased,BRCA1

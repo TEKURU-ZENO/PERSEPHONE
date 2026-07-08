@@ -1,0 +1,26 @@
+[
+  {
+    "trialId": "NCT04381884",
+    "title": "Phase II Study of Olaparib Combinations in HRD-Positive Advanced Ovarian Cancer",
+    "phase": "Phase II",
+    "status": "Active, Recruiting",
+    "conditions": ["Ovarian Cancer", "Fallopian Tube Cancer", "Peritoneal Cancer"],
+    "enrollmentCriteria": "Confirmed pathogenic somatic mutation in BRCA1 or BRCA2; homologous recombination deficiency positive."
+  },
+  {
+    "trialId": "NCT03944772",
+    "title": "Phase III Trial of Osimertinib Combination Therapies in Patients with EGFRm-positive and MET-amplified NSCLC",
+    "phase": "Phase III",
+    "status": "Active, Recruiting",
+    "conditions": ["Non-Small Cell Lung Cancer (NSCLC)"],
+    "enrollmentCriteria": "EGFR mutated (L858R or Exon 19 del) with acquired T790M gatekeeper mutation."
+  },
+  {
+    "trialId": "NCT04625881",
+    "title": "Study of KRAS Inhibitor Combinations in Advanced Gastrointestinal and Colorectal Malignancies",
+    "phase": "Phase I/II",
+    "status": "Active, Recruiting",
+    "conditions": ["Colorectal Cancer", "Pancreatic Cancer"],
+    "enrollmentCriteria": "Histologically confirmed metastatic colorectal adenocarcinoma with KRAS G12D mutation."
+  }
+]
