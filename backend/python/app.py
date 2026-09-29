@@ -212,6 +212,146 @@ class SCRHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
       return
 
+    elif self.path == '/api/v1/python/multimodal/segment':
+      try:
+        response = ComputeRegistry.run_multimodal_segment(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/multimodal/retrieval':
+      try:
+        response = ComputeRegistry.run_multimodal_retrieval(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/genomics/analyze':
+      try:
+        response = ComputeRegistry.run_genomic_analysis(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/pharmacogenomics/profile':
+      try:
+        response = ComputeRegistry.run_pharmacogenomics(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/trials/match':
+      try:
+        response = ComputeRegistry.run_trial_matching(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/monitoring/timeline':
+      try:
+        response = ComputeRegistry.run_monitoring_timeline(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/monitoring/response':
+      try:
+        response = ComputeRegistry.run_monitoring_response(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/monitoring/alerts':
+      try:
+        response = ComputeRegistry.run_monitoring_alerts(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/response/predict':
+      try:
+        response = ComputeRegistry.run_response_prediction(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/response/biomarkers':
+      try:
+        response = ComputeRegistry.run_response_biomarkers(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/response/resistance':
+      try:
+        response = ComputeRegistry.run_response_resistance(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/counterfactual/cohort':
+      try:
+        response = ComputeRegistry.run_counterfactual_cohort(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/counterfactual/simulate':
+      try:
+        response = ComputeRegistry.run_counterfactual_simulation(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/counterfactual/compare':
+      try:
+        response = ComputeRegistry.run_counterfactual_comparison(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
     self._set_headers(404)
     self.wfile.write(json.dumps({"error": f"Post route not found: {self.path}"}).encode('utf-8'))
 

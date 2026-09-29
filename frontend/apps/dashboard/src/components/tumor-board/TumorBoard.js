@@ -13,6 +13,12 @@ import { renderGraphRAG } from '../graph-rag/GraphRAGPanel.js';
 import { renderPolicyOptimization } from '../optimization/PolicyOptimizationPanel.js';
 import { renderClinicalValidation } from '../validation/ClinicalValidationPanel.js';
 import { renderClinicalAI } from '../ai-settings/AISettingsPanel.js';
+import { renderMultimodalLab } from '../multimodal/MultimodalLabPanel.js';
+import { renderGenomicLab } from '../genomics/GenomicLabPanel.js';
+import { renderClinicalTrials } from '../trials/ClinicalTrialsPanel.js';
+import { renderClinicalMonitoring } from '../monitoring/ClinicalMonitoringPanel.js';
+import { renderResponseIntelligence } from '../response/ResponseIntelligencePanel.js';
+import { renderCounterfactualLab } from '../counterfactual/CounterfactualLabPanel.js';
 
 export function initTumorBoard(containerEl) {
   let activePatient = patientStore.getActivePatient();
@@ -32,6 +38,12 @@ export function initTumorBoard(containerEl) {
           <button class="workspace-tab-btn" id="tab-policy-optimization">Policy Optimization</button>
           <button class="workspace-tab-btn" id="tab-clinical-validation">Clinical Validation</button>
           <button class="workspace-tab-btn" id="tab-cair">Clinical AI Runtime</button>
+          <button class="workspace-tab-btn" id="tab-multimodal">Multimodal Lab</button>
+          <button class="workspace-tab-btn" id="tab-genomics">Genomic Intelligence</button>
+          <button class="workspace-tab-btn" id="tab-trials">Clinical Trials</button>
+          <button class="workspace-tab-btn" id="tab-monitoring">Clinical Monitoring</button>
+          <button class="workspace-tab-btn" id="tab-response">Response Intelligence</button>
+          <button class="workspace-tab-btn" id="tab-counterfactual">Counterfactual Lab</button>
         </div>
         
         <!-- Tab Body Container -->
@@ -48,6 +60,12 @@ export function initTumorBoard(containerEl) {
     const tabOptimization = containerEl.querySelector('#tab-policy-optimization');
     const tabValidation = containerEl.querySelector('#tab-clinical-validation');
     const tabCAIR = containerEl.querySelector('#tab-cair');
+    const tabMultimodal = containerEl.querySelector('#tab-multimodal');
+    const tabGenomics = containerEl.querySelector('#tab-genomics');
+    const tabTrials = containerEl.querySelector('#tab-trials');
+    const tabMonitoring = containerEl.querySelector('#tab-monitoring');
+    const tabResponse = containerEl.querySelector('#tab-response');
+    const tabCounterfactual = containerEl.querySelector('#tab-counterfactual');
     const tabBody = containerEl.querySelector('#workspace-tab-body');
 
     tabDebate.addEventListener('click', () => {
@@ -118,6 +136,7 @@ export function initTumorBoard(containerEl) {
       tabGraphRAG.classList.remove('active');
       tabOptimization.classList.remove('active');
       tabCAIR.classList.remove('active');
+      tabMultimodal.classList.remove('active');
       renderClinicalValidation(tabBody);
     });
 
@@ -131,7 +150,82 @@ export function initTumorBoard(containerEl) {
       tabGraphRAG.classList.remove('active');
       tabOptimization.classList.remove('active');
       tabValidation.classList.remove('active');
+      tabMultimodal.classList.remove('active');
       renderClinicalAI(tabBody);
+    });
+
+    tabMultimodal.addEventListener('click', () => {
+      if (activeTab === 'multimodal') return;
+      activeTab = 'multimodal';
+      tabMultimodal.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      tabValidation.classList.remove('active');
+      tabCAIR.classList.remove('active');
+      tabGenomics.classList.remove('active');
+      tabTrials.classList.remove('active');
+      renderMultimodalLab(tabBody);
+    });
+
+    tabGenomics.addEventListener('click', () => {
+      if (activeTab === 'genomics') return;
+      activeTab = 'genomics';
+      tabGenomics.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      tabValidation.classList.remove('active');
+      tabCAIR.classList.remove('active');
+      tabMultimodal.classList.remove('active');
+      tabTrials.classList.remove('active');
+      tabMonitoring.classList.remove('active');
+      renderGenomicLab(tabBody);
+    });
+
+    tabTrials.addEventListener('click', () => {
+      if (activeTab === 'trials') return;
+      activeTab = 'trials';
+      tabTrials.classList.add('active');
+      tabDebate.classList.remove('active');
+      tabMemory.classList.remove('active');
+      tabBiobank.classList.remove('active');
+      tabGraphRAG.classList.remove('active');
+      tabOptimization.classList.remove('active');
+      tabValidation.classList.remove('active');
+      tabCAIR.classList.remove('active');
+      tabMultimodal.classList.remove('active');
+      tabGenomics.classList.remove('active');
+      tabMonitoring.classList.remove('active');
+      renderClinicalTrials(tabBody);
+    });
+
+    tabMonitoring.addEventListener('click', () => {
+      if (activeTab === 'monitoring') return;
+      activeTab = 'monitoring';
+      containerEl.querySelectorAll('.workspace-tab-btn').forEach(b => b.classList.remove('active'));
+      tabMonitoring.classList.add('active');
+      renderClinicalMonitoring(tabBody);
+    });
+
+    tabResponse.addEventListener('click', () => {
+      if (activeTab === 'response') return;
+      activeTab = 'response';
+      containerEl.querySelectorAll('.workspace-tab-btn').forEach(b => b.classList.remove('active'));
+      tabResponse.classList.add('active');
+      renderResponseIntelligence(tabBody);
+    });
+
+    tabCounterfactual.addEventListener('click', () => {
+      if (activeTab === 'counterfactual') return;
+      activeTab = 'counterfactual';
+      containerEl.querySelectorAll('.workspace-tab-btn').forEach(b => b.classList.remove('active'));
+      tabCounterfactual.classList.add('active');
+      renderCounterfactualLab(tabBody);
     });
 
     // Default mount
@@ -377,6 +471,24 @@ export function initTumorBoard(containerEl) {
     } else if (activeTab === 'cair') {
       const tabBody = containerEl.querySelector('#workspace-tab-body');
       if (tabBody) renderClinicalAI(tabBody);
+    } else if (activeTab === 'multimodal') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderMultimodalLab(tabBody);
+    } else if (activeTab === 'genomics') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderGenomicLab(tabBody);
+    } else if (activeTab === 'trials') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderClinicalTrials(tabBody);
+    } else if (activeTab === 'monitoring') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderClinicalMonitoring(tabBody);
+    } else if (activeTab === 'response') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderResponseIntelligence(tabBody);
+    } else if (activeTab === 'counterfactual') {
+      const tabBody = containerEl.querySelector('#workspace-tab-body');
+      if (tabBody) renderCounterfactualLab(tabBody);
     }
   });
 

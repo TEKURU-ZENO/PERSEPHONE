@@ -1,0 +1,18 @@
+{
+  "runName": "RUN-010",
+  "policyName": "dqn",
+  "patientId": "patient-a",
+  "hyperparameters": {
+    "lr": 0.005,
+    "gamma": 0.99,
+    "epochs": 2
+  },
+  "finalMetrics": {
+    "tumorControl": 72.3,
+    "pfs": 100.0,
+    "toxicityProfile": 0.0,
+    "qualityOfLife": 98.0,
+    "resistanceSuppression": 0.0,
+    "overallScore": 54.1
+  }
+}

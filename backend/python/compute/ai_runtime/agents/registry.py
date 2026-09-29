@@ -12,10 +12,17 @@ from backend.python.compute.ai_runtime.agents.instances.memory import ClinicalMe
 from backend.python.compute.ai_runtime.agents.instances.validation import ValidationAgent
 from backend.python.compute.ai_runtime.agents.instances.explainability import ExplainabilityAgent
 from backend.python.compute.ai_runtime.agents.instances.report import ClinicalReportAgent
+from backend.python.compute.ai_runtime.agents.instances.imaging import ImagingAgent
+from backend.python.compute.ai_runtime.agents.instances.genomics_agent import GenomicsAgent
+from backend.python.compute.ai_runtime.agents.instances.pharmacology_agent import PharmacologyAgent
+from backend.python.compute.ai_runtime.agents.instances.clinical_trials_agent import ClinicalTrialsAgent
+from backend.python.compute.ai_runtime.agents.instances.monitoring_agent import ClinicalMonitoringAgent
+from backend.python.compute.ai_runtime.agents.instances.response_intelligence_agent import ResponseIntelligenceAgent
+from backend.python.compute.ai_runtime.agents.instances.counterfactual_agent import CounterfactualReasoningAgent
 
 class AgentRegistry:
   """
-  Registry managing instances of the 14 specialist agents.
+  Registry managing instances of the 21 specialist agents.
   """
   _REGISTRY = {
     "orchestrator": ChiefOrchestratorAgent,
@@ -31,7 +38,14 @@ class AgentRegistry:
     "memory": ClinicalMemoryAgent,
     "validation": ValidationAgent,
     "explainability": ExplainabilityAgent,
-    "report": ClinicalReportAgent
+    "report": ClinicalReportAgent,
+    "imaging": ImagingAgent,
+    "genomics": GenomicsAgent,
+    "pharmacology": PharmacologyAgent,
+    "clinical_trials": ClinicalTrialsAgent,
+    "monitoring": ClinicalMonitoringAgent,
+    "response_intelligence": ResponseIntelligenceAgent,
+    "counterfactual": CounterfactualReasoningAgent
   }
 
   @classmethod

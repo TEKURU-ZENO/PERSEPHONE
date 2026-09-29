@@ -46,6 +46,25 @@ from backend.python.compute.ai_runtime.health.provider_health import ProviderHea
 from backend.python.compute.ai_runtime.observability.metrics import TokenAccountingTelemetry
 from backend.python.compute.ai_runtime.agents.runtime import AgentCouncilRuntime
 
+# Multimodal Imaging Intelligence Platform imports
+from backend.python.compute.multimodal.registry import MultimodalRegistry
+
+# Genomic Intelligence & Pharmacogenomics imports
+from backend.python.compute.genomics.registry import GenomicsRegistry
+from backend.python.compute.pharmacogenomics.registry import PharmacogenomicsRegistry
+
+# Clinical Trials Intelligence Platform imports
+from backend.python.compute.trials.registry import ClinicalTrialsRegistry
+
+# Clinical Monitoring & Longitudinal Intelligence imports
+from backend.python.compute.monitoring.registry import MonitoringRegistry
+
+# Response Intelligence Platform imports
+from backend.python.compute.response_intelligence.registry import ResponseIntelligenceRegistry
+
+# Counterfactual Research Platform imports
+from backend.python.compute.counterfactual.registry import CounterfactualRegistry
+
 class ComputeRegistry:
   @staticmethod
   def run_simulation(data):
@@ -446,3 +465,262 @@ class ComputeRegistry:
       "finalDecision": debate_results["finalDecision"],
       "metadata": metrics
     }
+
+  @staticmethod
+  def run_multimodal_segment(data):
+    """
+    Validates, routes, profiles, and executes multimodal imaging segmentation.
+    Supports both pathology (WSI) and radiology (CT/MRI) pipelines.
+    """
+    start = time.perf_counter()
+    modality = data.get('modality', 'pathology')
+    slide_path = data.get('slidePath', 'slides/patient-a/H&E.svs')
+    logger.info(f"SCR: Running multimodal {modality} segmentation pipeline")
+
+    if modality == 'pathology':
+      result = MultimodalRegistry.run_pathology_pipeline(slide_path)
+    else:
+      result = MultimodalRegistry.run_radiology_pipeline(slide_path, modality=modality)
+
+    # Run spatial analysis if cell positions are provided
+    cell_positions = data.get('cellPositions')
+    if cell_positions:
+      spatial = MultimodalRegistry.run_spatial_analysis(cell_positions)
+      result["spatial"] = spatial
+
+    metrics = profile_compute(start, algorithm="Multimodal_Segment")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_multimodal_retrieval(data):
+    """
+    Validates, routes, profiles, and executes slide retrieval via ANN search.
+    """
+    start = time.perf_counter()
+    query_embedding = data.get('queryEmbedding', [0.5] * 128)
+    top_k = data.get('topK', 5)
+    logger.info(f"SCR: Running multimodal slide retrieval (top_k={top_k})")
+
+    result = MultimodalRegistry.run_slide_retrieval(query_embedding, top_k)
+
+    metrics = profile_compute(start, algorithm="Multimodal_Retrieval")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_genomic_analysis(data):
+    """
+    Validates, routes, profiles, and executes the genomic intelligence pipeline.
+    Annotates variants, enriches pathways, scores biomarkers, classifies signatures.
+    """
+    start = time.perf_counter()
+    patient_variants = {
+      "genes": data.get("genes", ["BRCA1"]),
+      "variant_count": data.get("variantCount", 8),
+      "microsatellite_loci": data.get("microsatelliteLoci", None)
+    }
+    logger.info(f"SCR: Running genomic analysis pipeline for {len(patient_variants['genes'])} genes")
+
+    result = GenomicsRegistry.run_genomic_pipeline(patient_variants)
+
+    metrics = profile_compute(start, algorithm="Genomic_Analysis")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_pharmacogenomics(data):
+    """
+    Validates, routes, profiles, and executes the pharmacogenomics pipeline.
+    Resolves drug-gene interactions, predicts sensitivity, maps resistance, estimates synergy.
+    """
+    start = time.perf_counter()
+    gene_variants = data.get("genes", ["BRCA1"])
+    drug_candidates = data.get("drugCandidates", None)
+    logger.info(f"SCR: Running pharmacogenomics pipeline for {len(gene_variants)} genes")
+
+    result = PharmacogenomicsRegistry.run_pharmacogenomics_pipeline(
+      gene_variants=gene_variants,
+      drug_candidates=drug_candidates
+    )
+
+    metrics = profile_compute(start, algorithm="Pharmacogenomics")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_trial_matching(data):
+    """
+    Validates, routes, profiles, and executes clinical trial matching and ranking.
+    """
+    start = time.perf_counter()
+    patient_profile = {
+      "variants": data.get("variants", ["BRCA1"]),
+      "diagnosis": data.get("diagnosis", "Ovarian Cancer"),
+      "stage": data.get("stage", "Stage III"),
+      "biomarker_tier": data.get("biomarkerTier", "Tier I-A"),
+      "age": data.get("age", 58),
+      "ecog": data.get("ecog", 1),
+      "country": data.get("country", "United States"),
+      "city": data.get("city", "New York"),
+      "allowed_distance_categories": data.get("allowedDistanceCategories", None),
+      "query_online": data.get("queryOnline", False)
+    }
+    logger.info(f"SCR: Running clinical trial matching for {patient_profile['diagnosis']} ({patient_profile['variants']})")
+
+    result = ClinicalTrialsRegistry.run_trial_matching_pipeline(patient_profile)
+
+    metrics = profile_compute(start, algorithm="Clinical_Trials_Matching")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_monitoring_timeline(data):
+    """
+    Validates, routes, and executes longitudinal timeline extraction.
+    """
+    start = time.perf_counter()
+    patient_id = data.get("patientId") or data.get("id") or "patient-a"
+    logger.info(f"SCR: Fetching longitudinal timeline for {patient_id}")
+    result = MonitoringRegistry.get_timeline(patient_id)
+    metrics = profile_compute(start, algorithm="Longitudinal_Timeline")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_monitoring_response(data):
+    """
+    Validates, routes, and executes RECIST 1.1 longitudinal response evaluation.
+    """
+    start = time.perf_counter()
+    patient_id = data.get("patientId") or data.get("id") or "patient-a"
+    logger.info(f"SCR: Evaluating longitudinal response for {patient_id}")
+    result = MonitoringRegistry.get_response(patient_id)
+    metrics = profile_compute(start, algorithm="Response_Evaluation")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_monitoring_alerts(data):
+    """
+    Validates, routes, and executes clinical alert stream generation.
+    """
+    start = time.perf_counter()
+    patient_id = data.get("patientId") or data.get("id") or "patient-a"
+    logger.info(f"SCR: Generating clinical alerts for {patient_id}")
+    result = MonitoringRegistry.get_alerts(patient_id)
+    metrics = profile_compute(start, algorithm="Clinical_Alerts")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_response_prediction(data):
+    """
+    Validates, routes, and executes treatment response prediction and kinetics.
+    """
+    start = time.perf_counter()
+    proposed_drug = data.get("proposed_drug") or data.get("drug") or "Olaparib"
+    logger.info(f"SCR: Predicting response for candidate therapy: {proposed_drug}")
+    result = ResponseIntelligenceRegistry.predict_response(data, proposed_drug=proposed_drug)
+    metrics = profile_compute(start, algorithm="Response_Prediction")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_response_biomarkers(data):
+    """
+    Validates, routes, and computes multimodal digital and composite biomarkers.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Synthesizing multimodal digital and composite biomarkers")
+    result = ResponseIntelligenceRegistry.extract_biomarkers(data)
+    metrics = profile_compute(start, algorithm="Digital_Biomarkers")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_response_resistance(data):
+    """
+    Validates, routes, and executes resistance mechanism and escape pathway forecasting.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Analyzing resistance mechanisms and escape pathways")
+    result = ResponseIntelligenceRegistry.analyze_resistance(data)
+    metrics = profile_compute(start, algorithm="Resistance_Forecasting")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_counterfactual_cohort(data):
+    """
+    Validates, routes, and generates parameterized synthetic cohorts.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Generating synthetic digital twin cohort")
+    cohort_size = int(data.get("cohort_size", 50))
+    seed = int(data.get("seed", 42))
+    variance_scale = float(data.get("variance_scale", 0.15))
+    result = CounterfactualRegistry.generate_synthetic_cohort(
+      patient_data=data,
+      cohort_size=cohort_size,
+      seed=seed,
+      variance_scale=variance_scale
+    )
+    metrics = profile_compute(start, algorithm="Synthetic_Cohort_Generation")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_counterfactual_simulation(data):
+    """
+    Validates, routes, and simulates multi-arm counterfactual scenarios over synthetic cohorts.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Executing multi-arm counterfactual scenario simulation")
+    result = CounterfactualRegistry.simulate_counterfactual_scenario(data)
+    metrics = profile_compute(start, algorithm="Counterfactual_Simulation")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_counterfactual_comparison(data):
+    """
+    Validates, routes, and executes full counterfactual comparative analysis with uncertainty.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Running full counterfactual comparative outcomes and causal manifests")
+    result = CounterfactualRegistry.run_full_counterfactual_comparison(data)
+    metrics = profile_compute(start, algorithm="Counterfactual_Comparison")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+
+

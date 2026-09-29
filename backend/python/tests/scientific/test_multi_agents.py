@@ -33,8 +33,8 @@ class TestClinicalMultiAgents(unittest.TestCase):
 
   def test_agent_council_debate_execution(self):
     res = AgentCouncilRuntime.run_debate({"id": "patient-a", "variants": ["BRCA1"]})
-    self.assertEqual(len(res["debateTranscript"]), 14) # 14 agents
-    self.assertEqual(len(res["agentMetrics"]), 14)
+    self.assertEqual(len(res["debateTranscript"]), 21) # 21 agents
+    self.assertEqual(len(res["agentMetrics"]), 21)
     self.assertTrue(res["consensusStatus"] in ["online", "degraded", "offline"])
 
 if __name__ == '__main__':

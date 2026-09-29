@@ -38,6 +38,12 @@ import { run as rlOptimizationTest } from './integration/rl-optimization.test.js
 import { run as calibrationTest } from './integration/calibration.test.js';
 import { run as cairTest } from './integration/ai-runtime.test.js';
 import { run as multiAgentsTest } from './integration/multi-agents.test.js';
+import { run as multimodalTest } from './integration/multimodal.test.js';
+import { run as genomicsTest } from './integration/genomics.test.js';
+import { run as trialsTest } from './integration/trials.test.js';
+import { run as monitoringTest } from './integration/monitoring.test.js';
+import { run as responseTest } from './integration/response.test.js';
+import { run as counterfactualTest } from './integration/counterfactual.test.js';
 
 // ANSI escape codes for formatting
 const RESET = '\x1b[0m';
@@ -78,7 +84,13 @@ const suites = [
   { name: 'Integration: RL Dosing Policy Optimization', fn: rlOptimizationTest },
   { name: 'Integration: Model Calibration & Uncertainty Bands', fn: calibrationTest },
   { name: 'Integration: Clinical AI Runtime (CAIR) Engine', fn: cairTest },
-  { name: 'Integration: 14-Agent Collaborative Council', fn: multiAgentsTest },
+  { name: 'Integration: 21-Agent Collaborative Council', fn: multiAgentsTest },
+  { name: 'Integration: Multimodal Imaging Intelligence Platform', fn: multimodalTest },
+  { name: 'Integration: Genomic Intelligence & Pharmacogenomics', fn: genomicsTest },
+  { name: 'Integration: Clinical Trials Intelligence Platform', fn: trialsTest },
+  { name: 'Integration: Clinical Monitoring & Longitudinal Intelligence', fn: monitoringTest },
+  { name: 'Integration: Response Intelligence & Digital Biomarkers', fn: responseTest },
+  { name: 'Integration: Counterfactual Research Platform', fn: counterfactualTest },
 
   { name: 'Performance: Graph Traversal Latency', fn: graphPerfTest },
   { name: 'Performance: RK4 Simulation Projection Speed', fn: simPerfTest },
