@@ -52,12 +52,43 @@ class TestTumorSegmentor(unittest.TestCase):
 
 class TestTumorPurity(unittest.TestCase):
   def test_estimate_purity(self):
-    seg = {"total_patches": 100, "tumor_patches": 72, "overall_tumor_fraction": 0.72}
+    seg = {
+      "total_patches": 100,
+      "tumor_patches": 72,
+      "overall_tumor_fraction": 0.72,
+      "necrosis_percent": 5.0,
+      "stroma_percent": 15.0
+    }
     result = TumorPurityEstimator.estimate_purity(seg)
     self.assertIn("tumor_purity_percent", result)
     self.assertIn("necrosis_percent", result)
     self.assertIn("cellularity_index", result)
-    self.assertGreater(result["tumor_purity_percent"], 0)
+    self.assertEqual(result["tumor_purity_percent"], 72.0)
+    self.assertEqual(result["necrosis_percent"], 5.0)
+    self.assertEqual(result["stroma_percent"], 15.0)
+    self.assertEqual(result["viable_tumor_percent"], 67.0)
+
+  def test_independent_morphology_invariance(self):
+    # Tumor, necrosis, and stroma are independent; not fixed fractional multipliers
+    seg_high_tumor_zero_necrosis = {
+      "tumor_purity_percent": 80.0,
+      "necrosis_percent": 0.0,
+      "stroma_percent": 20.0
+    }
+    res1 = TumorPurityEstimator.estimate_purity(seg_high_tumor_zero_necrosis)
+    self.assertEqual(res1["tumor_purity_percent"], 80.0)
+    self.assertEqual(res1["necrosis_percent"], 0.0)
+    self.assertEqual(res1["viable_tumor_percent"], 80.0)
+
+    seg_low_tumor_high_necrosis = {
+      "tumor_purity_percent": 20.0,
+      "necrosis_percent": 60.0,
+      "stroma_percent": 10.0
+    }
+    res2 = TumorPurityEstimator.estimate_purity(seg_low_tumor_high_necrosis)
+    self.assertEqual(res2["tumor_purity_percent"], 20.0)
+    self.assertEqual(res2["necrosis_percent"], 60.0)
+    self.assertEqual(res2["viable_tumor_percent"], 0.0) # max(0, 20 - 60)
 
 class TestMorphologyFeatures(unittest.TestCase):
   def test_extract_features(self):

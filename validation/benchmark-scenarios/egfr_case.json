@@ -2,7 +2,7 @@
   "scenarioId": "SCEN-EGFR-002",
   "patientId": "patient-b",
   "patientName": "Arthur Pendelton",
-  "mutationType": "EGFR L858R & T790M Gatekeeper",
+  "mutationType": "EGFR L858R & MET Amplification Bypass",
   "initialState": {
     "sensitiveVolume": 65.0,
     "resistantVolume": 15.0,

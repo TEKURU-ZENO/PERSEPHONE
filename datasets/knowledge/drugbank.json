@@ -18,9 +18,34 @@
   {
     "drugbankId": "DB17415",
     "name": "Adagrasib",
-    "mechanism": "Highly selective, covalent small-molecule inhibitor of KRAS G12D mutation, blocking GTPase signaling cascades.",
+    "mechanism": "Highly selective, covalent small-molecule inhibitor of KRAS G12C mutation, blocking GTPase signaling cascades.",
     "targets": ["KRAS"],
     "brandNames": ["Krazati"],
     "halfLife": "23 hours"
+  },
+  {
+    "drugbankId": "DB12489",
+    "name": "Savolitinib",
+    "mechanism": "Potent and selective oral MET tyrosine kinase inhibitor targeting MET amplification.",
+    "targets": ["MET"],
+    "brandNames": ["Orpathys"],
+    "halfLife": "5 hours"
+  },
+  {
+    "drugbankId": "DB15951",
+    "name": "Amivantamab",
+    "mechanism": "Bispecific antibody directed against EGFR and MET extracellular domains to overcome resistance.",
+    "targets": ["EGFR", "MET"],
+    "brandNames": ["Rybrevant"],
+    "halfLife": "11 days"
+  },
+  {
+    "drugbankId": "INVEST-G12D-01",
+    "name": "MRTX1133",
+    "mechanism": "Non-covalent, selective small-molecule inhibitor of KRAS G12D (discontinued 2025).",
+    "targets": ["KRAS"],
+    "brandNames": [],
+    "halfLife": "N/A",
+    "status": "discontinued (2025)"
   }
 ]

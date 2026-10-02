@@ -30,5 +30,21 @@
     "hgvsc": "c.35G>A",
     "classification": "Pathogenic",
     "consequence": "Hotspot mutation trapping GTP-bound active state"
+  },
+  {
+    "geneSymbol": "MET",
+    "variationId": "VCV000000000",
+    "variantName": "MET Amplification",
+    "hgvsc": "Copy Gain",
+    "classification": "Pathogenic",
+    "consequence": "Gene amplification mediating bypass resistance to EGFR TKIs"
+  },
+  {
+    "geneSymbol": "KRAS",
+    "variationId": "VCV000012582",
+    "variantName": "KRAS G12C",
+    "hgvsc": "c.34G>T",
+    "classification": "Pathogenic",
+    "consequence": "Cysteine substitution in codon 12 sensitive to covalent inhibitors"
   }
 ]

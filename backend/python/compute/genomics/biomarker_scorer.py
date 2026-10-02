@@ -32,10 +32,19 @@ class BiomarkerScorer:
         elif clinical_sig == "Benign" or clinical_sig == "Likely Benign":
             tier = "Tier IV"
             
+        variant_desc = str(annotated_variant.get("variant", "") + " " + annotated_variant.get("hgvsc", "") + " " + annotated_variant.get("effect", "")).upper()
+        if "G12C" in variant_desc or "C.34G>T" in variant_desc:
+            kras_tx = "KRAS G12C inhibitor candidate (adagrasib/sotorasib)"
+        elif "G12D" in variant_desc or "C.35G>A" in variant_desc:
+            kras_tx = "No approved targeted therapy; clinical trial candidate (pan-RAS/G12D) or standard chemotherapy"
+        else:
+            kras_tx = "RAS pathway alteration; evaluate trial eligibility or standard therapy"
+            
         therapies = {
-            "BRCA1": "PARP inhibitor candidate",
-            "EGFR": "TKI candidate (erlotinib/osimertinib)",
-            "KRAS": "KRAS G12D inhibitor candidate (adagrasib)",
+            "BRCA1": "PARP inhibitor candidate (olaparib/niraparib/rucaparib)",
+            "EGFR": "EGFR TKI candidate (osimertinib)",
+            "KRAS": kras_tx,
+            "MET": "MET TKI candidate (savolitinib/tepotinib/capmatinib) or amivantamab",
             "TP53": "Monitor; consider immunotherapy if TMB-H",
             "BRAF": "BRAF inhibitor candidate (vemurafenib/dabrafenib)",
             "PIK3CA": "PI3K inhibitor candidate (alpelisib)",

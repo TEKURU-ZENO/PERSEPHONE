@@ -5,8 +5,8 @@
     "value": 0.08,
     "range": [0.01, 0.15],
     "unit": "day⁻¹",
-    "pmid": "19447936",
-    "citation": "Gatenby RA, et al. Cancer Research, 2009.",
+    "source_type": "assumed",
+    "conceptual_reference": "Gatenby RA, et al. Cancer Res, 2009 (PMID: 19447936) - Adaptive therapy concept, value calibrated for in silico simulations.",
     "description": "Intrinsic growth rate of drug-sensitive tumor populations under abundant resource levels."
   },
   "alpha2": {
@@ -15,8 +15,8 @@
     "value": 0.045,
     "range": [0.01, 0.12],
     "unit": "day⁻¹",
-    "pmid": "26500125",
-    "citation": "Silk AL, et al. Nature Communications, 2015.",
+    "source_type": "assumed",
+    "conceptual_reference": "Silk AL, et al. Nat Commun, 2015 (PMID: 26500125) - Evolutionary trade-off dynamics.",
     "description": "Growth speed of resistant clones incorporating the evolutionary fitness cost penalty (α₂ < α₁)."
   },
   "ES": {
@@ -25,6 +25,7 @@
     "value": 0.16,
     "range": [0.05, 0.25],
     "unit": "day⁻¹ · conc⁻¹",
+    "source_type": "calibrated",
     "pmid": "22960745",
     "citation": "Garnett MJ, et al. Nature, 2012.",
     "description": "Chemotherapy efficacy constant targeting sensitive cells, derived from cell line screens."
@@ -35,8 +36,8 @@
     "value": 0.015,
     "range": [0.0, 0.05],
     "unit": "day⁻¹ · conc⁻¹",
-    "pmid": "21685025",
-    "citation": "Engelmen JA, et al. Science, 2011.",
+    "source_type": "assumed",
+    "conceptual_reference": "Engelman JA, et al. Science, 2007 (PMID: 17463250) - MET amplification resistance concept.",
     "description": "Efficacy constant for resistant clones under active drug concentration."
   },
   "K": {
@@ -45,8 +46,8 @@
     "value": 200,
     "range": [50, 500],
     "unit": "cm³",
-    "pmid": "15281884",
-    "citation": "Michor F, et al. Nature Reviews Cancer, 2004.",
+    "source_type": "assumed",
+    "conceptual_reference": "Michor F, et al. Nat Rev Cancer, 2004 (PMID: 15281884) - Mathematical modeling in oncology.",
     "description": "Maximum tumor volume supported by microenvironmental boundaries and oxygen diffusion capacity."
   },
   "ke": {
@@ -55,9 +56,8 @@
     "value": 0.15,
     "range": [0.05, 0.50],
     "unit": "day⁻¹",
-    "pmid": "27481896",
-    "citation": "Osimertinib PK Meta-Analysis. Clinical Pharmacokinetics, 2016.",
-    "description": "Plasma clearance rate mapping active drug clearance half-life curves."
+    "source_type": "assumed",
+    "description": "Nominal plasma clearance rate for in silico models. Note: True clinical osimertinib t_1/2 is ~48 hours (k_e ≈ 0.35 day⁻¹)."
   },
   "beta": {
     "symbol": "β",
@@ -65,8 +65,7 @@
     "value": 0.25,
     "range": [0.05, 0.80],
     "unit": "day⁻¹ · conc⁻¹",
-    "pmid": "21124580",
-    "citation": "Chemotherapy Toxicology Profiles. Journal of Clinical Oncology, 2011.",
+    "source_type": "assumed",
     "description": "Toxicity accumulation coefficient relative to active drug concentration."
   },
   "gamma": {
@@ -75,8 +74,7 @@
     "value": 0.10,
     "range": [0.02, 0.30],
     "unit": "day⁻¹",
-    "pmid": "24862024",
-    "citation": "Patient recovery curves. Lancet Oncology, 2014.",
+    "source_type": "assumed",
     "description": "Systemic clearance rate of side-effects under cellular repair cycles."
   }
 }

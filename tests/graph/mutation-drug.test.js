@@ -17,10 +17,15 @@ export async function run() {
   );
   assert.ok(egfrErlotinibResistance, 'EGFR T790M must map as resistant_to Erlotinib in the knowledge graph');
 
-  const trialEnrollsEgfr = edges.some(
-    e => e.source === 'NCT03944772' && e.target === 'egfr-t790m' && e.type === 'enrolls'
+  const trialEnrollsMet = edges.some(
+    e => e.source === 'NCT03944772' && e.target === 'met-amp' && e.type === 'enrolls'
   );
-  assert.ok(trialEnrollsEgfr, 'Trial NCT03944772 must enroll patients with EGFR T790M gatekeeper mutation');
+  assert.ok(trialEnrollsMet, 'Trial NCT03944772 must enroll patients with MET amplification');
+
+  const savolitinibTargetsMet = edges.some(
+    e => e.source === 'savolitinib' && e.target === 'met-amp' && e.type === 'targets'
+  );
+  assert.ok(savolitinibTargetsMet, 'Savolitinib must target MET amplification');
 
   // 2. BRCA1 frameshift mutation mappings
   const brcaOlaparibTargets = edges.some(

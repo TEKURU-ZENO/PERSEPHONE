@@ -32,12 +32,12 @@ LITERATURE_DATABASE = [
     "vector": [0.1, 0.1, 0.9, 0.1, 0.1, 0.1, 0.1, 0.1]
   },
   {
-    "pmid": "36458322",
-    "title": "Adagrasib with or without Cetuximab in KRAS G12D CRC",
-    "journal": "Journal of Clinical Oncology",
-    "year": 2022,
+    "pmid": "36546659",
+    "title": "Adagrasib with or without Cetuximab in Colorectal Cancer with Mutated KRAS G12C",
+    "journal": "New England Journal of Medicine",
+    "year": 2023,
     "phase": "Phase I/II Trial",
-    "abstract": "Covalent inhibitor Adagrasib demonstrates high objective response rates in metastatic colorectal cancers harboring KRAS G12D somatic variants, particularly when combined with EGFR blockade.",
+    "abstract": "Covalent inhibitor Adagrasib demonstrates clinical activity in metastatic colorectal cancer harboring KRAS G12C variants when combined with cetuximab; no activity against KRAS G12D.",
     # High weight on Adagrasib/KRAS dimension
     "vector": [0.1, 0.1, 0.1, 0.9, 0.1, 0.1, 0.1, 0.1]
   }
@@ -54,7 +54,7 @@ def embed_query_text(query_text):
     vec[1] = 0.95
   if "OSIMERTINIB" in upper or "EGFR" in upper or "T790M" in upper or "L858R" in upper:
     vec[2] = 0.95
-  if "ADAGRASIB" in upper or "KRAS" in upper or "G12D" in upper:
+  if "ADAGRASIB" in upper or "KRAS" in upper or "G12C" in upper:
     vec[3] = 0.95
 
   # Normalize vector

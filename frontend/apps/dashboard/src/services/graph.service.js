@@ -7,13 +7,14 @@
 import { clinvar, drugbank, reactome, clinicalTrials } from '../data/compiled-knowledge.js';
 import { patients } from '../data/patients.js';
 
-// Mutation ID normalizer for consistency
 const getMutationId = (name) => {
   const upperName = name.toUpperCase();
   if (upperName.includes('C.1961DELA') || upperName.includes('BRCA1-MUT')) return 'brca1-mut';
   if (upperName.includes('L858R') || upperName.includes('C.2573T>G')) return 'egfr-l858r';
   if (upperName.includes('T790M') || upperName.includes('C.2369C>T')) return 'egfr-t790m';
+  if (upperName.includes('MET') && (upperName.includes('AMPLIFICATION') || upperName.includes('COPY GAIN'))) return 'met-amp';
   if (upperName.includes('G12D') || upperName.includes('C.35G>A')) return 'kras-g12d';
+  if (upperName.includes('G12C') || upperName.includes('C.34G>T')) return 'kras-g12c';
   return name.toLowerCase().replace(/\s+/g, '-').replace(/\./g, '');
 };
 
@@ -159,8 +160,13 @@ drugbank.forEach(d => {
 });
 // Special targeted and resistance overlay edges
 edges.push({ source: 'olaparib', target: 'brca1-mut', type: 'targets' });
+edges.push({ source: 'osimertinib', target: 'egfr-l858r', type: 'targets' });
 edges.push({ source: 'osimertinib', target: 'egfr-t790m', type: 'targets' });
-edges.push({ source: 'adagrasib', target: 'kras-g12d', type: 'targets' });
+edges.push({ source: 'savolitinib', target: 'met-amp', type: 'targets' });
+edges.push({ source: 'amivantamab', target: 'met-amp', type: 'targets' });
+edges.push({ source: 'amivantamab', target: 'EGFR', type: 'inhibits' });
+edges.push({ source: 'mrtx1133', target: 'kras-g12d', type: 'targets' });
+edges.push({ source: 'adagrasib', target: 'kras-g12c', type: 'targets' });
 edges.push({ source: 'erlotinib', target: 'EGFR', type: 'inhibits' });
 edges.push({ source: 'egfr-t790m', target: 'erlotinib', type: 'resistant_to' });
 
@@ -172,8 +178,9 @@ edges.push({ source: 'adagrasib', target: 'transaminitis', type: 'causes' });
 
 // F. Trial enrolls mappings
 edges.push({ source: 'NCT04381884', target: 'brca1-mut', type: 'enrolls' });
-edges.push({ source: 'NCT03944772', target: 'egfr-t790m', type: 'enrolls' });
-edges.push({ source: 'NCT04625881', target: 'kras-g12d', type: 'enrolls' });
+edges.push({ source: 'NCT03944772', target: 'met-amp', type: 'enrolls' });
+edges.push({ source: 'NCT04077463', target: 'met-amp', type: 'enrolls' });
+edges.push({ source: 'NCT04625881', target: 'kras-g12c', type: 'enrolls' });
 
 
 export const GraphService = {

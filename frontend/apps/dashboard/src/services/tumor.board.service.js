@@ -55,7 +55,7 @@ export const TumorBoardService = {
     let alternatives = [];
 
     if (patient.id === 'patient-b') {
-      rationale = `Due to the high baseline EGFR T790M resistant clone fraction (18.7%), standard continuous TKI dosing selects for T790M immediately. Metronomic or Adaptive v1 dosing is required to delay kinase pathway bypass.`;
+      rationale = `Due to acquired MET amplification (CN=5) mediating bypass resistance post-osimertinib, continuous EGFR TKI monotherapy allows rapid expansion of the MET-amplified clone. Combination therapy (Osimertinib + Savolitinib or Amivantamab) under adaptive/pulsed protocols is required to delay dual-pathway escape.`;
       preferred = 'adaptive';
       alternatives = ['metronomic'];
     } else {
@@ -212,7 +212,7 @@ export const TumorBoardService = {
     const versionNumber = patientHistory.length + 1;
     const versionString = `v${versionNumber}`;
 
-    const therapy = patient.id === 'patient-a' ? 'Olaparib' : patient.id === 'patient-b' ? 'Osimertinib' : 'Adagrasib';
+    const therapy = patient.id === 'patient-a' ? 'Olaparib' : patient.id === 'patient-b' ? 'Osimertinib + Savolitinib (Trial NCT03944772) or Amivantamab + Chemotherapy' : 'FOLFIRI + Bevacizumab';
 
     const recommendationObject = ClinicalRecommendation.create({
       patientId: patient.id,

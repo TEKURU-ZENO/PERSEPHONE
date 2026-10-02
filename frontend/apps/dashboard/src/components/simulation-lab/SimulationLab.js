@@ -151,7 +151,7 @@ export function initSimulationLab(containerEl) {
     };
 
     if (calibratedOverrides) {
-      const activeDrug = activePatient.id === 'patient-a' ? 'olaparib' : activePatient.id === 'patient-b' ? 'osimertinib' : 'adagrasib';
+      const activeDrug = activePatient.id === 'patient-a' ? 'olaparib' : activePatient.id === 'patient-b' ? 'osimertinib' : 'folfiri';
       if (calibratedOverrides[activeDrug]) {
         controlParams.ES = calibratedOverrides[activeDrug].ES;
         controlParams.ER = calibratedOverrides[activeDrug].ER;

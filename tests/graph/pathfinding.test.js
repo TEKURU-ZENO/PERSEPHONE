@@ -26,8 +26,10 @@ export async function run() {
   // Test Causal Pathfinding: Patient B
   const subgraphB = await GraphService.findCausalPathForPatient('patient-b');
   assert.ok(subgraphB.nodes.some(n => n.id === 'egfr-l858r'), 'Patient B path must contain EGFR L858R mutation');
-  assert.ok(subgraphB.nodes.some(n => n.id === 'egfr-t790m'), 'Patient B path must contain EGFR T790M resistance mutation');
+  assert.ok(subgraphB.nodes.some(n => n.id === 'met-amp'), 'Patient B path must contain MET amplification bypass mutation');
   assert.ok(subgraphB.nodes.some(n => n.id === 'osimertinib'), 'Patient B path must contain Osimertinib drug');
+  assert.ok(subgraphB.nodes.some(n => n.id === 'savolitinib'), 'Patient B path must contain Savolitinib drug');
+  assert.ok(subgraphB.nodes.some(n => n.id === 'NCT03944772'), 'Patient B path must contain NCT03944772 (ORCHARD) trial');
 
   console.log('  ✅ Graph Pathfinding tests passed.');
 }

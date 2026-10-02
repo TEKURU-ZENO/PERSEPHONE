@@ -183,7 +183,8 @@ function renderBiomarkers(c) {
           {gene:'BRCA1', tier:'Tier I-A', ev:'A', imp:'PARP inhibitor candidate (Olaparib)', color:'#4ade80'},
           {gene:'EGFR', tier:'Tier I-A', ev:'A', imp:'TKI candidate (Osimertinib)', color:'#4ade80'},
           {gene:'BRAF', tier:'Tier I-A', ev:'A', imp:'BRAF inhibitor (Vemurafenib/Dabrafenib)', color:'#4ade80'},
-          {gene:'KRAS', tier:'Tier I-A', ev:'A', imp:'KRAS G12D inhibitor (Adagrasib)', color:'#4ade80'},
+          {gene:'KRAS G12C', tier:'Tier I-A', ev:'A', imp:'KRAS G12C covalent inhibitor (Adagrasib/Sotorasib)', color:'#4ade80'},
+          {gene:'MET', tier:'Tier I-B', ev:'B', imp:'MET inhibitor (Savolitinib) or bispecific (Amivantamab)', color:'#86efac'},
           {gene:'PIK3CA', tier:'Tier I-B', ev:'B', imp:'PI3K inhibitor (Alpelisib)', color:'#86efac'},
           {gene:'TP53', tier:'Tier II-C', ev:'C', imp:'Monitor; consider immunotherapy if TMB-H', color:'#fbbf24'},
         ].map((b,i) => `<div style="display:flex; align-items:center; gap:0.5rem; padding:0.35rem 0.5rem; background:rgba(0,255,255,0.02); border:1px solid rgba(0,255,255,0.06); border-radius:4px; font-size:0.72rem;">

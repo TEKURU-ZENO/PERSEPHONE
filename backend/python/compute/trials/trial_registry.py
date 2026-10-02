@@ -52,14 +52,14 @@ class TrialRegistry:
                 },
                 {
                     "trialId": "NCT03944772",
-                    "title": "Phase III Trial of Osimertinib Combination Therapies in Patients with EGFRm-positive and MET-amplified NSCLC",
-                    "phase": "Phase III",
+                    "title": "Phase Ib/II Trial of Osimertinib + Savolitinib in Patients with EGFRm-positive and MET-amplified NSCLC (ORCHARD)",
+                    "phase": "Phase II",
                     "status": "Active, Recruiting",
                     "conditions": ["Non-Small Cell Lung Cancer (NSCLC)"],
                     "drugs": ["Osimertinib", "Savolitinib"],
                     "biomarkers": ["EGFR", "MET"],
                     "stage": ["Stage III", "Stage IV"],
-                    "enrollmentCriteria": "Inclusion: EGFR L858R or Exon 19 del with T790M or MET amplification. Exclusion: Active ILD.",
+                    "enrollmentCriteria": "Inclusion: EGFR L858R or Exon 19 del with acquired MET amplification post-osimertinib. Exclusion: Active ILD.",
                     "sponsor": "AstraZeneca",
                     "locations": [{"country": "United States", "city": "Houston", "facility": "MD Anderson Cancer Center"}]
                 }

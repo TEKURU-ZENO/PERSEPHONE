@@ -14,5 +14,5 @@
       "expectedDominantClonalRebound": "stable_coexistence"
     }
   },
-  "scientificValidationTarget": "EGFR T790M gatekeeper mutation outcompetes sensitive clones rapidly under continuous TKI selection pressure, leading to early treatment failure in under 90 days. Adaptive therapy preserves sensitive clone volume to suppress resistant expansion."
+  "scientificValidationTarget": "Acquired MET amplification bypass clone expands rapidly under continuous EGFR TKI monotherapy, leading to early treatment failure. Adaptive combination dosing delays clonal expansion via competitive suppression."
 }

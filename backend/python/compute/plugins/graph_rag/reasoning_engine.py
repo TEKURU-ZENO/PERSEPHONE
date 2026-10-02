@@ -10,7 +10,7 @@ def execute_reasoning_rules(patient, parsed_entities, ranked_literature, groundi
   if patient.patient_id == 'patient-a':
     mutation_id = "brca1-mut"
   elif patient.patient_id == 'patient-b':
-    mutation_id = "egfr-t790m"
+    mutation_id = "met-amp"
   elif patient.patient_id == 'patient-c':
     mutation_id = "kras-g12d"
 
@@ -30,17 +30,19 @@ def execute_reasoning_rules(patient, parsed_entities, ranked_literature, groundi
       f"{disease} twins harboring somatic BRCA1 variants [PMID: {', '.join(pmids)}]. "
       f"RK4 simulation modeling projects therapeutic benefit under adaptive holiday regimens."
     )
-  elif mutation_id == "egfr-t790m" or mutation_id == "egfr-l858r":
-    rec_drug = "Osimertinib"
+  elif mutation_id == "met-amp" or mutation_id == "egfr-l858r":
+    rec_drug = "Osimertinib + Savolitinib"
     rationale = (
-      f"Recommended therapy is third-generation EGFR inhibitor Osimertinib to target tyrosine kinase "
-      f"activation and bypass gatekeeper T790M resistance mutations [PMID: {', '.join(pmids)}]."
+      f"Recommended therapy is combination of third-generation EGFR inhibitor Osimertinib with selective "
+      f"MET TKI Savolitinib (or Amivantamab) to target EGFR L858R and overcome acquired MET amplification "
+      f"bypass resistance post-osimertinib [PMID: {', '.join(pmids)}]."
     )
   elif mutation_id == "kras-g12d":
-    rec_drug = "Adagrasib"
+    rec_drug = "FOLFIRI + Bevacizumab"
     rationale = (
-      f"Recommended therapy is covalent G12D inhibitor Adagrasib, targeting GTP-bound states "
-      f"in metastatic colorectal malignancies [PMID: {', '.join(pmids)}]."
+      f"Recommended therapy is continuation of FOLFIRI + Bevacizumab (stable disease by RECIST 1.1) "
+      f"in metastatic colorectal cancer harboring KRAS G12D. No FDA-approved G12D targeted therapy exists; "
+      f"screen for investigational G12D/pan-RAS clinical trials [PMID: {', '.join(pmids)}]."
     )
   else:
     rationale = "No canonical targets resolved. Recommend standard of care chemotherapy trials."

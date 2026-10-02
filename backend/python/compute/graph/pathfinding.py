@@ -10,8 +10,12 @@ def get_mutation_id(name):
     return 'egfr-l858r'
   if 'T790M' in upper_name or 'C.2369C>T' in upper_name:
     return 'egfr-t790m'
+  if 'MET' in upper_name and ('AMPLIFICATION' in upper_name or 'COPY GAIN' in upper_name):
+    return 'met-amp'
   if 'G12D' in upper_name or 'C.35G>A' in upper_name:
     return 'kras-g12d'
+  if 'G12C' in upper_name or 'C.34G>T' in upper_name:
+    return 'kras-g12c'
   return name.lower().replace(' ', '-').replace('.', '')
 
 def get_pathway_id(name):
@@ -133,7 +137,7 @@ def build_graph():
   # Add patient edges
   edges.append({"source": "patient-a", "target": "brca1-mut", "type": "has_mutation"})
   edges.append({"source": "patient-b", "target": "egfr-l858r", "type": "has_mutation"})
-  edges.append({"source": "patient-b", "target": "egfr-t790m", "type": "has_mutation"})
+  edges.append({"source": "patient-b", "target": "met-amp", "type": "has_mutation"})
   edges.append({"source": "patient-c", "target": "kras-g12d", "type": "has_mutation"})
 
   # Mutation to Gene
@@ -158,8 +162,12 @@ def build_graph():
 
   edges.extend([
     {"source": "olaparib", "target": "brca1-mut", "type": "targets"},
+    {"source": "osimertinib", "target": "egfr-l858r", "type": "targets"},
     {"source": "osimertinib", "target": "egfr-t790m", "type": "targets"},
-    {"source": "adagrasib", "target": "kras-g12d", "type": "targets"},
+    {"source": "savolitinib", "target": "met-amp", "type": "targets"},
+    {"source": "amivantamab", "target": "met-amp", "type": "targets"},
+    {"source": "mrtx1133", "target": "kras-g12d", "type": "targets"},
+    {"source": "adagrasib", "target": "kras-g12c", "type": "targets"},
     {"source": "erlotinib", "target": "EGFR", "type": "inhibits"},
     {"source": "egfr-t790m", "target": "erlotinib", "type": "resistant_to"},
 
@@ -169,8 +177,9 @@ def build_graph():
     {"source": "adagrasib", "target": "transaminitis", "type": "causes"},
 
     {"source": "NCT04381884", "target": "brca1-mut", "type": "enrolls"},
-    {"source": "NCT03944772", "target": "egfr-t790m", "type": "enrolls"},
-    {"source": "NCT04625881", "target": "kras-g12d", "type": "enrolls"}
+    {"source": "NCT03944772", "target": "met-amp", "type": "enrolls"},
+    {"source": "NCT04077463", "target": "met-amp", "type": "enrolls"},
+    {"source": "NCT04625881", "target": "kras-g12c", "type": "enrolls"}
   ])
 
   return nodes, edges

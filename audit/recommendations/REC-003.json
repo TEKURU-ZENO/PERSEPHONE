@@ -1,7 +1,7 @@
 {
   "recommendationId": "REC-003",
   "patientId": "patient-c",
-  "therapy": "Adagrasib",
+  "therapy": "FOLFIRI + Bevacizumab",
   "strategy": "ADAPTIVE",
   "confidence": 0.78,
   "evidenceScore": 80,
@@ -10,8 +10,7 @@
   "expectedTTP": 152.0,
   "maxToxicity": 74.5,
   "matchedTrials": [
-    "NCT04625881",
-    "NCT05086796"
+    "SCREEN-RAS-G12D"
   ],
   "citations": [
     "PMID:19447936"

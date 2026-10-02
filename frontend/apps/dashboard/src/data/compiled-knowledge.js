@@ -44,6 +44,26 @@ export const clinvar = [
     "vaf": "N/A",
     "hgvsc": "c.35G>A",
     "timestamp": "2026-06-29T16:40:34.609Z"
+  },
+  {
+    "mutationId": "VCV000000000",
+    "geneSymbol": "MET",
+    "variantName": "MET Amplification",
+    "classification": "Pathogenic",
+    "consequence": "Gene amplification mediating bypass resistance to EGFR TKIs",
+    "vaf": "N/A",
+    "hgvsc": "Copy Gain",
+    "timestamp": "2026-06-29T16:40:34.609Z"
+  },
+  {
+    "mutationId": "VCV000012582",
+    "geneSymbol": "KRAS",
+    "variantName": "KRAS G12C",
+    "classification": "Pathogenic",
+    "consequence": "Cysteine substitution in codon 12 sensitive to covalent inhibitors",
+    "vaf": "N/A",
+    "hgvsc": "c.34G>T",
+    "timestamp": "2026-06-29T16:40:34.609Z"
   }
 ];
 export const drugbank = [
@@ -77,7 +97,7 @@ export const drugbank = [
   {
     "drugId": "adagrasib",
     "name": "Adagrasib",
-    "mechanism": "Highly selective, covalent small-molecule inhibitor of KRAS G12D mutation, blocking GTPase signaling cascades.",
+    "mechanism": "Highly selective, covalent small-molecule inhibitor of KRAS G12C mutation, blocking GTPase signaling cascades.",
     "targets": [
       "KRAS"
     ],
@@ -85,6 +105,45 @@ export const drugbank = [
       "Krazati"
     ],
     "halfLife": "23 hours",
+    "timestamp": "2026-06-29T16:40:34.610Z"
+  },
+  {
+    "drugId": "savolitinib",
+    "name": "Savolitinib",
+    "mechanism": "Potent and selective oral MET tyrosine kinase inhibitor targeting MET amplification.",
+    "targets": [
+      "MET"
+    ],
+    "brandNames": [
+      "Orpathys"
+    ],
+    "halfLife": "5 hours",
+    "timestamp": "2026-06-29T16:40:34.610Z"
+  },
+  {
+    "drugId": "amivantamab",
+    "name": "Amivantamab",
+    "mechanism": "Bispecific antibody directed against EGFR and MET extracellular domains to overcome resistance.",
+    "targets": [
+      "EGFR",
+      "MET"
+    ],
+    "brandNames": [
+      "Rybrevant"
+    ],
+    "halfLife": "11 days",
+    "timestamp": "2026-06-29T16:40:34.610Z"
+  },
+  {
+    "drugId": "mrtx1133",
+    "name": "MRTX1133",
+    "mechanism": "Non-covalent, selective small-molecule inhibitor of KRAS G12D (discontinued 2025).",
+    "targets": [
+      "KRAS"
+    ],
+    "brandNames": [],
+    "halfLife": "N/A",
+    "status": "discontinued (2025)",
     "timestamp": "2026-06-29T16:40:34.610Z"
   }
 ];
@@ -108,7 +167,8 @@ export const reactome = [
       "EGFR",
       "GRB2",
       "SOS1",
-      "GAB1"
+      "GAB1",
+      "MET"
     ]
   },
   {
@@ -142,25 +202,36 @@ export const clinicalTrials = [
   },
   {
     "trialId": "NCT03944772",
-    "title": "Phase III Trial of Osimertinib Combination Therapies in Patients with EGFRm-positive and MET-amplified NSCLC",
-    "phase": "Phase III",
+    "title": "Phase Ib/II Trial of Osimertinib + Savolitinib in Patients with EGFRm-positive and MET-amplified NSCLC (ORCHARD)",
+    "phase": "Phase II",
     "status": "Active, Recruiting",
     "conditions": [
       "Non-Small Cell Lung Cancer (NSCLC)"
     ],
-    "enrollmentCriteria": "EGFR mutated (L858R or Exon 19 del) with acquired T790M gatekeeper mutation.",
+    "enrollmentCriteria": "Histologically confirmed NSCLC harboring EGFR activating mutation (L858R or Exon 19 del) with acquired MET amplification following disease progression on first-line osimertinib.",
+    "timestamp": "2026-06-29T16:40:34.610Z"
+  },
+  {
+    "trialId": "NCT04077463",
+    "title": "Phase Ib/II Study of Amivantamab and Lazertinib in EGFR-Mutated NSCLC Post-Osimertinib (CHRYSALIS-2)",
+    "phase": "Phase Ib/II",
+    "status": "Active, Recruiting",
+    "conditions": [
+      "Non-Small Cell Lung Cancer (NSCLC)"
+    ],
+    "enrollmentCriteria": "EGFR-mutated advanced NSCLC with disease progression on prior osimertinib; targets EGFR and MET bypass.",
     "timestamp": "2026-06-29T16:40:34.610Z"
   },
   {
     "trialId": "NCT04625881",
-    "title": "Study of KRAS Inhibitor Combinations in Advanced Gastrointestinal and Colorectal Malignancies",
-    "phase": "Phase I/II",
+    "title": "Study of MRTX849 (Adagrasib) in Combination with Cetuximab in KRAS G12C-Mutated Colorectal Cancer (KRYSTAL-10)",
+    "phase": "Phase III",
     "status": "Active, Recruiting",
     "conditions": [
       "Colorectal Cancer",
       "Pancreatic Cancer"
     ],
-    "enrollmentCriteria": "Histologically confirmed metastatic colorectal adenocarcinoma with KRAS G12D mutation.",
+    "enrollmentCriteria": "Histologically confirmed metastatic colorectal adenocarcinoma with confirmed KRAS G12C mutation (not G12D).",
     "timestamp": "2026-06-29T16:40:34.610Z"
   }
 ];

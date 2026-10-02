@@ -23,7 +23,7 @@ export const patients = {
       variants: [
         { gene: "BRCA1", variant: "c.1961delA", effect: "p.Glu654Glyfs*14", type: "Somatic", classification: "Pathogenic", VAF: "42.3%", consequence: "Frameshift leading to Homologous Recombination Deficiency (HRD)." },
         { gene: "TP53", variant: "c.818G>A", effect: "p.Arg273His", type: "Somatic", classification: "Pathogenic", VAF: "58.1%", consequence: "Hotspot mutation in DNA-binding domain, abolishing wild-type transcription function." },
-        { gene: "MYC", variant: "Amplification", effect: "Copy Gain (CN=6)", type: "Somatic", classification: "VUS", VAF: "N/A", consequence: "Downstream transcriptional activation of cellular proliferation pathways." }
+        { gene: "MYC", variant: "Amplification", effect: "Copy Gain (CN=6)", type: "Somatic", tier: "Tier III (unknown clinical significance)", VAF: "N/A", consequence: "Downstream transcriptional activation of cellular proliferation pathways." }
       ],
       pathwayDisruption: {
         "Homologous Recombination": 88,
@@ -87,19 +87,19 @@ export const patients = {
     stage: "Stage IV (Bone Metastases)",
     avatar: "👨‍⚕️",
     status: "Progressive Disease",
-    clinicalSummary: "Patient was diagnosed with EGFR-mutant lung adenocarcinoma in Mar 2025. Showed initial robust response to Erlotinib (Tarceva). Progressed in Dec 2025 with increasing dyspnea and new osteolytic lesions in the lumbar spine. Re-biopsy confirmed acquired T790M gatekeeper mutation in EGFR. Evolutionary models suggest rapid clonal expansion of T790M population under targeted pressure.",
+    clinicalSummary: "Patient was diagnosed with EGFR-mutant (p.Leu858Arg) lung adenocarcinoma in Mar 2025. Received first-line Osimertinib (Tagrisso 80mg daily) per FLAURA protocol with initial robust response (50% tumor regression). Progressed in Dec 2025 with increasing dyspnea and new osteolytic lesions in the lumbar spine (L3-L4). Re-biopsy and NGS confirmed acquired high-level MET amplification (CN=5) mediating bypass resistance to osimertinib (no T790M). Evolutionary models indicate rapid expansion of the MET-amplified clone under third-generation EGFR TKI selective pressure.",
     
     // Genomic profile
     genomics: {
       tumorMutationalBurden: "3.2 mut/Mb",
       microsatelliteStatus: "MSS (Stable)",
       variants: [
-        { gene: "EGFR", variant: "c.2573T>G", effect: "p.Leu858R", type: "Somatic", classification: "Pathogenic", VAF: "48.9%", consequence: "Constitutive kinase activation in exon 21, making the tumor sensitive to first-generation EGFR TKIs." },
-        { gene: "EGFR", variant: "c.2369C>T", effect: "p.Thr790M", type: "Somatic", classification: "Pathogenic", VAF: "18.5%", consequence: "Exon 20 gatekeeper resistance variant. Alters ATP binding affinity, rendering 1st and 2nd gen TKIs ineffective." },
-        { gene: "MET", variant: "Amplification", effect: "Copy Gain (CN=5)", type: "Somatic", classification: "Pathogenic", VAF: "N/A", consequence: "Bypasses EGFR inhibition via parallel activation of MET/GAB1 signaling cascades." }
+        { gene: "EGFR", variant: "c.2573T>G", effect: "p.Leu858Arg", type: "Somatic", classification: "Pathogenic", VAF: "48.9%", consequence: "Constitutive kinase activation in exon 21, making the tumor sensitive to third-generation EGFR TKIs (osimertinib)." },
+        { gene: "MET", variant: "Amplification", effect: "Copy Gain (CN=5)", type: "Somatic", classification: "Pathogenic", VAF: "N/A", consequence: "Acquired bypass resistance mediating ERBB3/PI3K/AKT reactivation independent of EGFR inhibition." }
       ],
       pathwayDisruption: {
-        "EGFR Kinase Signaling": 98,
+        "EGFR Kinase Signaling": 95,
+        "MET Signaling / Bypass": 90,
         "MAPK/ERK Cascade": 82,
         "JAK/STAT Pathway": 44
       }
@@ -138,17 +138,17 @@ export const patients = {
 
     // Clinical trials matched
     trials: [
-      { id: "NCT03944772", name: "Osimertinib + Savolitinib in Patients with EGFRm and MET-amplified NSCLC", matchScore: 98, rationale: "Savolitinib targets MET amplification bypass pathway, while Osimertinib targets EGFR L858R and T790M resistance mutations simultaneously." },
-      { id: "NCT04862780", name: "Amivantamab and Lazertinib in EGFR-Mutated Advanced Non-Small Cell Lung Cancer", matchScore: 94, rationale: "Amivantamab is a bispecific antibody targeting both EGFR and MET, directly addressing both primary mutations and the bypass mechanism." }
+      { id: "NCT03944772", name: "ORCHARD: Phase II Study of Osimertinib + Savolitinib in EGFRm NSCLC with Acquired MET Amplification", matchScore: 95, eligibility: "Likely eligible", reasons: ["Documented progression on 1L osimertinib", "Presence of acquired MET amplification biomarker"], rationale: "Combines third-generation EGFR TKI osimertinib with selective MET TKI savolitinib to overcome MET-driven bypass resistance post-osimertinib." },
+      { id: "NCT04077463", name: "CHRYSALIS-2: Phase Ib/II Study of Amivantamab + Lazertinib in EGFR-Mutated NSCLC", matchScore: 89, eligibility: "Likely eligible", reasons: ["Disease progression on prior osimertinib", "Bispecific EGFR/MET antibody targets primary driver and bypass"], rationale: "Bispecific antibody amivantamab targets both EGFR and MET extracellular domains to downregulate both receptors, paired with 3rd-gen TKI lazertinib." }
     ],
 
     // Treatment Timeline
     timeline: [
-      { date: "2025-03-02", event: "Initial Diagnosis", desc: "Stage IV Adenocarcinoma with right lung primary and pleural effusion. EGFR L858R positive." },
-      { date: "2025-03-20", event: "Targeted Therapy Start", desc: "Initiated daily Erlotinib (150mg). Rapid resolution of dyspnea." },
-      { date: "2025-09-15", event: "Stable Disease", desc: "CT scan shows 50% regression in primary tumor. Good tolerance." },
-      { date: "2025-12-05", event: "Clinical Progression", desc: "New onset lower back pain. Bone scan reveals osteolytic lesions in L3-L4." },
-      { date: "2025-12-20", event: "Liquid Biopsy & Re-biopsy", desc: "Circulating tumor DNA and bone biopsy confirm emergence of acquired T790M mutation." }
+      { date: "2025-03-02", event: "Initial Diagnosis", desc: "Stage IV Adenocarcinoma with right lung primary and pleural effusion. EGFR L858R (p.Leu858Arg) positive." },
+      { date: "2025-03-20", event: "1L Targeted Therapy", desc: "Initiated first-line Osimertinib (80mg daily) per FLAURA standard of care." },
+      { date: "2025-09-15", event: "Partial Response", desc: "CT restaging demonstrates 50% regression in primary tumor; resolution of dyspnea." },
+      { date: "2025-12-05", event: "Clinical Progression", desc: "New onset lower back pain. Bone scan reveals new osteolytic lesions at L3-L4." },
+      { date: "2025-12-20", event: "Tissue Re-biopsy & NGS", desc: "Histopathology and NGS confirm acquired high-level MET amplification (CN=5) mediating bypass resistance to osimertinib; no T790M." }
     ]
   },
   "patient-c": {
@@ -160,14 +160,14 @@ export const patients = {
     stage: "Stage IV (Hepatic Metastases)",
     avatar: "👨‍⚕️",
     status: "Active Therapy",
-    clinicalSummary: "Patient diagnosed with metastatic colon cancer in Aug 2025. Somatic sequencing revealed KRAS G12D mutation, precluding anti-EGFR therapy (e.g. Cetuximab). Started FOLFIRI + Bevacizumab. Imaging shows stable primary rectosigmoid tumor but 15% volume expansion in segment IV liver metastases. Toxicity Agent is monitoring transaminitis due to severe hepatic tumor burden.",
+    clinicalSummary: "Patient diagnosed with metastatic colon cancer in Aug 2025. Somatic sequencing revealed KRAS G12D (p.Gly12Asp) mutation, precluding anti-EGFR therapy (e.g. Cetuximab/Panitumumab). Started first-line FOLFIRI + Bevacizumab. Restaging imaging shows stable primary rectosigmoid tumor and a 15% volume increase in segment IV liver metastases (corresponding to ~4.8% diameter expansion, which is Stable Disease [SD] per RECIST 1.1 criteria). Recommended to continue current FOLFIRI + Bevacizumab therapy while monitoring. Later-line FDA-approved options upon progression include trifluridine/tipiracil (Lonsurf) ± bevacizumab, regorafenib, or fruquintinib. Screen for active investigational G12D or pan-RAS(ON) clinical trials.",
     
     // Genomic profile
     genomics: {
       tumorMutationalBurden: "6.1 mut/Mb",
       microsatelliteStatus: "MSS (Stable)",
       variants: [
-        { gene: "KRAS", variant: "c.35G>A", effect: "p.Gly12D", type: "Somatic", classification: "Pathogenic", VAF: "38.2%", consequence: "Abolishes intrinsic GTPase activity of KRAS, trapping it in the active GTP-bound state. Drives RAS-MAPK pathway." },
+        { gene: "KRAS", variant: "c.35G>A", effect: "p.Gly12Asp", type: "Somatic", classification: "Pathogenic", VAF: "38.2%", consequence: "Abolishes intrinsic GTPase activity of KRAS, trapping it in the active GTP-bound state. Drives RAS-MAPK pathway." },
         { gene: "APC", variant: "c.4393_4394del", effect: "p.Glu1465fs", type: "Somatic", classification: "Pathogenic", VAF: "45.0%", consequence: "Truncated APC protein, leading to aberrant Wnt pathway activation and nuclear accumulation of beta-catenin." },
         { gene: "SMAD4", variant: "c.1082G>A", effect: "p.Arg361His", type: "Somatic", classification: "Pathogenic", VAF: "29.4%", consequence: "Disrupts TGF-beta signaling, promoting metastatic invasiveness and epithelial-to-mesenchymal transition." }
       ],
@@ -211,15 +211,14 @@ export const patients = {
 
     // Clinical trials matched
     trials: [
-      { id: "NCT04625881", name: "Study of MRTX849 (Adagrasib) in Combination with Cetuximab in KRAS-Mutated CRC", matchScore: 91, rationale: "Investigates direct KRAS inhibitors in combination with anti-EGFR antibodies to overcome EGFR-mediated adaptive resistance mechanisms in colorectal cancer." },
-      { id: "NCT05086796", name: "Phase I/II Trial of KRAS G12D Selective Inhibitor MRG003 in Advanced Refractory Solid Tumors", matchScore: 89, rationale: "Directly targets the KRAS G12D somatic variant, bypassing legacy chemotherapy options for patients who have progressed on standard lines." }
+      { id: "SCREEN-RAS-G12D", name: "Investigational KRAS G12D / pan-RAS(ON) Inhibitor Trial Screening", matchScore: 78, eligibility: "Screening required", reasons: ["KRAS G12D confirmed somatic driver", "Currently stable on 1L FOLFIRI + bevacizumab"], rationale: "No FDA-approved targeted KRAS G12D therapies exist. Clinical trial screening for novel non-covalent G12D or pan-RAS(ON) inhibitors should be performed for readiness upon disease progression." }
     ],
 
     // Treatment Timeline
     timeline: [
       { date: "2025-08-10", event: "Initial Diagnosis", desc: "Colonoscopy detects obstructing rectosigmoid tumor. Biopsy reveals adenocarcinoma. Staging shows multiple liver lesions." },
       { date: "2025-09-01", event: "Chemotherapy Initiation", desc: "Began FOLFIRI (5-FU, Leucovorin, Irinotecan) plus Bevacizumab (Avastin)." },
-      { date: "2025-11-15", event: "Restaging CT Scan", desc: "Primary tumor stable. Liver metastases stable but segment IV lesion displays persistent expansion." },
+      { date: "2025-11-15", event: "Restaging CT Scan", desc: "Primary tumor stable. Liver metastases stable (15% volume increase is ~4.8% diameter expansion, Stable Disease by RECIST 1.1)." },
       { date: "2026-01-20", event: "Cycle 8 Chemo", desc: "Dose reduction of Irinotecan by 15% due to persistent Grade 2 AST/ALT elevation." }
     ]
   }

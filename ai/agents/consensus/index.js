@@ -19,7 +19,7 @@ export function executeClinicalRecommendationAgent(context) {
 
   const recommendation = ClinicalRecommendationModel.create({
     patientId: patient.id,
-    therapy: patient.id === 'patient-a' ? 'Olaparib' : patient.id === 'patient-b' ? 'Osimertinib' : 'Adagrasib',
+    therapy: patient.id === 'patient-a' ? 'Olaparib' : patient.id === 'patient-b' ? 'Osimertinib + Savolitinib (Trial)' : 'FOLFIRI + Bevacizumab',
     strategy: planningReport.preferredStrategy,
     confidence: parseFloat(confidence.toFixed(2)),
     evidenceScore: Math.min(100, evidenceScore),

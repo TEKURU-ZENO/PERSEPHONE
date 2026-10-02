@@ -14,9 +14,9 @@ export function renderGraphRAG(containerEl) {
     // Generate default query based on patient
     let defaultQuery = "Recommend targeted Olaparib therapy under carrying capacity constraints for Elena's BRCA1 ovarian cancer";
     if (activePatient.id === 'patient-b') {
-      defaultQuery = "Evaluate Osimertinib efficacy to target gatekeeper EGFR T790M resistance mutations in Arthur's lung cancer";
+      defaultQuery = "Evaluate Osimertinib combination with Savolitinib to target acquired MET amplification bypass in Arthur's lung cancer";
     } else if (activePatient.id === 'patient-c') {
-      defaultQuery = "Verify Adagrasib sensitivity profile in Marcus's KRAS G12D colorectal cancer";
+      defaultQuery = "Evaluate FOLFIRI + Bevacizumab continuation and trial options in Marcus's KRAS G12D colorectal cancer";
     }
 
     containerEl.innerHTML = `

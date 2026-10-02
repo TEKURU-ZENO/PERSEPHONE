@@ -111,7 +111,7 @@ export function initGraphExplorer(containerEl) {
         pathwayText.textContent = "Homologous Recombination Deficiency (HRD) Loop";
         pathwayText.className = "text-purple";
       } else if (activePatient.id === 'patient-b') {
-        pathwayText.textContent = "EGFR Tyrosine Kinase T790M Bypass Pathway";
+        pathwayText.textContent = "EGFR Kinase & MET Amplification Bypass Pathway";
         pathwayText.className = "text-amber";
       } else {
         pathwayText.textContent = "RAS-MAPK Activating Mutation Path";
@@ -328,12 +328,18 @@ export function initGraphExplorer(containerEl) {
       if (node.id === 'olaparib' || node.id === 'brca1-mut') {
         pmid = '22960745';
         citation = 'Garnett MJ, et al. Genomics of Drug Sensitivity. Nature, 2012.';
-      } else if (node.id === 'osimertinib' || node.id === 'egfr-t790m') {
-        pmid = '21685025';
-        citation = 'Engelmen JA, et al. Acquired resistance. Science, 2011.';
-      } else if (node.id === 'kras-g12d' || node.id === 'adagrasib') {
-        pmid = '15281884';
-        citation = 'Michor F, et al. Dynamics of cancer. Nat Rev Cancer, 2004.';
+      } else if (node.id === 'osimertinib' || node.id === 'egfr-l858r') {
+        pmid = '29151359';
+        citation = 'Soria JC, et al. Osimertinib in Untreated EGFRm NSCLC (FLAURA). NEJM, 2018.';
+      } else if (node.id === 'savolitinib' || node.id === 'amivantamab' || node.id === 'met-amp' || node.id === 'MET') {
+        pmid = '17463250';
+        citation = 'Engelman JA, et al. MET amplification leads to gefitinib resistance. Science, 2007.';
+      } else if (node.id === 'adagrasib' || node.id === 'kras-g12c') {
+        pmid = '36546659';
+        citation = 'Yaeger R, et al. Adagrasib with Cetuximab in KRAS G12C Colorectal Cancer. NEJM, 2023.';
+      } else if (node.id === 'mrtx1133' || node.id === 'kras-g12d') {
+        pmid = '36471052';
+        citation = 'Hallin J, et al. KRAS G12D inhibitor MRTX1133. Nat Med, 2022.';
       }
 
       literatureHTML = `

@@ -156,13 +156,12 @@ function renderDetails(c) {
         </div>
         <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.6rem;">
           <div style="font-weight:700; color:var(--cyan); margin-bottom:0.3rem;">NCT03944772 (Phase III)</div>
-          <div style="color:var(--text-secondary); margin-bottom:0.4rem;">Osimertinib Combination Therapies in EGFRm NSCLC</div>
-          <div style="margin-bottom:0.2rem;"><strong>Biomarker:</strong> EGFR (L858R, T790M), MET</div>
+          <div style="margin-bottom:0.2rem;"><strong>Biomarker:</strong> EGFR (L858R, Ex19del) + MET Amplification</div>
           <div style="margin-bottom:0.2rem;"><strong>Interventions:</strong> Osimertinib, Savolitinib</div>
           <div style="margin-bottom:0.2rem;"><strong>Sponsor:</strong> AstraZeneca</div>
           <div style="margin-bottom:0.2rem;"><strong>Timeline:</strong> 2019-09-15 to 2027-04-30</div>
           <div style="margin-top:0.4rem; font-size:0.65rem; color:var(--text-secondary);">
-            <strong>Inclusion:</strong> NSCLC with EGFR activating mutation and acquired T790M or MET amplification.
+            <strong>Inclusion:</strong> NSCLC with EGFR activating mutation and acquired MET amplification post-osimertinib.
           </div>
         </div>
       </div>
@@ -218,9 +217,9 @@ function renderEvidence(c) {
       <div style="display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem;">
         ${[
           { gene: 'BRCA1', trial: 'NCT04381884', drug: 'Olaparib + Cediranib', phase: 'Phase II', evidence: 'Tier I-A', match: '95%' },
-          { gene: 'BRCA1/HRD', trial: 'NCT06580314', drug: 'Olaparib + Bevacizumab', phase: 'Phase III', evidence: 'Tier I-A', match: '92%' },
-          { gene: 'EGFR L858R', trial: 'NCT03944772', drug: 'Osimertinib + Savolitinib', phase: 'Phase III', evidence: 'Tier I-A', match: '94%' },
-          { gene: 'KRAS G12D', trial: 'NCT04625881', drug: 'Adagrasib + Cetuximab', phase: 'Phase I/II', evidence: 'Tier I-A', match: '88%' },
+          { gene: 'EGFR + MET', trial: 'NCT03944772', drug: 'Osimertinib + Savolitinib', phase: 'Phase II', evidence: 'Tier I-A', match: '95%' },
+          { gene: 'EGFR + MET', trial: 'NCT04077463', drug: 'Amivantamab + Lazertinib', phase: 'Phase Ib/II', evidence: 'Tier I-B', match: '89%' },
+          { gene: 'KRAS G12C', trial: 'NCT04625881', drug: 'Adagrasib + Cetuximab', phase: 'Phase III', evidence: 'Tier I-A', match: '88%' },
           { gene: 'BRAF V600E', trial: 'NCT02844816', drug: 'Dabrafenib + Trametinib', phase: 'Phase II', evidence: 'Tier I-A', match: '90%' },
           { gene: 'PIK3CA', trial: 'NCT02437318', drug: 'Alpelisib + Fulvestrant', phase: 'Phase III', evidence: 'Tier I-B', match: '86%' }
         ].map(row => `

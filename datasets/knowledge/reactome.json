@@ -9,7 +9,7 @@
     "pathwayId": "R-HSA-177929",
     "name": "EGFR Kinase Signaling",
     "description": "Tyrosine kinase phosphorylation cascade driving cell survival and proliferation.",
-    "genes": ["EGFR", "GRB2", "SOS1", "GAB1"]
+    "genes": ["EGFR", "GRB2", "SOS1", "GAB1", "MET"]
   },
   {
     "pathwayId": "R-HSA-5673001",

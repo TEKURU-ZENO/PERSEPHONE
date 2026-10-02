@@ -76,21 +76,21 @@ NCCN_DECISION_RULES = [
         disease="Colorectal Cancer",
         stage=["Stage IV"],
         biomarker_requirements={"KRAS": "mutated"},
-        treatment_line="Subsequent Therapy",
-        recommended_drug="Adagrasib",
+        treatment_line="First-line / Maintenance",
+        recommended_drug="FOLFIRI + Bevacizumab",
         reference=GuidelineReference(
             reference_id="REF-NCCN-CRC-2026-1",
             organization="NCCN",
             guideline_title="NCCN Guidelines for Colon Cancer",
             version="Version 1.2026",
             publication_date="2026-01-20",
-            section="Systemic Therapy for Advanced or Metastatic Disease: Subsequent Lines",
-            recommendation_id="CRC-KRAS-CAT2A",
-            evidence_category="Category 2A",
-            preference_tier="Useful in Certain Circumstances",
+            section="Systemic Therapy for Advanced or Metastatic Disease: RAS-Mutant",
+            recommendation_id="CRC-RAS-DOUBLET-BEV",
+            evidence_category="Category 1",
+            preference_tier="Preferred",
             source_url="https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1428",
             effective_from="2026-01-20"
         ),
-        rationale="Category 2A recommendation for Adagrasib in combination with Cetuximab for KRAS G12C/D mutated metastatic colorectal cancer after prior fluoropyrimidine-, oxaliplatin-, and irinotecan-based chemotherapy."
+        rationale="In metastatic colorectal cancer with RAS mutation (KRAS/NRAS codon 12, 13, 61, 117, 146), anti-EGFR therapies (cetuximab, panitumumab) are contraindicated. Standard therapy is doublet chemotherapy (FOLFOX, FOLFIRI, or CAPEOX) ± bevacizumab. KRAS G12D has no FDA-approved targeted inhibitor; patients should continue systemic chemotherapy or consider clinical trials. Adagrasib + cetuximab is Category 2A strictly for KRAS G12C only."
     )
 ]

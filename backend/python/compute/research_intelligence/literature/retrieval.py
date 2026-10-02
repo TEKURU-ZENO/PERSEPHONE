@@ -113,10 +113,10 @@ ONCOLOGY_LITERATURE_CORPUS = [
         "abstract": "Osimertinib showed efficacy superior to that of standard EGFR-TKIs in the first-line treatment of EGFR mutation-positive advanced NSCLC, with a similar safety profile and lower rates of serious adverse events."
     },
     {
-        "pmid": "36546651",
-        "doi": "10.1056/NEJMoa2212247",
+        "pmid": "36546659",
+        "doi": "10.1056/NEJMoa2212419",
         "nct_id": "NCT03785249",
-        "title": "Adagrasib with or without Cetuximab in Colorectal Cancer with Mutated KRAS G12C/D",
+        "title": "Adagrasib with or without Cetuximab in Colorectal Cancer with Mutated KRAS G12C",
         "authors": ["Yaeger R", "Weiss J", "Pelster MS", "Spira AI", "Barve M", "Ou SHI"],
         "journal": "New England Journal of Medicine",
         "year": 2023,
@@ -125,7 +125,7 @@ ONCOLOGY_LITERATURE_CORPUS = [
         "pages": "44-54",
         "phase": "Phase I/II Trial",
         "trial_name": "KRYSTAL-1",
-        "biomarkers": ["KRAS", "G12D", "G12C"],
+        "biomarkers": ["KRAS", "G12C"],
         "condition": "Colorectal Cancer",
         "drug": "Adagrasib",
         "sample_size": 44,
@@ -136,7 +136,33 @@ ONCOLOGY_LITERATURE_CORPUS = [
         "primary_endpoint_met": True,
         "cebm_level": "Level 2b",
         "grade_rating": "Moderate",
-        "abstract": "Adagrasib alone or in combination with Cetuximab showed promising antitumor activity and reversible toxic effects in heavily pretreated patients with mutant KRAS colorectal cancer."
+        "abstract": "Adagrasib alone or in combination with Cetuximab showed antitumor activity in heavily pretreated patients with mutant KRAS G12C colorectal cancer. Not active against KRAS G12D."
+    },
+    {
+        "pmid": "36471052",
+        "doi": "10.1038/s41591-022-02007-7",
+        "nct_id": "NCT05737706",
+        "title": "The KRASG12D inhibitor MRTX1133 suppresses tumor growth in preclinical models of pancreatic and colorectal cancer",
+        "authors": ["Hallin J", "Engstrom LD", "Hargis L", "Calinisan A", "Aranda R", "Briere DM"],
+        "journal": "Nature Medicine",
+        "year": 2022,
+        "volume": "28",
+        "issue": "11",
+        "pages": "2171-2182",
+        "phase": "Preclinical",
+        "trial_name": "MRTX1133 Preclinical",
+        "biomarkers": ["KRAS", "G12D"],
+        "condition": "Colorectal Cancer",
+        "drug": "MRTX1133",
+        "sample_size": 0,
+        "hazard_ratio": 0.0,
+        "hr_ci_lower": 0.0,
+        "hr_ci_upper": 0.0,
+        "median_pfs_delta_months": 0.0,
+        "primary_endpoint_met": True,
+        "cebm_level": "Level 5",
+        "grade_rating": "Low",
+        "abstract": "MRTX1133 is a potent, selective, non-covalent KRAS G12D inhibitor that binds to both GDP- and GTP-bound states. Preclinical proof of concept for G12D targeting; clinical development was subsequently discontinued in 2025."
     }
 ]
 

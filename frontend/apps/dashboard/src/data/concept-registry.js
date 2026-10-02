@@ -17,7 +17,12 @@ export const conceptRegistry = {
   "kras": {
     "type": "gene",
     "canonical": "KRAS",
-    "aliases": ["kras", "kras-g12d", "g12d", "ras-mapk", "mapk"]
+    "aliases": ["kras", "kras-g12d", "kras-g12c", "g12d", "g12c", "ras-mapk", "mapk"]
+  },
+  "met": {
+    "type": "gene",
+    "canonical": "MET",
+    "aliases": ["met", "met-amp", "met amplification", "c-met"]
   },
   "olaparib": {
     "type": "drug",
@@ -32,7 +37,22 @@ export const conceptRegistry = {
   "adagrasib": {
     "type": "drug",
     "canonical": "Adagrasib",
-    "aliases": ["adagrasib", "krazati", "kras inhibitor", "kras g12d inhibitor"]
+    "aliases": ["adagrasib", "krazati", "kras inhibitor", "kras g12c inhibitor", "g12c inhibitor"]
+  },
+  "savolitinib": {
+    "type": "drug",
+    "canonical": "Savolitinib",
+    "aliases": ["savolitinib", "orpathys", "met inhibitor", "met tki"]
+  },
+  "amivantamab": {
+    "type": "drug",
+    "canonical": "Amivantamab",
+    "aliases": ["amivantamab", "rybrevant", "egfr-met bispecific"]
+  },
+  "mrtx1133": {
+    "type": "drug",
+    "canonical": "MRTX1133",
+    "aliases": ["mrtx1133", "kras g12d inhibitor (discontinued)", "g12d inhibitor"]
   },
   "adaptive": {
     "type": "strategy",
