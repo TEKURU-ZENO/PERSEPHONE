@@ -19,10 +19,12 @@ from backend.python.compute.ai_runtime.agents.instances.clinical_trials_agent im
 from backend.python.compute.ai_runtime.agents.instances.monitoring_agent import ClinicalMonitoringAgent
 from backend.python.compute.ai_runtime.agents.instances.response_intelligence_agent import ResponseIntelligenceAgent
 from backend.python.compute.ai_runtime.agents.instances.counterfactual_agent import CounterfactualReasoningAgent
+from backend.python.compute.ai_runtime.agents.instances.research_intelligence_agent import ResearchIntelligenceAgent
+from backend.python.compute.ai_runtime.agents.instances.governance_agent import GovernanceAgent
 
 class AgentRegistry:
   """
-  Registry managing instances of the 21 specialist agents.
+  Registry managing instances of the 23 specialist agents.
   """
   _REGISTRY = {
     "orchestrator": ChiefOrchestratorAgent,
@@ -44,8 +46,14 @@ class AgentRegistry:
     "pharmacology": PharmacologyAgent,
     "clinical_trials": ClinicalTrialsAgent,
     "monitoring": ClinicalMonitoringAgent,
+    "longitudinal": ClinicalMonitoringAgent,
     "response_intelligence": ResponseIntelligenceAgent,
-    "counterfactual": CounterfactualReasoningAgent
+    "response": ResponseIntelligenceAgent,
+    "counterfactual": CounterfactualReasoningAgent,
+    "clinical_trials": ClinicalTrialsAgent,
+    "trials": ClinicalTrialsAgent,
+    "research_intelligence": ResearchIntelligenceAgent,
+    "governance": GovernanceAgent
   }
 
   @classmethod

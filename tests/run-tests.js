@@ -44,6 +44,9 @@ import { run as trialsTest } from './integration/trials.test.js';
 import { run as monitoringTest } from './integration/monitoring.test.js';
 import { run as responseTest } from './integration/response.test.js';
 import { run as counterfactualTest } from './integration/counterfactual.test.js';
+import { run as researchTest } from './integration/research.test.js';
+import { run as governanceTest } from './integration/governance.test.js';
+import { run as osTest } from './integration/os.test.js';
 
 // ANSI escape codes for formatting
 const RESET = '\x1b[0m';
@@ -84,13 +87,16 @@ const suites = [
   { name: 'Integration: RL Dosing Policy Optimization', fn: rlOptimizationTest },
   { name: 'Integration: Model Calibration & Uncertainty Bands', fn: calibrationTest },
   { name: 'Integration: Clinical AI Runtime (CAIR) Engine', fn: cairTest },
-  { name: 'Integration: 21-Agent Collaborative Council', fn: multiAgentsTest },
+  { name: 'Integration: 23-Agent Collaborative Council', fn: multiAgentsTest },
   { name: 'Integration: Multimodal Imaging Intelligence Platform', fn: multimodalTest },
   { name: 'Integration: Genomic Intelligence & Pharmacogenomics', fn: genomicsTest },
   { name: 'Integration: Clinical Trials Intelligence Platform', fn: trialsTest },
   { name: 'Integration: Clinical Monitoring & Longitudinal Intelligence', fn: monitoringTest },
   { name: 'Integration: Response Intelligence & Digital Biomarkers', fn: responseTest },
   { name: 'Integration: Counterfactual Research Platform', fn: counterfactualTest },
+  { name: 'Integration: Clinical Knowledge & Research Intelligence', fn: researchTest },
+  { name: 'Integration: Clinical Safety, Governance & Validation', fn: governanceTest },
+  { name: 'Integration: PERSEPHONE OS Runtime & Control Plane', fn: osTest },
 
   { name: 'Performance: Graph Traversal Latency', fn: graphPerfTest },
   { name: 'Performance: RK4 Simulation Projection Speed', fn: simPerfTest },

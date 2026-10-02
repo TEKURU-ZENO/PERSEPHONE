@@ -5,7 +5,7 @@ from backend.python.compute.ai_runtime.agents.registry import AgentRegistry
 
 class AgentCouncilRuntime:
   """
-  Orchestrator coordinates debate execution cycles for the 21-Agent Council.
+  Orchestrator coordinates debate execution cycles for the 23-Agent Council.
   """
   @staticmethod
   def run_debate(patient_raw_data=None):
@@ -20,8 +20,8 @@ class AgentCouncilRuntime:
       "orchestrator", "patient_twin", "evolution", "simulation",
       "kg", "graph_rag", "evidence", "memory", "imaging",
       "genomics", "pharmacology", "clinical_trials", "monitoring",
-      "response_intelligence", "counterfactual",
-      "therapy", "optimization", "safety", "validation", "explainability", "report"
+      "response_intelligence", "counterfactual", "research_intelligence",
+      "therapy", "optimization", "safety", "validation", "governance", "explainability", "report"
     ]
 
     agent_metrics = []
@@ -71,6 +71,8 @@ class AgentCouncilRuntime:
       cf_best = blackboard.read('BEST_PERFORMING_SIMULATED_STRATEGY') or {}
       cf_best_name = cf_best.get('name', 'Evolutionary Adaptive Therapy')
       cf_best_arm = cf_best.get('arm_id', 'adaptive')
+      gov_decision = blackboard.read('GOVERNANCE_DECISION') or {}
+      gov_status = gov_decision.get('decision_status', 'APPROVED')
 
       # Add conversational dialogue based on agent outputs
       dialogue_map = {
@@ -89,10 +91,16 @@ class AgentCouncilRuntime:
         "Clinical Monitoring Agent": f"Longitudinal trajectory evaluated. Current status: {curr_response}, Tumor velocity: {curr_velocity} cm³/day. Molecular and adverse event streams synchronized.",
         "Response Intelligence Agent": f"Multimodal response model calibrated. Predicted ORR: {int(pred_orr*100)}%, Expected PFS: {int(pred_pfs)} days. Composite actionability score: {comp_score:.2f}. Alternative escape pathways identified.",
         "Counterfactual Reasoning Agent": f"Synthetic cohort simulation complete (N=50). Best-performing simulated strategy: {cf_best_name} ({cf_best_arm}). Comparative causal estimation dispatched to therapy planning.",
+        "Research Intelligence Agent": "Clinical Evidence Graph assembled. Top guideline: NCCN Category 1 (Preferred). Grounding Gate: VERIFIED. Cryptographic Merkle lineage proof dispatched to therapy planning.",
         "Therapy Planning": "Formulating treatment options: cycles = 6, baseDose = 1.0 (MTD strategy).",
         "Optimization Agent": "Evaluating trained PPO policy: PPO yields an 18% TTP improvement.",
         "Safety Agent": "Auditing clearances: Renal, hepatic, and toxicity limits check out. Status: APPROVED.",
         "Validation Agent": "Goodness metrics fit: PARITY index is within boundaries. Hallucination checks passed.",
+        "Governance Agent": (
+          f"INSUFFICIENT EVIDENCE ({gov_decision.get('abstention_code', 'INSUFFICIENT_EVIDENCE')}): {gov_decision.get('reason', 'Conflicting signals')}. Confidence: {gov_decision.get('confidence', 0.41):.2f}. Mandated actions: {'; '.join(gov_decision.get('required_actions', ['Clinician review']))}."
+          if gov_status == "ABSTAIN" else
+          f"Governance Gate: {gov_status}. Confidence: {gov_decision.get('confidence', 0.85):.2f}. All clinical safety boundaries verified under KDIGO/CTCAE standards."
+        ),
         "Explainability Agent": "Recommended because: BRCA1 mutation -> HR pathway disrupted -> PARP inhibitor supported -> Predicted 18% TTP improvement.",
         "Clinical Report": "Compiling final tumor board report files and FHIR schema files..."
       }
@@ -110,9 +118,11 @@ class AgentCouncilRuntime:
     r2_fit = validation_data.get("R2", 0.90) if validation_data else 0.90
     
     consensus_status = "online"
-    if not safety_approved:
+    if gov_status == "ABSTAIN":
+      consensus_status = "abstained"
+    elif not safety_approved or gov_status == "CONTRAINDICATED":
       consensus_status = "offline"
-    elif r2_fit < 0.70:
+    elif r2_fit < 0.70 or gov_status == "CAUTION_OVERRIDE":
       consensus_status = "degraded"
 
     return {

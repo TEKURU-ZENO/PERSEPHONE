@@ -19,6 +19,9 @@ import { renderClinicalTrials } from '../trials/ClinicalTrialsPanel.js';
 import { renderClinicalMonitoring } from '../monitoring/ClinicalMonitoringPanel.js';
 import { renderResponseIntelligence } from '../response/ResponseIntelligencePanel.js';
 import { renderCounterfactualLab } from '../counterfactual/CounterfactualLabPanel.js';
+import { renderResearchIntelligence } from '../research/ResearchIntelligencePanel.js';
+import { renderClinicalGovernance } from '../governance/ClinicalGovernancePanel.js';
+import { renderPersephoneOSCockpit } from '../os/PersephoneOSCockpit.js';
 
 export function initTumorBoard(containerEl) {
   let activePatient = patientStore.getActivePatient();
@@ -44,6 +47,9 @@ export function initTumorBoard(containerEl) {
           <button class="workspace-tab-btn" id="tab-monitoring">Clinical Monitoring</button>
           <button class="workspace-tab-btn" id="tab-response">Response Intelligence</button>
           <button class="workspace-tab-btn" id="tab-counterfactual">Counterfactual Lab</button>
+          <button class="workspace-tab-btn" id="tab-research">Research Intelligence</button>
+          <button class="workspace-tab-btn" id="tab-governance">Clinical Governance</button>
+          <button class="workspace-tab-btn" id="tab-os">PERSEPHONE OS</button>
         </div>
         
         <!-- Tab Body Container -->
@@ -66,6 +72,9 @@ export function initTumorBoard(containerEl) {
     const tabMonitoring = containerEl.querySelector('#tab-monitoring');
     const tabResponse = containerEl.querySelector('#tab-response');
     const tabCounterfactual = containerEl.querySelector('#tab-counterfactual');
+    const tabResearch = containerEl.querySelector('#tab-research');
+    const tabGovernance = containerEl.querySelector('#tab-governance');
+    const tabOS = containerEl.querySelector('#tab-os');
     const tabBody = containerEl.querySelector('#workspace-tab-body');
 
     tabDebate.addEventListener('click', () => {
@@ -226,6 +235,30 @@ export function initTumorBoard(containerEl) {
       containerEl.querySelectorAll('.workspace-tab-btn').forEach(b => b.classList.remove('active'));
       tabCounterfactual.classList.add('active');
       renderCounterfactualLab(tabBody);
+    });
+
+    tabResearch.addEventListener('click', () => {
+      if (activeTab === 'research') return;
+      activeTab = 'research';
+      containerEl.querySelectorAll('.workspace-tab-btn').forEach(b => b.classList.remove('active'));
+      tabResearch.classList.add('active');
+      renderResearchIntelligence(tabBody);
+    });
+
+    tabGovernance.addEventListener('click', () => {
+      if (activeTab === 'governance') return;
+      activeTab = 'governance';
+      containerEl.querySelectorAll('.workspace-tab-btn').forEach(b => b.classList.remove('active'));
+      tabGovernance.classList.add('active');
+      renderClinicalGovernance(tabBody);
+    });
+
+    tabOS.addEventListener('click', () => {
+      if (activeTab === 'os') return;
+      activeTab = 'os';
+      containerEl.querySelectorAll('.workspace-tab-btn').forEach(b => b.classList.remove('active'));
+      tabOS.classList.add('active');
+      renderPersephoneOSCockpit(tabBody);
     });
 
     // Default mount

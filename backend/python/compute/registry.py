@@ -65,6 +65,15 @@ from backend.python.compute.response_intelligence.registry import ResponseIntell
 # Counterfactual Research Platform imports
 from backend.python.compute.counterfactual.registry import CounterfactualRegistry
 
+# Research Intelligence Platform imports
+from backend.python.compute.research_intelligence.registry import ResearchIntelligenceRegistry
+
+# Governance Platform imports
+from backend.python.compute.governance.registry import GovernanceRegistry
+
+# PERSEPHONE OS Runtime imports
+from backend.python.compute.os.registry import OSRegistry
+
 class ComputeRegistry:
   @staticmethod
   def run_simulation(data):
@@ -721,6 +730,235 @@ class ComputeRegistry:
       "result": result,
       "metadata": metrics
     }
+
+  @staticmethod
+  def run_research_evidence_graph(data):
+    """
+    Validates, routes, and assembles the authoritative ClinicalEvidenceGraph.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Assembling first-class ClinicalEvidenceGraph")
+    patient = data.get("patient") or data.get("patient_data") or {"id": data.get("patientId", "patient-a")}
+    drug = data.get("drug") or data.get("proposed_drug")
+    result = ResearchIntelligenceRegistry.assemble_evidence_graph(patient, drug)
+    metrics = profile_compute(start, algorithm="Evidence_Graph_Assembly")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_research_claims(data):
+    """
+    Validates, routes, and verifies ClinicalClaims with the GroundingGate.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Running GroundingGate on ClinicalClaims")
+    patient = data.get("patient") or data.get("patient_data") or {"id": data.get("patientId", "patient-a")}
+    drug = data.get("drug") or data.get("proposed_drug")
+    graph_res = ResearchIntelligenceRegistry.assemble_evidence_graph(patient, drug)
+    result = {
+      "claims": graph_res.get("claims", []),
+      "patient_context": graph_res.get("patient_context", {})
+    }
+    metrics = profile_compute(start, algorithm="Claim_Grounding_Gate")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_research_literature(data):
+    """
+    Validates, routes, and queries literature with canonical IDs and orthogonal grading.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Executing multi-stage literature query and citation extraction")
+    result = ResearchIntelligenceRegistry.query_literature(data)
+    metrics = profile_compute(start, algorithm="Literature_Retrieval")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_research_guidelines(data):
+    """
+    Validates, routes, and evaluates versioned guidelines (NCCN, ASCO, ESMO).
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Evaluating versioned clinical practice guidelines")
+    result = ResearchIntelligenceRegistry.evaluate_guidelines(data)
+    metrics = profile_compute(start, algorithm="Guideline_Evaluation")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_research_contradictions(data):
+    """
+    Validates, routes, and scans for 6-category clinical evidence contradictions.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Scanning clinical evidence contradictions and population mismatches")
+    result = ResearchIntelligenceRegistry.detect_contradictions(data)
+    metrics = profile_compute(start, algorithm="Contradiction_Detection")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  @staticmethod
+  def run_research_provenance(data):
+    """
+    Validates, routes, and computes hierarchical Merkle lineage proofs.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Resolving hierarchical Merkle provenance lineage")
+    result = ResearchIntelligenceRegistry.trace_provenance(data)
+    metrics = profile_compute(start, algorithm="Provenance_Lineage_Tracing")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_governance_safety(data):
+    """
+    Evaluates clinical safety rules, organ clearances, contraindications, and escalation protocols.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Evaluating clinical safety rules & contraindications")
+    patient = data.get("patient") or data.get("patient_data") or {"id": data.get("patientId", "patient-a")}
+    drug = data.get("drug") or data.get("proposed_drug", "Olaparib")
+    result = GovernanceRegistry.evaluate_safety(patient, drug)
+    metrics = profile_compute(start, algorithm="Governance_Safety_Evaluation")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_governance_abstention(data):
+    """
+    Evaluates multimodal cross-signal concordance, uncertainty calibration, and emits deterministic
+    Clinical Abstention decisions (APPROVED / CAUTION_OVERRIDE / ABSTAIN).
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Evaluating deterministic clinical abstention gate")
+    patient = data.get("patient") or data.get("patient_data") or {"id": data.get("patientId", "patient-a")}
+    drug = data.get("drug") or data.get("proposed_drug", "Olaparib")
+    imaging = data.get("imaging") or data.get("imaging_signals") or {}
+    monitoring = data.get("monitoring") or data.get("monitoring_signals") or {}
+    result = GovernanceRegistry.evaluate_abstention(patient, drug, imaging, monitoring)
+    metrics = profile_compute(start, algorithm="Clinical_Abstention_Engine")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_governance_validation(data):
+    """
+    Executes multimodal consistency, claim factuality, and calibration error calculations.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Auditing multimodal consistency, factuality & calibration")
+    patient = data.get("patient") or data.get("patient_data") or {"id": data.get("patientId", "patient-a")}
+    imaging = data.get("imaging") or data.get("imaging_signals") or {}
+    monitoring = data.get("monitoring") or data.get("monitoring_signals") or {}
+    claims = data.get("claims") or []
+    drug = data.get("drug") or data.get("proposed_drug", "Olaparib")
+    result = GovernanceRegistry.validate_consistency(patient, imaging, monitoring, claims, drug)
+    metrics = profile_compute(start, algorithm="Governance_Multimodal_Validation")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_governance_drift(data):
+    """
+    Audits runtime feature drift (PSI and KS distance) against reference baseline distributions.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Auditing population stability index & covariate drift")
+    features = data.get("features") or {
+      "baseline_tumor_volume": float(data.get("tumor_volume", 82.0)),
+      "carrying_capacity_K": float(data.get("carrying_capacity", 205.0)),
+      "resistant_fraction": float(data.get("resistant_fraction", 0.05)),
+      "tmb_score": float(data.get("tmb_score", 7.0)),
+      "hrd_score": float(data.get("hrd_score", 58.0))
+    }
+    result = GovernanceRegistry.validate_consistency(data.get("patient", {}), features).get("drift", {})
+    metrics = profile_compute(start, algorithm="Population_Drift_Audit")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_governance_audit(data):
+    """
+    Executes full governance pipeline and emits immutable GovernanceDecision and audit certificates.
+    """
+    start = time.perf_counter()
+    logger.info("SCR: Executing full governance pipeline & issuing GovernanceDecision certificate")
+    result = GovernanceRegistry.run_full_governance_pipeline(data)
+    metrics = profile_compute(start, algorithm="Governance_Audit_Pipeline")
+    return {
+      "result": result,
+      "metadata": metrics
+    }
+
+  # =========================================================================
+  # Phase 20: PERSEPHONE OS Runtime & Kernel Entrypoints
+  # =========================================================================
+
+  @staticmethod
+  def run_os_pipeline(data):
+    """
+    Executes a complete clinical case through the PersephoneKernel DAG runtime.
+    """
+    return OSRegistry.run_pipeline(data)
+
+  @staticmethod
+  def run_os_health(data=None):
+    """
+    Returns the authoritative system observability and plane health snapshot.
+    """
+    return OSRegistry.get_health(data)
+
+  @staticmethod
+  def run_os_planes(data=None):
+    """
+    Returns the 5 Planes topology and AgentSpec dependency graph.
+    """
+    return OSRegistry.get_planes(data)
+
+  @staticmethod
+  def run_os_events(data=None):
+    """
+    Returns recent events from the OSEventBus stream.
+    """
+    return OSRegistry.get_events(data)
+
+  @staticmethod
+  def run_os_manifest(data):
+    """
+    Generates an ExperimentManifest and computes its SHA-256 integrity seal.
+    """
+    return OSRegistry.generate_manifest(data)
+
+  @staticmethod
+  def run_os_replay(data):
+    """
+    Executes deterministic case replay and validates mathematical parity.
+    """
+    return OSRegistry.replay_case(data)
+
 
 
 

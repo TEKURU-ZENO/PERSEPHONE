@@ -27,7 +27,8 @@ class SCRHTTPRequestHandler(BaseHTTPRequestHandler):
     self._set_headers(200)
 
   def do_GET(self):
-    if self.path == '/api/v1/python/health':
+    clean_path = self.path.split('?')[0]
+    if clean_path == '/api/v1/python/health':
       self._set_headers(200)
       response = {
         "status": "healthy",
@@ -36,9 +37,39 @@ class SCRHTTPRequestHandler(BaseHTTPRequestHandler):
       }
       self.wfile.write(json.dumps(response).encode('utf-8'))
       return
-    
+
+    elif clean_path == '/api/v1/python/os/health':
+      try:
+        response = ComputeRegistry.run_os_health()
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif clean_path == '/api/v1/python/os/planes':
+      try:
+        response = ComputeRegistry.run_os_planes()
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif clean_path == '/api/v1/python/os/events':
+      try:
+        response = ComputeRegistry.run_os_events()
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
     self._set_headers(404)
-    self.wfile.write(json.dumps({"error": "Route not found"}).encode('utf-8'))
+    self.wfile.write(json.dumps({"error": f"Route not found: {self.path}"}).encode('utf-8'))
 
   def do_POST(self):
     content_length = int(self.headers.get('Content-Length', 0))
@@ -345,6 +376,176 @@ class SCRHTTPRequestHandler(BaseHTTPRequestHandler):
     elif self.path == '/api/v1/python/counterfactual/compare':
       try:
         response = ComputeRegistry.run_counterfactual_comparison(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/research/evidence-graph':
+      try:
+        response = ComputeRegistry.run_research_evidence_graph(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/research/claims':
+      try:
+        response = ComputeRegistry.run_research_claims(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/research/literature':
+      try:
+        response = ComputeRegistry.run_research_literature(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/research/guidelines':
+      try:
+        response = ComputeRegistry.run_research_guidelines(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/research/contradictions':
+      try:
+        response = ComputeRegistry.run_research_contradictions(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/research/provenance':
+      try:
+        response = ComputeRegistry.run_research_provenance(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/governance/safety':
+      try:
+        response = ComputeRegistry.run_governance_safety(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/governance/abstention':
+      try:
+        response = ComputeRegistry.run_governance_abstention(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/governance/validation':
+      try:
+        response = ComputeRegistry.run_governance_validation(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/governance/drift':
+      try:
+        response = ComputeRegistry.run_governance_drift(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/governance/audit':
+      try:
+        response = ComputeRegistry.run_governance_audit(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/os/pipeline':
+      try:
+        response = ComputeRegistry.run_os_pipeline(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/os/manifest':
+      try:
+        response = ComputeRegistry.run_os_manifest(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/os/replay':
+      try:
+        response = ComputeRegistry.run_os_replay(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/os/health':
+      try:
+        response = ComputeRegistry.run_os_health(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/os/planes':
+      try:
+        response = ComputeRegistry.run_os_planes(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
+    elif self.path == '/api/v1/python/os/events':
+      try:
+        response = ComputeRegistry.run_os_events(data)
         self._set_headers(200)
         self.wfile.write(json.dumps(response).encode('utf-8'))
       except Exception as err:
