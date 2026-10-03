@@ -44,7 +44,7 @@ export function run() {
 
     // Simulate clicking a card which dispatches the event
     const mockDetail = {
-      nodes: ['patient-a', 'brca1-mut', 'Olaparib', 'NCT04381884'],
+      nodes: ['patient-a', 'brca1-mut', 'Olaparib', 'NCT03737643'],
       name: 'Audit Trace REC-001'
     };
 

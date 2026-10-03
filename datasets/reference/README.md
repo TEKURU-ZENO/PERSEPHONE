@@ -13,10 +13,11 @@ This directory contains official reference datasets for cancer mutational signat
 - **Signatures**: 86 curated mutational signatures (`SBS1` through `SBS99`)
 - **Source**: Catalogue Of Somatic Mutations In Cancer (COSMIC) / Wellcome Sanger Institute via Alexandrov Lab (`SigProfilerAssignment/data/Reference_Signatures/GRCh37/COSMIC_v3.4_SBS_GRCh37.txt`)
 - **Format**: CSV matrix with 96 rows and 87 columns (Context `Type` + 86 signature profiles)
-- **SHA-256 Checksum**:
+- **SHA-256 Checksum (Canonical LF)**:
   ```
-  f9150fe1f39ee695c215d171255c1d8ab893634c03e7e8f16b3e73cdedc91de4
+  aad0be68be61cb94674d8c5c01309f7ab9670cfcd610966d00b3f0883feeec72
   ```
+  *(Note: Checksum is computed with standard LF line endings. Checksum with Windows CRLF checkouts is `f9150fe1f39ee695c215d171255c1d8ab893634c03e7e8f16b3e73cdedc91de4`).*
 
 ## Biological Validation Baselines
 - **SBS1** (Spontaneous 5-methylcytosine deamination with aging): Signature profile peaks specifically at `NpCpG` trinucleotide contexts (`A[C>T]G`, `C[C>T]G`, `G[C>T]G`, `T[C>T]G`).

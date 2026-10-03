@@ -33,7 +33,7 @@ export async function run() {
   }
 
   // Verify that Adaptive therapy successfully extends Time-to-Progression compared to MTD for resistant-heavy twins
-  const patientB = { id: 'patient-b', name: 'Arthur Pendelton' }; // Arthur has high baseline resistance (T790M)
+  const patientB = { id: 'patient-b', name: 'Arthur Pendelton' }; // Arthur has acquired bypass resistance (high-level MET amplification CN=12)
   // Pass ER = 0.0 to represent complete drug resistance of the resistant subpopulation
   const bMtd = await SimulatorService.simulateTrajectory(patientB, 'mtd', { duration: 180, ER: 0.0 });
   const bAdaptive = await SimulatorService.simulateTrajectory(patientB, 'adaptive', { duration: 180, ER: 0.0 });

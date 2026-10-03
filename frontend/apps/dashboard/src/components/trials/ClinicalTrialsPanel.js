@@ -144,11 +144,11 @@ function renderDetails(c) {
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.72rem;">
         <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.6rem;">
-          <div style="font-weight:700; color:var(--cyan); margin-bottom:0.3rem;">NCT04381884 (Phase II)</div>
-          <div style="color:var(--text-secondary); margin-bottom:0.4rem;">Olaparib Combinations in HRD-Positive Advanced Ovarian Cancer</div>
+          <div style="font-weight:700; color:var(--cyan); margin-bottom:0.3rem;">NCT03737643 (Phase III)</div>
+          <div style="color:var(--text-secondary); margin-bottom:0.4rem;">Durvalumab + Bevacizumab + Olaparib in Advanced Ovarian Cancer (DUO-O)</div>
           <div style="margin-bottom:0.2rem;"><strong>Biomarker:</strong> BRCA1, BRCA2, HRD+</div>
-          <div style="margin-bottom:0.2rem;"><strong>Interventions:</strong> Olaparib, Cediranib</div>
-          <div style="margin-bottom:0.2rem;"><strong>Sponsor:</strong> National Cancer Institute (NCI)</div>
+          <div style="margin-bottom:0.2rem;"><strong>Interventions:</strong> Durvalumab, Olaparib, Bevacizumab</div>
+          <div style="margin-bottom:0.2rem;"><strong>Sponsor:</strong> AstraZeneca</div>
           <div style="margin-bottom:0.2rem;"><strong>Timeline:</strong> 2020-07-01 to 2026-12-31</div>
           <div style="margin-top:0.4rem; font-size:0.65rem; color:var(--text-secondary);">
             <strong>Inclusion:</strong> Pathogenic BRCA1/2, HRD+, Stage III/IV ovarian high-grade serous adenocarcinoma, ECOG 0-1.
@@ -216,7 +216,7 @@ function renderEvidence(c) {
       </p>
       <div style="display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem;">
         ${[
-          { gene: 'BRCA1', trial: 'NCT04381884', drug: 'Olaparib + Cediranib', phase: 'Phase II', evidence: 'Tier I-A', match: '95%' },
+          { gene: 'BRCA1', trial: 'NCT03737643', drug: 'Durvalumab + Olaparib', phase: 'Phase III', evidence: 'Tier I-A', match: '95%' },
           { gene: 'EGFR + MET', trial: 'NCT03944772', drug: 'Osimertinib + Savolitinib', phase: 'Phase II', evidence: 'Tier I-A', match: '95%' },
           { gene: 'EGFR + MET', trial: 'NCT04077463', drug: 'Amivantamab + Lazertinib', phase: 'Phase Ib/II', evidence: 'Tier I-B', match: '89%' },
           { gene: 'KRAS G12C', trial: 'NCT04625881', drug: 'Adagrasib + Cetuximab', phase: 'Phase III', evidence: 'Tier I-A', match: '88%' },

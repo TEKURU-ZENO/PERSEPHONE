@@ -79,18 +79,18 @@ NCCN_DECISION_RULES = [
         treatment_line="First-line / Maintenance",
         recommended_drug="FOLFIRI + Bevacizumab",
         reference=GuidelineReference(
-            reference_id="REF-NCCN-CRC-2026-1",
+            reference_id="REF-NCCN-CRC-2024-1",
             organization="NCCN",
-            guideline_title="NCCN Guidelines for Colon Cancer",
-            version="Version 1.2026",
-            publication_date="2026-01-20",
+            guideline_title="NCCN Clinical Practice Guidelines in Oncology: Colon Cancer",
+            version="Version 1.2024",
+            publication_date="2024-01-22",
             section="Systemic Therapy for Advanced or Metastatic Disease: RAS-Mutant",
             recommendation_id="CRC-RAS-DOUBLET-BEV",
-            evidence_category="Category 1",
-            preference_tier="Preferred",
+            evidence_category=None,
+            preference_tier=None,
             source_url="https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1428",
-            effective_from="2026-01-20"
+            effective_from="2024-01-22"
         ),
-        rationale="In metastatic colorectal cancer with RAS mutation (KRAS/NRAS codon 12, 13, 61, 117, 146), anti-EGFR therapies (cetuximab, panitumumab) are contraindicated. Standard therapy is doublet chemotherapy (FOLFOX, FOLFIRI, or CAPEOX) ± bevacizumab. KRAS G12D has no FDA-approved targeted inhibitor; patients should continue systemic chemotherapy or consider clinical trials. Adagrasib + cetuximab is Category 2A strictly for KRAS G12C only."
+        rationale="In metastatic colorectal cancer harboring RAS mutations (KRAS/NRAS codon 12, 13, 61, 117, 146), anti-EGFR therapies (cetuximab, panitumumab) are ineffective and contraindicated due to constitutive downstream signaling. Standard systemic therapy consists of fluoropyrimidine doublet chemotherapy (FOLFOX, FOLFIRI, or CAPEOX) plus bevacizumab. For KRAS G12D, there are currently no FDA-approved direct inhibitors; continuation of standard systemic chemotherapy with active monitoring or enrollment in investigational clinical trials is recommended."
     )
 ]

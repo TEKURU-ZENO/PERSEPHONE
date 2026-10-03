@@ -34,9 +34,9 @@ export async function run() {
   assert.ok(brcaOlaparibTargets, 'Olaparib must target BRCA1 mutations in the knowledge graph');
 
   const trialEnrollsBrca = edges.some(
-    e => e.source === 'NCT04381884' && e.target === 'brca1-mut' && e.type === 'enrolls'
+    e => e.source === 'NCT03737643' && e.target === 'brca1-mut' && e.type === 'enrolls'
   );
-  assert.ok(trialEnrollsBrca, 'Trial NCT04381884 must enroll patients with BRCA1 mutations');
+  assert.ok(trialEnrollsBrca, 'Trial NCT03737643 must enroll patients with BRCA1 mutations');
 
   console.log('  ✅ Mutation-to-Drug mapping tests passed.');
 }

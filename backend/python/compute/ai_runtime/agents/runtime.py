@@ -60,8 +60,8 @@ class AgentCouncilRuntime:
       top_drugs = blackboard.read('DRUG_SENSITIVITY_SCORES') or []
       top_drug_name = top_drugs[0].get('drug', '?') if top_drugs else '?'
       top_trial = blackboard.read('TOP_TRIAL') or {}
-      top_trial_id = top_trial.get('trialId', 'NCT04381884')
-      top_trial_phase = top_trial.get('phase', 'Phase II')
+      top_trial_id = top_trial.get('trialId', 'NCT03737643')
+      top_trial_phase = top_trial.get('phase', 'Phase III')
       longitudinal_res = blackboard.read('LONGITUDINAL_STATE') or {}
       curr_response = longitudinal_res.get('response', {}).get('currentStatus', 'PR')
       curr_velocity = longitudinal_res.get('trajectory', {}).get('currentVelocity', 0.0)

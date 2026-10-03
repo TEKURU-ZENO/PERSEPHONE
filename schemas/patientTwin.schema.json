@@ -92,10 +92,11 @@
         "properties": {
           "id": { "type": "string" },
           "name": { "type": "string" },
+          "eligibility": { "type": "string" },
           "matchScore": { "type": "integer", "minimum": 0, "maximum": 100 },
           "rationale": { "type": "string" }
         },
-        "required": ["id", "name", "matchScore"]
+        "required": ["id", "name"]
       }
     },
     "timeline": {

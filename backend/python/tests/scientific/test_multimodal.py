@@ -37,7 +37,31 @@ class TestTumorSegmentor(unittest.TestCase):
   def test_segment_patch(self):
     result = TumorSegmentor.segment_patch({"pixels": [[0]*64]*64})
     self.assertIn("tumor_area_fraction", result)
-    self.assertIn("confidence", result)
+    self.assertIn("is_mock", result)
+    self.assertTrue(result["is_mock"])
+    self.assertNotIn("confidence", result)
+
+  def test_compartment_sum_invariance(self):
+    # Verify that mock compartments strictly sum to <= 100% across inputs
+    for i in range(1000):
+      res = TumorSegmentor.segment_patch({"patch_id": i, "content": f"sample_{i*17}"})
+      total = res["tumor_area_fraction"] + res["necrosis_area_fraction"] + res["stroma_area_fraction"]
+      self.assertLessEqual(total, 1.0, f"Compartments sum to {total} > 1.0 on iteration {i}")
+      full_total = total + res["background_area_fraction"]
+      self.assertAlmostEqual(full_total, 1.0, places=3)
+
+  def test_real_mask_input(self):
+    real_patch = {
+      "tumor_area_fraction": 0.45,
+      "necrosis_area_fraction": 0.05,
+      "stroma_area_fraction": 0.20
+    }
+    result = TumorSegmentor.segment_patch(real_patch)
+    self.assertFalse(result["is_mock"])
+    self.assertEqual(result["tumor_area_fraction"], 0.45)
+    self.assertEqual(result["necrosis_area_fraction"], 0.05)
+    self.assertEqual(result["stroma_area_fraction"], 0.20)
+    self.assertEqual(result["background_area_fraction"], 0.30)
 
   def test_segment_slide_aggregation(self):
     patches = [{"pixels": [[i]*64]*64} for i in range(10)]
@@ -45,10 +69,12 @@ class TestTumorSegmentor(unittest.TestCase):
     self.assertIn("total_patches", result)
     self.assertIn("tumor_patches", result)
     self.assertIn("overall_tumor_fraction", result)
+    self.assertTrue(result.get("is_mock", False))
 
   def test_model_info(self):
     info = TumorSegmentor.get_model_info()
-    self.assertEqual(info["model_name"], "UNet-ResNet50")
+    self.assertTrue(info.get("is_mock", False))
+    self.assertIn("Mock", info["model_name"])
 
 class TestTumorPurity(unittest.TestCase):
   def test_estimate_purity(self):

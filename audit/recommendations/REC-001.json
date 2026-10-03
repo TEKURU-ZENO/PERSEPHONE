@@ -10,12 +10,12 @@
   "expectedTTP": 180,
   "maxToxicity": 50.4,
   "matchedTrials": [
-    "NCT04381884",
-    "NCT05206253"
+    "NCT03737643",
+    "NCT04644068"
   ],
   "citations": [
-    "PMID:19447936",
-    "PMID:22960745"
+    "PMID:19487300",
+    "PMID:22460902"
   ],
   "generatedBy": [
     "EvolutionAgent",

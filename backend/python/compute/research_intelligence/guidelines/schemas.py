@@ -19,10 +19,10 @@ class GuidelineReference:
         publication_date: str,
         section: str,
         recommendation_id: str,
-        evidence_category: str, # Category 1, Category 2A, Category 2B, Category 3
-        preference_tier: str,   # Preferred, Other Recommended, Useful in Certain Circumstances
-        source_url: str,
-        effective_from: str,
+        evidence_category: Optional[str] = None, # Category 1, Category 2A, Category 2B, Category 3
+        preference_tier: Optional[str] = None,   # Preferred, Other Recommended, Useful in Certain Circumstances
+        source_url: str = "",
+        effective_from: str = "",
         effective_until: Optional[str] = None,
         superseded_by: Optional[str] = None
     ):

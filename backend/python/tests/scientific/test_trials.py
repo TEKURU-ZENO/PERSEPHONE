@@ -15,9 +15,9 @@ class TestTrialRegistry(unittest.TestCase):
         self.assertIn("conditions", trials[0])
 
     def test_get_trial_by_id(self):
-        trial = TrialRegistry.get_trial("NCT04381884")
+        trial = TrialRegistry.get_trial("NCT03737643")
         self.assertIsNotNone(trial)
-        self.assertEqual(trial.get("trialId"), "NCT04381884")
+        self.assertEqual(trial.get("trialId"), "NCT03737643")
 
     def test_filter_by_phase(self):
         phase3 = TrialRegistry.filter_by_phase(["Phase III"])
@@ -116,7 +116,7 @@ class TestTrialRanker(unittest.TestCase):
 class TestGeographicFilter(unittest.TestCase):
     def test_annotate_geography(self):
         sample = [{
-            "trialId": "NCT04381884",
+            "trialId": "NCT03737643",
             "locations": [
                 {"country": "United States", "city": "New York", "facility": "MSKCC"},
                 {"country": "United States", "city": "Boston", "facility": "DFCI"}

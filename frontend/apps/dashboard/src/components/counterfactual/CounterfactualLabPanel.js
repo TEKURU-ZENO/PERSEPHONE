@@ -262,7 +262,7 @@ function renderRegimenMatrixView(c, patient) {
     },
     {
       id: 'trial_protocol',
-      name: 'Trial Protocol (NCT04381884)',
+      name: 'Trial Protocol (NCT03737643)',
       category: 'Clinical Trial Match',
       dose: '8.0 + 2.0 mg/kg Q7D',
       schedule: 'Targeted Combination',

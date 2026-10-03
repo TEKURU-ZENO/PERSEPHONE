@@ -17,7 +17,7 @@ export async function run() {
   const subgraphA = await GraphService.findCausalPathForPatient('patient-a');
   assert.ok(subgraphA.nodes.some(n => n.id === 'brca1-mut'), 'Patient A path must contain BRCA1 mutation');
   assert.ok(subgraphA.nodes.some(n => n.id === 'olaparib'), 'Patient A path must contain Olaparib drug');
-  assert.ok(subgraphA.nodes.some(n => n.id === 'NCT04381884'), 'Patient A path must contain Olaparib trial node');
+  assert.ok(subgraphA.nodes.some(n => n.id === 'NCT03737643'), 'Patient A path must contain Olaparib trial node');
   
   // Verify that disconnected patient genes (e.g. KRAS) are NOT leaked into Patient A's path
   assert.ok(!subgraphA.nodes.some(n => n.id === 'kras-g12d'), 'Patient A path must not leak KRAS mutations');

@@ -38,12 +38,12 @@ class TrialRegistry:
             # Fallback embedded baseline trials
             trials = [
                 {
-                    "trialId": "NCT04381884",
-                    "title": "Phase II Study of Olaparib Combinations in HRD-Positive Advanced Ovarian Cancer",
-                    "phase": "Phase II",
-                    "status": "Active, Recruiting",
+                    "trialId": "NCT03737643",
+                    "title": "Phase III Trial of Durvalumab + Bevacizumab + Olaparib in Advanced Ovarian Cancer (DUO-O)",
+                    "phase": "Phase III",
+                    "status": "Active, not recruiting",
                     "conditions": ["Ovarian Cancer", "Fallopian Tube Cancer", "Peritoneal Cancer"],
-                    "drugs": ["Olaparib", "Cediranib"],
+                    "drugs": ["Durvalumab", "Olaparib", "Bevacizumab"],
                     "biomarkers": ["BRCA1", "BRCA2", "HRD"],
                     "stage": ["Stage III", "Stage IV"],
                     "enrollmentCriteria": "Inclusion: Pathogenic BRCA1/2 mutation or HRD+. Stage III-IV. Exclusion: Prior PARP inhibitor resistance.",

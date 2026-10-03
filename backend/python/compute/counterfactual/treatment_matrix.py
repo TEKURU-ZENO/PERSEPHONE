@@ -76,7 +76,7 @@ class TreatmentMatrix:
         },
         "trial_protocol": {
             "id": "trial_protocol",
-            "name": "Experimental Trial Protocol (NCT04381884)",
+            "name": "Experimental Trial Protocol (NCT03737643)",
             "category": "Clinical Trial Match",
             "base_dose": 8.0,
             "dosing_interval": 7,

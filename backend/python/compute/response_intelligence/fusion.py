@@ -208,7 +208,7 @@ class MultimodalResponseFusion:
         trial_feats = {
             "top_trial_id": MultimodalFeature(
                 name="top_trial_id",
-                value=str(trial_raw.get("top_trial_id", "NCT04381884")),
+                value=str(trial_raw.get("top_trial_id", "NCT03737643")),
                 source="trials.trial_matcher",
                 confidence=0.95 if has_trials else 0.60,
                 missingness=not has_trials,

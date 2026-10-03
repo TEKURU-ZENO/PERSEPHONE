@@ -8,6 +8,7 @@ import os
 import sys
 import json
 import csv
+import hashlib
 import unittest
 
 def get_repo_root():
@@ -24,6 +25,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 from backend.python.compute.graph.pathfinding import build_graph
+from backend.python.compute.multimodal.pathology.segmentor import TumorSegmentor
 
 
 class TestDrugTargetConsistency(unittest.TestCase):
@@ -69,6 +71,11 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn("met-amp", patient_b_mutations, "patient-b must have acquired met-amp")
         self.assertNotIn("egfr-t790m", patient_b_mutations, "patient-b must not have egfr-t790m")
 
+        # 6. Patient A trial enrolls: NCT03737643 (DUO-O), NOT unverified NCT04381884
+        trial_enrolls = [e.get("source") for e in edges if e.get("target") == "brca1-mut" and e.get("type") == "enrolls"]
+        self.assertIn("NCT03737643", trial_enrolls, "DUO-O trial must enroll brca1-mut")
+        self.assertNotIn("NCT04381884", trial_enrolls, "Unverified COVID trial NCT04381884 must not enroll brca1-mut")
+
     def test_frontend_graph_service_edges(self):
         """Frontend graph.service.js must not contain fabricated target edges."""
         graph_service_path = os.path.join(self.root, "frontend", "apps", "dashboard", "src", "services", "graph.service.js")
@@ -83,6 +90,8 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn("source: 'adagrasib', target: 'kras-g12c'", content)
         self.assertIn("source: 'savolitinib', target: 'met-amp'", content)
         self.assertIn("source: 'mrtx1133', target: 'kras-g12d'", content)
+        self.assertIn("source: 'NCT03737643', target: 'brca1-mut'", content)
+        self.assertNotIn("source: 'NCT04381884'", content)
 
     def test_clinical_trials_json_consistency(self):
         """clinical_trials.json must strictly match actual clinical trial protocols."""
@@ -91,6 +100,16 @@ class TestDrugTargetConsistency(unittest.TestCase):
             trials = json.load(f)
 
         trial_map = {t["trialId"]: t for t in trials}
+
+        # DUO-O (NCT03737643)
+        duo_o = trial_map.get("NCT03737643")
+        self.assertIsNotNone(duo_o, "DUO-O (NCT03737643) must exist in clinical_trials.json")
+        self.assertIn("BRCA1", duo_o["biomarkers"])
+        self.assertIn("Active, not recruiting", duo_o["status"])
+
+        # Hallucinated trial IDs must NOT exist
+        self.assertNotIn("NCT04381884", trial_map)
+        self.assertNotIn("NCT05206253", trial_map)
 
         # KRYSTAL-10 (NCT04625881)
         krystal10 = trial_map.get("NCT04625881")
@@ -114,11 +133,14 @@ class TestDrugTargetConsistency(unittest.TestCase):
         orchard = trial_map.get("NCT03944772")
         self.assertIsNotNone(orchard)
         self.assertIn("MET", orchard["biomarkers"])
+        self.assertIn("Active, not recruiting", orchard["status"])
 
         # CHRYSALIS-2 (NCT04077463)
         chrysalis = trial_map.get("NCT04077463")
         self.assertIsNotNone(chrysalis)
         self.assertIn("EGFR", chrysalis["biomarkers"])
+        self.assertIn("Active, not recruiting", chrysalis["status"])
+        self.assertIn("platinum", chrysalis["enrollmentCriteria"].lower())
 
         # MRTX1133 must NOT be in active recruiting trials
         for t in trials:
@@ -133,7 +155,6 @@ class TestDrugTargetConsistency(unittest.TestCase):
         with open(registry_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # In adagrasib entry, ensure 'kras g12d inhibitor' does not appear
         self.assertNotIn('"kras g12d inhibitor"', content)
         self.assertIn('"kras g12c inhibitor"', content)
         self.assertIn('"kras g12d inhibitor (discontinued)"', content)
@@ -144,6 +165,9 @@ class TestDrugTargetConsistency(unittest.TestCase):
         with open(patients_path, "r", encoding="utf-8") as f:
             content = f.read()
 
+        # matchScore must NOT be present in patient fixtures
+        self.assertNotIn('matchScore', content, "matchScore must be replaced with clinical eligibility in patient fixtures")
+
         # HGVS 3-letter amino acid code validation
         self.assertNotIn('"p.Gly12D"', content)
         self.assertNotIn('"p.Leu858R"', content)
@@ -151,13 +175,20 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn('"p.Gly12Asp"', content)
         self.assertIn('"p.Leu858Arg"', content)
 
-        # Patient A MYC classification
+        # Patient A verified trials and somatic tier
+        self.assertIn('NCT03737643', content)
+        self.assertIn('NCT04644068', content)
+        self.assertNotIn('NCT04381884', content)
+        self.assertNotIn('NCT05206253', content)
         self.assertIn('tier: "Tier III (unknown clinical significance)"', content)
-        self.assertNotIn('classification: "VUS"', content)
 
-        # Patient B acquired MET amplification bypass
-        self.assertIn('"MET"', content)
+        # Patient B acquired MET amplification bypass: high-level CN=12 and somatic tier
+        self.assertIn('CN=12', content)
+        self.assertNotIn('CN=5', content)
+        self.assertIn('High-Level Amplification (CN=12)', content)
+        self.assertIn('Tier I (strong clinical significance / therapeutic bypass)', content)
         self.assertIn('NCT03944772', content)
+        self.assertIn('platinum', content)
 
         # Patient C must continue FOLFIRI + bevacizumab (no adagrasib)
         self.assertNotIn('"adagrasib + cetuximab"', content.lower())
@@ -166,10 +197,64 @@ class TestDrugTargetConsistency(unittest.TestCase):
             "patients.js must recommend continuing FOLFIRI + bevacizumab for Patient C"
         )
 
+    def test_pathology_segmentor_integrity(self):
+        """TumorSegmentor must honestly flag mock mode and compartments must strictly sum to <= 100%."""
+        mock_res = TumorSegmentor.segment_patch({"test": "patch_data"})
+        self.assertTrue(mock_res.get("is_mock", False), "Standalone segmentor must flag is_mock: True")
+        self.assertNotIn("confidence", mock_res, "Mock segmentor must NOT fabricate confidence metrics")
+
+        # Invariance test: 1,000 distinct pseudo-random inputs
+        for i in range(1000):
+            res = TumorSegmentor.segment_patch(f"patch_sample_context_{i}")
+            tissue_sum = res["tumor_area_fraction"] + res["necrosis_area_fraction"] + res["stroma_area_fraction"]
+            self.assertLessEqual(tissue_sum, 1.0, f"Tissue compartments exceed 1.0: {tissue_sum}")
+            total_sum = tissue_sum + res["background_area_fraction"]
+            self.assertAlmostEqual(total_sum, 1.0, places=3)
+
+    def test_parameter_registry_citations(self):
+        """parameter-registry.json must contain authentic PMIDs and transparent conceptual references."""
+        reg_path = os.path.join(self.root, "research", "parameter-registry.json")
+        with open(reg_path, "r", encoding="utf-8") as f:
+            registry = json.load(f)
+
+        # alpha1: Gatenby 2009 authentic PMID 19487300
+        self.assertEqual(registry["alpha1"]["source_type"], "assumed")
+        self.assertIn("19487300", registry["alpha1"]["conceptual_reference"])
+        self.assertNotIn("19447936", registry["alpha1"].get("conceptual_reference", ""))
+
+        # alpha2: assumed, no fake Silk PMID
+        self.assertEqual(registry["alpha2"]["source_type"], "assumed")
+        self.assertNotIn("26500125", registry["alpha2"].get("conceptual_reference", ""))
+
+        # ES: Garnett 2012 authentic PMID 22460902
+        self.assertEqual(registry["ES"]["source_type"], "calibrated")
+        self.assertEqual(registry["ES"]["pmid"], "22460902")
+
+        # ER: Engelman 2007 authentic PMID 17463250
+        self.assertEqual(registry["ER"]["source_type"], "assumed")
+        self.assertIn("17463250", registry["ER"]["conceptual_reference"])
+
+        # K: Michor 2004 authentic PMID 14993901
+        self.assertEqual(registry["K"]["source_type"], "assumed")
+        self.assertIn("14993901", registry["K"]["conceptual_reference"])
+        self.assertNotIn("15281884", registry["K"].get("conceptual_reference", ""))
+
     def test_cosmic_sbs96_reference_sanity(self):
-        """COSMIC v3.4 SBS reference matrix must exhibit expected biological mutation profiles."""
+        """COSMIC v3.4 SBS reference matrix must exhibit expected biological mutation profiles and canonical LF hash."""
         csv_path = os.path.join(self.root, "datasets", "reference", "cosmic_sbs96_reference.csv")
         self.assertTrue(os.path.exists(csv_path), "cosmic_sbs96_reference.csv must exist")
+
+        with open(csv_path, "rb") as f:
+            content = f.read()
+
+        # Compute hash with LF line endings
+        lf_content = content.replace(b"\r\n", b"\n")
+        lf_hash = hashlib.sha256(lf_content).hexdigest()
+        self.assertEqual(
+            lf_hash,
+            "aad0be68be61cb94674d8c5c01309f7ab9670cfcd610966d00b3f0883feeec72",
+            "COSMIC CSV LF SHA-256 must match authentic AlexandrovLab dataset"
+        )
 
         with open(csv_path, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
@@ -180,29 +265,19 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn("SBS3", rows[0])
         self.assertIn("SBS7a", rows[0])
 
-        # SBS1 is characterized by spontaneous deamination of 5-methylcytosine at CpG sites:
-        # A[C>T]G, C[C>T]G, G[C>T]G, T[C>T]G
+        # SBS1 CpG deamination peaks
         cpg_types = {"A[C>T]G", "C[C>T]G", "G[C>T]G", "T[C>T]G"}
         sbs1_cpg_sum = sum(float(r["SBS1"]) for r in rows if r["Type"] in cpg_types)
         sbs1_total = sum(float(r["SBS1"]) for r in rows)
         cpg_fraction = sbs1_cpg_sum / sbs1_total
+        self.assertGreater(cpg_fraction, 0.70)
 
-        self.assertGreater(
-            cpg_fraction, 0.70,
-            f"SBS1 clock signature must be dominated by NpCpG contexts (>70%), got {cpg_fraction:.2%}"
-        )
-
-        # SBS7a is UV-induced dipyrimidine photoproduct signature:
-        # High peaks at C[C>T]C, C[C>T]T, T[C>T]C, T[C>T]T
+        # SBS7a UV dipyrimidine peaks
         uv_types = {"C[C>T]C", "C[C>T]T", "T[C>T]C", "T[C>T]T"}
         sbs7a_uv_sum = sum(float(r["SBS7a"]) for r in rows if r["Type"] in uv_types)
         sbs7a_total = sum(float(r["SBS7a"]) for r in rows)
         uv_fraction = sbs7a_uv_sum / sbs7a_total
-
-        self.assertGreater(
-            uv_fraction, 0.40,
-            f"SBS7a UV signature must be dominated by dipyrimidine C>T contexts (>40%), got {uv_fraction:.2%}"
-        )
+        self.assertGreater(uv_fraction, 0.40)
 
 
 if __name__ == "__main__":

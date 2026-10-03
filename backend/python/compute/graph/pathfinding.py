@@ -176,7 +176,7 @@ def build_graph():
     {"source": "osimertinib", "target": "rash", "type": "causes"},
     {"source": "adagrasib", "target": "transaminitis", "type": "causes"},
 
-    {"source": "NCT04381884", "target": "brca1-mut", "type": "enrolls"},
+    {"source": "NCT03737643", "target": "brca1-mut", "type": "enrolls"},
     {"source": "NCT03944772", "target": "met-amp", "type": "enrolls"},
     {"source": "NCT04077463", "target": "met-amp", "type": "enrolls"},
     {"source": "NCT04625881", "target": "kras-g12c", "type": "enrolls"}

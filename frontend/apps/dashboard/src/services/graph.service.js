@@ -177,7 +177,7 @@ edges.push({ source: 'osimertinib', target: 'rash', type: 'causes' });
 edges.push({ source: 'adagrasib', target: 'transaminitis', type: 'causes' });
 
 // F. Trial enrolls mappings
-edges.push({ source: 'NCT04381884', target: 'brca1-mut', type: 'enrolls' });
+edges.push({ source: 'NCT03737643', target: 'brca1-mut', type: 'enrolls' });
 edges.push({ source: 'NCT03944772', target: 'met-amp', type: 'enrolls' });
 edges.push({ source: 'NCT04077463', target: 'met-amp', type: 'enrolls' });
 edges.push({ source: 'NCT04625881', target: 'kras-g12c', type: 'enrolls' });

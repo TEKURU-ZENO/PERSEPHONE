@@ -65,8 +65,8 @@ export const patients = {
 
     // Clinical trials matched
     trials: [
-      { id: "NCT04381884", name: "Phase II Study of Olaparib + Durvalumab in HRD-Positive Advanced Ovarian Cancer", matchScore: 96, rationale: "Directly targets BRCA1 somatic frameshift mutation utilizing synthetic lethality (PARP inhibition) combined with PD-L1 immune checkpoint blockade." },
-      { id: "NCT05206253", name: "Trial of Next-Gen PARP1 Selective Inhibitor AZD5305 in BRCA-mutant Ovarian Cancer", matchScore: 92, rationale: "Highly selective PARP1 inhibitor designed to mitigate hematological toxicity associated with dual PARP1/PARP2 trapping." }
+      { id: "NCT03737643", name: "DUO-O: Phase III Trial of Durvalumab + Olaparib + Bevacizumab in Advanced Ovarian Cancer", eligibility: "Active, not recruiting (trial fully enrolled; explore follow-on access)", reasons: ["Confirmed BRCA1 deleterious somatic alteration", "High-grade serous ovarian carcinoma"], rationale: "Directly targets BRCA1 somatic mutation utilizing synthetic lethality (PARP inhibition) combined with PD-L1 immune checkpoint blockade and anti-angiogenic therapy." },
+      { id: "NCT04644068", name: "PETRA: Phase I/II Study of Next-Gen PARP1 Selective Inhibitor Saruparib (AZD5305) in BRCA-Mutant Tumors", eligibility: "Active, not recruiting (dose expansion completed)", reasons: ["Deleterious BRCA1 alteration", "HRD pathway deficiency"], rationale: "Highly selective PARP1 inhibitor designed to mitigate hematological toxicity associated with dual PARP1/PARP2 trapping." }
     ],
 
     // Treatment Timeline
@@ -87,15 +87,15 @@ export const patients = {
     stage: "Stage IV (Bone Metastases)",
     avatar: "👨‍⚕️",
     status: "Progressive Disease",
-    clinicalSummary: "Patient was diagnosed with EGFR-mutant (p.Leu858Arg) lung adenocarcinoma in Mar 2025. Received first-line Osimertinib (Tagrisso 80mg daily) per FLAURA protocol with initial robust response (50% tumor regression). Progressed in Dec 2025 with increasing dyspnea and new osteolytic lesions in the lumbar spine (L3-L4). Re-biopsy and NGS confirmed acquired high-level MET amplification (CN=5) mediating bypass resistance to osimertinib (no T790M). Evolutionary models indicate rapid expansion of the MET-amplified clone under third-generation EGFR TKI selective pressure.",
+    clinicalSummary: "Patient was diagnosed with EGFR-mutant (p.Leu858Arg) lung adenocarcinoma in Mar 2025. Received first-line Osimertinib (Tagrisso 80mg daily) per FLAURA protocol with initial robust response (50% tumor regression). Progressed in Dec 2025 with increasing dyspnea and new osteolytic lesions in the lumbar spine (L3-L4). Re-biopsy and NGS confirmed acquired high-level MET amplification (CN=12) mediating bypass resistance to osimertinib (no T790M). Evolutionary models indicate rapid expansion of the MET-amplified clone under third-generation EGFR TKI selective pressure.",
     
     // Genomic profile
     genomics: {
       tumorMutationalBurden: "3.2 mut/Mb",
       microsatelliteStatus: "MSS (Stable)",
       variants: [
-        { gene: "EGFR", variant: "c.2573T>G", effect: "p.Leu858Arg", type: "Somatic", classification: "Pathogenic", VAF: "48.9%", consequence: "Constitutive kinase activation in exon 21, making the tumor sensitive to third-generation EGFR TKIs (osimertinib)." },
-        { gene: "MET", variant: "Amplification", effect: "Copy Gain (CN=5)", type: "Somatic", classification: "Pathogenic", VAF: "N/A", consequence: "Acquired bypass resistance mediating ERBB3/PI3K/AKT reactivation independent of EGFR inhibition." }
+        { gene: "EGFR", variant: "c.2573T>G", effect: "p.Leu858Arg", type: "Somatic", tier: "Tier I-A (FDA-approved biomarker)", VAF: "48.9%", consequence: "Constitutive kinase activation in exon 21, making the tumor sensitive to third-generation EGFR TKIs (osimertinib)." },
+        { gene: "MET", variant: "Amplification", effect: "High-Level Amplification (CN=12)", type: "Somatic", tier: "Tier I (strong clinical significance / therapeutic bypass)", VAF: "N/A", consequence: "Acquired bypass resistance mediating ERBB3/PI3K/AKT reactivation independent of EGFR inhibition." }
       ],
       pathwayDisruption: {
         "EGFR Kinase Signaling": 95,
@@ -138,8 +138,8 @@ export const patients = {
 
     // Clinical trials matched
     trials: [
-      { id: "NCT03944772", name: "ORCHARD: Phase II Study of Osimertinib + Savolitinib in EGFRm NSCLC with Acquired MET Amplification", matchScore: 95, eligibility: "Likely eligible", reasons: ["Documented progression on 1L osimertinib", "Presence of acquired MET amplification biomarker"], rationale: "Combines third-generation EGFR TKI osimertinib with selective MET TKI savolitinib to overcome MET-driven bypass resistance post-osimertinib." },
-      { id: "NCT04077463", name: "CHRYSALIS-2: Phase Ib/II Study of Amivantamab + Lazertinib in EGFR-Mutated NSCLC", matchScore: 89, eligibility: "Likely eligible", reasons: ["Disease progression on prior osimertinib", "Bispecific EGFR/MET antibody targets primary driver and bypass"], rationale: "Bispecific antibody amivantamab targets both EGFR and MET extracellular domains to downregulate both receptors, paired with 3rd-gen TKI lazertinib." }
+      { id: "NCT03944772", name: "ORCHARD: Phase II Study of Osimertinib + Savolitinib in EGFRm NSCLC with Acquired MET Amplification", eligibility: "Likely eligible based on confirmed MET amplification; note status: Active, not recruiting (platform access / follow-on)", reasons: ["Documented progression on 1L osimertinib", "Presence of acquired high-level MET amplification biomarker"], rationale: "Combines third-generation EGFR TKI osimertinib with selective MET TKI savolitinib to overcome MET-driven bypass resistance post-osimertinib." },
+      { id: "NCT04077463", name: "CHRYSALIS-2: Phase Ib/II Study of Amivantamab + Lazertinib in EGFR-Mutated NSCLC", eligibility: "Possibly eligible (depends on cohort; published Cohort A requires prior platinum chemotherapy)", reasons: ["Disease progression on prior osimertinib", "Bispecific EGFR/MET antibody targets primary driver and bypass"], rationale: "Bispecific antibody amivantamab targets both EGFR and MET extracellular domains to downregulate both receptors, paired with 3rd-gen TKI lazertinib." }
     ],
 
     // Treatment Timeline
@@ -148,7 +148,7 @@ export const patients = {
       { date: "2025-03-20", event: "1L Targeted Therapy", desc: "Initiated first-line Osimertinib (80mg daily) per FLAURA standard of care." },
       { date: "2025-09-15", event: "Partial Response", desc: "CT restaging demonstrates 50% regression in primary tumor; resolution of dyspnea." },
       { date: "2025-12-05", event: "Clinical Progression", desc: "New onset lower back pain. Bone scan reveals new osteolytic lesions at L3-L4." },
-      { date: "2025-12-20", event: "Tissue Re-biopsy & NGS", desc: "Histopathology and NGS confirm acquired high-level MET amplification (CN=5) mediating bypass resistance to osimertinib; no T790M." }
+      { date: "2025-12-20", event: "Tissue Re-biopsy & NGS", desc: "Histopathology and NGS confirm acquired high-level MET amplification (CN=12) mediating bypass resistance to osimertinib; no T790M." }
     ]
   },
   "patient-c": {
@@ -211,7 +211,7 @@ export const patients = {
 
     // Clinical trials matched
     trials: [
-      { id: "SCREEN-RAS-G12D", name: "Investigational KRAS G12D / pan-RAS(ON) Inhibitor Trial Screening", matchScore: 78, eligibility: "Screening required", reasons: ["KRAS G12D confirmed somatic driver", "Currently stable on 1L FOLFIRI + bevacizumab"], rationale: "No FDA-approved targeted KRAS G12D therapies exist. Clinical trial screening for novel non-covalent G12D or pan-RAS(ON) inhibitors should be performed for readiness upon disease progression." }
+      { id: "SCREEN-RAS-G12D", name: "Investigational KRAS G12D / pan-RAS(ON) Inhibitor Trial Screening", eligibility: "Screening required", reasons: ["KRAS G12D confirmed somatic driver", "Currently stable on 1L FOLFIRI + bevacizumab"], rationale: "No FDA-approved targeted KRAS G12D therapies exist. Clinical trial screening for novel non-covalent G12D or pan-RAS(ON) inhibitors should be performed for readiness upon disease progression." }
     ],
 
     // Treatment Timeline

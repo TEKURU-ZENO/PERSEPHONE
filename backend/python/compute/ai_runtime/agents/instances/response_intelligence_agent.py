@@ -55,7 +55,7 @@ class ResponseIntelligenceAgent(BaseClinicalAgent):
         "synergy_score": 0.76
       },
       "trials": {
-        "top_trial_id": self.top_trial.get("trialId", "NCT04381884"),
+        "top_trial_id": self.top_trial.get("trialId", "NCT03737643"),
         "match_score": self.top_trial.get("compositeScore", 0.92)
       },
       "monitoring": {

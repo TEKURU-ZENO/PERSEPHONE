@@ -188,23 +188,23 @@ export const reactome = [
 ];
 export const clinicalTrials = [
   {
-    "trialId": "NCT04381884",
-    "title": "Phase II Study of Olaparib Combinations in HRD-Positive Advanced Ovarian Cancer",
-    "phase": "Phase II",
-    "status": "Active, Recruiting",
+    "trialId": "NCT03737643",
+    "title": "Durvalumab + Bevacizumab + Olaparib in Advanced Ovarian Cancer (DUO-O)",
+    "phase": "Phase III",
+    "status": "Active, not recruiting",
     "conditions": [
       "Ovarian Cancer",
       "Fallopian Tube Cancer",
       "Peritoneal Cancer"
     ],
-    "enrollmentCriteria": "Confirmed pathogenic somatic mutation in BRCA1 or BRCA2; homologous recombination deficiency positive.",
+    "enrollmentCriteria": "Newly diagnosed advanced ovarian cancer with confirmed BRCA1/2 alteration or HRD positive.",
     "timestamp": "2026-06-29T16:40:34.610Z"
   },
   {
     "trialId": "NCT03944772",
     "title": "Phase Ib/II Trial of Osimertinib + Savolitinib in Patients with EGFRm-positive and MET-amplified NSCLC (ORCHARD)",
     "phase": "Phase II",
-    "status": "Active, Recruiting",
+    "status": "Active, not recruiting",
     "conditions": [
       "Non-Small Cell Lung Cancer (NSCLC)"
     ],
@@ -215,11 +215,11 @@ export const clinicalTrials = [
     "trialId": "NCT04077463",
     "title": "Phase Ib/II Study of Amivantamab and Lazertinib in EGFR-Mutated NSCLC Post-Osimertinib (CHRYSALIS-2)",
     "phase": "Phase Ib/II",
-    "status": "Active, Recruiting",
+    "status": "Active, not recruiting",
     "conditions": [
       "Non-Small Cell Lung Cancer (NSCLC)"
     ],
-    "enrollmentCriteria": "EGFR-mutated advanced NSCLC with disease progression on prior osimertinib; targets EGFR and MET bypass.",
+    "enrollmentCriteria": "EGFR-mutated advanced NSCLC with disease progression on prior osimertinib; targets EGFR and MET bypass. Published Cohort A requires prior platinum.",
     "timestamp": "2026-06-29T16:40:34.610Z"
   },
   {
