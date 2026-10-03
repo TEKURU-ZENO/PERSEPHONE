@@ -63,12 +63,30 @@ class TestTumorSegmentor(unittest.TestCase):
     self.assertEqual(result["stroma_area_fraction"], 0.20)
     self.assertEqual(result["background_area_fraction"], 0.30)
 
+  def test_real_mask_validation_negative_rejection(self):
+    with self.assertRaises(ValueError):
+      TumorSegmentor.segment_patch({
+        "tumor_area_fraction": -0.10,
+        "necrosis_area_fraction": 0.05,
+        "stroma_area_fraction": 0.20
+      })
+
+  def test_real_mask_validation_sum_overflow_rejection(self):
+    with self.assertRaises(ValueError):
+      TumorSegmentor.segment_patch({
+        "tumor_area_fraction": 0.60,
+        "necrosis_area_fraction": 0.30,
+        "stroma_area_fraction": 0.25  # Total = 1.15 > 1.0
+      })
+
   def test_segment_slide_aggregation(self):
     patches = [{"pixels": [[i]*64]*64} for i in range(10)]
     result = TumorSegmentor.segment_slide(patches)
     self.assertIn("total_patches", result)
     self.assertIn("tumor_patches", result)
     self.assertIn("overall_tumor_fraction", result)
+    self.assertIn("tumor_area_percent", result)
+    self.assertNotIn("confidence", result)
     self.assertTrue(result.get("is_mock", False))
 
   def test_model_info(self):

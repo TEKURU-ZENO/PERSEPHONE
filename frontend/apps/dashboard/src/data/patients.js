@@ -63,10 +63,27 @@ export const patients = {
       toxicityTrend: [1.2, 1.5, 2.1, 2.0, 1.8, 2.3, 2.2] 
     },
 
+    // Primary Grounded Citations
+    citations: ["PMID: 19487300", "PMID: 30345884"],
+
     // Clinical trials matched
     trials: [
-      { id: "NCT03737643", name: "DUO-O: Phase III Trial of Durvalumab + Olaparib + Bevacizumab in Advanced Ovarian Cancer", eligibility: "Active, not recruiting (trial fully enrolled; explore follow-on access)", reasons: ["Confirmed BRCA1 deleterious somatic alteration", "High-grade serous ovarian carcinoma"], rationale: "Directly targets BRCA1 somatic mutation utilizing synthetic lethality (PARP inhibition) combined with PD-L1 immune checkpoint blockade and anti-angiogenic therapy." },
-      { id: "NCT04644068", name: "PETRA: Phase I/II Study of Next-Gen PARP1 Selective Inhibitor Saruparib (AZD5305) in BRCA-Mutant Tumors", eligibility: "Active, not recruiting (dose expansion completed)", reasons: ["Deleterious BRCA1 alteration", "HRD pathway deficiency"], rationale: "Highly selective PARP1 inhibitor designed to mitigate hematological toxicity associated with dual PARP1/PARP2 trapping." }
+      {
+        id: "NCT03737643",
+        name: "DUO-O: Phase III Trial of Durvalumab + Olaparib + Bevacizumab in Advanced Ovarian Cancer",
+        recruitment_status: "Active, not recruiting",
+        eligibility: "Prior cohort eligible (trial fully enrolled; explore expanded access or follow-on protocol)",
+        reasons: ["Confirmed BRCA1 deleterious somatic alteration", "High-grade serous ovarian carcinoma"],
+        rationale: "Directly targets BRCA1 somatic mutation utilizing synthetic lethality (PARP inhibition) combined with PD-L1 immune checkpoint blockade and anti-angiogenic therapy."
+      },
+      {
+        id: "NCT04644068",
+        name: "PETRA: Phase I/II Study of Next-Gen PARP1 Selective Inhibitor Saruparib (AZD5305) in BRCA-Mutant Tumors",
+        recruitment_status: "Active, not recruiting",
+        eligibility: "Prior cohort eligible (dose expansion fully enrolled)",
+        reasons: ["Deleterious BRCA1 alteration", "HRD pathway deficiency"],
+        rationale: "Highly selective PARP1 inhibitor designed to mitigate hematological toxicity associated with dual PARP1/PARP2 trapping."
+      }
     ],
 
     // Treatment Timeline
@@ -95,7 +112,7 @@ export const patients = {
       microsatelliteStatus: "MSS (Stable)",
       variants: [
         { gene: "EGFR", variant: "c.2573T>G", effect: "p.Leu858Arg", type: "Somatic", tier: "Tier I-A (FDA-approved biomarker)", VAF: "48.9%", consequence: "Constitutive kinase activation in exon 21, making the tumor sensitive to third-generation EGFR TKIs (osimertinib)." },
-        { gene: "MET", variant: "Amplification", effect: "High-Level Amplification (CN=12)", type: "Somatic", tier: "Tier I (strong clinical significance / therapeutic bypass)", VAF: "N/A", consequence: "Acquired bypass resistance mediating ERBB3/PI3K/AKT reactivation independent of EGFR inhibition." }
+        { gene: "MET", variant: "Amplification", effect: "High-Level Amplification (CN=12)", type: "Somatic", tier: "Tier I (Level B: NCCN Guidelines NSCLC v1.2024 - osimertinib + savolitinib or amivantamab post-EGFR TKI)", VAF: "N/A", consequence: "Acquired bypass resistance mediating ERBB3/PI3K/AKT reactivation independent of EGFR inhibition." }
       ],
       pathwayDisruption: {
         "EGFR Kinase Signaling": 95,
@@ -136,10 +153,27 @@ export const patients = {
       toxicityTrend: [1.8, 2.0, 1.9, 2.5, 2.7, 3.1, 2.9]
     },
 
+    // Primary Grounded Citations
+    citations: ["PMID: 17463250", "PMID: 29151359"],
+
     // Clinical trials matched
     trials: [
-      { id: "NCT03944772", name: "ORCHARD: Phase II Study of Osimertinib + Savolitinib in EGFRm NSCLC with Acquired MET Amplification", eligibility: "Likely eligible based on confirmed MET amplification; note status: Active, not recruiting (platform access / follow-on)", reasons: ["Documented progression on 1L osimertinib", "Presence of acquired high-level MET amplification biomarker"], rationale: "Combines third-generation EGFR TKI osimertinib with selective MET TKI savolitinib to overcome MET-driven bypass resistance post-osimertinib." },
-      { id: "NCT04077463", name: "CHRYSALIS-2: Phase Ib/II Study of Amivantamab + Lazertinib in EGFR-Mutated NSCLC", eligibility: "Possibly eligible (depends on cohort; published Cohort A requires prior platinum chemotherapy)", reasons: ["Disease progression on prior osimertinib", "Bispecific EGFR/MET antibody targets primary driver and bypass"], rationale: "Bispecific antibody amivantamab targets both EGFR and MET extracellular domains to downregulate both receptors, paired with 3rd-gen TKI lazertinib." }
+      {
+        id: "NCT03944772",
+        name: "ORCHARD: Phase II Study of Osimertinib + Savolitinib in EGFRm NSCLC with Acquired MET Amplification",
+        recruitment_status: "Active, not recruiting",
+        eligibility: "Biomarker eligible based on confirmed MET amplification; trial closed to enrollment (follow-on platform access)",
+        reasons: ["Documented progression on 1L osimertinib", "Presence of acquired high-level MET amplification biomarker"],
+        rationale: "Combines third-generation EGFR TKI osimertinib with selective MET TKI savolitinib to overcome MET-driven bypass resistance post-osimertinib."
+      },
+      {
+        id: "NCT04077463",
+        name: "CHRYSALIS-2: Phase Ib/II Study of Amivantamab + Lazertinib in EGFR-Mutated NSCLC",
+        recruitment_status: "Active, not recruiting",
+        eligibility: "Possibly eligible (depends on cohort; published Cohort A requires prior platinum chemotherapy)",
+        reasons: ["Disease progression on prior osimertinib", "Bispecific EGFR/MET antibody targets primary driver and bypass"],
+        rationale: "Bispecific antibody amivantamab targets both EGFR and MET extracellular domains to downregulate both receptors, paired with 3rd-gen TKI lazertinib."
+      }
     ],
 
     // Treatment Timeline
@@ -209,9 +243,19 @@ export const patients = {
       toxicityTrend: [1.1, 1.2, 1.4, 1.6, 2.2, 2.4, 2.3]
     },
 
+    // Primary Grounded Citations
+    citations: ["PMID: 19487300", "PMID: 36216931"],
+
     // Clinical trials matched
     trials: [
-      { id: "SCREEN-RAS-G12D", name: "Investigational KRAS G12D / pan-RAS(ON) Inhibitor Trial Screening", eligibility: "Screening required", reasons: ["KRAS G12D confirmed somatic driver", "Currently stable on 1L FOLFIRI + bevacizumab"], rationale: "No FDA-approved targeted KRAS G12D therapies exist. Clinical trial screening for novel non-covalent G12D or pan-RAS(ON) inhibitors should be performed for readiness upon disease progression." }
+      {
+        id: "SCREEN-RAS-G12D",
+        name: "Investigational KRAS G12D / pan-RAS(ON) Inhibitor Trial Screening",
+        recruitment_status: "Investigational Pipeline",
+        eligibility: "Screening required upon disease progression",
+        reasons: ["KRAS G12D confirmed somatic driver", "Currently stable on 1L FOLFIRI + bevacizumab"],
+        rationale: "No FDA-approved targeted KRAS G12D therapies exist. Clinical trial screening for novel non-covalent G12D or pan-RAS(ON) inhibitors should be performed for readiness upon disease progression."
+      }
     ],
 
     // Treatment Timeline

@@ -60,8 +60,8 @@ class AgentCouncilRuntime:
       top_drugs = blackboard.read('DRUG_SENSITIVITY_SCORES') or []
       top_drug_name = top_drugs[0].get('drug', '?') if top_drugs else '?'
       top_trial = blackboard.read('TOP_TRIAL') or {}
-      top_trial_id = top_trial.get('trialId', 'NCT03737643')
-      top_trial_phase = top_trial.get('phase', 'Phase III')
+      top_trial_id = top_trial.get('trialId')
+      top_trial_phase = top_trial.get('phase', 'Investigational')
       longitudinal_res = blackboard.read('LONGITUDINAL_STATE') or {}
       curr_response = longitudinal_res.get('response', {}).get('currentStatus', 'PR')
       curr_velocity = longitudinal_res.get('trajectory', {}).get('currentVelocity', 0.0)
@@ -87,7 +87,7 @@ class AgentCouncilRuntime:
         "Imaging Agent": f"WSI segmentation complete. Tumor purity: {imaging_purity}%, Necrosis: {imaging_necrosis}%. GradCAM overlays generated. Digital Twin carrying capacity K updated.",
         "Genomics Agent": f"Variant annotation complete. Biomarker tier: {biomarker_tier}. TMB: {tmb_data.get('tmb_score', 0):.1f} mut/Mb ({tmb_data.get('tmb_status', 'Unknown')}). Pathway enrichment computed.",
         "Pharmacology Agent": f"Drug-gene interactions resolved. Top candidate: {top_drug_name}. Resistance mechanisms mapped. Synergy matrix computed.",
-        "Clinical Trials Agent": f"Protocol eligibility matched. Top recommendation: {top_trial_id} ({top_trial_phase}). Trial evidence dispatched to therapy planning.",
+        "Clinical Trials Agent": f"Protocol eligibility matched. Top recommendation: {top_trial_id} ({top_trial_phase}). Trial evidence dispatched to therapy planning." if top_trial_id else "No matched clinical trials found. Standard-of-care regimen continuation recommended.",
         "Clinical Monitoring Agent": f"Longitudinal trajectory evaluated. Current status: {curr_response}, Tumor velocity: {curr_velocity} cm³/day. Molecular and adverse event streams synchronized.",
         "Response Intelligence Agent": f"Multimodal response model calibrated. Predicted ORR: {int(pred_orr*100)}%, Expected PFS: {int(pred_pfs)} days. Composite actionability score: {comp_score:.2f}. Alternative escape pathways identified.",
         "Counterfactual Reasoning Agent": f"Synthetic cohort simulation complete (N=50). Best-performing simulated strategy: {cf_best_name} ({cf_best_arm}). Comparative causal estimation dispatched to therapy planning.",

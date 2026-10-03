@@ -93,11 +93,19 @@
           "id": { "type": "string" },
           "name": { "type": "string" },
           "eligibility": { "type": "string" },
-          "matchScore": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "recruitment_status": { "type": "string" },
+          "reasons": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
           "rationale": { "type": "string" }
         },
-        "required": ["id", "name"]
+        "required": ["id", "name", "eligibility", "recruitment_status"]
       }
+    },
+    "citations": {
+      "type": "array",
+      "items": { "type": "string" }
     },
     "timeline": {
       "type": "array",

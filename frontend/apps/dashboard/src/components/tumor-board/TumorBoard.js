@@ -454,7 +454,13 @@ export function initTumorBoard(containerEl) {
         <div class="rec-scorecard-grid">
           <div class="scorecard-column">
             <span class="scorecard-label">Recommended Therapy</span>
-            <span class="scorecard-val glow-cyan-text">Adaptive Olaparib</span>
+            <span class="scorecard-val glow-cyan-text">${
+              activePatient.id === 'patient-a'
+                ? 'Carboplatin/Paclitaxel → Olaparib Maint.'
+                : activePatient.id === 'patient-b'
+                  ? 'Osimertinib + Savolitinib / Amivantamab'
+                  : 'FOLFIRI + Bevacizumab Continuation'
+            }</span>
           </div>
 
           <div class="scorecard-column">
@@ -469,11 +475,17 @@ export function initTumorBoard(containerEl) {
         </div>
 
         <p class="consensus-rec-text" style="border-top:1px dashed rgba(255,255,255,0.05); padding-top:0.4rem; margin-top:0.4rem;">
-          The council recommends administering adaptive Olaparib targeted cycles. Deterministic RK4 simulation indicates that this strategy extends Time-to-Progression (TTP) by approximately 18% compared to standard metronomic cycles while safety audits confirm clearances are within safe boundaries.
+          ${
+            activePatient.id === 'patient-a'
+              ? 'The council recommends completing primary platinum-based chemotherapy (Carboplatin + Paclitaxel, Cycles 4-6). Upon confirmed clinical response, initiate Olaparib maintenance therapy per SOLO-1 evidence under adaptive monitoring to suppress reversion mutations and maintain clonal sensitivity.'
+              : activePatient.id === 'patient-b'
+                ? 'The council recommends combination therapy targeting both EGFR driver and acquired high-level MET amplification (CN=12) bypass resistance (Savolitinib + Osimertinib via Trial NCT03944772 or Amivantamab-based regimen).'
+                : 'The council recommends continuing first-line FOLFIRI + bevacizumab continuation (disease stable by RECIST 1.1). No approved KRAS G12D targeted therapy exists; screen for active investigational G12D or pan-RAS(ON) inhibitor clinical trials upon progression.'
+          }
         </p>
 
         <div class="consensus-footer">
-          <span>Basis: <strong>14-Agent Collaborative Council</strong></span>
+          <span>Basis: <strong>23-Agent Collaborative Council (5 Planes)</strong></span>
         </div>
       </div>
     `;

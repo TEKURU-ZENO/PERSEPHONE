@@ -16,7 +16,7 @@
     "range": [0.01, 0.12],
     "unit": "day⁻¹",
     "source_type": "assumed",
-    "conceptual_reference": "Evolutionary cost of resistance model (Silva AS, Gatenby RA. Cancer Res, 2010; PMID: 20959481; Enriquez-Navas PM, et al. Sci Transl Med, 2016; PMID: 26912903) - Assumes resistant clone proliferation penalty (α₂ < α₁); numerical value calibrated for in silico simulations.",
+    "conceptual_reference": "Evolutionary cost of resistance model (Silva AS, Gatenby RA. Biol Direct, 2010; PMID: 20406443; Enriquez-Navas PM, et al. Sci Transl Med, 2016; PMID: 26912903) - Assumes resistant clone proliferation penalty (α₂ < α₁); numerical value calibrated for in silico simulations.",
     "description": "Growth speed of resistant clones incorporating the evolutionary fitness cost penalty (α₂ < α₁)."
   },
   "ES": {
@@ -25,10 +25,9 @@
     "value": 0.16,
     "range": [0.05, 0.25],
     "unit": "day⁻¹ · conc⁻¹",
-    "source_type": "calibrated",
-    "pmid": "22460902",
-    "citation": "Garnett MJ, et al. Nature, 2012 (PMID: 22460902).",
-    "description": "Chemotherapy efficacy constant targeting sensitive cells, derived from cell line screens."
+    "source_type": "assumed",
+    "conceptual_reference": "Garnett MJ, et al. Nature, 2012 (PMID: 22460902) - Drug sensitivity screens; sensitive kill coefficient is an assumed parameter (no dose-response fitting from IC50 to day⁻¹ rate).",
+    "description": "Chemotherapy efficacy constant targeting sensitive cells."
   },
   "ER": {
     "symbol": "E_R",

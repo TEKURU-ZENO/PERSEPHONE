@@ -204,24 +204,26 @@ class MultimodalResponseFusion:
 
         # 4. Clinical Trial features
         trial_raw = data.get("trials") or data.get("trial") or {}
-        has_trials = bool(trial_raw)
+        raw_trial_id = trial_raw.get("top_trial_id")
+        has_trials = bool(raw_trial_id)
+        raw_match_score = trial_raw.get("match_score")
         trial_feats = {
             "top_trial_id": MultimodalFeature(
                 name="top_trial_id",
-                value=str(trial_raw.get("top_trial_id", "NCT03737643")),
+                value=str(raw_trial_id) if raw_trial_id is not None else None,
                 source="trials.trial_matcher",
-                confidence=0.95 if has_trials else 0.60,
+                confidence=0.95 if has_trials else 0.0,
                 missingness=not has_trials,
-                provenance="ClinicalTrials.gov Registry" if has_trials else "Curated Protocol",
+                provenance="ClinicalTrials.gov Registry" if has_trials else "No Matched Trial",
                 timestamp=timestamp
             ),
             "match_score": MultimodalFeature(
                 name="match_score",
-                value=float(trial_raw.get("match_score", 0.92 if has_trials else 0.70)),
+                value=float(raw_match_score) if raw_match_score is not None else 0.0,
                 source="trials.trial_ranker",
-                confidence=0.92 if has_trials else 0.50,
+                confidence=0.92 if has_trials else 0.0,
                 missingness=not has_trials,
-                provenance="Protocol Affinity Matcher" if has_trials else "Baseline Affinity",
+                provenance="Protocol Affinity Matcher" if has_trials else "No Matched Trial",
                 timestamp=timestamp
             )
         }

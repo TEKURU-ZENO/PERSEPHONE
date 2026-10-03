@@ -76,7 +76,7 @@ class TreatmentMatrix:
         },
         "trial_protocol": {
             "id": "trial_protocol",
-            "name": "Experimental Trial Protocol (NCT03737643)",
+            "name": "Experimental Trial Protocol",
             "category": "Clinical Trial Match",
             "base_dose": 8.0,
             "dosing_interval": 7,
@@ -86,7 +86,7 @@ class TreatmentMatrix:
             "es_multiplier": 1.20,
             "er_multiplier": 0.80,
             "toxicity_multiplier": 1.10,
-            "description": "Trial-matched protocol combining PARP inhibitor with ATR/cell-cycle checkpoint inhibitor."
+            "description": "Trial-matched protocol dynamically aligned with patient biomarker alterations."
         },
         "combination": {
             "id": "combination",

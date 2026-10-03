@@ -29,13 +29,21 @@ class TumorSegmentor:
             tumor_frac = float(patch_data["tumor_area_fraction"])
             necrosis_frac = float(patch_data.get("necrosis_area_fraction", 0.0))
             stroma_frac = float(patch_data.get("stroma_area_fraction", 0.0))
-            bg_frac = max(0.0, 1.0 - (tumor_frac + necrosis_frac + stroma_frac))
+
+            # Strictly validate real mask inputs
+            if tumor_frac < 0.0 or necrosis_frac < 0.0 or stroma_frac < 0.0:
+                raise ValueError("Compartment area fractions cannot be negative")
+            tissue_sum = tumor_frac + necrosis_frac + stroma_frac
+            if tissue_sum > 1.0 + 1e-6:
+                raise ValueError(f"Sum of compartment area fractions ({tissue_sum:.4f}) exceeds 1.0")
+
+            bg_frac = round(max(0.0, 1.0 - tissue_sum), 4)
             return {
                 "mask_coordinates": patch_data.get("mask_coordinates", [0, 0, 256, 256]),
                 "tumor_area_fraction": round(tumor_frac, 4),
                 "necrosis_area_fraction": round(necrosis_frac, 4),
                 "stroma_area_fraction": round(stroma_frac, 4),
-                "background_area_fraction": round(bg_frac, 4),
+                "background_area_fraction": bg_frac,
                 "is_mock": False
             }
 
@@ -91,7 +99,7 @@ class TumorSegmentor:
             "total_patches": total_patches,
             "tumor_patches": tumor_patches,
             "overall_tumor_fraction": round(overall_tumor, 4),
-            "tumor_purity_percent": round(overall_tumor * 100.0, 2),
+            "tumor_area_percent": round(overall_tumor * 100.0, 2),
             "necrosis_percent": round(overall_necrosis * 100.0, 2),
             "stroma_percent": round(overall_stroma * 100.0, 2),
             "is_mock": is_any_mock,

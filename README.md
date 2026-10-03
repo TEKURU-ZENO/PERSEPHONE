@@ -66,6 +66,8 @@ No package dependencies are required to run the core simulation platform or test
 ---
 
 ## 6. Running Locally
+
+### Workstation Dashboard
 1. **Navigate to the Application Directory:**
    ```bash
    cd frontend/apps/dashboard
@@ -77,9 +79,27 @@ No package dependencies are required to run the core simulation platform or test
 3. **Launch the Workstation:**
    Open your browser and navigate to: [http://localhost:3000](http://localhost:3000)
 
-4. **Run Verification Test Suite:**
-   To execute the verification checks:
+### Running Tests Locally
+To run the full end-to-end test suite (`node tests/run-tests.js`), both the Python Scientific Computing Runtime (SCR) and Node gateway must be active:
+1. **Install Python dependencies:**
    ```bash
+   pip install torch --index-url https://download.pytorch.org/whl/cpu
+   pip install -r backend/python/requirements.txt
+   ```
+2. **Start Python SCR (Port 5000):**
+   ```bash
+   PYTHONPATH=. python backend/python/app.py
+   ```
+3. **Start Node Gateway (Port 3000):**
+   ```bash
+   node backend/node/server.js
+   ```
+4. **Execute Verification Suites:**
+   ```bash
+   # Python scientific unit tests
+   python -m unittest discover -s backend/python/tests/scientific
+
+   # Node end-to-end integration and verification suite
    node tests/run-tests.js
    ```
 

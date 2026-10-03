@@ -186,7 +186,7 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn('CN=12', content)
         self.assertNotIn('CN=5', content)
         self.assertIn('High-Level Amplification (CN=12)', content)
-        self.assertIn('Tier I (strong clinical significance / therapeutic bypass)', content)
+        self.assertIn('Tier I (Level B: NCCN Guidelines NSCLC v1.2024', content)
         self.assertIn('NCT03944772', content)
         self.assertIn('platinum', content)
 
@@ -222,13 +222,15 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn("19487300", registry["alpha1"]["conceptual_reference"])
         self.assertNotIn("19447936", registry["alpha1"].get("conceptual_reference", ""))
 
-        # alpha2: assumed, no fake Silk PMID
+        # alpha2: assumed, Silva/Gatenby 2010 authentic PMID 20406443, no fake melanoma PMID 20959481 or Silk 26500125
         self.assertEqual(registry["alpha2"]["source_type"], "assumed")
+        self.assertIn("20406443", registry["alpha2"]["conceptual_reference"])
+        self.assertNotIn("20959481", registry["alpha2"].get("conceptual_reference", ""))
         self.assertNotIn("26500125", registry["alpha2"].get("conceptual_reference", ""))
 
-        # ES: Garnett 2012 authentic PMID 22460902
-        self.assertEqual(registry["ES"]["source_type"], "calibrated")
-        self.assertEqual(registry["ES"]["pmid"], "22460902")
+        # ES: Garnett 2012 authentic PMID 22460902, marked assumed
+        self.assertEqual(registry["ES"]["source_type"], "assumed")
+        self.assertIn("22460902", registry["ES"]["conceptual_reference"])
 
         # ER: Engelman 2007 authentic PMID 17463250
         self.assertEqual(registry["ER"]["source_type"], "assumed")
@@ -238,6 +240,91 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertEqual(registry["K"]["source_type"], "assumed")
         self.assertIn("14993901", registry["K"]["conceptual_reference"])
         self.assertNotIn("15281884", registry["K"].get("conceptual_reference", ""))
+
+    def test_agent_layer_trial_cancer_type_matching(self):
+        """Agents must never assign trials or citations across mismatched cancer types."""
+        # 1. Verify ai/agents/evidence/index.js derives trials from patient fixture and contains NO hardcoded cross-patient fallback
+        evidence_agent_path = os.path.join(self.root, "ai", "agents", "evidence", "index.js")
+        with open(evidence_agent_path, "r", encoding="utf-8") as f:
+            evidence_code = f.read()
+
+        self.assertNotIn(
+            "patient.id === 'patient-a' ? [\"NCT03737643\"] : [\"NCT03944772\"]",
+            evidence_code,
+            "CRITICAL BUG: Evidence agent must not map non-patient-a cases to lung trial NCT03944772"
+        )
+        self.assertIn("patient.trials", evidence_code)
+        self.assertIn("patient.citations", evidence_code)
+
+        # 2. Verify patients.js digital twin fixtures have strictly matched cancer-type trials and citations
+        patients_js_path = os.path.join(self.root, "frontend", "apps", "dashboard", "src", "data", "patients.js")
+        with open(patients_js_path, "r", encoding="utf-8") as f:
+            patients_js = f.read()
+
+        # Split eligibility and recruitment_status verification
+        self.assertIn("recruitment_status", patients_js, "patients.js must specify recruitment_status")
+        self.assertIn("eligibility", patients_js, "patients.js must specify eligibility")
+
+        # Patient C (colorectal) must NEVER match lung trial NCT03944772 or ovarian trial NCT03737643
+        patient_c_chunk = patients_js[patients_js.find('"patient-c"'):]
+        self.assertNotIn("NCT03944772", patient_c_chunk, "Colorectal patient must not match lung trial NCT03944772")
+        self.assertNotIn("NCT03737643", patient_c_chunk, "Colorectal patient must not match ovarian trial NCT03737643")
+        self.assertNotIn("NCT04077463", patient_c_chunk, "Colorectal patient must not match NSCLC trial NCT04077463")
+
+        # Patient A (ovarian) must NOT receive lung trial NCT03944772 or Engelman MET paper (17463250)
+        patient_a_chunk = patients_js[patients_js.find('"patient-a"'):patients_js.find('"patient-b"')]
+        self.assertNotIn("NCT03944772", patient_a_chunk, "Ovarian patient must not match lung trial NCT03944772")
+        self.assertNotIn("17463250", patient_a_chunk, "Ovarian patient must not cite MET paper 17463250")
+        self.assertIn("30345884", patient_a_chunk, "Ovarian patient must cite SOLO-1 NEJM paper (30345884)")
+
+        # Patient B (lung) must receive EGFR/MET trials (NCT03944772, NCT04077463) and MET paper (17463250)
+        patient_b_chunk = patients_js[patients_js.find('"patient-b"'):patients_js.find('"patient-c"')]
+        self.assertIn("NCT03944772", patient_b_chunk)
+        self.assertIn("NCT04077463", patient_b_chunk)
+        self.assertNotIn("NCT03737643", patient_b_chunk, "Lung patient must not match ovarian trial NCT03737643")
+        self.assertIn("17463250", patient_b_chunk, "Lung patient must cite Engelman MET paper (17463250)")
+
+    def test_no_fallback_trial_ids(self):
+        """Core compute engines must default to None when no trial is matched, never inserting NCT03737643."""
+        # 1. ResponseIntelligenceAgent with no matched trial
+        from backend.python.compute.ai_runtime.agents.instances.response_intelligence_agent import ResponseIntelligenceAgent
+        class MockBlackboard:
+            def read(self, key):
+                return None
+        agent = ResponseIntelligenceAgent()
+        agent.initialize(MockBlackboard())
+        agent.plan(MockBlackboard())
+        self.assertIsNone(
+            agent.payload["trials"]["top_trial_id"],
+            "ResponseIntelligenceAgent must default top_trial_id to None when no trial is matched"
+        )
+
+        # 2. MultimodalResponseFusion with no matched trial
+        from backend.python.compute.response_intelligence.fusion import MultimodalResponseFusion
+        fused = MultimodalResponseFusion.fuse({"trials": {}})
+        self.assertIsNone(
+            fused.trial["top_trial_id"].value,
+            "MultimodalResponseFusion must default top_trial_id to None when no trial is matched"
+        )
+        self.assertTrue(fused.trial["top_trial_id"].missingness)
+
+        # 3. TreatmentMatrix trial_protocol regimen
+        from backend.python.compute.counterfactual.treatment_matrix import TreatmentMatrix
+        trial_arm = TreatmentMatrix.get_regimen("trial_protocol")
+        self.assertNotIn(
+            "NCT03737643", trial_arm["name"],
+            "TreatmentMatrix trial_protocol must not have hardcoded NCT03737643 in name"
+        )
+
+        # 4. Verify runtime.py does not hardcode NCT03737643 as fallback
+        runtime_path = os.path.join(self.root, "backend", "python", "compute", "ai_runtime", "agents", "runtime.py")
+        with open(runtime_path, "r", encoding="utf-8") as f:
+            runtime_code = f.read()
+        self.assertNotIn(
+            "top_trial.get('trialId', 'NCT03737643')",
+            runtime_code,
+            "runtime.py must not fallback to NCT03737643"
+        )
 
     def test_cosmic_sbs96_reference_sanity(self):
         """COSMIC v3.4 SBS reference matrix must exhibit expected biological mutation profiles and canonical LF hash."""

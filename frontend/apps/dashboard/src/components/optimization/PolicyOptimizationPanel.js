@@ -235,7 +235,7 @@ export function renderPolicyOptimization(containerEl) {
         const pt = timeline[i];
         const x = padding + (pt.day / 180.0) * (W - 2 * padding);
         
-        # Max tumor volume is K=200, scale accordingly
+        // Max tumor volume is K=200, scale accordingly
         const y = H - padding - (pt.totalVolume / 220.0) * (H - 2 * padding);
         points.push(`${x.toFixed(1)},${y.toFixed(1)}`);
       }

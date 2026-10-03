@@ -54,7 +54,11 @@ export const TumorBoardService = {
     let rationale = '';
     let alternatives = [];
 
-    if (patient.id === 'patient-b') {
+    if (patient.id === 'patient-a') {
+      rationale = `Patient is currently mid-course on adjuvant carboplatin/paclitaxel (Cycles 4-6). Clinical plan: complete primary chemotherapy; if partial or complete response achieved, initiate maintenance Olaparib per SOLO-1 evidence. Transition to adaptive maintenance monitoring protocol.`;
+      preferred = 'adaptive';
+      alternatives = ['mtd'];
+    } else if (patient.id === 'patient-b') {
       rationale = `Due to acquired MET amplification (CN=12) mediating bypass resistance post-osimertinib, continuous EGFR TKI monotherapy allows rapid expansion of the MET-amplified clone. Combination therapy (Osimertinib + Savolitinib or Amivantamab) under adaptive/pulsed protocols is required to delay dual-pathway escape.`;
       preferred = 'adaptive';
       alternatives = ['metronomic'];
@@ -93,29 +97,37 @@ export const TumorBoardService = {
     // Structured citation provenance mapping
     const citations = [
       {
-        pmid: "19447936",
+        pmid: "19487300",
         year: 2009,
         journal: "Cancer Research",
-        evidenceLevel: "Phase III Trial",
+        evidenceLevel: "Landmark Mathematical Model",
         citationText: "Gatenby RA, et al. Adaptive Therapy. Cancer Research, 2009."
       }
     ];
 
     if (patient.id === 'patient-a') {
       citations.push({
-        pmid: "22960745",
-        year: 2012,
-        journal: "Nature",
-        evidenceLevel: "Preclinical Screening",
-        citationText: "Garnett MJ, et al. Systematic markers of drug sensitivity in cancer cells. Nature, 2012."
+        pmid: "30345884",
+        year: 2018,
+        journal: "New England Journal of Medicine",
+        evidenceLevel: "Phase III Trial (SOLO-1)",
+        citationText: "Moore K, et al. Maintenance Olaparib in Patients with Newly Diagnosed Advanced Ovarian Cancer. NEJM, 2018."
       });
     } else if (patient.id === 'patient-b') {
       citations.push({
-        pmid: "21685025",
-        year: 2011,
+        pmid: "17463250",
+        year: 2007,
         journal: "Science",
-        evidenceLevel: "Phase II Clinical Cohort",
-        citationText: "Engelmen JA, et al. Acquired resistance in EGFR-mutant NSCLC. Science, 2011."
+        evidenceLevel: "Mechanistic Preclinical & Clinical Cohort",
+        citationText: "Engelman JA, et al. MET amplification leads to gefitinib resistance in lung cancer by activating ERBB3 signaling. Science, 2007."
+      });
+    } else if (patient.id === 'patient-c') {
+      citations.push({
+        pmid: "36216931",
+        year: 2022,
+        journal: "Nature Medicine",
+        evidenceLevel: "Preclinical Proof of Concept",
+        citationText: "Hallin J, et al. Anti-tumor efficacy of a potent and selective non-covalent KRAS(G12D) inhibitor. Nat Med, 2022."
       });
     }
 
@@ -204,8 +216,12 @@ export const TumorBoardService = {
     if (safety.safetyStatus === 'Critical') {
       finalRecommendation = `Toxicity override active. Suspend current dosing regimen. Initiate therapy holiday. Re-evaluate clone volume when toxicity level recovers.`;
       status = 'Modified';
+    } else if (patient.id === 'patient-a') {
+      finalRecommendation = `Complete primary platinum-based chemotherapy (Carboplatin + Paclitaxel, Cycles 4-6). Upon completion, if partial or complete response achieved, initiate Olaparib maintenance therapy per SOLO-1 protocol. Proceed with ${planning.preferredStrategy.toUpperCase()} protocol. ${safety.doseModifications}`;
+    } else if (patient.id === 'patient-b') {
+      finalRecommendation = `Initiate combination therapy targeting EGFR driver and MET amplification bypass (Savolitinib + Osimertinib via Trial NCT03944772 or Amivantamab-based regimen). Proceed with ${planning.preferredStrategy.toUpperCase()} protocol. ${safety.doseModifications}`;
     } else {
-      finalRecommendation = `Proceed with ${planning.preferredStrategy.toUpperCase()} protocol at intervals of ${planning.suggestedInterval} days. ${safety.doseModifications}`;
+      finalRecommendation = `Continue first-line FOLFIRI + Bevacizumab continuation (disease stable by RECIST 1.1). Screen for investigational KRAS G12D / pan-RAS(ON) inhibitor clinical trials upon progression. Proceed with ${planning.preferredStrategy.toUpperCase()} protocol. ${safety.doseModifications}`;
     }
 
     // Versioning logic

@@ -262,12 +262,12 @@ function renderRegimenMatrixView(c, patient) {
     },
     {
       id: 'trial_protocol',
-      name: 'Trial Protocol (NCT03737643)',
+      name: 'Trial Protocol (Investigational)',
       category: 'Clinical Trial Match',
       dose: '8.0 + 2.0 mg/kg Q7D',
       schedule: 'Targeted Combination',
-      mechanism: 'Trial-matched PARPi + ATR checkpoint inhibitor synthetic lethality protocol.',
-      highlight: 'Checkpoint Arrest'
+      mechanism: 'Trial-matched protocol dynamically aligned with active patient biomarker alterations.',
+      highlight: 'Biomarker-Directed'
     },
     {
       id: 'combination',

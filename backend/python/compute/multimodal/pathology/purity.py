@@ -25,8 +25,10 @@ class TumorPurityEstimator:
 
         Returns percent estimates for each distinct morphological compartment.
         """
-        # 1. Independent Tumor Purity
-        if "tumor_purity_percent" in segmentation_results:
+        # 1. Independent Tumor Quantification (supports tumor_area_percent or tumor_purity_percent)
+        if "tumor_area_percent" in segmentation_results:
+            tumor_purity_percent = float(segmentation_results["tumor_area_percent"])
+        elif "tumor_purity_percent" in segmentation_results:
             tumor_purity_percent = float(segmentation_results["tumor_purity_percent"])
         else:
             base_tumor_frac = segmentation_results.get("overall_tumor_fraction", segmentation_results.get("tumor_fraction", 0.0))
@@ -55,6 +57,7 @@ class TumorPurityEstimator:
         cellularity_index = min(1.0, max(0.0, (viable_tumor_percent * 1.5 + stroma_percent * 0.5) / 100.0))
 
         return {
+            "tumor_area_percent": round(tumor_purity_percent, 2),
             "tumor_purity_percent": round(tumor_purity_percent, 2),
             "necrosis_percent": round(necrosis_percent, 2),
             "viable_tumor_percent": round(viable_tumor_percent, 2),

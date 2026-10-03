@@ -147,7 +147,7 @@ ONCOLOGY_LITERATURE_CORPUS = [
         "journal": "Nature Medicine",
         "year": 2022,
         "volume": "28",
-        "issue": "11",
+        "issue": "10",
         "pages": "2171-2182",
         "phase": "Preclinical",
         "trial_name": "MRTX1133 Preclinical",

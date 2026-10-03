@@ -9,15 +9,30 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-
-    - name: Run Central Test Runner
-      run: |
-        node tests/run-tests.js
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python dependencies
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r backend/python/requirements.txt
+      - name: Python scientific tests
+        run: python -m unittest discover -s backend/python/tests/scientific
+      - name: Start Python SCR and Node gateway
+        run: |
+          PYTHONPATH=. nohup python backend/python/app.py > scr.log 2>&1 &
+          nohup node backend/node/server.js > gateway.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:3000/api/v1/python/health && break
+            sleep 1
+          done
+      - name: Node test suite
+        run: node tests/run-tests.js
+      - name: Print service logs on failure
+        if: failure()
+        run: cat scr.log gateway.log
