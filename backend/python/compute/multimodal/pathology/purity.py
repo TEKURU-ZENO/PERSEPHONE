@@ -27,12 +27,12 @@ class TumorPurityEstimator:
         """
         # 1. Independent Tumor Quantification (supports tumor_area_percent or tumor_purity_percent)
         if "tumor_area_percent" in segmentation_results:
-            tumor_purity_percent = float(segmentation_results["tumor_area_percent"])
+            tumor_area_percent = float(segmentation_results["tumor_area_percent"])
         elif "tumor_purity_percent" in segmentation_results:
-            tumor_purity_percent = float(segmentation_results["tumor_purity_percent"])
+            tumor_area_percent = float(segmentation_results["tumor_purity_percent"])
         else:
             base_tumor_frac = segmentation_results.get("overall_tumor_fraction", segmentation_results.get("tumor_fraction", 0.0))
-            tumor_purity_percent = float(base_tumor_frac) * 100.0 if base_tumor_frac <= 1.0 else float(base_tumor_frac)
+            tumor_area_percent = float(base_tumor_frac) * 100.0 if base_tumor_frac <= 1.0 else float(base_tumor_frac)
 
         # 2. Independent Necrosis Quantification (NOT derived via fixed multiplier)
         if "necrosis_percent" in segmentation_results:
@@ -50,15 +50,15 @@ class TumorPurityEstimator:
         else:
             stroma_percent = 0.0
 
-        # Viable tumor is tumor minus non-viable necrotic tumor tissue within the tumor bed
-        viable_tumor_percent = max(0.0, tumor_purity_percent - necrosis_percent)
+        # Viable tumor area is directly tumor_area_percent; tumor, necrosis, and stroma are mutually non-overlapping compartments summing to <= 100%
+        viable_tumor_percent = tumor_area_percent
 
         # Cellularity index based on independent viable cellular compartments
         cellularity_index = min(1.0, max(0.0, (viable_tumor_percent * 1.5 + stroma_percent * 0.5) / 100.0))
 
         return {
-            "tumor_area_percent": round(tumor_purity_percent, 2),
-            "tumor_purity_percent": round(tumor_purity_percent, 2),
+            "tumor_area_percent": round(tumor_area_percent, 2),
+            "tumor_purity_percent": round(tumor_area_percent, 2),
             "necrosis_percent": round(necrosis_percent, 2),
             "viable_tumor_percent": round(viable_tumor_percent, 2),
             "stroma_percent": round(stroma_percent, 2),

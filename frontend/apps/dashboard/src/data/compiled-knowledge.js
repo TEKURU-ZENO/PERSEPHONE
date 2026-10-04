@@ -223,15 +223,15 @@ export const clinicalTrials = [
     "timestamp": "2026-06-29T16:40:34.610Z"
   },
   {
-    "trialId": "NCT04625881",
-    "title": "Study of MRTX849 (Adagrasib) in Combination with Cetuximab in KRAS G12C-Mutated Colorectal Cancer (KRYSTAL-10)",
-    "phase": "Phase III",
-    "status": "Active, Recruiting",
+    "trialId": "NCT03785249",
+    "title": "Phase 1/2 Study of MRTX849 (Adagrasib) in Patients with Advanced Solid Tumors with KRAS G12C Mutation (KRYSTAL-1)",
+    "phase": "Phase I/II",
+    "status": "Active, not recruiting",
     "conditions": [
       "Colorectal Cancer",
-      "Pancreatic Cancer"
+      "Advanced Solid Tumors"
     ],
-    "enrollmentCriteria": "Histologically confirmed metastatic colorectal adenocarcinoma with confirmed KRAS G12C mutation (not G12D).",
+    "enrollmentCriteria": "Histologically confirmed metastatic colorectal adenocarcinoma or solid tumor with confirmed KRAS G12C mutation (not G12D).",
     "timestamp": "2026-06-29T16:40:34.610Z"
   }
 ];

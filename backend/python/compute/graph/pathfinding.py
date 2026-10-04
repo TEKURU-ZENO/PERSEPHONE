@@ -179,7 +179,7 @@ def build_graph():
     {"source": "NCT03737643", "target": "brca1-mut", "type": "enrolls"},
     {"source": "NCT03944772", "target": "met-amp", "type": "enrolls"},
     {"source": "NCT04077463", "target": "met-amp", "type": "enrolls"},
-    {"source": "NCT04625881", "target": "kras-g12c", "type": "enrolls"}
+    {"source": "NCT03785249", "target": "kras-g12c", "type": "enrolls"}
   ])
 
   return nodes, edges

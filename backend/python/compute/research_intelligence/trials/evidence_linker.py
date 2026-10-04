@@ -42,8 +42,8 @@ TRIAL_EVIDENCE_MAP = {
         "guideline_ids": ["NCCN-OV-002"],
         "evidence_summary": "Phase III trial showing first-line maintenance Niraparib significantly improves PFS across HRD+ and all-comer populations."
     },
-    "NCT02296424": {
-        "trial_id": "NCT02296424",
+    "NCT02296125": {
+        "trial_id": "NCT02296125",
         "trial_name": "FLAURA",
         "primary_pmid": "29151359",
         "secondary_pmids": ["31751012"],
@@ -56,7 +56,7 @@ TRIAL_EVIDENCE_MAP = {
     "NCT03785249": {
         "trial_id": "NCT03785249",
         "trial_name": "KRYSTAL-1",
-        "primary_pmid": "36546651",
+        "primary_pmid": "36546659",
         "secondary_pmids": [],
         "drug": "Adagrasib",
         "condition": "Colorectal Cancer",

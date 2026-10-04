@@ -32,7 +32,7 @@ export async function run() {
   // Assert schema compliance
   assert.ok(rec.recommendationId.startsWith('REC-'), 'recommendationId should start with REC-');
   assert.strictEqual(rec.patientId, 'patient-a', 'patientId should match');
-  assert.strictEqual(rec.therapy, 'Olaparib', 'patient-a drug selection should be Olaparib');
+  assert.ok(rec.therapy.includes('Carboplatin') && rec.therapy.includes('Olaparib'), 'patient-a drug selection should include Carboplatin and Olaparib');
   assert.strictEqual(rec.strategy, 'ADAPTIVE', 'strategy should be uppercase');
   
   // Assert decomposed confidence objects

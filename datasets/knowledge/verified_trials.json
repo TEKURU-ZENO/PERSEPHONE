@@ -1,0 +1,162 @@
+{
+  "verified": {
+    "NCT01844986": {
+      "official_title": "A Phase III, Randomised, Double Blind, Placebo Controlled, Multicentre Study of Olaparib Maintenance Monotherapy in Patients With BRCA Mutated Advanced (FIGO Stage III-IV) Ovarian Cancer Following First Line Platinum Based Chemotherapy",
+      "acronym": "SOLO-1",
+      "phase": "Phase 3",
+      "condition": "BRCA-mutated Advanced Ovarian Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT01844986",
+      "status": "Completed",
+      "verification_date": "2026-10-04"
+    },
+    "NCT02296125": {
+      "official_title": "A Phase III, Double-blind, Randomised Study to Assess the Safety and Efficacy of AZD9291 Versus a Standard of Care Epidermal Growth Factor Receptor Tyrosine Kinase Inhibitor as First Line Treatment in Patients With Epidermal Growth Factor Receptor Mutation Positive, Locally Advanced or Metastatic Non Small Cell Lung Cancer",
+      "acronym": "FLAURA",
+      "phase": "Phase 3",
+      "condition": "EGFR-mutated Locally Advanced or Metastatic NSCLC",
+      "url": "https://clinicaltrials.gov/study/NCT02296125",
+      "status": "Completed",
+      "verification_date": "2026-10-04"
+    },
+    "NCT02437318": {
+      "official_title": "A Phase III Randomized Double-blind, Placebo Controlled Study of Alpelisib in Combination With Fulvestrant for Men and Postmenopausal Women With Hormone Receptor Positive, HER2-negative Advanced Breast Cancer Which Progressed on or After Aromatase Inhibitor Treatment",
+      "acronym": "SOLAR-1",
+      "phase": "Phase 3",
+      "condition": "PIK3CA-mutated HR+/HER2- Advanced Breast Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT02437318",
+      "status": "Completed",
+      "verification_date": "2026-10-04"
+    },
+    "NCT02477644": {
+      "official_title": "Randomized, Double-Blind, Phase III Trial Olaparib vs. Placebo Patients With Advanced FIGO Stage IIIB-IV High Grade Serious or Endometrioid Ovarian, Fallopian Tube, or Peritoneal Cancer Treated Standard First-Line Treatment",
+      "acronym": "PAOLA-1",
+      "phase": "Phase 3",
+      "condition": "Advanced High-Grade Ovarian Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT02477644",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT02563002": {
+      "official_title": "A Phase III Study of Pembrolizumab (MK-3475) vs. Chemotherapy in Microsatellite Instability-High (MSI-H) or Mismatch Repair Deficient (dMMR) Stage IV Colorectal Carcinoma (KEYNOTE-177)",
+      "acronym": "KEYNOTE-177",
+      "phase": "Phase 3",
+      "condition": "MSI-H / dMMR Metastatic Colorectal Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT02563002",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT02655016": {
+      "official_title": "A Phase 3, Randomized, Double-Blind, Placebo-Controlled, Multicenter Study of Niraparib Maintenance Treatment in Patients With Advanced Ovarian Cancer Following Response on Front-Line Platinum-Based Chemotherapy",
+      "acronym": "PRIMA",
+      "phase": "Phase 3",
+      "condition": "Advanced Ovarian Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT02655016",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT03737643": {
+      "official_title": "Durvalumab in Combination With Chemotherapy and Bevacizumab, Followed by Maintenance Durvalumab, Bevacizumab and Olaparib in Advanced Ovarian Cancer (DUO-O)",
+      "acronym": "DUO-O",
+      "phase": "Phase 3",
+      "condition": "BRCA-non-mutated or BRCA-mutated Advanced Ovarian Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT03737643",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT03785249": {
+      "official_title": "Phase 1/2 Study of MRTX849 (Adagrasib) in Patients with Advanced Solid Tumors with KRAS G12C Mutation (KRYSTAL-1)",
+      "acronym": "KRYSTAL-1",
+      "phase": "Phase 1/Phase 2",
+      "condition": "KRAS G12C Advanced Solid Tumors",
+      "url": "https://clinicaltrials.gov/study/NCT03785249",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT03944772": {
+      "official_title": "Phase Ib/II Trial of Osimertinib Combination Therapies in Patients with EGFRm-positive and MET-amplified NSCLC (ORCHARD)",
+      "acronym": "ORCHARD",
+      "phase": "Phase 2",
+      "condition": "EGFRm NSCLC with MET Amplification",
+      "url": "https://clinicaltrials.gov/study/NCT03944772",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT04038502": {
+      "official_title": "Carboplatin or Olaparib for BRCA-deficient Prostate Cancer (COBRA)",
+      "acronym": "COBRA",
+      "phase": "Phase 2",
+      "condition": "BRCA-deficient Metastatic Castration-Resistant Prostate Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT04038502",
+      "status": "Recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT04077463": {
+      "official_title": "A Phase 1b/2, Open-Label, Multicenter Study of Amivantamab and Lazertinib in Patients With Non-Small Cell Lung Cancer (CHRYSALIS-2)",
+      "acronym": "CHRYSALIS-2",
+      "phase": "Phase 1/Phase 2",
+      "condition": "EGFR-mutated Advanced Non-Small Cell Lung Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT04077463",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT04633239": {
+      "official_title": "Testing the Addition of Abemaciclib to Olaparib for Women With Recurrent Ovarian Cancer",
+      "acronym": "Abemaciclib + Olaparib",
+      "phase": "Phase 1",
+      "condition": "Recurrent Ovarian Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT04633239",
+      "status": "Recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT04644068": {
+      "official_title": "A Modular Phase I/IIa, Open-label, Multicentre Study to Assess the Safety, Tolerability, Pharmacokinetics, Pharmacodynamics and Preliminary Efficacy of Ascending Doses of AZD5305 as Monotherapy and in Combination With Anti-cancer Agents in Patients With Advanced Solid Malignancies",
+      "acronym": "PETRA",
+      "phase": "Phase 1/Phase 2",
+      "condition": "Advanced Solid Tumors with BRCA1/2, PALB2, or RAD51C/D mutations",
+      "url": "https://clinicaltrials.gov/study/NCT04644068",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT04988295": {
+      "official_title": "A Phase 3, Open-Label, Randomized Study of Amivantamab and Lazertinib in Combination With Platinum-Based Chemotherapy Compared With Platinum-Based Chemotherapy in Patients With EGFR-Mutated Locally Advanced or Metastatic Non-Small Cell Lung Cancer After Osimertinib Failure",
+      "acronym": "MARIPOSA-2",
+      "phase": "Phase 3",
+      "condition": "EGFR-mutated Locally Advanced or Metastatic NSCLC post-osimertinib",
+      "url": "https://clinicaltrials.gov/study/NCT04988295",
+      "status": "Active, not recruiting",
+      "verification_date": "2026-10-04"
+    },
+    "NCT05737706": {
+      "official_title": "A Phase 1/2 Study of MRTX1133 in Patients With Advanced Solid Tumors Harboring a KRAS G12D Mutation",
+      "acronym": "MRTX1133 Phase 1/2",
+      "phase": "Phase 1/Phase 2",
+      "condition": "KRAS G12D Advanced Solid Tumors",
+      "url": "https://clinicaltrials.gov/study/NCT05737706",
+      "status": "Discontinued (2025)",
+      "verification_date": "2026-10-04"
+    },
+    "NCT06580314": {
+      "official_title": "Testing Olaparib for One or Two Years With or Without Bevacizumab in Ovarian Cancer",
+      "acronym": "NRG-GY036",
+      "phase": "Phase 3",
+      "condition": "Stage II-IV Ovarian Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT06580314",
+      "status": "Recruiting",
+      "verification_date": "2026-10-04"
+    }
+  },
+  "known_invalid": {
+    "NCT04625881": "Dietary apple fiber supplement study (unrelated to cancer / KRYSTAL-10)",
+    "NCT03042559": "Knee brace and exercise therapy for patellofemoral pain (unrelated to cancer)",
+    "NCT02844816": "SWOG S1605 atezolizumab in BCG-unresponsive non-muscle invasive bladder cancer (unrelated to dabrafenib+trametinib or colorectal cancer)",
+    "NCT04613596": "Pediatric sickle cell disease study (unrelated to CodeBreaK 300 sotorasib)",
+    "NCT03056339": "Wrong CROWN identifier; actual CROWN trial is NCT03052608",
+    "NCT03414983": "CheckMate 9X8 nivolumab in colorectal cancer (unrelated to lung cancer)",
+    "NCT03178552": "BFAST blood-first ALK screening in NSCLC (unrelated to colorectal cancer)",
+    "NCT02296424": "Wrong FLAURA identifier; actual FLAURA trial is NCT02296125",
+    "NCT02299869": "Wrong ALEX identifier; actual ALEX trial is NCT02075840",
+    "NCT04381884": "COVID-19 hydroxychloroquine trial (unrelated to DUO-O)",
+    "NCT05206253": "Pediatric neuro-oncology trial (unrelated to MRTX1133)",
+    "NCT04862780": "Incorrect identifier; replaced with CHRYSALIS-2 NCT04077463"
+  }
+}

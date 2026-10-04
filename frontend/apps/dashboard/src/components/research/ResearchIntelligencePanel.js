@@ -434,29 +434,35 @@ function renderLiteratureTable(c, data) {
 
   let rows = '';
   items.forEach(item => {
-    const nct = item.nct_id || item.trial_id || 'NCT01844986';
-    const pmid = item.pmid || '30345884';
-    const doi = item.doi || '10.1056/NEJMoa1810858';
-    const cebm = item.cebm_level || '1b';
-    const grade = item.grade || 'High';
-    const hr = item.hazard_ratio ? `${item.hazard_ratio} [${item.hr_ci_low || 0.21}-${item.hr_ci_high || 0.43}]` : '0.30 [0.23-0.41]';
-    const pval = item.p_value || '< 0.001';
-    const deltaPfs = item.delta_pfs_months ? `+${item.delta_pfs_months} mo` : '+13.8 mo';
+    const nct = item.nct_id || item.trial_id || null;
+    const pmid = item.pmid || null;
+    const doi = item.doi || null;
+    const cebm = item.cebm_level || '—';
+    const grade = item.grade || '—';
+    const hr = item.hazard_ratio ? `${item.hazard_ratio}${item.hr_ci_low ? ` [${item.hr_ci_low}-${item.hr_ci_high}]` : ''}` : '—';
+    const pval = item.p_value || '—';
+    const deltaPfs = item.delta_pfs_months ? `+${item.delta_pfs_months} mo` : '—';
+    const trialName = item.trial_name || '—';
+    const title = item.title || '—';
 
     rows += `
       <tr style="border-bottom:1px solid rgba(255,255,255,0.06); font-size:0.72rem;">
         <td style="padding:6px 8px;">
-          <a href="https://clinicaltrials.gov/study/${nct}" target="_blank" style="color:var(--cyan); text-decoration:none; font-family:monospace; font-weight:600;">
-            ${nct}
-          </a>
-          <div style="font-size:0.65rem; color:var(--text-muted);">${item.trial_name || 'SOLO-1'}</div>
+          ${nct ? `
+            <a href="https://clinicaltrials.gov/study/${nct}" target="_blank" style="color:var(--cyan); text-decoration:none; font-family:monospace; font-weight:600;">
+              ${nct}
+            </a>
+          ` : `<span style="color:var(--text-muted); font-family:monospace;">—</span>`}
+          <div style="font-size:0.65rem; color:var(--text-muted);">${trialName}</div>
         </td>
         <td style="padding:6px 8px;">
-          <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" target="_blank" style="color:#60a5fa; text-decoration:none; font-family:monospace; font-weight:600;">
-            PMID:${pmid}
-          </a>
-          <div style="font-size:0.65rem; color:var(--text-secondary); max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${item.title || ''}">
-            ${item.title || 'Maintenance Olaparib in Patients with Newly Diagnosed Advanced Ovarian Cancer'}
+          ${pmid ? `
+            <a href="https://pubmed.ncbi.nlm.nih.gov/${pmid}" target="_blank" style="color:#60a5fa; text-decoration:none; font-family:monospace; font-weight:600;">
+              PMID:${pmid}
+            </a>
+          ` : `<span style="color:var(--text-muted); font-family:monospace;">—</span>`}
+          <div style="font-size:0.65rem; color:var(--text-secondary); max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${title}">
+            ${title}
           </div>
         </td>
         <td style="padding:6px 8px;">

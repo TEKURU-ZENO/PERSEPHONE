@@ -59,26 +59,6 @@
     "enrollmentTarget": 500
   },
   {
-    "trialId": "NCT04625881",
-    "title": "Study of MRTX849 (Adagrasib) in Combination with Cetuximab in KRAS G12C-Mutated Colorectal Cancer (KRYSTAL-10)",
-    "phase": "Phase III",
-    "status": "Active, Recruiting",
-    "conditions": ["Colorectal Cancer", "Gastrointestinal Neoplasms"],
-    "drugs": ["Adagrasib", "Cetuximab"],
-    "biomarkers": ["KRAS G12C"],
-    "stage": ["Stage III", "Stage IV"],
-    "enrollmentCriteria": "Inclusion: Histologically confirmed metastatic colorectal adenocarcinoma harboring KRAS G12C mutation (not G12D). Age >= 18. ECOG 0-1. Progression after fluoropyrimidine-based therapy. Exclusion: Untreated brain metastases, prior KRAS G12C inhibitor, active cardiac arrhythmia.",
-    "sponsor": "Mirati Therapeutics / Bristol Myers Squibb",
-    "locations": [
-      {"country": "United States", "city": "San Diego", "facility": "UC San Diego Moores Cancer Center"},
-      {"country": "United States", "city": "Baltimore", "facility": "Johns Hopkins Kimmel Cancer Center"},
-      {"country": "Canada", "city": "Toronto", "facility": "Princess Margaret Cancer Centre"}
-    ],
-    "startDate": "2020-11-10",
-    "estimatedCompletion": "2026-08-31",
-    "enrollmentTarget": 180
-  },
-  {
     "trialId": "NCT04633239",
     "title": "Testing the Addition of Abemaciclib to Olaparib for Women With Recurrent Ovarian Cancer",
     "phase": "Phase I",
@@ -99,14 +79,14 @@
   },
   {
     "trialId": "NCT04038502",
-    "title": "Carboplatin or Olaparib for BRCA-Deficient and HRR-Mutated Metastatic Cancers",
+    "title": "Carboplatin or Olaparib for BRCA-deficient Prostate Cancer (COBRA)",
     "phase": "Phase II",
     "status": "Active, Recruiting",
-    "conditions": ["Prostate Cancer", "Ovarian Cancer", "Breast Cancer"],
+    "conditions": ["Prostate Cancer", "BRCA-deficient Metastatic Castration-Resistant Prostate Cancer"],
     "drugs": ["Carboplatin", "Olaparib"],
-    "biomarkers": ["BRCA1", "BRCA2", "PALB2", "RAD51"],
+    "biomarkers": ["BRCA1", "BRCA2"],
     "stage": ["Stage IV", "Metastatic"],
-    "enrollmentCriteria": "Inclusion: Documented deleterious mutation in BRCA1, BRCA2, PALB2, or RAD51 family. Castration-resistant or platinum-sensitive metastatic solid tumors. Age >= 18. Adequate renal function CrCL > 51 mL/min. Exclusion: Small cell histology, prior PARP inhibitor resistance, known parenchymal brain metastasis.",
+    "enrollmentCriteria": "Inclusion: Documented deleterious mutation in BRCA1 or BRCA2. Castration-resistant metastatic prostate cancer. Age >= 18. Adequate renal function CrCL > 51 mL/min. Exclusion: Small cell histology, prior PARP inhibitor resistance, known active brain metastasis.",
     "sponsor": "VA Office of Research and Development",
     "locations": [
       {"country": "United States", "city": "Seattle", "facility": "VA Puget Sound Health Care System"},
@@ -140,7 +120,7 @@
     "trialId": "NCT03785249",
     "title": "Phase 1/2 Study of MRTX849 (Adagrasib) in Patients with Advanced Solid Tumors with KRAS G12C Mutation (KRYSTAL-1)",
     "phase": "Phase I/II",
-    "status": "Active, Recruiting",
+    "status": "Active, not recruiting",
     "conditions": ["Non-Small Cell Lung Cancer", "Colorectal Cancer", "Pancreatic Cancer"],
     "drugs": ["Adagrasib"],
     "biomarkers": ["KRAS G12C"],
@@ -156,109 +136,10 @@
     "enrollmentTarget": 565
   },
   {
-    "trialId": "NCT04613596",
-    "title": "Phase III Trial of Sotorasib Plus Panitumumab in KRAS G12C-Mutated Metastatic Colorectal Cancer (CodeBreaK 300)",
-    "phase": "Phase III",
-    "status": "Active, Recruiting",
-    "conditions": ["Colorectal Cancer", "Metastatic Colorectal Adenocarcinoma"],
-    "drugs": ["Sotorasib", "Panitumumab"],
-    "biomarkers": ["KRAS G12C"],
-    "stage": ["Stage IV", "Metastatic"],
-    "enrollmentCriteria": "Inclusion: Pathologically confirmed metastatic colorectal adenocarcinoma with confirmed KRAS G12C mutation. Refractory to fluoropyrimidine, oxaliplatin, and irinotecan. Age >= 18. ECOG 0-1. Exclusion: Previous treatment with KRAS inhibitor or anti-EGFR antibody, symptomatic brain metastases.",
-    "sponsor": "Amgen",
-    "locations": [
-      {"country": "United States", "city": "New York", "facility": "Weill Cornell Medicine"},
-      {"country": "United Kingdom", "city": "Manchester", "facility": "The Christie NHS Foundation Trust"},
-      {"country": "Germany", "city": "Heidelberg", "facility": "Heidelberg University Hospital"}
-    ],
-    "startDate": "2021-01-20",
-    "estimatedCompletion": "2026-10-31",
-    "enrollmentTarget": 160
-  },
-  {
-    "trialId": "NCT02299869",
-    "title": "Phase III Trial of Alectinib Versus Crizotinib in Treatment-Naive ALK-Positive Advanced NSCLC (ALEX)",
-    "phase": "Phase III",
-    "status": "Active",
-    "conditions": ["Non-Small Cell Lung Cancer", "ALK-Positive NSCLC"],
-    "drugs": ["Alectinib", "Crizotinib"],
-    "biomarkers": ["ALK"],
-    "stage": ["Stage IIIB", "Stage IV"],
-    "enrollmentCriteria": "Inclusion: Histologically confirmed advanced or metastatic NSCLC with ALK rearrangement centrally confirmed by Ventana IHC. No prior systemic therapy for advanced NSCLC. Age >= 18. ECOG 0-2. Exclusion: Prior ALK inhibitor therapy, severe pulmonary fibrosis, active cardiac arrhythmia.",
-    "sponsor": "Hoffmann-La Roche",
-    "locations": [
-      {"country": "United States", "city": "Durham", "facility": "Duke University Medical Center"},
-      {"country": "Switzerland", "city": "Basel", "facility": "University Hospital Basel"},
-      {"country": "Japan", "city": "Tokyo", "facility": "National Cancer Center Hospital"}
-    ],
-    "startDate": "2014-08-01",
-    "estimatedCompletion": "2025-12-31",
-    "enrollmentTarget": 303
-  },
-  {
-    "trialId": "NCT03056339",
-    "title": "Phase III Trial of Lorlatinib Versus Crizotinib in First-Line Advanced ALK-Positive NSCLC (CROWN)",
-    "phase": "Phase III",
-    "status": "Active",
-    "conditions": ["Non-Small Cell Lung Cancer", "ALK-Positive Lung Cancer"],
-    "drugs": ["Lorlatinib", "Crizotinib"],
-    "biomarkers": ["ALK"],
-    "stage": ["Stage IIIB", "Stage IV"],
-    "enrollmentCriteria": "Inclusion: Pathologically proven Stage IIIB or IV NSCLC with documented ALK rearrangement. No prior systemic therapy. Asymptomatic treated or untreated CNS metastases allowed. Age >= 18. ECOG 0-2. Exclusion: History of severe psychiatric disorders, uncontrolled hypercholesterolemia, concurrent CYP3A inducers.",
-    "sponsor": "Pfizer",
-    "locations": [
-      {"country": "United States", "city": "Nashville", "facility": "Vanderbilt-Ingram Cancer Center"},
-      {"country": "France", "city": "Paris", "facility": "Institut Gustave Roussy"},
-      {"country": "Australia", "city": "Melbourne", "facility": "Peter MacCallum Cancer Centre"}
-    ],
-    "startDate": "2017-04-18",
-    "estimatedCompletion": "2026-06-30",
-    "enrollmentTarget": 296
-  },
-  {
-    "trialId": "NCT02844816",
-    "title": "Phase II Study of Dabrafenib Plus Trametinib in BRAF V600E Mutated Rare Cancers (ROAR)",
-    "phase": "Phase II",
-    "status": "Active",
-    "conditions": ["Biliary Tract Cancer", "Anaplastic Thyroid Cancer", "Glioma", "Melanoma"],
-    "drugs": ["Dabrafenib", "Trametinib"],
-    "biomarkers": ["BRAF"],
-    "stage": ["Stage III", "Stage IV", "Advanced"],
-    "enrollmentCriteria": "Inclusion: Advanced solid tumors harboring BRAF V600E mutation centrally verified. Recurrent or refractory to standard therapy. Age >= 18. ECOG 0-1. Adequate hematologic, renal, and cardiac ejection fraction >= 50%. Exclusion: History of retinal vein occlusion, interstitial lung disease, prior BRAF or MEK inhibitors.",
-    "sponsor": "Novartis",
-    "locations": [
-      {"country": "United States", "city": "Cleveland", "facility": "Cleveland Clinic Foundation"},
-      {"country": "United Kingdom", "city": "London", "facility": "University College London Hospital"},
-      {"country": "Spain", "city": "Barcelona", "facility": "Vall d'Hebron Institute of Oncology"}
-    ],
-    "startDate": "2014-04-01",
-    "estimatedCompletion": "2025-10-31",
-    "enrollmentTarget": 200
-  },
-  {
-    "trialId": "NCT03414983",
-    "title": "Phase III Trial of Encorafenib Plus Cetuximab With or Without Binimetinib in BRAF V600E Colorectal Cancer (BEACON CRC)",
-    "phase": "Phase III",
-    "status": "Active",
-    "conditions": ["Colorectal Cancer", "Metastatic Colorectal Cancer"],
-    "drugs": ["Encorafenib", "Cetuximab", "Binimetinib"],
-    "biomarkers": ["BRAF"],
-    "stage": ["Stage IV", "Metastatic"],
-    "enrollmentCriteria": "Inclusion: Histologically confirmed metastatic colorectal adenocarcinoma with presence of BRAF V600E mutation. Disease progression after 1 or 2 prior regimens. Age >= 18. ECOG 0-1. Exclusion: Prior treatment with RAF inhibitor, MEK inhibitor, or anti-EGFR antibody.",
-    "sponsor": "Pfizer / Array BioPharma",
-    "locations": [
-      {"country": "United States", "city": "Scottsdale", "facility": "Mayo Clinic Arizona"},
-      {"country": "Italy", "city": "Milan", "facility": "Istituto Nazionale dei Tumori"}
-    ],
-    "startDate": "2017-02-01",
-    "estimatedCompletion": "2025-09-30",
-    "enrollmentTarget": 665
-  },
-  {
     "trialId": "NCT02437318",
     "title": "Phase III Study of Alpelisib Plus Fulvestrant in Patients with PIK3CA-Mutated HR+/HER2- Advanced Breast Cancer (SOLAR-1)",
     "phase": "Phase III",
-    "status": "Active",
+    "status": "Active, not recruiting",
     "conditions": ["Breast Cancer", "Advanced Breast Cancer"],
     "drugs": ["Alpelisib", "Fulvestrant"],
     "biomarkers": ["PIK3CA"],
@@ -275,61 +156,135 @@
   },
   {
     "trialId": "NCT02563002",
-    "title": "Phase II Trial of Pembrolizumab in Microsatellite Instability-High (MSI-H) or dMMR Advanced Solid Tumors (KEYNOTE-158)",
-    "phase": "Phase II",
-    "status": "Active, Recruiting",
-    "conditions": ["Ovarian Cancer", "Endometrial Cancer", "Cervical Cancer", "Solid Tumors"],
+    "title": "A Phase III Study of Pembrolizumab (MK-3475) vs. Chemotherapy in Microsatellite Instability-High (MSI-H) or Mismatch Repair Deficient (dMMR) Stage IV Colorectal Carcinoma (KEYNOTE-177)",
+    "phase": "Phase III",
+    "status": "Active, not recruiting",
+    "conditions": ["Colorectal Cancer", "Metastatic Colorectal Cancer"],
     "drugs": ["Pembrolizumab"],
-    "biomarkers": ["MSI-H", "dMMR", "TMB-H"],
-    "stage": ["Stage III", "Stage IV", "Unresectable"],
-    "enrollmentCriteria": "Inclusion: Histologically confirmed advanced unresectable or metastatic solid tumor with MSI-H or mismatch repair deficiency (dMMR) or TMB >= 10 mut/Mb. Progression on prior standard systemic therapy. Age >= 18. ECOG 0-1. Exclusion: Active autoimmune disease requiring systemic immunosuppressants, prior anti-PD-1/PD-L1 antibody.",
+    "biomarkers": ["MSI-H", "dMMR"],
+    "stage": ["Stage IV", "Metastatic"],
+    "enrollmentCriteria": "Inclusion: Histologically confirmed metastatic colorectal carcinoma with confirmed MSI-H or dMMR status. Treatment-naive in metastatic setting. Age >= 18. ECOG 0-1. Exclusion: Active autoimmune disease requiring systemic immunosuppressants, prior anti-PD-1/PD-L1 antibody.",
     "sponsor": "Merck Sharp & Dohme LLC",
     "locations": [
       {"country": "United States", "city": "Baltimore", "facility": "Johns Hopkins Hospital"},
-      {"country": "United States", "city": "Palo Alto", "facility": "Stanford Cancer Institute"},
-      {"country": "Netherlands", "city": "Amsterdam", "facility": "Netherlands Cancer Institute"}
+      {"country": "United States", "city": "Palo Alto", "facility": "Stanford Cancer Institute"}
     ],
     "startDate": "2015-12-08",
     "estimatedCompletion": "2026-12-31",
-    "enrollmentTarget": 1600
+    "enrollmentTarget": 307
   },
   {
-    "trialId": "NCT03178552",
-    "title": "Phase III Trial of Nivolumab Plus Ipilimumab in First-Line Advanced NSCLC with High TMB (CheckMate 227)",
+    "trialId": "NCT02296125",
+    "title": "A Phase III, Double-blind, Randomised Study to Assess the Safety and Efficacy of AZD9291 Versus a Standard of Care Epidermal Growth Factor Receptor Tyrosine Kinase Inhibitor as First Line Treatment in Patients With Epidermal Growth Factor Receptor Mutation Positive, Locally Advanced or Metastatic Non Small Cell Lung Cancer (FLAURA)",
     "phase": "Phase III",
-    "status": "Active",
-    "conditions": ["Non-Small Cell Lung Cancer", "Squamous and Non-Squamous NSCLC"],
-    "drugs": ["Nivolumab", "Ipilimumab"],
-    "biomarkers": ["TMB-H", "TP53"],
-    "stage": ["Stage IV", "Recurrent"],
-    "enrollmentCriteria": "Inclusion: Treatment-naive recurrent or Stage IV NSCLC. Tumor mutational burden high (TMB >= 10 mut/Mb) assessed by validated assay. ECOG 0-1. Age >= 18. Brain metastases allowed if treated and asymptomatic. Exclusion: Known EGFR mutation or ALK translocation sensitive to targeted TKI, active autoimmune disease.",
-    "sponsor": "Bristol Myers Squibb",
+    "status": "Completed",
+    "conditions": ["Non-Small Cell Lung Cancer", "EGFR-Mutated Advanced NSCLC"],
+    "drugs": ["Osimertinib"],
+    "biomarkers": ["EGFR", "L858R", "Ex19del"],
+    "stage": ["Stage IIIB", "Stage IV"],
+    "enrollmentCriteria": "Inclusion: Treatment-naive locally advanced or metastatic NSCLC with confirmed sensitizing EGFR mutation (Exon 19 del or L858R). Age >= 18. ECOG 0-1. Exclusion: Prior systemic therapy for advanced NSCLC, interstitial lung disease.",
+    "sponsor": "AstraZeneca",
     "locations": [
-      {"country": "United States", "city": "Aurora", "facility": "University of Colorado Cancer Center"},
-      {"country": "Japan", "city": "Osaka", "facility": "Osaka University Hospital"}
+      {"country": "United States", "city": "Boston", "facility": "Dana-Farber Cancer Institute"},
+      {"country": "United Kingdom", "city": "London", "facility": "The Royal Marsden"}
     ],
-    "startDate": "2015-08-01",
-    "estimatedCompletion": "2026-03-31",
-    "enrollmentTarget": 2500
+    "startDate": "2014-12-01",
+    "estimatedCompletion": "2019-06-30",
+    "enrollmentTarget": 556
   },
   {
-    "trialId": "NCT03042559",
-    "title": "Phase Ib/II Study of Avelumab in Combination with Talazoparib in BRCA-Mutated or DDR-Deficient Advanced Solid Tumors",
-    "phase": "Phase I/II",
-    "status": "Active, Recruiting",
-    "conditions": ["Ovarian Cancer", "Breast Cancer", "Castration-Resistant Prostate Cancer", "Urothelial Cancer"],
-    "drugs": ["Avelumab", "Talazoparib"],
-    "biomarkers": ["BRCA1", "BRCA2", "ATM", "CHEK2", "HRD"],
-    "stage": ["Stage III", "Stage IV", "Metastatic"],
-    "enrollmentCriteria": "Inclusion: Locally advanced or metastatic solid tumor with documented deleterious mutation in BRCA1, BRCA2, ATM, CHEK2, or other DDR pathway genes. Disease progression on standard therapy. Age >= 18. ECOG 0-1. Exclusion: Prior combination of PARP inhibitor plus anti-PD-L1 antibody, active pneumonitis.",
-    "sponsor": "Pfizer",
+    "trialId": "NCT01844986",
+    "title": "A Phase III, Randomised, Double Blind, Placebo Controlled, Multicentre Study of Olaparib Maintenance Monotherapy in Patients With BRCA Mutated Advanced (FIGO Stage III-IV) Ovarian Cancer Following First Line Platinum Based Chemotherapy (SOLO-1)",
+    "phase": "Phase III",
+    "status": "Completed",
+    "conditions": ["Ovarian Cancer", "Fallopian Tube Cancer", "Primary Peritoneal Cancer"],
+    "drugs": ["Olaparib"],
+    "biomarkers": ["BRCA1", "BRCA2"],
+    "stage": ["Stage III", "Stage IV"],
+    "enrollmentCriteria": "Inclusion: Newly diagnosed advanced FIGO stage III-IV high-grade serous or endometrioid ovarian cancer with deleterious germline or somatic BRCA1/2 mutation. Partial or complete response to frontline platinum-based chemotherapy. Age >= 18. ECOG 0-1.",
+    "sponsor": "AstraZeneca",
     "locations": [
-      {"country": "United States", "city": "Tampa", "facility": "Moffitt Cancer Center"},
-      {"country": "United States", "city": "New Haven", "facility": "Yale Cancer Center"},
-      {"country": "United Kingdom", "city": "Oxford", "facility": "Oxford University Hospitals NHS Trust"}
+      {"country": "United States", "city": "New York", "facility": "Memorial Sloan Kettering Cancer Center"},
+      {"country": "United States", "city": "Houston", "facility": "MD Anderson Cancer Center"}
     ],
-    "startDate": "2017-03-01",
-    "estimatedCompletion": "2026-07-31",
-    "enrollmentTarget": 220
+    "startDate": "2013-09-03",
+    "estimatedCompletion": "2020-03-31",
+    "enrollmentTarget": 391
+  },
+  {
+    "trialId": "NCT04644068",
+    "title": "A Modular Phase I/IIa, Open-label, Multicentre Study to Assess the Safety, Tolerability, Pharmacokinetics, Pharmacodynamics and Preliminary Efficacy of Ascending Doses of AZD5305 as Monotherapy and in Combination With Anti-cancer Agents in Patients With Advanced Solid Malignancies (PETRA)",
+    "phase": "Phase I/II",
+    "status": "Active, not recruiting",
+    "conditions": ["Advanced Solid Malignancies", "Ovarian Cancer", "Breast Cancer", "Prostate Cancer"],
+    "drugs": ["Saruparib"],
+    "biomarkers": ["BRCA1", "BRCA2", "PALB2", "RAD51C", "RAD51D"],
+    "stage": ["Advanced", "Metastatic"],
+    "enrollmentCriteria": "Inclusion: Advanced solid tumors with documented deleterious mutation in BRCA1/2, PALB2, or RAD51C/D. Disease progression following prior standard systemic therapy. Age >= 18. ECOG 0-1. Exclusion: Active uncontrolled CNS disease.",
+    "sponsor": "AstraZeneca",
+    "locations": [
+      {"country": "United States", "city": "Boston", "facility": "Massachusetts General Hospital"},
+      {"country": "United Kingdom", "city": "Manchester", "facility": "The Christie NHS Foundation Trust"}
+    ],
+    "startDate": "2020-10-27",
+    "estimatedCompletion": "2026-12-31",
+    "enrollmentTarget": 498
+  },
+  {
+    "trialId": "NCT02477644",
+    "title": "Randomized, Double-Blind, Phase III Trial Olaparib vs. Placebo Patients With Advanced FIGO Stage IIIB-IV High Grade Serious or Endometrioid Ovarian, Fallopian Tube, or Peritoneal Cancer Treated Standard First-Line Treatment (PAOLA-1)",
+    "phase": "Phase III",
+    "status": "Active, not recruiting",
+    "conditions": ["Ovarian Cancer", "Fallopian Tube Cancer", "Peritoneal Cancer"],
+    "drugs": ["Olaparib", "Bevacizumab"],
+    "biomarkers": ["BRCA1", "BRCA2", "HRD"],
+    "stage": ["Stage IIIB", "Stage IV"],
+    "enrollmentCriteria": "Inclusion: Newly diagnosed advanced FIGO stage IIIB-IV ovarian cancer in response following frontline platinum-taxane chemotherapy plus bevacizumab. Known BRCA/HRD status.",
+    "sponsor": "ARCAGY/GINECO GROUP",
+    "locations": [
+      {"country": "France", "city": "Paris", "facility": "Gustave Roussy"},
+      {"country": "Spain", "city": "Madrid", "facility": "Hospital Universitario La Paz"}
+    ],
+    "startDate": "2015-05-19",
+    "estimatedCompletion": "2025-06-30",
+    "enrollmentTarget": 806
+  },
+  {
+    "trialId": "NCT02655016",
+    "title": "A Phase 3, Randomized, Double-Blind, Placebo-Controlled, Multicenter Study of Niraparib Maintenance Treatment in Patients With Advanced Ovarian Cancer Following Response on Front-Line Platinum-Based Chemotherapy (PRIMA)",
+    "phase": "Phase III",
+    "status": "Active, not recruiting",
+    "conditions": ["Ovarian Cancer", "Fallopian Tube Cancer", "Peritoneal Cancer"],
+    "drugs": ["Niraparib"],
+    "biomarkers": ["HRD", "BRCA1", "BRCA2"],
+    "stage": ["Stage III", "Stage IV"],
+    "enrollmentCriteria": "Inclusion: Newly diagnosed advanced high-grade serous or endometrioid ovarian cancer with complete or partial response following frontline platinum-based chemotherapy. HRD and BRCA testing performed.",
+    "sponsor": "GlaxoSmithKline",
+    "locations": [
+      {"country": "United States", "city": "Chicago", "facility": "Northwestern University"},
+      {"country": "United States", "city": "Houston", "facility": "MD Anderson Cancer Center"}
+    ],
+    "startDate": "2016-01-22",
+    "estimatedCompletion": "2025-04-30",
+    "enrollmentTarget": 733
+  },
+  {
+    "trialId": "NCT04988295",
+    "title": "A Phase 3, Open-Label, Randomized Study of Amivantamab and Lazertinib in Combination With Platinum-Based Chemotherapy Compared With Platinum-Based Chemotherapy in Patients With EGFR-Mutated Locally Advanced or Metastatic Non-Small Cell Lung Cancer After Osimertinib Failure (MARIPOSA-2)",
+    "phase": "Phase III",
+    "status": "Active, not recruiting",
+    "conditions": ["Non-Small Cell Lung Cancer", "EGFR-Mutated Advanced NSCLC"],
+    "drugs": ["Amivantamab", "Lazertinib", "Carboplatin", "Pemetrexed"],
+    "biomarkers": ["EGFR", "MET"],
+    "stage": ["Stage IIIB", "Stage IV"],
+    "enrollmentCriteria": "Inclusion: Locally advanced or metastatic NSCLC with EGFR Exon 19 del or L858R mutation that progressed on or after osimertinib monotherapy. Age >= 18. ECOG 0-1.",
+    "sponsor": "Janssen Research & Development",
+    "locations": [
+      {"country": "United States", "city": "Boston", "facility": "Dana-Farber Cancer Institute"},
+      {"country": "United States", "city": "New York", "facility": "Memorial Sloan Kettering Cancer Center"}
+    ],
+    "startDate": "2021-08-25",
+    "estimatedCompletion": "2026-05-31",
+    "enrollmentTarget": 657
   }
 ]

@@ -40,8 +40,8 @@ This script provides reviewers and judges with a step-by-step narrative to explo
   1. **Navigate to Graph Explorer:** Locate the interactive visual canvas.
   2. **Observe Force Simulation:** Nodes represent patients, mutations, genes, pathways, drugs, and clinical trials. Drag nodes to inspect attraction/repulsion.
   3. **Trace Pathway:** Hover over Arthur Pendelton. Observe the highlighted paths trace:
-     `Arthur Pendelton` $\to$ `EGFR T790M` $\to$ `EGFR` $\to$ `egfr-pathway` $\to$ `osimertinib` $\to$ `NCT03944772` (Clinical Trial).
-  4. **Identify Resistance Edge:** Spot the red `resistant_to` relation connecting EGFR T790M to Erlotinib.
+     `Arthur Pendelton` $\to$ `MET amp` $\to$ `MET` $\to$ `met-pathway` $\to$ `savolitinib` $\to$ `NCT03944772` (Clinical Trial).
+  4. **Identify Bypass Edge:** Spot the bypass resistance mechanism connecting MET amplification to third-generation EGFR TKI resistance.
 
 ---
 

@@ -19,7 +19,7 @@ export function executeClinicalRecommendationAgent(context) {
 
   const recommendation = ClinicalRecommendationModel.create({
     patientId: patient.id,
-    therapy: patient.id === 'patient-a' ? 'Olaparib' : patient.id === 'patient-b' ? 'Osimertinib + Savolitinib (Trial)' : 'FOLFIRI + Bevacizumab',
+    therapy: patient.recommendedTherapy || (patient.id === 'patient-a' ? 'Carboplatin + Paclitaxel completion -> Olaparib Maintenance (SOLO-1)' : patient.id === 'patient-b' ? 'Amivantamab + Carboplatin + Pemetrexed (FDA-approved, MARIPOSA-2); Investigational: Osimertinib + Savolitinib (ORCHARD NCT03944772) or Amivantamab + Lazertinib (CHRYSALIS-2 NCT04077463)' : 'FOLFIRI + Bevacizumab continuation (RECIST stable); screen for active KRAS G12D or pan-RAS(ON) trials'),
     strategy: planningReport.preferredStrategy,
     confidence: parseFloat(confidence.toFixed(2)),
     evidenceScore: Math.min(100, evidenceScore),

@@ -89,7 +89,7 @@ ONCOLOGY_LITERATURE_CORPUS = [
     {
         "pmid": "29151359",
         "doi": "10.1056/NEJMoa1713137",
-        "nct_id": "NCT02296424",
+        "nct_id": "NCT02296125",
         "title": "Osimertinib in Untreated EGFR-Mutated Advanced Non-Small-Cell Lung Cancer",
         "authors": ["Soria JC", "Ohe Y", "Vansteenkiste J", "Reungwetwattana T", "Chewaskulyong B", "Lee KH"],
         "journal": "New England Journal of Medicine",
@@ -99,7 +99,7 @@ ONCOLOGY_LITERATURE_CORPUS = [
         "pages": "113-125",
         "phase": "Phase III Trial",
         "trial_name": "FLAURA",
-        "biomarkers": ["EGFR", "L858R", "T790M"],
+        "biomarkers": ["EGFR", "L858R", "Ex19del"],
         "condition": "Non-Small Cell Lung Cancer",
         "drug": "Osimertinib",
         "sample_size": 556,

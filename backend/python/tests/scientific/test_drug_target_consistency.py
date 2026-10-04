@@ -107,15 +107,13 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn("BRCA1", duo_o["biomarkers"])
         self.assertIn("Active, not recruiting", duo_o["status"])
 
-        # Hallucinated trial IDs must NOT exist
+        # Hallucinated and unverified trial IDs must NOT exist
         self.assertNotIn("NCT04381884", trial_map)
         self.assertNotIn("NCT05206253", trial_map)
-
-        # KRYSTAL-10 (NCT04625881)
-        krystal10 = trial_map.get("NCT04625881")
-        self.assertIsNotNone(krystal10)
-        self.assertIn("KRAS G12C", krystal10["biomarkers"])
-        self.assertNotIn("KRAS G12D", krystal10["biomarkers"])
+        self.assertNotIn("NCT04625881", trial_map, "Apple fiber trial NCT04625881 must not exist")
+        self.assertNotIn("NCT04613596", trial_map, "Sickle cell trial NCT04613596 must not exist")
+        self.assertNotIn("NCT03042559", trial_map, "Knee brace trial NCT03042559 must not exist")
+        self.assertNotIn("NCT02844816", trial_map, "Bladder cancer trial NCT02844816 must not exist")
 
         # KRYSTAL-1 (NCT03785249)
         krystal1 = trial_map.get("NCT03785249")
@@ -123,11 +121,20 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn("KRAS G12C", krystal1["biomarkers"])
         self.assertNotIn("KRAS G12D", krystal1["biomarkers"])
 
-        # CodeBreaK 300 (NCT04613596)
-        codebreak = trial_map.get("NCT04613596")
-        self.assertIsNotNone(codebreak)
-        self.assertIn("KRAS G12C", codebreak["biomarkers"])
-        self.assertNotIn("KRAS G12D", codebreak["biomarkers"])
+        # FLAURA (NCT02296125)
+        flaura = trial_map.get("NCT02296125")
+        self.assertIsNotNone(flaura)
+        self.assertIn("EGFR", flaura["biomarkers"])
+
+        # SOLO-1 (NCT01844986)
+        solo1 = trial_map.get("NCT01844986")
+        self.assertIsNotNone(solo1)
+        self.assertIn("BRCA1", solo1["biomarkers"])
+
+        # PETRA (NCT04644068)
+        petra = trial_map.get("NCT04644068")
+        self.assertIsNotNone(petra)
+        self.assertIn("BRCA1", petra["biomarkers"])
 
         # ORCHARD (NCT03944772)
         orchard = trial_map.get("NCT03944772")
@@ -186,7 +193,10 @@ class TestDrugTargetConsistency(unittest.TestCase):
         self.assertIn('CN=12', content)
         self.assertNotIn('CN=5', content)
         self.assertIn('High-Level Amplification (CN=12)', content)
-        self.assertIn('Tier I (Level B: NCCN Guidelines NSCLC v1.2024', content)
+        self.assertIn('Tier II (Level C', content)
+        self.assertIn('MARIPOSA-2', content)
+        self.assertIn('recommendedTherapy', content)
+        self.assertIn('Ineligible (requires advanced/progressed disease', content)
         self.assertIn('NCT03944772', content)
         self.assertIn('platinum', content)
 
@@ -326,6 +336,20 @@ class TestDrugTargetConsistency(unittest.TestCase):
             "runtime.py must not fallback to NCT03737643"
         )
 
+        # 5. Verify trial_registry.py does not hardcode NCT00000000 as fallback
+        trial_reg_path = os.path.join(self.root, "backend", "python", "compute", "trials", "trial_registry.py")
+        with open(trial_reg_path, "r", encoding="utf-8") as f:
+            trial_reg_code = f.read()
+        self.assertNotIn("NCT00000000", trial_reg_code, "trial_registry.py must not fallback to NCT00000000")
+
+        # 6. Verify ResearchIntelligencePanel.js does not contain hardcoded fallback trial IDs or fake citations
+        research_panel_path = os.path.join(self.root, "frontend", "apps", "dashboard", "src", "components", "research", "ResearchIntelligencePanel.js")
+        with open(research_panel_path, "r", encoding="utf-8") as f:
+            panel_code = f.read()
+        self.assertNotIn("item.nct_id || item.trial_id || 'NCT01844986'", panel_code, "ResearchIntelligencePanel must not fallback to NCT01844986")
+        self.assertNotIn("item.pmid || '30345884'", panel_code, "ResearchIntelligencePanel must not fallback to PMID 30345884")
+        self.assertNotIn("item.doi || '10.1056/NEJMoa1810858'", panel_code, "ResearchIntelligencePanel must not fallback to fake DOI")
+
     def test_cosmic_sbs96_reference_sanity(self):
         """COSMIC v3.4 SBS reference matrix must exhibit expected biological mutation profiles and canonical LF hash."""
         csv_path = os.path.join(self.root, "datasets", "reference", "cosmic_sbs96_reference.csv")
@@ -365,6 +389,62 @@ class TestDrugTargetConsistency(unittest.TestCase):
         sbs7a_total = sum(float(r["SBS7a"]) for r in rows)
         uv_fraction = sbs7a_uv_sum / sbs7a_total
         self.assertGreater(uv_fraction, 0.40)
+
+    def test_verified_trials_registry_enforcement(self):
+        """
+        All NCT IDs across the repository must exist in verified_trials.json.
+        No NCT ID in known_invalid may appear anywhere except inside verified_trials.json and this test file.
+        """
+        import re
+        registry_path = os.path.join(self.root, "datasets", "knowledge", "verified_trials.json")
+        self.assertTrue(os.path.exists(registry_path), "verified_trials.json must exist")
+        with open(registry_path, "r", encoding="utf-8") as f:
+            registry = json.load(f)
+
+        verified = registry.get("verified", {})
+        known_invalid = registry.get("known_invalid", {})
+
+        self.assertGreater(len(verified), 0, "verified section must not be empty")
+        self.assertGreater(len(known_invalid), 0, "known_invalid section must not be empty")
+
+        for nct_id, info in verified.items():
+            self.assertTrue(nct_id.startswith("NCT"), f"Invalid NCT ID: {nct_id}")
+            self.assertIn("official_title", info, f"{nct_id} must have official_title")
+            self.assertIn("url", info, f"{nct_id} must have url")
+            self.assertTrue(
+                info["url"].startswith("https://clinicaltrials.gov/study/"),
+                f"{nct_id} URL must start with https://clinicaltrials.gov/study/"
+            )
+
+        nct_pattern = re.compile(r"NCT\d{8}")
+        this_test_file = os.path.abspath(__file__)
+        registry_file = os.path.abspath(registry_path)
+
+        for root, dirs, files in os.walk(self.root):
+            dirs[:] = [d for d in dirs if d not in (".git", "node_modules", "__pycache__", ".vscode", "dist", "build")]
+            for file in files:
+                file_path = os.path.abspath(os.path.join(root, file))
+                if file_path in (registry_file, this_test_file):
+                    continue
+
+                try:
+                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                        for line_no, line in enumerate(f, 1):
+                            for nct in nct_pattern.findall(line):
+                                self.assertNotIn(
+                                    nct,
+                                    known_invalid,
+                                    f"Forbidden known_invalid trial {nct} found in {file_path}:{line_no} ({known_invalid.get(nct)})"
+                                )
+                                self.assertIn(
+                                    nct,
+                                    verified,
+                                    f"Unverified NCT ID {nct} found in {file_path}:{line_no}. "
+                                    f"All clinical trials must be verified on ClinicalTrials.gov "
+                                    f"and documented in datasets/knowledge/verified_trials.json."
+                                )
+                except Exception as e:
+                    self.fail(f"Failed to scan {file_path} for trial IDs: {e}")
 
 
 if __name__ == "__main__":

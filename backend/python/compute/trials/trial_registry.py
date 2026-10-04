@@ -54,7 +54,7 @@ class TrialRegistry:
                     "trialId": "NCT03944772",
                     "title": "Phase Ib/II Trial of Osimertinib + Savolitinib in Patients with EGFRm-positive and MET-amplified NSCLC (ORCHARD)",
                     "phase": "Phase II",
-                    "status": "Active, Recruiting",
+                    "status": "Active, not recruiting",
                     "conditions": ["Non-Small Cell Lung Cancer (NSCLC)"],
                     "drugs": ["Osimertinib", "Savolitinib"],
                     "biomarkers": ["EGFR", "MET"],
@@ -150,7 +150,7 @@ class TrialRegistry:
                         interv = protocol.get("armsInterventionsModule", {}).get("interventions", [])
                         locs = protocol.get("contactsLocationsModule", {}).get("locations", [])
 
-                        nct_id = ident.get("nctId", "NCT00000000")
+                        nct_id = ident.get("nctId", None)
                         title = ident.get("briefTitle", "Online Oncology Study")
                         status = status_mod.get("overallStatus", "Active")
                         phases = design.get("phases", ["Phase II"])

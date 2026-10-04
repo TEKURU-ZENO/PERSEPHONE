@@ -180,7 +180,7 @@ edges.push({ source: 'adagrasib', target: 'transaminitis', type: 'causes' });
 edges.push({ source: 'NCT03737643', target: 'brca1-mut', type: 'enrolls' });
 edges.push({ source: 'NCT03944772', target: 'met-amp', type: 'enrolls' });
 edges.push({ source: 'NCT04077463', target: 'met-amp', type: 'enrolls' });
-edges.push({ source: 'NCT04625881', target: 'kras-g12c', type: 'enrolls' });
+edges.push({ source: 'NCT03785249', target: 'kras-g12c', type: 'enrolls' });
 
 
 export const GraphService = {
