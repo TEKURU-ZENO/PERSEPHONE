@@ -8,6 +8,7 @@ export async function run() {
   const patient = {
     id: 'patient-a',
     name: 'Elena Rostova',
+    recommendedTherapy: 'Carboplatin + Paclitaxel completion -> Olaparib Maintenance (SOLO-1)',
     genomics: { variants: [{ gene: 'BRCA1' }] },
     clinicalMetrics: { renal: 'eGFR: 88 (Normal)' }
   };

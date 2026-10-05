@@ -235,3 +235,5 @@ export const clinicalTrials = [
     "timestamp": "2026-06-29T16:40:34.610Z"
   }
 ];
+
+export { verifiedTrials } from './verified-trials.js';

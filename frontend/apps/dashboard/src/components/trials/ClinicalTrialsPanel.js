@@ -6,6 +6,7 @@
  */
 
 import { patientStore } from '../../state/patient.store.js';
+import { verifiedTrials } from '../../data/verified-trials.js';
 
 export function renderClinicalTrials(container) {
   let activePatient = patientStore.getActivePatient() || {
@@ -216,49 +217,6 @@ function renderMatchedList(trials) {
 function renderDetails(c, patient) {
   const patientTrials = patient.trials || [];
 
-  const protocolData = {
-    'NCT03737643': {
-      title: 'Durvalumab + Bevacizumab + Olaparib in Advanced Ovarian Cancer (DUO-O)',
-      phase: 'Phase III',
-      biomarkers: 'BRCA1, BRCA2, HRD+',
-      interventions: 'Durvalumab, Olaparib, Bevacizumab',
-      sponsor: 'AstraZeneca',
-      inclusion: 'Pathogenic BRCA1/2 or HRD+, Stage III/IV high-grade serous ovarian adenocarcinoma, response to 1L platinum.'
-    },
-    'NCT04644068': {
-      title: 'Saruparib (AZD5305) Next-Gen PARP1-Selective Inhibitor in BRCA-Mutant Tumors (PETRA)',
-      phase: 'Phase I/II',
-      biomarkers: 'BRCA1/2, PALB2, RAD51C/D',
-      interventions: 'Saruparib (AZD5305)',
-      sponsor: 'AstraZeneca',
-      inclusion: 'Advanced solid malignancies with BRCA1/2 alteration with progression on or after standard therapies.'
-    },
-    'NCT03944772': {
-      title: 'Phase Ib/II Trial of Osimertinib Combination Therapies in EGFRm NSCLC with MET Amplification (ORCHARD)',
-      phase: 'Phase II',
-      biomarkers: 'EGFR (L858R, Ex19del) + MET Amplification',
-      interventions: 'Osimertinib, Savolitinib',
-      sponsor: 'AstraZeneca',
-      inclusion: 'NSCLC harboring activating EGFR mutation with confirmed acquired MET amplification bypass following osimertinib.'
-    },
-    'NCT04077463': {
-      title: 'Amivantamab + Lazertinib in EGFR-Mutated NSCLC Post-Osimertinib (CHRYSALIS-2)',
-      phase: 'Phase Ib/II',
-      biomarkers: 'EGFR, MET',
-      interventions: 'Amivantamab, Lazertinib',
-      sponsor: 'Janssen Research & Development',
-      inclusion: 'Locally advanced or metastatic EGFR-mutant NSCLC post-osimertinib progression. Published Cohort A requires prior platinum.'
-    },
-    'SCREEN-RAS-G12D': {
-      title: 'Investigational KRAS G12D / pan-RAS(ON) Inhibitor Trial Screening Protocol',
-      phase: 'Phase I / Screening Pipeline',
-      biomarkers: 'KRAS G12D',
-      interventions: 'Novel non-covalent KRAS G12D or pan-RAS(ON) small molecules',
-      sponsor: 'Translational Oncology Network',
-      inclusion: 'Metastatic colorectal adenocarcinoma with confirmed KRAS G12D somatic alteration upon disease progression.'
-    }
-  };
-
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
       <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
@@ -267,12 +225,12 @@ function renderDetails(c, patient) {
       </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:0.75rem; font-size:0.72rem;">
         ${patientTrials.map(t => {
-          const detail = protocolData[t.id] || {
+          const detail = verifiedTrials[t.id] || {
             title: t.name,
             phase: 'Investigational',
             biomarkers: (t.reasons || []).join(', '),
             interventions: 'Targeted Therapy',
-            sponsor: 'Investigational Registry',
+            sponsor: null,
             inclusion: t.rationale
           };
           const isNct = (t.id || '').startsWith('NCT');
@@ -289,12 +247,12 @@ function renderDetails(c, patient) {
                     ${t.id} (${detail.phase})
                   </span>
                 `}
-                <span style="font-size:0.62rem; color:var(--text-muted); margin-left:auto;">${t.recruitment_status || ''}</span>
+                <span style="font-size:0.62rem; color:var(--text-muted); margin-left:auto;">${t.recruitment_status || detail.status || ''}</span>
               </div>
               <div style="color:var(--text-primary); font-weight:600; margin-bottom:0.4rem;">${detail.title}</div>
-              <div style="margin-bottom:0.2rem;"><strong>Biomarkers:</strong> ${detail.biomarkers}</div>
-              <div style="margin-bottom:0.2rem;"><strong>Interventions:</strong> ${detail.interventions}</div>
-              <div style="margin-bottom:0.2rem;"><strong>Sponsor:</strong> ${detail.sponsor}</div>
+              <div style="margin-bottom:0.2rem;"><strong>Biomarkers:</strong> ${detail.biomarkers || (t.reasons || []).join(', ')}</div>
+              <div style="margin-bottom:0.2rem;"><strong>Interventions:</strong> ${detail.interventions || 'Targeted Therapy'}</div>
+              ${detail.sponsor ? `<div style="margin-bottom:0.2rem;"><strong>Sponsor:</strong> ${detail.sponsor}</div>` : ''}
               <div style="margin-top:0.35rem; padding-top:0.35rem; border-top:1px solid rgba(255,255,255,0.05); font-size:0.67rem; color:var(--text-secondary);">
                 <strong>Eligibility Assessment:</strong> ${t.eligibility || detail.inclusion}
               </div>
@@ -344,28 +302,15 @@ function renderFilters(c, patient) {
 function renderEvidence(c, patient) {
   const patientTrials = patient.trials || [];
 
-  const evidenceMap = {
-    'NCT03737643': { gene: 'BRCA1 / HRD', drug: 'Durvalumab + Olaparib', phase: 'Phase III', evidence: 'Tier I-A' },
-    'NCT04644068': { gene: 'BRCA1 / PALB2', drug: 'Saruparib (AZD5305)', phase: 'Phase I/II', evidence: 'Tier I-B' },
-    'NCT03944772': { gene: 'EGFR + MET amp', drug: 'Osimertinib + Savolitinib', phase: 'Phase II', evidence: 'Tier II (Level C)' },
-    'NCT04077463': { gene: 'EGFR + MET amp', drug: 'Amivantamab + Lazertinib', phase: 'Phase Ib/II', evidence: 'Tier II (Level C)' },
-    'SCREEN-RAS-G12D': { gene: 'KRAS G12D', drug: 'Pan-RAS(ON) / G12D Pipeline', phase: 'Phase I Screening', evidence: 'Tier III' }
-  };
-
   const rows = patientTrials.map(t => {
-    const info = evidenceMap[t.id] || {
-      gene: (t.reasons || [])[0] || 'Genomic Target',
-      drug: 'Investigational Agent',
-      phase: 'Phase I/II',
-      evidence: 'Investigational'
-    };
+    const meta = verifiedTrials[t.id] || {};
     return {
-      gene: info.gene,
+      biomarker: meta.biomarkers || (t.reasons || [])[0] || 'Genomic Target',
       trial: t.id,
-      drug: info.drug,
-      phase: info.phase,
-      evidence: info.evidence,
-      status: t.eligibility || t.recruitment_status
+      drug: meta.interventions || 'Investigational Agent',
+      phase: meta.phase || 'Phase I/II',
+      recruitmentStatus: t.recruitment_status || meta.status || 'Investigational',
+      eligibility: t.eligibility || 'Screening'
     };
   });
 
@@ -376,28 +321,36 @@ function renderEvidence(c, patient) {
         <span style="font-weight:600; font-size:0.85rem;">Trial Evidence & Biomarker Cross-Reference Matrix: <span style="color:var(--cyan);">${patient.name || 'Patient'}</span></span>
       </div>
       <p class="text-muted" style="font-size:0.72rem; margin-bottom:0.5rem;">
-        Cross-references verified genomic alterations to active protocol evidence levels, trial phases, and clinical eligibility status.
+        Cross-references verified genomic alterations to active protocol phases, recruitment status, and clinical eligibility.
       </p>
       <div style="display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem; padding:0.35rem 0.6rem; background:rgba(0,255,255,0.05); border:1px solid rgba(0,255,255,0.12); border-radius:4px; font-weight:700; color:var(--text-muted); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.04em;">
+          <span style="min-width:110px;">Target / Biomarker</span>
+          <span style="min-width:95px;">Trial</span>
+          <span style="min-width:180px; flex:1;">Drug / Regimen</span>
+          <span style="min-width:90px;">Phase</span>
+          <span style="min-width:130px;">Recruitment Status</span>
+          <span style="min-width:120px; text-align:right;">Eligibility</span>
+        </div>
         ${rows.map(row => {
           const isNct = (row.trial || '').startsWith('NCT');
-          const isEligible = !row.status.toLowerCase().includes('ineligible');
+          const isEligible = !row.eligibility.toLowerCase().includes('ineligible');
           return `
             <div style="display:flex; align-items:center; gap:0.5rem; padding:0.45rem 0.6rem; background:rgba(0,255,255,0.02); border:1px solid rgba(0,255,255,0.08); border-radius:4px; flex-wrap:wrap;">
-              <span style="font-weight:600; color:var(--cyan); min-width:85px;">${row.gene}</span>
+              <span style="font-weight:600; color:var(--cyan); min-width:110px;">${row.biomarker}</span>
               ${isNct ? `
-                <a href="https://clinicaltrials.gov/study/${row.trial}" target="_blank" style="color:var(--text-secondary); min-width:90px; text-decoration:none; font-family:monospace; font-weight:600;">
+                <a href="https://clinicaltrials.gov/study/${row.trial}" target="_blank" style="color:var(--text-secondary); min-width:95px; text-decoration:none; font-family:monospace; font-weight:600;">
                   ${row.trial} ↗
                 </a>
               ` : `
-                <span style="color:var(--amber); min-width:90px; font-family:monospace; font-weight:600;">
+                <span style="color:var(--amber); min-width:95px; font-family:monospace; font-weight:600;">
                   ${row.trial}
                 </span>
               `}
-              <span style="font-weight:600; min-width:140px; color:var(--text-primary);">${row.drug}</span>
-              <span style="color:var(--cyan); min-width:65px;">${row.phase}</span>
-              <span style="color:#c084fc; font-weight:600; min-width:75px;">${row.evidence}</span>
-              <span style="color:${isEligible ? '#4ade80' : '#f87171'}; font-size:0.68rem; margin-left:auto;">${row.status}</span>
+              <span style="font-weight:600; min-width:180px; flex:1; color:var(--text-primary);">${row.drug}</span>
+              <span style="color:var(--cyan); min-width:90px;">${row.phase}</span>
+              <span style="color:var(--text-secondary); min-width:130px;">${row.recruitmentStatus}</span>
+              <span style="color:${isEligible ? '#4ade80' : '#f87171'}; font-size:0.68rem; min-width:120px; text-align:right;">${row.eligibility}</span>
             </div>
           `;
         }).join('')}
