@@ -134,7 +134,7 @@ class PlaneRegistry:
             requires=["THERAPY_REGIMEN", "SIMULATION_RESULTS"],
             publishes=["OPTIMIZED_POLICY"],
             critical=False,
-            description="Reinforcement learning (PPO/DQN) adaptive dosing"
+            description="Reinforcement learning (Actor-Critic/DQN) adaptive dosing"
         ),
         AgentSpec(
             agent_id="trials",

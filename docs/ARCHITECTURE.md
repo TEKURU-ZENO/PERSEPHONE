@@ -7,9 +7,9 @@ PERSEPHONE is an evidence-grounded Precision Oncology Decision Support System. T
 ## 1. System Architecture Overview
 
 PERSEPHONE is decoupled into three layers:
-1. **Digital Twin Operating Environment (DTOE):** A reactive clinical workstation served over Node.js.
+1. **Simulation Profile Operating Environment (DTOE):** A reactive clinical workstation served over Node.js.
 2. **Mathematical Simulation Engine:** An ODE solver utilizing Runge-Kutta 4th order integration.
-3. **Cognitive Agent Fabric:** A stateful Directed Acyclic Graph (DAG) coordinating specialist clinical agents.
+3. **Cognitive Agent Fabric:** A stateful Directed Acyclic Graph (DAG) coordinating deterministic rule-based clinical agents (no external LLMs).
 
 ```
 +--------------------------------------------------------------+
@@ -34,8 +34,8 @@ PERSEPHONE is decoupled into three layers:
 ---
 
 ## 2. DTOE Workstation & Telemetry
-The frontend dashboard acts as the **Digital Twin Operating Environment**:
-- **Observable Store:** Implemented in [patient.store.js](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/frontend/apps/dashboard/src/state/patient.store.js), managing active patient state and subscribing visual panels.
+The frontend dashboard acts as the **Simulation Profile Operating Environment**:
+- **Observable Store:** Implemented in [patient.store.js](../frontend/apps/dashboard/src/state/patient.store.js), managing active patient state and subscribing visual panels.
 - **Biometric Telemetry:** Simulates real-time patient status with stochastic walks (Brownian motion fluctuation) around baseline heart rate and temperature.
 - **Histopathology Slides:** Integrated panel displaying PNG scans served by the Express-like static Node server.
 
@@ -55,12 +55,12 @@ $$\frac{dS_R}{dt} = \alpha_2 S_R \left(1 - \frac{S_S + S_R}{K}\right) - d(t) \cd
 
 ---
 
-## 4. Causal Counterfactual Engine
-Calculates potential outcomes for alternative drug administration strategies:
+## 4. Regimen Scenario Simulator
+Calculates prospective potential outcome trajectories for alternative drug administration strategies:
 
 $$Y(a) = f(X, a, U_Y)$$
 
-The simulator runs both factual ($a = \text{Selected}$) and counterfactual ($a' = \text{Alternative}$) trajectories simultaneously, rendering a comparison of cumulative dose, toxicity, and Time-to-Progression (TTP) deltas.
+The simulator runs both selected ($a = \text{Selected}$) and alternative ($a' = \text{Alternative}$) trajectories simultaneously, rendering a comparison of cumulative dose, toxicity, and Time-to-Progression (TTP) deltas.
 
 ---
 
@@ -71,8 +71,8 @@ Represents relational bio-clinical data as nodes and edges. Pathfinding is imple
 
 ---
 
-## 6. Multi-Agent DAG Orchestrator
-Sequences patient profiles, simulations, and graph paths across 5 specialized agents:
+## 6. Deterministic Agent DAG Orchestrator
+Sequences patient profiles, simulations, and graph paths across 5 specialized rule-based agents (no external LLMs):
 
 ```
   [Tumor Evolution Agent] 
@@ -93,4 +93,4 @@ Sequences patient profiles, simulations, and graph paths across 5 specialized ag
 
 ## 7. Future Directions
 - **Phase 5: Graph-RAG & Long-Term Memory:** Embedding audit trails (`audit/recommendations/`) and querying them using vector indexing linked to the Knowledge Graph nodes.
-- **Phase 6: RL-Based Dose Optimization:** Substituting rule-based adaptive holds with a Deep Q-Network (DQN) agent optimizing dose timing based on simulated patient twin feedback.
+- **Phase 6: RL-Based Dose Optimization:** Substituting rule-based adaptive holds with an Actor-Critic or Deep Q-Network (DQN) agent optimizing dose timing based on simulated patient feedback.

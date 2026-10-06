@@ -27,7 +27,8 @@ export async function run() {
   assert.ok(trialsResult.result, 'Response must include result object');
   const res = trialsResult.result;
   assert.ok(Array.isArray(res.matchedTrials), 'Result must include matchedTrials list');
-  assert.ok(res.matchedTrials.length >= 10, 'Should screen at least 10 trials');
+  assert.ok(res.totalScreened >= 10, 'Should screen at least 10 trials');
+  assert.ok(res.matchedTrials.length >= 1, 'Should find at least 1 matched trial');
   assert.ok(res.totalEligible >= 1, 'Should find at least 1 eligible trial');
   assert.ok(res.topTrial, 'Result must identify a topTrial');
   assert.strictEqual(res.topTrial.rank, 1, 'Top trial rank must be 1');

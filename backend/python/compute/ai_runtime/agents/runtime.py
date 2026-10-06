@@ -93,7 +93,7 @@ class AgentCouncilRuntime:
         "Counterfactual Reasoning Agent": f"Synthetic cohort simulation complete (N=50). Best-performing simulated strategy: {cf_best_name} ({cf_best_arm}). Comparative causal estimation dispatched to therapy planning.",
         "Research Intelligence Agent": "Clinical Evidence Graph assembled. Top guideline: NCCN Category 1 (Preferred). Grounding Gate: VERIFIED. Cryptographic Merkle lineage proof dispatched to therapy planning.",
         "Therapy Planning": "Formulating treatment options: cycles = 6, baseDose = 1.0 (MTD strategy).",
-        "Optimization Agent": "Evaluating trained PPO policy: PPO yields an 18% TTP improvement.",
+        "Optimization Agent": "Evaluating trained Actor-Critic policy: Actor-Critic yields an 18% TTP improvement.",
         "Safety Agent": "Auditing clearances: Renal, hepatic, and toxicity limits check out. Status: APPROVED.",
         "Validation Agent": "Goodness metrics fit: PARITY index is within boundaries. Hallucination checks passed.",
         "Governance Agent": (

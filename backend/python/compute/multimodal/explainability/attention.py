@@ -26,6 +26,7 @@ class AttentionRollout:
         entropy = -sum([w * math.log(w + 1e-9) for w in attention_weights])
         
         return {
+            "is_mock": True,
             "attention_weights": attention_weights,
             "entropy": entropy,
             "top_k_indices": list(range(min(5, len(attention_weights)))),
@@ -48,6 +49,7 @@ class AttentionRollout:
         aggregated_map = [[0.5 for _ in range(size)] for _ in range(size)]
         
         return {
+            "is_mock": True,
             "aggregated_map": aggregated_map,
             "layer_count": len(attention_maps),
             "receptive_field_coverage": 0.92

@@ -33,22 +33,23 @@ class ClinicalTrialsRegistry:
         # Check if online enrichment is explicitly requested
         if patient_profile.get("query_online"):
             primary_var = (patient_profile.get("variants") or ["BRCA1"])[0]
+            if isinstance(primary_var, dict):
+                primary_var = primary_var.get("gene", "BRCA1")
             online_res = TrialRegistry.fetch_online_trials(primary_var, max_results=3)
             if online_res.get("online"):
-                # Append any new unique trials
                 existing_ids = set([t.get("trialId") for t in all_trials])
                 for ot in online_res.get("trials", []):
                     if ot.get("trialId") not in existing_ids:
                         all_trials.append(ot)
 
         # 2. Match patient against trial protocols
-        matched_trials = TrialMatcher.match_patient_to_trials(patient_profile, all_trials)
+        matched_results = TrialMatcher.match_patient_to_trials(patient_profile, all_trials)
 
         # 3. Composite clinical priority ranking
         genomic_context = {
             "actionability_tier": patient_profile.get("biomarker_tier", "Tier I-A")
         }
-        ranked_trials = TrialRanker.rank_trials(matched_trials, genomic_context=genomic_context)
+        ranked_trials = TrialRanker.rank_trials(matched_results, genomic_context=genomic_context)
 
         # 4. Geographic distance and feasibility tagging
         patient_country = patient_profile.get("country", "United States")
@@ -68,20 +69,28 @@ class ClinicalTrialsRegistry:
 
         # 5. Summary metrics
         total_screened = len(all_trials)
-        eligible_trials = [t for t in final_trials if t.get("isEligible", False)]
-        total_eligible = len(eligible_trials)
-        match_rate = round(total_eligible / max(total_screened, 1), 3)
+        matched_trials = [
+            t for t in final_trials
+            if t.get("biomarker_match", False) and not t.get("disqualified", False)
+        ]
+        total_eligible = len([
+            t for t in matched_trials
+            if t.get("isEligible", False) or t.get("status_label") in ("eligible", "possibly eligible", "biomarker match, not enrolling")
+        ])
+        match_rate = round(len(matched_trials) / max(total_screened, 1), 3)
 
-        top_trial = final_trials[0] if final_trials else None
+        top_trial = matched_trials[0] if matched_trials else None
         processing_time_ms = round((time.perf_counter() - start_time) * 1000, 2)
 
         return {
-            "matchedTrials": final_trials,
+            "matchedTrials": matched_trials,
+            "allScreenedTrials": final_trials,
             "topTrial": top_trial,
             "totalScreened": total_screened,
             "totalEligible": total_eligible,
             "matchRate": match_rate,
             "patientProfile": {
+                "cancerType": patient_profile.get("cancer_type", ""),
                 "variants": patient_profile.get("variants", []),
                 "diagnosis": patient_profile.get("diagnosis", ""),
                 "stage": patient_profile.get("stage", "")

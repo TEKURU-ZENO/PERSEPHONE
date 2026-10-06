@@ -148,5 +148,100 @@ class TestClinicalTrialsRegistry(unittest.TestCase):
         self.assertIsNotNone(res["topTrial"])
         self.assertEqual(res["topTrial"]["rank"], 1)
 
+    def test_protein_change_normalization(self):
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("p.Gly12Asp"), "G12D")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("Gly12Asp"), "G12D")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("p.Leu858Arg"), "L858R")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("Leu858Arg"), "L858R")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("p.Arg273His"), "R273H")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("G12C"), "G12C")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("p.G12C"), "G12C")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("MET Amp (CN=6)"), "Amplification")
+        self.assertEqual(EligibilityExtractor.normalize_protein_change("Amplification"), "Amplification")
+
+    def test_patient_specific_trial_matching_and_filtering(self):
+        # Patient C: Colorectal, KRAS G12D, MSS
+        patient_c = {
+            "cancerType": "colorectal",
+            "diagnosis": "Colorectal Adenocarcinoma",
+            "stage": "Stage IV (Hepatic Metastases)",
+            "microsatellite_status": "MSS",
+            "variants": [
+                {"gene": "KRAS", "alteration": "G12D", "tier": "Tier I-A"},
+                {"gene": "APC", "alteration": "I1307K", "tier": "Tier II-C"},
+                {"gene": "TP53", "alteration": "R175H", "tier": "Tier I-B"}
+            ],
+            "age": 49,
+            "country": "United States",
+            "city": "New York"
+        }
+        res_c = ClinicalTrialsRegistry.run_trial_matching_pipeline(patient_c)
+        matched_c = res_c["matchedTrials"]
+        screened_c = res_c["allScreenedTrials"]
+
+        # Rule 1: No KRYSTAL-1 matched, and rejection reason is G12C mutation mismatch, not cancer type
+        self.assertNotIn("NCT03785249", [t["trialId"] for t in matched_c])
+        krystal1 = next((t for t in screened_c if t["trialId"] == "NCT03785249"), None)
+        self.assertIsNotNone(krystal1)
+        self.assertTrue(any("Mutation mismatch: Trial requires KRAS G12C" in v for v in krystal1["violations"]))
+        self.assertFalse(any("Cancer type mismatch" in v for v in krystal1["violations"]))
+
+        # Rule 2: No KEYNOTE-177 matched, rejected for MSS status
+        self.assertNotIn("NCT02563002", [t["trialId"] for t in matched_c])
+        kn177 = next((t for t in screened_c if t["trialId"] == "NCT02563002"), None)
+        self.assertIsNotNone(kn177)
+        self.assertTrue(any("Biomarker mismatch: Trial requires MSI-H/dMMR, patient has MSS" in v for v in kn177["violations"]))
+
+        # Rule 3: No trials from other cancer types (ovarian, lung, prostate, breast)
+        for t in matched_c:
+            self.assertTrue(
+                "colorectal" in t.get("cancer_types", []) or "solid_tumor" in t.get("cancer_types", [])
+            )
+        self.assertIsNone(res_c["topTrial"])
+
+        # Patient B: Lung NSCLC, EGFR L858R + MET amp, progression on osimertinib, no platinum chemotherapy
+        patient_b = {
+            "cancerType": "nsclc",
+            "diagnosis": "Lung Adenocarcinoma (NSCLC)",
+            "stage": "Stage IV (Bone Metastases)",
+            "prior_therapies": ["First-line osimertinib"],
+            "variants": [
+                {"gene": "EGFR", "alteration": "L858R", "tier": "Tier I-A"},
+                {"gene": "MET", "alteration": "Amplification", "tier": "Tier I-B"},
+                {"gene": "TP53", "alteration": "R273H", "tier": "Tier I-B"}
+            ],
+            "age": 68,
+            "country": "United States",
+            "city": "New York"
+        }
+        res_b = ClinicalTrialsRegistry.run_trial_matching_pipeline(patient_b)
+        matched_b = res_b["matchedTrials"]
+        matched_b_ids = [t["trialId"] for t in matched_b]
+
+        # Must match ORCHARD, MARIPOSA-2, and CHRYSALIS-2
+        self.assertIn("NCT03944772", matched_b_ids)  # ORCHARD
+        self.assertIn("NCT04988295", matched_b_ids)  # MARIPOSA-2
+        self.assertIn("NCT04077463", matched_b_ids)  # CHRYSALIS-2
+
+        # CHRYSALIS-2 should be "possibly eligible" due to missing prior platinum chemo
+        chrysalis = next(t for t in matched_b if t["trialId"] == "NCT04077463")
+        self.assertEqual(chrysalis["status_label"], "possibly eligible")
+        self.assertFalse(chrysalis["isEligible"])
+
+        # ORCHARD & MARIPOSA-2 are closed to enrollment -> "biomarker match, not enrolling"
+        orchard = next(t for t in matched_b if t["trialId"] == "NCT03944772")
+        self.assertEqual(orchard["status_label"], "biomarker match, not enrolling")
+        mariposa = next(t for t in matched_b if t["trialId"] == "NCT04988295")
+        self.assertEqual(mariposa["status_label"], "biomarker match, not enrolling")
+
+        # Zero trials for ovarian, colorectal, or prostate
+        for t in matched_b:
+            c_types = t.get("cancer_types", [])
+            self.assertTrue("nsclc" in c_types or "solid_tumor" in c_types)
+            self.assertNotIn("ovarian", c_types)
+            self.assertNotIn("colorectal", c_types)
+            self.assertNotIn("prostate", c_types)
+
 if __name__ == '__main__':
     unittest.main()
+

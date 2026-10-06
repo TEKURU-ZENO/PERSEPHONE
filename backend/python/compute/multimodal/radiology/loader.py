@@ -10,7 +10,7 @@ class RadiologyLoader:
     @staticmethod
     def load_dicom(filepath: str) -> dict:
         """
-        Load metadata and structure from a DICOM file.
+        Load metadata and structure from a DICOM file in mock mode.
         
         Args:
             filepath: Path to the DICOM file.
@@ -19,6 +19,7 @@ class RadiologyLoader:
             Dictionary containing mock DICOM metadata.
         """
         return {
+            "is_mock": True,
             "patient_id": "P-mock-12345",
             "modality": "CT",
             "dimensions": [512, 512],
@@ -31,7 +32,7 @@ class RadiologyLoader:
     @staticmethod
     def load_nifti(filepath: str) -> dict:
         """
-        Load metadata and structure from a NIfTI file.
+        Load metadata and structure from a NIfTI file in mock mode.
         
         Args:
             filepath: Path to the NIfTI file.
@@ -40,6 +41,7 @@ class RadiologyLoader:
             Dictionary containing mock NIfTI metadata.
         """
         return {
+            "is_mock": True,
             "dimensions": 3,
             "voxel_spacing": [1.0, 1.0, 1.0],
             "affine_matrix": [

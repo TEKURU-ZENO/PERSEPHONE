@@ -3,7 +3,7 @@ from backend.python.compute.optimization.policies.rule_based.mtd import MTDPolic
 from backend.python.compute.optimization.policies.rule_based.metronomic import MetronomicPolicy
 from backend.python.compute.optimization.policies.rule_based.adaptive import AdaptivePolicy
 from backend.python.compute.optimization.policies.reinforcement.dqn_policy import DQNPolicy
-from backend.python.compute.optimization.policies.reinforcement.ppo_policy import PPOPolicy
+from backend.python.compute.optimization.policies.reinforcement.actor_critic_policy import ActorCriticPolicy
 
 class PolicyRegistry:
   _REGISTRY = {}
@@ -24,11 +24,11 @@ class PolicyRegistry:
       return AdaptivePolicy(initial_total=initial_vol)
     elif key == "dqn":
       return DQNPolicy(model_path=kwargs.get("model_path"))
-    elif key == "ppo":
-      return PPOPolicy(model_path=kwargs.get("model_path"))
+    elif key == "actor_critic":
+      return ActorCriticPolicy(model_path=kwargs.get("model_path"))
     
     return cls._REGISTRY.get(key)
 
   @classmethod
   def list_policies(cls):
-    return ["mtd", "metronomic", "adaptive", "dqn", "ppo"]
+    return ["mtd", "metronomic", "adaptive", "dqn", "actor_critic"]

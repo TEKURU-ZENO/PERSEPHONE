@@ -9,29 +9,41 @@ PERSEPHONE implements a complete computational precision oncology pipeline. By c
 
 ---
 
-## 2. Features
-- **Clonal Population Dynamics:** Models the Darwinian competition between Treatment-Sensitive ($S_S$) and Treatment-Resistant ($S_R$) tumor clones using competitive Lotka-Volterra equations solved via Runge-Kutta 4th order (RK4) integration.
-- **Causal Counterfactual Engine:** Computes counterfactual potential outcomes $Y(a) = f(X, a, U_Y)$ evaluating alternative dosing strategies and displays deltas for Time-to-Progression (TTP), cumulative dose, and toxicity.
-- **HTML5 Canvas Knowledge Graph:** High-performance, zero-dependency 2D force-directed simulation of bio-clinical relationships with interactive depth-first path tracing.
-- **Deterministic Agent DAG:** Sequences clinical decision-making across 5 specialized agents (`Evolution` $\to$ `Planning` $\to$ `Evidence` $\to$ `Safety` $\to$ `Consensus`) compiling structured recomendations and Evidence Strength scores.
-- **Audit trail & Validation Layer:** Formal JSON schema validation models for digital twins and simulation outputs, persisting consensus reports.
+## 2. Module Fidelity & Implementation Status
+
+To ensure complete scientific transparency and honest labeling, PERSEPHONE categorizes every subsystem and dataset into three distinct tiers:
+
+| Tier | Category | Components & Datasets | Fidelity & Verification Notes |
+| :--- | :--- | :--- | :--- |
+| **Tier 1** | **Real Data** | • COSMIC v3.4 SBS Mutational Signatures Matrix<br>• Clinical Trials Knowledge Registry | • Authentic 96×86 matrix from COSMIC catalog<br>• IDs and titles checked against ClinicalTrials.gov (Oct 2026); cancer lineages and biomarker eligibility explicitly curated |
+| **Tier 2** | **Real Algorithm, Sample Data** | • RK4 Numerical ODE Solver<br>• Lotka-Volterra Clonal Competition Model<br>• NNLS Signature Fitting Engine<br>• Knowledge Graph Pathfinding<br>• Reinforcement Learning Engine (DQN training loop, Actor-Critic evaluation)<br>• Biological Reference Knowledge | • Verified mathematical 4th-order Runge-Kutta numerical integration<br>• Assumed parameters, not fitted to data (reproduces Gatenby's adaptive dynamics)<br>• Exact non-negative least squares optimization<br>• Deterministic depth-first path traversal on relational graphs<br>• Functional RL training & policy inference loops<br>• Sample excerpts and representative fixtures of Reactome, DrugBank, ClinVar, TCGA, CCLE, and GDSC |
+| **Tier 3** | **Simulated / Mock Modules** (`is_mock: True`) | • CT Volumetric Segmentor (`ct_segmentor.py`)<br>• MRI Volumetric Segmentor (`mri_segmentor.py`)<br>• Radiomics Feature Extractor (`radiomics.py`)<br>• GradCAM Saliency Heatmap (`gradcam.py`)<br>• Multi-Head Attention Rollout (`attention.py`)<br>• WSI Slide Loader (`wsi_loader.py`)<br>• DICOM / NIfTI Volume Loader (`loader.py`)<br>• Morphology Feature Extractor (`feature_extractor.py`) | • Deterministic simulated pipeline responses flagged explicitly with `is_mock: True`<br>• Real DL imaging models and gigapixel WSI files are not bundled; UI displays simulated state |
 
 ---
 
-## 3. Architecture
+## 3. Features
+- **Clonal Population Dynamics:** Models the Darwinian competition between Treatment-Sensitive ($S_S$) and Treatment-Resistant ($S_R$) tumor clones using competitive Lotka-Volterra equations solved via Runge-Kutta 4th order (RK4) integration.
+- **Regimen Scenario Simulator:** Evaluates prospective dosing strategies under potential outcomes framework $Y(a) = f(X, a, U_Y)$ and displays deltas for Time-to-Progression (TTP), cumulative dose, and toxicity.
+- **HTML5 Canvas Knowledge Graph:** High-performance, zero-dependency 2D force-directed simulation of bio-clinical relationships with interactive depth-first path tracing.
+- **Deterministic Agent DAG:** Sequences clinical decision-making across 5 specialized rule-based agents (`Evolution` $\to$ `Planning` $\to$ `Evidence` $\to$ `Safety` $\to$ `Consensus`) compiling structured recommendations and Evidence Strength scores using deterministic rule-based pipelines (no external LLMs).
+- **Audit Trail & Validation Layer:** Formal JSON schema validation models for patient simulation profiles (uncalibrated) and simulation outputs, persisting consensus reports.
+
+---
+
+## 4. Architecture
 PERSEPHONE integrates clinical data, continuous-time mathematical models, and biomedical knowledge networks into a unified decision support workstation:
 
 ```
-Patient Digital Twin
+Patient Simulation Profile (Uncalibrated)
         │
         ▼
-Digital Twin Operating Environment (DTOE)
+Simulation Profile Operating Environment (DTOE)
         │
         ▼
 Tumor Dynamics Simulator (RK4 Solver)
         │
         ▼
-Causal Counterfactual Engine
+Regimen Scenario Simulator
         │
         ▼
 Biomedical Knowledge Graph (Oncology KG)
@@ -40,32 +52,32 @@ Biomedical Knowledge Graph (Oncology KG)
 Evidence Grounding Layer (Parameter Registry)
         │
         ▼
-Evidence-Grounded Tumor Board (Agent DAG)
+Evidence-Grounded Tumor Board (Rule-Based Agent DAG)
         │
         ▼
 Clinical Recommendation Contract
 ```
 
-A detailed spec is available in the [ARCHITECTURE.md](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/docs/ARCHITECTURE.md) blueprint.
+A detailed spec is available in the [ARCHITECTURE.md](./docs/ARCHITECTURE.md) blueprint.
 
 ---
 
-## 4. Screenshots
+## 5. Screenshots
 
 The DTOE workstation UI components are visualized below:
-- **Digital Twin Operating Environment Dashboard:** Displays active twin card profiles, biometric streams, CA-125 CA biomarkers, and histopathology slides. [View DTOE Mockup](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/docs/screenshots/DTOE.png)
-- **Simulation Lab Panel:** Visualizes Runge-Kutta numerical trajectories comparing MTD and Adaptive regimens. [View Simulator Mockup](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/docs/screenshots/SimulationLab.png)
-- **Knowledge Graph Explorer:** Tracks mutation-to-drug-to-trial associations dynamically. [View Graph Explorer Mockup](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/docs/screenshots/GraphExplorer.png)
-- **Multi-Agent Tumor Board Console:** Renders stateful DAG nodes and typewriter typewriter logs. [View Tumor Board Mockup](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/docs/screenshots/TumorBoard.png)
+- **Simulation Profile Operating Environment Dashboard:** Displays active profile cards, biometric streams, CA-125 biomarkers, and histopathology slides. [View DTOE Mockup](./docs/screenshots/DTOE.png)
+- **Simulation Lab Panel:** Visualizes Runge-Kutta numerical trajectories comparing MTD and Adaptive regimens. [View Simulator Mockup](./docs/screenshots/SimulationLab.png)
+- **Knowledge Graph Explorer:** Tracks mutation-to-drug-to-trial associations dynamically. [View Graph Explorer Mockup](./docs/screenshots/GraphExplorer.png)
+- **Multi-Agent Tumor Board Console:** Renders stateful DAG nodes and typewriter logs. [View Tumor Board Mockup](./docs/screenshots/TumorBoard.png)
 
 ---
 
-## 5. Installation
-No package dependencies are required to run the core simulation platform or test suites. Clone the repository and verify local environment requirements as detailed in the [REPRODUCIBILITY.md](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/docs/REPRODUCIBILITY.md) protocol.
+## 6. Installation
+No package dependencies are required to run the core simulation platform or test suites. Clone the repository and verify local environment requirements as detailed in the [REPRODUCIBILITY.md](./docs/REPRODUCIBILITY.md) protocol.
 
 ---
 
-## 6. Running Locally
+## 7. Running Locally
 
 ### Workstation Dashboard
 1. **Navigate to the Application Directory:**
@@ -105,27 +117,27 @@ To run the full end-to-end test suite (`node tests/run-tests.js`), both the Pyth
 
 ---
 
-## 7. Roadmap
+## 8. Roadmap
 We track development progression across 6 chronological milestones:
-- **Phase 1: Digital Twin Operating Environment (DTOE)** (✅ Complete)
-- **Phase 2: Tumor Dynamics Simulator & Counterfactuals** (✅ Complete)
+- **Phase 1: Simulation Profile Operating Environment (DTOE)** (✅ Complete)
+- **Phase 2: Tumor Dynamics Simulator & Scenario Projections** (✅ Complete)
 - **Phase 3: Knowledge Graph & Evidence Grounding** (✅ Complete)
 - **Phase 4: Multi-Agent Tumor Board (DAG)** (✅ Complete)
 - **Phase 5: Graph-RAG & Long-Term Memory** (🟡 Active)
 - **Phase 6: RL-Based Dose Optimization** (🔵 Planned)
 
-Refer to the [PROJECT_ROADMAP.md](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/docs/PROJECT_ROADMAP.md) for full details.
+Refer to the [PROJECT_ROADMAP.md](./docs/PROJECT_ROADMAP.md) for full details.
 
 ---
 
-## 8. Research Contributions
-- **Competitive Coexistence Modeling:** Demonstrates that keeping a subpopulation of drug-sensitive cells alive via treatment holidays prevents competitive release of resistant populations.
+## 9. Research Contributions
+- **Competitive Coexistence Modeling:** Reproduces Gatenby's adaptive therapy competition dynamics in simulation, demonstrating that keeping a subpopulation of drug-sensitive cells alive via treatment holidays prevents competitive release of resistant populations.
 - **Evidence-Grounded Recommendation Score:** Defines an audit-ready scoring model (0-100) combining clinical trial records, publication PMIDs, and safety clearances.
-- **Causal Counterfactual Projections:** Integrates structural potential outcomes calculations into real-time clinical dashboards.
+- **Regimen Scenario Projections:** Integrates prospective potential outcomes calculations into real-time clinical dashboards.
 
 ---
 
-## 9. Tech Stack
+## 10. Tech Stack
 - **Core Workstation:** HTML5, CSS3, Vanilla ES6 JavaScript (zero-dependency).
 - **Web Server:** Node.js static HTTP stream.
 - **Verification:** Native Node assertions.
@@ -133,5 +145,5 @@ Refer to the [PROJECT_ROADMAP.md](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHON
 
 ---
 
-## 10. License
-PERSEPHONE is released under the [MIT License](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/LICENSE).
+## 11. License
+PERSEPHONE is released under the [MIT License](./LICENSE).

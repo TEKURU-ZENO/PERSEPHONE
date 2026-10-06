@@ -297,7 +297,7 @@ function renderRadiologyResults(container, result, modality) {
       </div>
       <div class="scorecard-column">
         <span class="scorecard-label">Confidence</span>
-        <span class="scorecard-val" style="color:#c084fc;">${((seg.segmentation_confidence || 0) * 100).toFixed(0)}%</span>
+        <span class="scorecard-val" style="color:#c084fc;">${seg.segmentation_confidence != null ? ((seg.segmentation_confidence * 100).toFixed(0) + '%') : '— (Simulated)'}</span>
       </div>
     </div>
   `;

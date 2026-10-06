@@ -10,7 +10,7 @@ class MRISegmentor:
     @staticmethod
     def segment_volume(volume_data: dict) -> dict:
         """
-        Segment a tumor from MRI volume data.
+        Segment a tumor from MRI volume data in mock simulation mode.
         
         Args:
             volume_data: Dictionary representing the loaded volume.
@@ -19,12 +19,12 @@ class MRISegmentor:
             Dictionary with volumetric tumor segmentation metrics.
         """
         return {
+            "is_mock": True,
             "tumor_volume_cm3": 32.8,
             "enhancement_ratio": 1.45,
             "t1_signal_intensity": 850.5,
             "t2_signal_intensity": 1240.2,
-            "diffusion_coefficient": 0.85,
-            "segmentation_confidence": 0.91
+            "diffusion_coefficient": 0.85
         }
 
     @staticmethod
@@ -36,9 +36,11 @@ class MRISegmentor:
             Dictionary containing model information.
         """
         return {
-            "model_name": "MRI-Seg-UNet3D",
+            "model_name": "MRI-Seg-Mock-Simulation",
             "version": "2.0.1",
             "modality": "MRI",
             "target": "Tumor",
-            "architecture": "3D U-Net"
+            "architecture": "Rule-based Mock Simulation",
+            "is_mock": True,
+            "note": "Simulated volumetric geometry without deep learning weights"
         }

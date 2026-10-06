@@ -21,6 +21,7 @@ class GradCAMGenerator:
         heatmap = [[(i + j) / (2.0 * size) for j in range(size)] for i in range(size)]
         
         return {
+            "is_mock": True,
             "heatmap": heatmap,
             "target_class": target_class,
             "activation_stats": {

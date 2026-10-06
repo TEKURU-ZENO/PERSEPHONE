@@ -68,6 +68,28 @@ function renderSub(c, t, patient) {
   else if (t === 'evidence') renderEvidence(c, patient);
 }
 
+function normalizeProteinChange(val) {
+  if (!val) return '';
+  const aaMap = {
+    Ala: 'A', Arg: 'R', Asn: 'N', Asp: 'D', Cys: 'C',
+    Gln: 'Q', Glu: 'E', Gly: 'G', His: 'H', Ile: 'I',
+    Leu: 'L', Lys: 'K', Met: 'M', Phe: 'F', Pro: 'P',
+    Ser: 'S', Thr: 'T', Trp: 'W', Tyr: 'Y', Val: 'V'
+  };
+  const str = String(val).trim();
+  const m = str.match(/^(?:p\.)?([A-Za-z]{3})(\d+)([A-Za-z]{3})$/);
+  if (m) {
+    const a1 = m[1].charAt(0).toUpperCase() + m[1].slice(1).toLowerCase();
+    const pos = m[2];
+    const a2 = m[3].charAt(0).toUpperCase() + m[3].slice(1).toLowerCase();
+    if (aaMap[a1] && aaMap[a2]) return `${aaMap[a1]}${pos}${aaMap[a2]}`;
+  }
+  const m1 = str.match(/^(?:p\.)?([A-Za-z])(\d+)([A-Za-z])$/);
+  if (m1) return `${m1[1].toUpperCase()}${m1[2]}${m1[3].toUpperCase()}`;
+  if (str.toLowerCase().includes('amp')) return 'Amplification';
+  return str.replace(/^p\./, '');
+}
+
 // ── Matched Trials ─────────────────────────────────────────────────────────
 function renderMatched(c, patient) {
   const patientTrials = patient.trials || [];
@@ -93,26 +115,53 @@ function renderMatched(c, patient) {
     this.disabled = true;
     this.textContent = 'Matching...';
     try {
-      const genes = (patient.genomics?.variants || []).map(v => v.gene);
+      const rawVariants = patient.genomics?.variants || [];
+      const out = c.querySelector('#matched-trials-container');
+      if (!rawVariants.length) {
+        out.innerHTML = `<span class="text-muted" style="font-size:0.72rem;">No genomic data available for clinical trial matching.</span>`;
+        return;
+      }
+
+      const variants = rawVariants.map(v => {
+        const rawAlt = v.effect || v.variant || '';
+        return {
+          gene: v.gene,
+          alteration: normalizeProteinChange(rawAlt),
+          rawAlteration: rawAlt,
+          tier: v.tier || ''
+        };
+      });
+
       const res = await fetch('/api/v1/python/trials/match', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          variants: genes.length ? genes : ['BRCA1'],
-          diagnosis: patient.diagnosis || 'Cancer',
-          stage: patient.stage || 'Stage III',
-          biomarkerTier: 'Tier I-A',
-          age: patient.age || 60,
+          patientId: patient.id,
+          cancerType: patient.cancerType || '',
+          diagnosis: patient.diagnosis || '',
+          stage: patient.stage || '',
+          microsatelliteStatus: patient.genomics?.microsatelliteStatus || '',
+          priorTherapies: (patient.clinicalHistory || []).map(h => h.regimen || h.event || ''),
+          variants: variants,
+          age: patient.age,
           country: 'United States',
           city: 'New York'
         })
       });
       const data = await res.json();
       const trials = data.result?.matchedTrials || [];
-      const out = c.querySelector('#matched-trials-container');
 
       if (!trials.length) {
-        out.innerHTML = `<span class="text-muted" style="font-size:0.72rem;">No matching protocols found in online registry.</span>`;
+        out.innerHTML = `
+          <div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.75rem; border:1px dashed rgba(255,255,255,0.1); border-radius:6px;">
+            <i data-lucide="info" style="width:16px; height:16px; margin-bottom:0.25rem; display:inline-block; color:var(--cyan);"></i>
+            <div>No matching protocols found in online registry.</div>
+            <div style="margin-top:0.25rem; color:var(--text-secondary); font-size:0.7rem;">
+              Investigational trial screening recommended for <strong>${patient.diagnosis || 'patient condition'}</strong>.
+            </div>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
         return;
       }
 
@@ -126,17 +175,18 @@ function renderMatched(c, patient) {
         <div style="display:flex; flex-direction:column; gap:0.5rem;">
           ${trials.slice(0, 6).map(t => {
             const isTop = t.rank === 1;
+            const statusText = t.status_label || (t.status === 'Active, not recruiting' ? 'biomarker match, not enrolling' : t.status);
             return `
               <div style="border:1px solid ${isTop ? 'var(--cyan)' : 'rgba(0,255,255,0.1)'}; background:${isTop ? 'rgba(0,255,255,0.03)' : 'transparent'}; border-radius:6px; padding:0.6rem;">
                 <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
                   <span style="font-weight:700; color:var(--cyan); font-size:0.78rem;">#${t.rank} ${t.trialId}</span>
                   <span style="font-size:0.65rem; padding:1px 6px; background:rgba(0,255,255,0.1); border-radius:3px; color:var(--cyan);">${t.phase}</span>
-                  <span style="font-size:0.65rem; padding:1px 6px; background:rgba(74,222,128,0.1); border-radius:3px; color:#4ade80;">${t.status}</span>
+                  <span style="font-size:0.65rem; padding:1px 6px; background:rgba(74,222,128,0.1); border-radius:3px; color:#4ade80;">${statusText}</span>
                 </div>
                 <div style="font-size:0.75rem; font-weight:600; color:var(--text-primary); margin-bottom:0.25rem;">${t.title}</div>
                 <div style="font-size:0.68rem; color:var(--text-secondary); margin-bottom:0.3rem;">
-                  <strong>Drugs:</strong> ${(t.drugs || []).join(', ') || 'Targeted investigational agent'} · 
-                  <strong>Sponsor:</strong> ${t.sponsor || 'Academic Center'}
+                  <strong>Drugs:</strong> ${(t.drugs || []).join(', ') || '—'} · 
+                  <strong>Sponsor:</strong> ${t.sponsor || '—'}
                 </div>
                 <div style="font-size:0.65rem; display:flex; flex-direction:column; gap:0.15rem;">
                   ${(t.matchedCriteria || []).slice(0, 2).map(m => `<span style="color:#4ade80;">✓ ${m}</span>`).join('')}

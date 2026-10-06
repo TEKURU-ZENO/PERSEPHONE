@@ -27,7 +27,7 @@ find . -name "*.js" -not -path "*/node_modules/*" | xargs -I {} node --check {}
 ```
 
 ### Step 2: Scientific Parameter Grounding
-All mathematical parameters reside in [parameter-registry.json](file:///c:/Users/Dev%20Mehta/Desktop/PERSEPHONE/research/parameter-registry.json). The solver reads these constants for patient calculations:
+All mathematical parameters reside in [parameter-registry.json](../research/parameter-registry.json). The solver reads these constants for patient calculations:
 - Proliferation Rate $\alpha_1$: `0.08`
 - Fitness Cost Rate $\alpha_2$: `0.045`
 - Carrying Capacity $K$: `200.0`

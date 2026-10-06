@@ -19,6 +19,7 @@ class RadiomicsExtractor:
             Dictionary of shape features.
         """
         return {
+            "is_mock": True,
             "volume": segmentation_results.get("tumor_volume_cm3", 40.0) * 1000,
             "surface_area": 1250.5,
             "sphericity": 0.75,
@@ -40,6 +41,7 @@ class RadiomicsExtractor:
             Dictionary of texture features.
         """
         return {
+            "is_mock": True,
             "glcm_contrast": 12.4,
             "glcm_correlation": 0.85,
             "glcm_energy": 0.05,
@@ -64,6 +66,7 @@ class RadiomicsExtractor:
         texture_features = cls.extract_texture_features(segmentation_results)
         
         return {
+            "is_mock": True,
             "shape_features": shape_features,
             "texture_features": texture_features
         }

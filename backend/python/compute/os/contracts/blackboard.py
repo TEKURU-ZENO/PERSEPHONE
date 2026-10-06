@@ -37,6 +37,10 @@ class BlackboardKeyContract:
         if key not in cls.CONTRACTS:
             raise KeyError(f"Blackboard Contract v1.0 Violation: Unregistered or unauthorized key '{key}'")
 
+        if value is None:
+            if key in ("TOP_TRIAL", "final_report", "validation_scorecard", "explainability_rationale", "GOVERNANCE_DECISION"):
+                return True
+
         spec = cls.CONTRACTS[key]
         expected_type = spec["type"]
         if not isinstance(value, expected_type):

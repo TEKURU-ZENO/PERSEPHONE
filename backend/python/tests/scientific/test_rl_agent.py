@@ -2,9 +2,9 @@ import unittest
 import torch
 import numpy as np
 from backend.python.compute.optimization.algorithms.dqn import DQNNetwork
-from backend.python.compute.optimization.algorithms.ppo import ActorCriticNetwork
+from backend.python.compute.optimization.algorithms.actor_critic import ActorCriticNetwork
 from backend.python.compute.optimization.policies.reinforcement.dqn_policy import DQNPolicy
-from backend.python.compute.optimization.policies.reinforcement.ppo_policy import PPOPolicy
+from backend.python.compute.optimization.policies.reinforcement.actor_critic_policy import ActorCriticPolicy
 from backend.python.compute.optimization.training.replay_buffer import ReplayBuffer
 
 class TestOncologyRLAgent(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestOncologyRLAgent(unittest.TestCase):
     q_values = model(state)
     self.assertEqual(q_values.shape, (2, 5))
 
-  def test_ppo_forward(self):
+  def test_actor_critic_forward(self):
     model = ActorCriticNetwork()
     state = torch.randn(2, 6)
     probs, value = model(state)
@@ -35,14 +35,14 @@ class TestOncologyRLAgent(unittest.TestCase):
 
   def test_policy_argmax_evaluations(self):
     dqn_policy = DQNPolicy()
-    ppo_policy = PPOPolicy()
+    ac_policy = ActorCriticPolicy()
     
     state = [80.0, 2.0, 82.0, 0.0, 0.0, 0.0]
     dqn_act = dqn_policy.select_action(state)
-    ppo_act = ppo_policy.select_action(state)
+    ac_act = ac_policy.select_action(state)
     
     self.assertTrue(0 <= dqn_act <= 4)
-    self.assertTrue(0 <= ppo_act <= 4)
+    self.assertTrue(0 <= ac_act <= 4)
 
 if __name__ == '__main__':
   unittest.main()

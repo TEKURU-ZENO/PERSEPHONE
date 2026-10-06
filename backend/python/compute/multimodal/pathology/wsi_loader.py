@@ -13,6 +13,7 @@ class WSILoader:
         """
         # Deterministic mock metadata based loosely on standard slide scans
         return {
+            "is_mock": True,
             "dimensions": [100000, 80000],
             "magnification": 40.0,
             "vendor": "aperio",
@@ -29,6 +30,7 @@ class WSILoader:
         # Deterministic pseudo-random statistics based on coordinates
         mean_val = (x + y + width + height) % 255
         return {
+            "is_mock": True,
             "shape": [height, width, 3],
             "mean_pixel_value": float(mean_val),
             "std_pixel_value": 15.5,

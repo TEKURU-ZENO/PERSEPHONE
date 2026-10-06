@@ -34,10 +34,12 @@ class ClinicalTrialsAgent(BaseClinicalAgent):
     biomarker_tier = blackboard.read("BIOMARKER_TIER") or "Tier I-A"
 
     self.profile = {
+      "cancer_type": self.patient_data.get("cancerType") or self.patient_data.get("cancer_type", ""),
       "variants": variants,
       "diagnosis": diagnosis,
       "stage": stage,
       "biomarker_tier": biomarker_tier,
+      "microsatellite_status": self.patient_data.get("microsatellite_status", ""),
       "age": self.patient_data.get("age", 58),
       "ecog": self.patient_data.get("ecog", 1),
       "country": self.patient_data.get("country", "United States"),
@@ -73,8 +75,9 @@ class ClinicalTrialsAgent(BaseClinicalAgent):
       else:
         blackboard.write("TRIAL_EVIDENCE_SCORE", 0.0)
 
-    top_id = self.trial_results.get("topTrial", {}).get("trialId", "None") if self.trial_results else "None"
-    top_score = self.trial_results.get("topTrial", {}).get("compositeScore", 0.0) if self.trial_results else 0.0
+    top_trial_obj = (self.trial_results.get("topTrial") or {}) if self.trial_results else {}
+    top_id = top_trial_obj.get("trialId", "None")
+    top_score = top_trial_obj.get("compositeScore", 0.0)
 
     blackboard.add_contribution(self.name, {
       "screened_count": self.trial_results.get("totalScreened", 0) if self.trial_results else 0,

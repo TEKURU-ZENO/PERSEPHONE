@@ -10,7 +10,7 @@ class CTSegmentor:
     @staticmethod
     def segment_volume(volume_data: dict) -> dict:
         """
-        Segment a tumor from CT volume data.
+        Segment a tumor from CT volume data in mock simulation mode.
         
         Args:
             volume_data: Dictionary representing the loaded volume.
@@ -19,11 +19,11 @@ class CTSegmentor:
             Dictionary with volumetric tumor segmentation metrics.
         """
         return {
+            "is_mock": True,
             "tumor_volume_cm3": 45.2,
             "total_slices": 150,
             "tumor_slices": 34,
             "max_diameter_mm": 38.5,
-            "segmentation_confidence": 0.94,
             "hounsfield_stats": {
                 "mean": 45.0,
                 "std": 12.3,
@@ -41,9 +41,11 @@ class CTSegmentor:
             Dictionary containing model information.
         """
         return {
-            "model_name": "CT-Seg-VNet-Base",
+            "model_name": "CT-Seg-Mock-Simulation",
             "version": "1.2.0",
             "modality": "CT",
             "target": "Tumor",
-            "architecture": "3D V-Net"
+            "architecture": "Geometric / Rule-based Mock Simulation",
+            "is_mock": True,
+            "note": "Simulated volumetric geometry without deep learning weights"
         }

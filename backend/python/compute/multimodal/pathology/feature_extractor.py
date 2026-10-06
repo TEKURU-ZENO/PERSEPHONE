@@ -9,7 +9,7 @@ class MorphologyFeatureExtractor:
     @staticmethod
     def extract_features(segmentation_results: dict, patch_data: list = None) -> dict:
         """
-        Extracts complex tissue morphometrics based on mask and raw pixel data.
+        Extracts complex tissue morphometrics based on mask and raw pixel data in mock mode.
         """
         tumor_frac = segmentation_results.get("overall_tumor_fraction", 0.5)
         
@@ -24,6 +24,7 @@ class MorphologyFeatureExtractor:
         np_score = 1.0 + (tumor_frac * 2.0)
 
         return {
+            "is_mock": True,
             "lymphocyte_density": lymphocyte_density,
             "nuclear_density": nuclear_density,
             "mitosis_count_per_hpf": mitosis_count,

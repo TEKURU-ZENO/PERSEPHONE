@@ -25,8 +25,7 @@ class BlackboardMemory:
 
   def write(self, key, value):
     with self._lock:
-      if key in self._data:
-        self._data[key] = value
+      self._data[key] = value
 
   def read(self, key):
     with self._lock:

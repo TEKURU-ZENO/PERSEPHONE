@@ -1,13 +1,13 @@
 import torch
 from backend.python.compute.optimization.policies.base import BasePolicy
-from backend.python.compute.optimization.algorithms.ppo import ActorCriticNetwork
+from backend.python.compute.optimization.algorithms.actor_critic import ActorCriticNetwork
 
-class PPOPolicy(BasePolicy):
+class ActorCriticPolicy(BasePolicy):
   """
-  Trained PPO Policy evaluator.
+  Trained Actor-Critic Policy evaluator.
   """
   def __init__(self, model_path=None):
-    super().__init__("ppo")
+    super().__init__("actor_critic")
     self.model = ActorCriticNetwork()
     if model_path:
       try:

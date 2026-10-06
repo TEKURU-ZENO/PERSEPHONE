@@ -10,6 +10,7 @@ import json
 import csv
 import hashlib
 import unittest
+import re
 
 def get_repo_root():
     current = os.path.abspath(os.path.dirname(__file__))
@@ -445,6 +446,48 @@ class TestDrugTargetConsistency(unittest.TestCase):
                                 )
                 except Exception as e:
                     self.fail(f"Failed to scan {file_path} for trial IDs: {e}")
+
+    def test_verified_trials_js_parity(self):
+        """
+        Enforces 100% parity between verified_trials.json and verified-trials.js.
+        Ensures zero unverified or synthetic entries (like SCREEN-RAS-G12D) exist in the JS registry,
+        and ensures 'verified_by' has been removed from verified_trials.json.
+        """
+        registry_path = os.path.join(self.root, "datasets", "knowledge", "verified_trials.json")
+        js_registry_path = os.path.join(self.root, "frontend", "apps", "dashboard", "src", "data", "verified-trials.js")
+
+        with open(registry_path, "r", encoding="utf-8") as f:
+            json_data = json.load(f)
+
+        verified_json = json_data.get("verified", {})
+        self.assertEqual(len(verified_json), 16, "Must have exactly 16 verified trials in JSON registry")
+
+        # Verify no 'verified_by' attribute remains
+        for nct_id, record in verified_json.items():
+            self.assertNotIn("verified_by", record, f"'verified_by' must be removed from {nct_id} in verified_trials.json")
+
+        with open(js_registry_path, "r", encoding="utf-8") as f:
+            js_code = f.read()
+
+        js_keys = set(re.findall(r'["\']([A-Za-z0-9_\-]+)["\']:\s*\{', js_code))
+
+        # Enforce exact key parity
+        self.assertEqual(
+            js_keys,
+            set(verified_json.keys()),
+            "verified-trials.js must have 100% parity with verified_trials.json verified keys"
+        )
+
+        self.assertNotIn(
+            "SCREEN-RAS-G12D",
+            js_keys,
+            "SCREEN-RAS-G12D must not be in verified-trials.js (it belongs only in patient fixture)"
+        )
+
+        # Enforce official title and URL parity
+        for nct_id, record in verified_json.items():
+            self.assertIn(nct_id, js_code)
+            self.assertIn(record["url"], js_code)
 
 
 if __name__ == "__main__":
