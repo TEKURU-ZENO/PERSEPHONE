@@ -106,7 +106,11 @@ class TestDrugTargetConsistency(unittest.TestCase):
         duo_o = trial_map.get("NCT03737643")
         self.assertIsNotNone(duo_o, "DUO-O (NCT03737643) must exist in clinical_trials.json")
         self.assertIn("BRCA1", duo_o["biomarkers"])
-        self.assertIn("Active, not recruiting", duo_o["status"])
+
+        # Status and recruitment_status must NOT be stored statically in clinical_trials.json
+        for t in trials:
+            self.assertNotIn("status", t, f"Trial {t.get('trialId')} should not have 'status' in clinical_trials.json")
+            self.assertNotIn("recruitment_status", t, f"Trial {t.get('trialId')} should not have 'recruitment_status' in clinical_trials.json")
 
         # Hallucinated and unverified trial IDs must NOT exist
         self.assertNotIn("NCT04381884", trial_map)
@@ -141,13 +145,11 @@ class TestDrugTargetConsistency(unittest.TestCase):
         orchard = trial_map.get("NCT03944772")
         self.assertIsNotNone(orchard)
         self.assertIn("MET", orchard["biomarkers"])
-        self.assertIn("Active, not recruiting", orchard["status"])
 
         # CHRYSALIS-2 (NCT04077463)
         chrysalis = trial_map.get("NCT04077463")
         self.assertIsNotNone(chrysalis)
         self.assertIn("EGFR", chrysalis["biomarkers"])
-        self.assertIn("Active, not recruiting", chrysalis["status"])
         self.assertIn("platinum", chrysalis["enrollmentCriteria"].lower())
 
         # MRTX1133 must NOT be in active recruiting trials
@@ -156,6 +158,44 @@ class TestDrugTargetConsistency(unittest.TestCase):
                 "MRTX1133", t.get("drugs", []),
                 f"Discontinued drug MRTX1133 should not be in clinical trials list: {t['trialId']}"
             )
+
+    def test_clinical_trials_json_status_parity(self):
+        """
+        Enforces that status is never defined statically in clinical_trials.json,
+        and that TrialRegistry loads every trial's status dynamically and accurately from verified_trials.json.
+        """
+        trials_path = os.path.join(self.root, "datasets", "knowledge", "clinical_trials.json")
+        verified_path = os.path.join(self.root, "datasets", "knowledge", "verified_trials.json")
+
+        with open(trials_path, "r", encoding="utf-8") as f:
+            raw_trials = json.load(f)
+        with open(verified_path, "r", encoding="utf-8") as f:
+            verified_data = json.load(f)
+
+        verified = verified_data.get("verified", {})
+
+        # 1. No status in raw clinical_trials.json
+        for t in raw_trials:
+            nct = t.get("trialId")
+            self.assertNotIn("status", t, f"{nct} in clinical_trials.json has redundant 'status'")
+            self.assertNotIn("recruitment_status", t, f"{nct} in clinical_trials.json has redundant 'recruitment_status'")
+
+        # 2. Dynamic loading parity
+        from backend.python.compute.trials.trial_registry import TrialRegistry
+        registry = TrialRegistry()
+        loaded = registry.load_trials()
+        for t in loaded:
+            nct = t.get("trialId")
+            if nct in verified:
+                expected_status = verified[nct].get("status")
+                self.assertEqual(
+                    t.get("status"), expected_status,
+                    f"{nct} dynamically loaded status does not match verified_trials.json status"
+                )
+                self.assertEqual(
+                    t.get("recruitment_status"), expected_status,
+                    f"{nct} dynamically loaded recruitment_status does not match verified_trials.json status"
+                )
 
     def test_concept_registry_aliases(self):
         """concept-registry.js must not map G12D aliases to Adagrasib."""

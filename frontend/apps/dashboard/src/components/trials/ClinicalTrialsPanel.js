@@ -173,14 +173,23 @@ function renderMatched(c, patient) {
         </div>
         <div style="display:flex; flex-direction:column; gap:0.5rem;">
           ${trials.slice(0, 6).map(t => {
-            const isTop = Boolean(data.result?.topTrial && t.trialId === data.result.topTrial.trialId);
-            const statusText = t.status_label || (t.status === 'Active, not recruiting' ? 'biomarker match, not enrolling' : t.status);
+            const statusText = (t.eligibility && t.enrollment)
+              ? (t.eligibility === 'eligible' && t.enrollment === 'recruiting'
+                  ? 'eligible'
+                  : t.eligibility === 'possibly eligible'
+                    ? `${t.eligibility} · ${t.enrollment}`
+                    : 'biomarker match, not enrolling')
+              : (t.status_label || t.status);
+            const isEligibleRecruiting = t.isEligible;
+            const isPossiblyEligible = (t.eligibility === 'possibly eligible' || (t.status_label || '').includes('possibly eligible'));
+            const badgeColor = isEligibleRecruiting ? '#4ade80' : isPossiblyEligible ? 'var(--amber)' : '#94a3b8';
+            const badgeBg = isEligibleRecruiting ? 'rgba(74,222,128,0.1)' : isPossiblyEligible ? 'rgba(251,191,36,0.1)' : 'rgba(148,163,184,0.1)';
             return `
               <div style="border:1px solid ${isTop ? 'var(--cyan)' : 'rgba(0,255,255,0.1)'}; background:${isTop ? 'rgba(0,255,255,0.03)' : 'transparent'}; border-radius:6px; padding:0.6rem;">
                 <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
                   <span style="font-weight:700; color:var(--cyan); font-size:0.78rem;">#${t.rank} ${t.trialId}</span>
                   <span style="font-size:0.65rem; padding:1px 6px; background:rgba(0,255,255,0.1); border-radius:3px; color:var(--cyan);">${t.phase}</span>
-                  <span style="font-size:0.65rem; padding:1px 6px; background:rgba(74,222,128,0.1); border-radius:3px; color:#4ade80;">${statusText}</span>
+                  <span style="font-size:0.65rem; padding:1px 6px; background:${badgeBg}; border-radius:3px; color:${badgeColor};">${statusText}</span>
                 </div>
                 <div style="font-size:0.75rem; font-weight:600; color:var(--text-primary); margin-bottom:0.25rem;">${t.title}</div>
                 <div style="font-size:0.68rem; color:var(--text-secondary); margin-bottom:0.3rem;">
@@ -189,6 +198,7 @@ function renderMatched(c, patient) {
                 </div>
                 <div style="font-size:0.65rem; display:flex; flex-direction:column; gap:0.15rem;">
                   ${(t.matchedCriteria || []).slice(0, 2).map(m => `<span style="color:#4ade80;">✓ ${m}</span>`).join('')}
+                  ${(t.unmatchedCriteria || []).map(u => `<span style="color:var(--amber);">⚠ ${u}</span>`).join('')}
                 </div>
               </div>
             `;

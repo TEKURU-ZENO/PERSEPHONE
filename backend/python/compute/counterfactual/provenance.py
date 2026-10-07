@@ -1,6 +1,6 @@
 """
-Causal Provenance & Reproducibility Manifest module for PERSEPHONE Counterfactual Research Platform.
-Generates deterministic experiment IDs, parameter hashes, and explicit causal-assumption manifests.
+Scenario Simulation Provenance & Reproducibility Manifest module for PERSEPHONE Regimen Scenario Simulator.
+Generates deterministic experiment IDs, parameter hashes, and explicit simulation-assumption manifests.
 """
 import hashlib
 import json
@@ -8,7 +8,7 @@ import time
 
 class CausalProvenanceEngine:
     """
-    Constructs research-grade reproducibility manifests and causal assumption documentation.
+    Constructs research-grade reproducibility manifests and simulation assumption documentation.
     """
 
     @classmethod
@@ -45,8 +45,8 @@ class CausalProvenanceEngine:
     @classmethod
     def generate_causal_manifest(cls, control_arm="mtd", intervention_arm="adaptive", estimand="ATE_TTP"):
         """
-        Documents the structural assumptions of the counterfactual simulation run.
-        Explicitly distinguishes mechanistic simulation from observational causal inference.
+        Documents the mathematical assumptions of the regimen scenario simulation run.
+        Explicitly distinguishes forward numerical simulation from fitted clinical causal inference.
         """
         return {
             "estimand": estimand,
@@ -56,11 +56,11 @@ class CausalProvenanceEngine:
             "synthetic_sampling": "bounded_biophysical_perturbation",
             "simulation_model": "lotka_volterra_rk4_pkpd",
             "assumptions": [
-                "Virtual digital twin parameter distributions are anchored to index patient profile",
-                "Tumor cell competition obeys Lotka-Volterra dynamics with resistant fitness cost",
-                "Drug elimination and toxicity accumulation follow calibrated one-compartment PK/PD",
-                "RECIST progression occurs at 20% volumetric increase over nadir or baseline",
-                "Mechanistic counterfactual simulation generates potential outcomes under strict mathematical model assumptions"
+                "Index patient biophysical parameter baseline anchored to published literature estimates",
+                "Tumor subpopulation competition modeled via coupled Lotka-Volterra ODEs with assumed resistant fitness penalty",
+                "Fixed literature-derived pharmacokinetic and pharmacodynamic parameters (no patient-specific calibration or data fitting)",
+                "RECIST progression defined numerically as 20% volume expansion above nadir or baseline",
+                "Numerical forward simulation produces regimen scenario projections under declared ODE parameters; does not establish clinical causality or empirical treatment advantage"
             ],
-            "disclaimer": "FOR RESEARCH USE ONLY: Simulated research projection under synthetic cohort assumptions; not a clinical directive."
+            "disclaimer": "FOR RESEARCH USE ONLY: Simulated research projection under uncalibrated mathematical assumptions; not a clinical directive or validated clinical outcome."
         }

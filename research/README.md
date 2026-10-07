@@ -17,6 +17,6 @@ This directory houses the mathematical foundations, biological parameters, and s
   $$\frac{dS_R}{dt} = \alpha_2 S_R \left(1 - \frac{S_S + S_R}{K}\right) - d(t) E_R S_R$$
 - Evaluates Maximum Tolerated Dose (MTD) vs. threshold-based adaptive dosing protocol (dose suspension at 50% tumor regression, resumption at 100% baseline rebound; uncalibrated parameters do not confer adaptive survival advantage).
 
-### 3. Synthetic Cohort & Counterfactual Research Platform (Phase 17)
-- Multi-arm in-silico clinical trial simulation across parameterized patient cohorts.
-- Implements the Potential Outcomes framework $Y(a) = f(X, a, U_Y)$ with formal causal assumption manifests, Kaplan-Meier survival curves, and statistical power calculations.
+### 3. Synthetic Cohort & Regimen Scenario Simulation Platform (Phase 17)
+- Multi-arm in-silico regimen scenario simulation across parameterized patient cohorts.
+- Simulates forward Lotka-Volterra ODE dynamics across alternative dosing strategies with explicit scenario assumption manifests, Kaplan-Meier progression-free survival estimates, and comparative regimen trade-off metrics (uncalibrated mathematical forward projections, not causal potential outcomes inference from observational patient data).

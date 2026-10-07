@@ -25,7 +25,7 @@ class TrialMatcher:
             )
             eval_res = EligibilityExtractor.evaluate_eligibility(patient_profile, criteria)
 
-            has_violations = len(eval_res["violations"]) > 0 or len(eval_res["unmatched_criteria"]) > 0
+            disqualified = (eval_res["eligibility"] == "ineligible")
             biomarker_match = eval_res["biomarker_match"]
 
             # 1. Genomic Score (0 to 1)
@@ -40,25 +40,23 @@ class TrialMatcher:
             stage_score = 1.0 if (p_stage and any(p_stage in s or s in p_stage for s in t_stages)) else 0.4
 
             # 4. Performance Score (0 to 1)
-            perf_score = 1.0 if not has_violations else 0.0
+            perf_score = 1.0 if not disqualified else 0.0
 
-            if has_violations:
+            if disqualified:
                 match_score = 0.0
                 match_type = "disqualified"
-                disqualified = True
             else:
-                disqualified = False
                 base_score = (
                     genomic_score * 0.40 +
                     cond_score * 0.30 +
                     stage_score * 0.15 +
                     perf_score * 0.15
                 )
-                if eval_res["status_label"] == "possibly eligible":
+                if eval_res["eligibility"] == "possibly eligible":
                     match_score = round(base_score * 0.85, 3)
                 else:
                     match_score = round(base_score, 3)
-                match_type = eval_res["status_label"]
+                match_type = eval_res["eligibility"]
 
             results.append({
                 "trialId": trial.get("trialId"),
@@ -66,6 +64,8 @@ class TrialMatcher:
                 "phase": trial.get("phase", "Phase II"),
                 "status": trial.get("status", "Active"),
                 "recruitment_status": eval_res["recruitment_status"],
+                "eligibility": eval_res["eligibility"],
+                "enrollment": eval_res["enrollment"],
                 "status_label": eval_res["status_label"],
                 "biomarker_match": biomarker_match,
                 "disqualified": disqualified,
@@ -80,6 +80,8 @@ class TrialMatcher:
                 "isEligible": eval_res["is_eligible"],
                 "matchedCriteria": eval_res["matched_criteria"],
                 "unmatchedCriteria": eval_res["unmatched_criteria"],
+                "matched_criteria": eval_res["matched_criteria"],
+                "unmatched_criteria": eval_res["unmatched_criteria"],
                 "violations": eval_res["violations"]
             })
 

@@ -150,6 +150,9 @@ class EligibilityExtractor:
             if key.upper() in text_upper:
                 exclusions.append({"key": key, "description": description})
 
+        cohort_dependent_prior_therapies = [t.lower() for t in (trial.get("cohort_dependent_prior_therapies", []) if trial else [])]
+        cohort_notes = {k.lower(): v for k, v in (trial.get("cohort_notes", {}) if trial else {}).items()}
+
         return {
             "required_genes": sorted(list(required_genes)),
             "required_mutations": required_mutations,
@@ -157,6 +160,8 @@ class EligibilityExtractor:
             "cancer_types": cancer_types,
             "recruitment_status": recruitment_status,
             "required_prior_therapies": required_prior_therapies,
+            "cohort_dependent_prior_therapies": cohort_dependent_prior_therapies,
+            "cohort_notes": cohort_notes,
             "stages": stages,
             "min_age": min_age,
             "max_ecog": ecog_limit,
@@ -286,20 +291,40 @@ class EligibilityExtractor:
 
         # 5. Prior therapies audit
         req_prior = criteria.get("required_prior_therapies", [])
+        cohort_reqs = [cr.lower() for cr in criteria.get("cohort_dependent_prior_therapies", [])]
+        cohort_notes = criteria.get("cohort_notes", {})
         prior_therapy_missing = False
+        cohort_missing = False
+
         for rp in req_prior:
-            if "platinum" in rp and not any("platinum" in pt or "carbo" in pt or "cisplatin" in pt or "oxaliplatin" in pt for pt in p_prior):
-                missing.append("Prior therapy requirement not met: Cohort A requires prior platinum chemotherapy")
-                prior_therapy_missing = True
-            elif "osimertinib" in rp and not any("osimertinib" in pt or "tagrisso" in pt for pt in p_prior):
-                missing.append("Prior therapy requirement not met: Requires prior osimertinib therapy")
-                prior_therapy_missing = True
+            rp_lower = rp.lower()
+            is_satisfied = False
+            if "platinum" in rp_lower:
+                is_satisfied = any("platinum" in pt or "carbo" in pt or "cisplatin" in pt or "oxaliplatin" in pt for pt in p_prior)
+            elif "osimertinib" in rp_lower:
+                is_satisfied = any("osimertinib" in pt or "tagrisso" in pt for pt in p_prior)
+            else:
+                is_satisfied = any(rp_lower in pt or pt in rp_lower for pt in p_prior)
+
+            if is_satisfied:
+                matched.append(f"Prior therapy confirmed: {rp}")
+            else:
+                is_cohort_dep = any(cr in rp_lower or rp_lower in cr for cr in cohort_reqs)
+                if is_cohort_dep:
+                    cohort_missing = True
+                    note = cohort_notes.get(rp) or cohort_notes.get(rp_lower) or f"Cohort requirement: requires prior {rp}"
+                    missing.append(note)
+                else:
+                    prior_therapy_missing = True
+                    missing.append(f"Prior therapy requirement not met: Requires prior {rp}")
 
         # 6. Stage check
         t_stages = criteria.get("stages", [])
+        stage_ok = True
         if p_stage and any(p_stage.lower() in s.lower() or s.lower() in p_stage.lower() for s in t_stages):
             matched.append(f"Disease stage compatible: {p_stage}")
         elif t_stages:
+            stage_ok = False
             missing.append(f"Stage required: {', '.join(t_stages)}")
 
         # 7. ECOG check
@@ -340,24 +365,47 @@ class EligibilityExtractor:
             len(biomarker_violations) == 0
         )
 
-        rec_status = criteria.get("recruitment_status", "Active")
+        hard_unmet = (
+            not biomarker_match or
+            len(violations) > 0 or
+            prior_therapy_missing or
+            not stage_ok or
+            bool(req_genes and not gene_hit)
+        )
 
-        if not biomarker_match or len(violations) > 0 or len(missing) > 0:
-            status_label = "ineligible"
-            is_eligible = False
-        elif rec_status.lower() in ("active, not recruiting", "completed", "closed"):
-            status_label = "biomarker match, not enrolling"
-            is_eligible = False
-        elif "recruiting" in rec_status.lower():
-            status_label = "eligible"
-            is_eligible = True
+        if hard_unmet:
+            eligibility = "ineligible"
+        elif cohort_missing:
+            eligibility = "possibly eligible"
         else:
-            status_label = "biomarker match, not enrolling"
-            is_eligible = False
+            eligibility = "eligible"
+
+        rec_status = criteria.get("recruitment_status", "Active")
+        rec_status_lower = rec_status.lower()
+        if "recruiting" in rec_status_lower and not any(x in rec_status_lower for x in ("not recruiting", "completed", "closed", "terminated")):
+            enrollment = "recruiting"
+        else:
+            enrollment = "not enrolling"
+
+        is_eligible = (eligibility == "eligible" and enrollment == "recruiting")
+
+        if eligibility == "ineligible":
+            status_label = "ineligible"
+        elif enrollment == "not enrolling":
+            if eligibility == "possibly eligible":
+                status_label = "possibly eligible · not enrolling"
+            else:
+                status_label = "biomarker match, not enrolling"
+        elif eligibility == "possibly eligible":
+            status_label = "possibly eligible"
+        else:
+            status_label = "eligible"
 
         return {
             "is_eligible": is_eligible,
             "biomarker_match": biomarker_match,
+            "eligibility": eligibility,
+            "enrollment": enrollment,
             "status_label": status_label,
             "recruitment_status": rec_status,
             "matched_criteria": matched,

@@ -24,7 +24,7 @@ This roadmap tracks the development lifecycle of the PERSEPHONE Precision Oncolo
 | **14** | **Clinical Trials Intelligence Platform** | ✅ Complete | Real ClinicalTrials.gov registry enforcement (16 verified trials, strict Parity test), structured eligibility criteria extraction, organ lineage and biomarker matching, protein change normalization (`p.Gly12Asp` $\to$ `G12D`), and negative screening enforcement. |
 | **15** | **Clinical Monitoring & Longitudinal Intelligence** | ✅ Complete | Longitudinal time-series biomarker tracking, RECIST 1.1 radiographic tumor burden kinetics, molecular lead-time forecasting (ctDNA detection prior to imaging), and clinical escalation trigger rules. |
 | **16** | **Response Intelligence & Digital Biomarkers Platform** | ✅ Complete | Multimodal response classification, RECIST response kinetic modeling, composite digital biomarker synthesis, resistance escape velocity prediction, and multimodal feature fusion. |
-| **17** | **Synthetic Cohort & Counterfactual Research Platform** | ✅ Complete | 21st Council Agent (`CounterfactualResearchAgent`), multi-arm RK4 cohort simulation, statistical power analysis, and formal potential outcomes causal assumption manifest ($Y(a) = f(X, a, U_Y)$). |
+| **17** | **Synthetic Cohort & Regimen Scenario Simulation Lab** | ✅ Complete | 21st Council Agent (`CounterfactualResearchAgent`), multi-arm RK4 cohort simulation, statistical power analysis, and Scenario Simulation Assumption Manifest documenting coupled Lotka-Volterra ODE dynamics under uncalibrated parameters. |
 | **18** | **Clinical Knowledge & Research Intelligence Platform** | ✅ Complete | 22nd Council Agent (`ResearchIntelligenceAgent`), automated guideline parsing (NCCN, ASCO, ESMO), temporal guideline validity tracking, contradiction detection, SHA-256 hash chain cryptographic citation lineage, and clinical Grounding Gate. |
 | **19** | **Clinical Safety, Governance & Validation Platform** | ✅ Complete | 23rd Council Agent (`GovernanceAgent`), deterministic rule engines for KDIGO 2024 (renal), CTCAE v5.0 (toxicity), and CPIC (pharmacogenomics), Clinical Abstention Engine with 4 strict reason codes, Multimodal Discordance Index, and ECE/Brier calibration. |
 | **20** | **PERSEPHONE OS Capstone Integration Layer** | ✅ Complete | Unification of all 23 Council Agents across 5 Intelligence Planes, `ClinicalCaseContext` execution unit, `PersephoneKernel` DAG scheduler with 3-tier failure containment, `ExperimentManifest` (Schema v1.0, SHA-256 seal), `CaseReplayEngine` (RMSE < 1e-4), and PERSEPHONE OS Cockpit. |
@@ -32,7 +32,7 @@ This roadmap tracks the development lifecycle of the PERSEPHONE Precision Oncolo
 ---
 
 ## Technical Verification Summary
-- **Python Scientific Unit Tests**: 178 / 178 tests passing (`backend/python/tests/scientific`)
+- **Python Scientific Unit Tests**: 179 / 179 tests passing (`backend/python/tests/scientific`)
 - **Node Integration & Reproducibility Suite**: 37 / 37 suites passing (`tests/run-tests.js`)
 - **Verified Clinical Trials Registry**: 100% parity enforced across 16 authentic ClinicalTrials.gov protocols
 - **Mutational Signature Engine**: Authentic COSMIC v3.4 96×86 reference matrix with canonical LF SHA-256 hash

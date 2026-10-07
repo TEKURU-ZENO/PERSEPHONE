@@ -42,7 +42,7 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
 - **Objective:** Trace causal biological pathways interactively.
 - **Narrative Steps:**
   1. Navigate to **Knowledge Graph Explorer** (Tab 3).
-  2. Hover over Arthur Pendelton to highlight the causal bypass route:
+  2. Hover over Arthur Pendelton to highlight the resistance bypass route:
      `Arthur Pendelton` $\to$ `MET amp` $\to$ `MET` $\to$ `met-pathway` $\to$ `savolitinib` $\to$ `NCT03944772` (SAVANNAH Trial).
   3. Verify that zero fabricated drug target edges exist in the network.
 
@@ -71,7 +71,7 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
 - **Objective:** Demonstrate precision biomarker matching and exclusion guarantees.
 - **Narrative Steps:**
   1. Open **Clinical Trials** (Tab 13).
-  2. Select **Patient B** (EGFR + MET): Matches active NSCLC combination trials (CHRYSALIS-2 `NCT04077463`, MARIPOSA-2 `NCT04988295`, ORCHARD `NCT03944772`). Closed trials are accurately labeled `"biomarker match, not enrolling"`.
+  2. Select **Patient B** (EGFR + MET): Matches active NSCLC combination trials (CHRYSALIS-2 `NCT04077463`, MARIPOSA-2 `NCT04988295`, ORCHARD `NCT03944772`). CHRYSALIS-2 is accurately labeled `"possibly eligible · not enrolling"` (Cohort A requires prior platinum chemotherapy), while MARIPOSA-2 and ORCHARD are labeled `"biomarker match, not enrolling"`.
   3. Select **Patient C** (KRAS G12D Colorectal):
      - The matcher rejects KRYSTAL-1 (`NCT03785249`) strictly due to mutation mismatch (*"Trial requires KRAS G12C, patient has KRAS G12D"*).
      - The matcher rejects KEYNOTE-177 (`NCT02563002`) due to microsatellite mismatch (*"Trial requires MSI-H, patient has MSS"*).
@@ -86,16 +86,16 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
 - **Narrative Steps:**
   1. Navigate to **Clinical Monitoring** (Tab 14).
   2. Inspect the time-series plot comparing radiographic sum of longest diameters (RECIST 1.1) with circulating tumor DNA (`ctDNA VAF`).
-  3. Observe the molecular lead-time alert: ctDNA rebound precedes radiographic progression by 65 days (day 300 molecular relapse vs day 365 radiographic progression; timeline lead time: 60-65 days), triggering early regimen re-evaluation.
+  3. Observe the molecular lead-time alert: in this scripted synthetic demonstration timeline, ctDNA rebound precedes radiographic progression by approximately 60 days (day 300 molecular relapse vs day 365 radiographic progression; synthetic lead time: 60-65 days), demonstrating the early regimen re-evaluation workflow.
   *(Command: `python -c "from backend.python.compute.monitoring.timeline import PatientTimeline; tl=PatientTimeline.get_patient_timeline('patient-a'); print([(e['day'], e['title']) for e in tl if 'Progress' in e['title'] or 'Recurrence' in e['title']])"`)*
 
-### Demo 10: Counterfactual Research Lab (Tab 16)
-- **Objective:** Conduct in-silico multi-arm trial simulation across synthetic cohorts.
+### Demo 10: Regimen Scenario Simulation Lab (Tab 16)
+- **Objective:** Conduct in-silico multi-arm regimen scenario simulations across synthetic cohorts.
 - **Narrative Steps:**
-  1. Switch to **Counterfactual Lab** (Tab 16).
+  1. Switch to **Regimen Scenario Lab** (Tab 16).
   2. Click **Generate Synthetic Cohort** (100 in-silico patients stratified by biomarker).
   3. Run parallel RK4 simulations across Arm A (Continuous MTD) and Arm B (Adaptive Dosing).
-  4. Inspect the Kaplan-Meier progression-free survival estimates and review the formal Potential Outcomes Causal Assumption Manifest ($Y(a) = f(X, a, U_Y)$).
+  4. Inspect the Kaplan-Meier progression-free survival estimates and review the formal Scenario Simulation Assumption Manifest documenting coupled Lotka-Volterra ODE dynamics under uncalibrated literature parameter distributions.
 
 ### Demo 11: Research Intelligence & Cryptographic Citation Lineage (Tab 17)
 - **Objective:** Inspect guideline conformance, contradiction detection, and cryptographic provenance.

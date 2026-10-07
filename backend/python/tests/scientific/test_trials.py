@@ -224,11 +224,19 @@ class TestClinicalTrialsRegistry(unittest.TestCase):
         self.assertIn("NCT04988295", matched_b_ids)  # MARIPOSA-2
         self.assertIn("NCT04077463", matched_b_ids)  # CHRYSALIS-2
 
-        # All three post-osimertinib trials are active but closed to enrollment -> "biomarker match, not enrolling"
-        for tid in ["NCT03944772", "NCT04988295", "NCT04077463"]:
+        # ORCHARD and MARIPOSA-2 are closed to enrollment -> "biomarker match, not enrolling"
+        for tid in ["NCT03944772", "NCT04988295"]:
             trial = next(t for t in matched_b if t["trialId"] == tid)
             self.assertEqual(trial["status_label"], "biomarker match, not enrolling")
             self.assertFalse(trial["isEligible"])
+
+        # CHRYSALIS-2 requires prior platinum for Cohort A -> "possibly eligible · not enrolling"
+        chrysalis = next(t for t in matched_b if t["trialId"] == "NCT04077463")
+        self.assertEqual(chrysalis["eligibility"], "possibly eligible")
+        self.assertEqual(chrysalis["enrollment"], "not enrolling")
+        self.assertEqual(chrysalis["status_label"], "possibly eligible · not enrolling")
+        self.assertFalse(chrysalis["isEligible"])
+        self.assertIn("CHRYSALIS-2 Cohort A requires prior platinum chemotherapy", chrysalis["unmatched_criteria"])
 
         # Zero trials for ovarian, colorectal, or prostate
         for t in matched_b:
@@ -304,10 +312,17 @@ class TestClinicalTrialsRegistry(unittest.TestCase):
         # Closed trials match as supporting evidence
         self.assertIn("NCT03944772", matched_b_ids)  # ORCHARD
         self.assertIn("NCT04988295", matched_b_ids)  # MARIPOSA-2
-        self.assertIn("NCT04077463", matched_b_ids)  # CHRYSALIS-2
-        for t in res_b["matchedTrials"]:
+        for tid in ["NCT03944772", "NCT04988295"]:
+            t = next(x for x in res_b["matchedTrials"] if x["trialId"] == tid)
             self.assertFalse(t["isEligible"])
             self.assertEqual(t["status_label"], "biomarker match, not enrolling")
+
+        chrysalis_b = next(x for x in res_b["matchedTrials"] if x["trialId"] == "NCT04077463")
+        self.assertFalse(chrysalis_b["isEligible"])
+        self.assertEqual(chrysalis_b["eligibility"], "possibly eligible")
+        self.assertEqual(chrysalis_b["enrollment"], "not enrolling")
+        self.assertEqual(chrysalis_b["status_label"], "possibly eligible · not enrolling")
+        self.assertIn("CHRYSALIS-2 Cohort A requires prior platinum chemotherapy", chrysalis_b["unmatched_criteria"])
         # Only recruiting trials can be topTrial -> topTrial must be None
         self.assertIsNone(res_b["topTrial"])
         self.assertEqual(res_b["totalEligible"], 0)

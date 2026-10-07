@@ -3,8 +3,6 @@
     "trialId": "NCT03737643",
     "title": "Durvalumab in Combination With Chemotherapy and Bevacizumab, Followed by Maintenance Durvalumab, Bevacizumab and Olaparib in Advanced Ovarian Cancer (DUO-O)",
     "phase": "Phase III",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "ovarian"
     ],
@@ -60,8 +58,6 @@
     "trialId": "NCT03944772",
     "title": "Phase Ib/II Trial of Osimertinib Combination Therapies in Patients with EGFRm-positive and MET-amplified NSCLC (ORCHARD)",
     "phase": "Phase II",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "nsclc"
     ],
@@ -119,8 +115,6 @@
     "trialId": "NCT04077463",
     "title": "Phase Ib/II Study of Amivantamab and Lazertinib in EGFR-Mutated NSCLC Post-Osimertinib (CHRYSALIS-2)",
     "phase": "Phase Ib/II",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "nsclc"
     ],
@@ -144,7 +138,8 @@
       "Exon 19 del"
     ],
     "required_prior_therapies": [
-      "osimertinib"
+      "osimertinib",
+      "platinum chemotherapy"
     ],
     "stage": [
       "Stage III",
@@ -166,14 +161,18 @@
     ],
     "startDate": "2019-10-01",
     "estimatedCompletion": "2026-10-31",
-    "enrollmentTarget": 500
+    "enrollmentTarget": 500,
+    "cohort_dependent_prior_therapies": [
+      "platinum chemotherapy"
+    ],
+    "cohort_notes": {
+      "platinum chemotherapy": "CHRYSALIS-2 Cohort A requires prior platinum chemotherapy"
+    }
   },
   {
     "trialId": "NCT04633239",
     "title": "Testing the Addition of Abemaciclib to Olaparib for Women With Recurrent Ovarian Cancer",
     "phase": "Phase I",
-    "status": "Active, Recruiting",
-    "recruitment_status": "Active, Recruiting",
     "cancer_types": [
       "ovarian"
     ],
@@ -222,8 +221,6 @@
     "trialId": "NCT04038502",
     "title": "Carboplatin or Olaparib for BRCA-deficient Prostate Cancer (COBRA)",
     "phase": "Phase II",
-    "status": "Active, Recruiting",
-    "recruitment_status": "Active, Recruiting",
     "cancer_types": [
       "prostate"
     ],
@@ -270,8 +267,6 @@
     "trialId": "NCT06580314",
     "title": "Testing Olaparib for One or Two Years With or Without Bevacizumab in Ovarian Cancer",
     "phase": "Phase III",
-    "status": "Active, Recruiting",
-    "recruitment_status": "Active, Recruiting",
     "cancer_types": [
       "ovarian"
     ],
@@ -326,8 +321,6 @@
     "trialId": "NCT03785249",
     "title": "Phase 1/2 Study of MRTX849 (Adagrasib) in Patients with Advanced Solid Tumors with KRAS G12C Mutation (KRYSTAL-1)",
     "phase": "Phase I/II",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "solid_tumor",
       "nsclc",
@@ -378,8 +371,6 @@
     "trialId": "NCT02437318",
     "title": "Phase III Study of Alpelisib Plus Fulvestrant in Patients with PIK3CA-Mutated HR+/HER2- Advanced Breast Cancer (SOLAR-1)",
     "phase": "Phase III",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "breast"
     ],
@@ -424,8 +415,6 @@
     "trialId": "NCT02563002",
     "title": "A Phase III Study of Pembrolizumab (MK-3475) vs. Chemotherapy in Microsatellite Instability-High (MSI-H) or Mismatch Repair Deficient (dMMR) Stage IV Colorectal Carcinoma (KEYNOTE-177)",
     "phase": "Phase III",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "colorectal"
     ],
@@ -471,8 +460,6 @@
     "trialId": "NCT02296125",
     "title": "A Phase III, Double-blind, Randomised Study to Assess the Safety and Efficacy of AZD9291 Versus a Standard of Care Epidermal Growth Factor Receptor Tyrosine Kinase Inhibitor as First Line Treatment in Patients With Epidermal Growth Factor Receptor Mutation Positive, Locally Advanced or Metastatic Non Small Cell Lung Cancer (FLAURA)",
     "phase": "Phase III",
-    "status": "Completed",
-    "recruitment_status": "Completed",
     "cancer_types": [
       "nsclc"
     ],
@@ -527,8 +514,6 @@
     "trialId": "NCT01844986",
     "title": "A Phase III, Randomised, Double Blind, Placebo Controlled, Multicentre Study of Olaparib Maintenance Monotherapy in Patients With BRCA Mutated Advanced (FIGO Stage III-IV) Ovarian Cancer Following First Line Platinum Based Chemotherapy (SOLO-1)",
     "phase": "Phase III",
-    "status": "Completed",
-    "recruitment_status": "Completed",
     "cancer_types": [
       "ovarian"
     ],
@@ -575,8 +560,6 @@
     "trialId": "NCT04644068",
     "title": "A Modular Phase I/IIa, Open-label, Multicentre Study to Assess the Safety, Tolerability, Pharmacokinetics, Pharmacodynamics and Preliminary Efficacy of Ascending Doses of AZD5305 as Monotherapy and in Combination With Anti-cancer Agents in Patients With Advanced Solid Malignancies (PETRA)",
     "phase": "Phase I/II",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "solid_tumor",
       "ovarian",
@@ -633,8 +616,6 @@
     "trialId": "NCT02477644",
     "title": "Randomized, Double-Blind, Phase III Trial Olaparib vs. Placebo Patients With Advanced FIGO Stage IIIB-IV High Grade Serious or Endometrioid Ovarian, Fallopian Tube, or Peritoneal Cancer Treated Standard First-Line Treatment (PAOLA-1)",
     "phase": "Phase III",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "ovarian"
     ],
@@ -684,8 +665,6 @@
     "trialId": "NCT02655016",
     "title": "A Phase 3, Randomized, Double-Blind, Placebo-Controlled, Multicenter Study of Niraparib Maintenance Treatment in Patients With Advanced Ovarian Cancer Following Response on Front-Line Platinum-Based Chemotherapy (PRIMA)",
     "phase": "Phase III",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "ovarian"
     ],
@@ -734,8 +713,6 @@
     "trialId": "NCT04988295",
     "title": "A Phase 3, Open-Label, Randomized Study of Amivantamab and Lazertinib in Combination With Platinum-Based Chemotherapy Compared With Platinum-Based Chemotherapy in Patients With EGFR-Mutated Locally Advanced or Metastatic Non-Small Cell Lung Cancer After Osimertinib Failure (MARIPOSA-2)",
     "phase": "Phase III",
-    "status": "Active, not recruiting",
-    "recruitment_status": "Active, not recruiting",
     "cancer_types": [
       "nsclc"
     ],

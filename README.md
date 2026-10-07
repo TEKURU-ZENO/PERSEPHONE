@@ -102,7 +102,7 @@ The clinical workstation comprises 16 interactive panels mounted in the DTOE int
 13. **Clinical Trials (Tab 13):** Verified ClinicalTrials.gov search and biomarker eligibility screening.
 14. **Clinical Monitoring (Tab 14):** Longitudinal RECIST 1.1 tumor kinetics and molecular lead-time forecasting.
 15. **Response Intelligence (Tab 15):** Multimodal response classification and resistance escape predictions.
-16. **Counterfactual Lab (Tab 16):** Multi-arm synthetic cohort simulation and regimen scenario assumption audit.
+16. **Regimen Scenario Lab (Tab 16):** Multi-arm synthetic cohort simulation and regimen scenario assumption audit.
 17. **Research Intelligence (Tab 17):** Clinical guideline compliance, contradiction detection, and SHA-256 provenance.
 18. **Clinical Governance (Tab 18):** Deterministic safety gates (KDIGO, CTCAE, CPIC) and abstention logs.
 19. **PERSEPHONE OS Cockpit (Tab 19):** Kernel telemetry, blackboard inspection, event bus log, and manifest replay.
@@ -151,7 +151,7 @@ To execute the comprehensive verification suites (`node tests/run-tests.js`), bo
    ```
 4. **Execute Verification Suites:**
    ```bash
-   # Python scientific unit tests (178 tests)
+   # Python scientific unit tests (179 tests)
    python -m unittest discover -s backend/python/tests/scientific
 
    # Node end-to-end integration and verification suite (37 suites)
@@ -177,7 +177,7 @@ Refer to [PROJECT_ROADMAP.md](./docs/PROJECT_ROADMAP.md) for full phase-by-phase
 ## 9. Research Contributions
 - **Clonal Competition Modeling:** Implements Lotka-Volterra competition dynamics between drug-sensitive and resistant subpopulations under treatment pressure (uncalibrated parameters; does not demonstrate clinical adaptive advantage over MTD without patient-specific calibration).
 - **Evidence-Grounded Recommendation Score:** Defines an audit-ready scoring model (0–100) combining clinical trial records, publication PMIDs, and safety clearances.
-- **Deterministic Multi-Plane Governance:** Implements a zero-LLM deterministic rule fabric enforcing KDIGO 2024, CTCAE v5.0, and CPIC guidelines with formal clinical abstention semantics (`SUPPORTED`, `CAUTION`, `ABSTAIN`).
+- **Deterministic Multi-Plane Governance:** Implements a small set of safety rules derived from KDIGO, CTCAE, and CPIC guidelines with formal clinical abstention semantics (`SUPPORTED`, `CAUTION`, `ABSTAIN`).
 - **Cryptographic Provenance Lineage:** Establishes SHA-256 hash chains for every clinical claim and recommendation, backed by SHA-256 experiment manifest seals.
 
 ---

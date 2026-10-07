@@ -67,7 +67,7 @@ export function initSimulationLab(containerEl) {
         <!-- STRATEGY SELECTOR ROW -->
         <div class="strategy-selector-row">
           <div class="strategy-column">
-            <h5>Factual Policy (Primary)</h5>
+            <h5>Primary Regimen Policy</h5>
             <div class="radio-group">
               <label><input type="radio" name="factual-strategy" value="mtd" ${factualStrategy === 'mtd' ? 'checked' : ''}> Continuous MTD</label>
               <label><input type="radio" name="factual-strategy" value="metronomic" ${factualStrategy === 'metronomic' ? 'checked' : ''}> Metronomic</label>
@@ -76,9 +76,9 @@ export function initSimulationLab(containerEl) {
           </div>
 
           <div class="strategy-column">
-            <h5>Counterfactual Scenario</h5>
+            <h5>Alternative Scenario</h5>
             <select id="counterfactual-strategy-select" class="patient-dropdown" style="width:100%; margin-top:0.25rem;">
-              <option value="none" ${counterfactualStrategy === 'none' ? 'selected' : ''}>None (Render Factual Only)</option>
+              <option value="none" ${counterfactualStrategy === 'none' ? 'selected' : ''}>None (Render Primary Only)</option>
               <option value="mtd" ${counterfactualStrategy === 'mtd' ? 'selected' : ''}>Compare with Continuous MTD</option>
               <option value="metronomic" ${counterfactualStrategy === 'metronomic' ? 'selected' : ''}>Compare with Metronomic</option>
               <option value="adaptive" ${counterfactualStrategy === 'adaptive' ? 'selected' : ''}>Compare with Adaptive v1</option>

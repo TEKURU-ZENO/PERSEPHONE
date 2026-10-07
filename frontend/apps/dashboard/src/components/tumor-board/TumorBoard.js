@@ -46,7 +46,7 @@ export function initTumorBoard(containerEl) {
           <button class="workspace-tab-btn" id="tab-trials">Clinical Trials</button>
           <button class="workspace-tab-btn" id="tab-monitoring">Clinical Monitoring</button>
           <button class="workspace-tab-btn" id="tab-response">Response Intelligence</button>
-          <button class="workspace-tab-btn" id="tab-counterfactual">Counterfactual Lab</button>
+          <button class="workspace-tab-btn" id="tab-counterfactual">Regimen Scenario Lab</button>
           <button class="workspace-tab-btn" id="tab-research">Research Intelligence</button>
           <button class="workspace-tab-btn" id="tab-governance">Clinical Governance</button>
           <button class="workspace-tab-btn" id="tab-os">PERSEPHONE OS</button>

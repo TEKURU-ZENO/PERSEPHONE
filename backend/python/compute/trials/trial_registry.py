@@ -19,10 +19,13 @@ class TrialRegistry:
     _DATASET_PATH = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "../../../../datasets/knowledge/clinical_trials.json")
     )
+    _VERIFIED_PATH = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "../../../../datasets/knowledge/verified_trials.json")
+    )
 
     @classmethod
     def load_trials(cls, force_reload=False):
-        """Loads trials from dataset file or cache."""
+        """Loads trials from dataset file or cache and syncs status strictly from verified_trials.json."""
         if cls._CACHE is not None and not force_reload:
             return cls._CACHE
 
@@ -33,6 +36,23 @@ class TrialRegistry:
                     trials = json.load(f)
             except Exception as e:
                 logger.warning(f"Failed to read clinical_trials.json: {e}")
+
+        # Authoritatively populate status, recruitment_status, and last_verified from verified_trials.json
+        verified_map = {}
+        if os.path.exists(cls._VERIFIED_PATH):
+            try:
+                with open(cls._VERIFIED_PATH, "r", encoding="utf-8") as f:
+                    verified_map = json.load(f).get("verified", {})
+            except Exception as e:
+                logger.warning(f"Failed to read verified_trials.json: {e}")
+
+        for t in trials:
+            tid = t.get("trialId")
+            if tid in verified_map:
+                v_rec = verified_map[tid]
+                t["status"] = v_rec.get("status")
+                t["recruitment_status"] = v_rec.get("status")
+                t["last_verified"] = v_rec.get("verification_date")
 
         if not trials:
             # Fallback embedded baseline trials

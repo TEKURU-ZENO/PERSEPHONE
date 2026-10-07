@@ -97,10 +97,15 @@ class TrialRanker:
 
             item = dict(t)
             item["trial_id"] = t.get("trialId")
-            item["eligibility"] = {
-                "matched_criteria": t.get("matchedCriteria", []),
-                "unmatched_criteria": t.get("unmatchedCriteria", []),
-                "unknown_criteria": t.get("violations", [])
+            item["eligibility"] = t.get("eligibility", "eligible" if is_elig else "ineligible")
+            item["enrollment"] = t.get("enrollment", "recruiting")
+            item["matched_criteria"] = t.get("matched_criteria") or t.get("matchedCriteria", [])
+            item["unmatched_criteria"] = t.get("unmatched_criteria") or t.get("unmatchedCriteria", [])
+            item["violations"] = t.get("violations", [])
+            item["criteria"] = {
+                "matched_criteria": item["matched_criteria"],
+                "unmatched_criteria": item["unmatched_criteria"],
+                "violations": item["violations"]
             }
             item["evidence"] = {
                 "biomarker": ", ".join(t.get("biomarkers", [])) or "Biomarker agnostic",
@@ -108,7 +113,7 @@ class TrialRanker:
                 "performance_status": "ECOG performance criteria met" if is_elig else "Performance criteria or contraindication conflict"
             }
             item["source"] = "ClinicalTrials.gov"
-            item["last_verified"] = "2026-09"
+            item["last_verified"] = t.get("last_verified") or t.get("verification_date") or None
             item["compositeScore"] = composite
             item["recommendationCategory"] = category
             item["scoringBreakdown"] = {

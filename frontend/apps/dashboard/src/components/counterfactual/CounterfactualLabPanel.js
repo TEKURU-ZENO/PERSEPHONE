@@ -19,14 +19,14 @@ export function renderCounterfactualLab(container) {
       <!-- Header bar with Governance Tag -->
       <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
         <i data-lucide="git-branch" style="width:18px; height:18px; color:var(--cyan);"></i>
-        <span class="glow-cyan-text" style="font-weight:600; font-size:0.95rem;">Synthetic Cohort & Counterfactual Research Platform</span>
+        <span class="glow-cyan-text" style="font-weight:600; font-size:0.95rem;">Synthetic Cohort Regimen Scenario Simulator</span>
         <span style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:4px; font-size:0.65rem; font-weight:600; background:rgba(0,255,255,0.08); border:1px solid rgba(0,255,255,0.25); color:var(--cyan);">
           MODEL: counterfactual-v1
         </span>
         <span style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:4px; font-size:0.65rem; font-weight:600; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); color:var(--amber);">
           CALIBRATION: RESEARCH
         </span>
-        <span class="text-muted" style="margin-left:auto; font-size:0.7rem;">Phase 17 // Synthetic Twins · Multi-Arm RK4 · Causal Assumption Manifest</span>
+        <span class="text-muted" style="margin-left:auto; font-size:0.7rem;">Phase 17 // Synthetic Cohorts · Multi-Arm RK4 · Scenario Simulation Assumption Manifest</span>
       </div>
 
       <!-- Subtab Navigation -->
@@ -34,7 +34,7 @@ export function renderCounterfactualLab(container) {
         <button class="cf-tab active" data-tab="cohort"><i data-lucide="users" style="width:12px; height:12px;"></i> Synthetic Cohort Studio</button>
         <button class="cf-tab" data-tab="regimens"><i data-lucide="layers" style="width:12px; height:12px;"></i> Multi-Arm Regimen Space</button>
         <button class="cf-tab" data-tab="survival"><i data-lucide="trending-down" style="width:12px; height:12px;"></i> Comparative Survival (KM)</button>
-        <button class="cf-tab" data-tab="tradeoff"><i data-lucide="sliders" style="width:12px; height:12px;"></i> Causal Trade-Off & Assumptions</button>
+        <button class="cf-tab" data-tab="tradeoff"><i data-lucide="sliders" style="width:12px; height:12px;"></i> Regimen Trade-Off & Assumptions</button>
       </div>
 
       <!-- Main Subtab Body -->
@@ -503,14 +503,14 @@ function renderSurvivalView(c, patient) {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// ── 4. Causal Trade-Off & Assumptions View ──────────────────────────────────
+// ── 4. Regimen Trade-Off & Assumptions View ──────────────────────────────────
 function renderTradeOffView(c, patient) {
   c.innerHTML = `
     <div style="display:flex; flex-direction:column; gap:0.75rem;">
       <div class="panel-card" style="padding:0.75rem;">
         <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem;">
           <i data-lucide="sliders" style="width:14px; height:14px; color:var(--cyan);"></i>
-          <span style="font-weight:600; font-size:0.85rem;">Causal Trade-Off Matrix & Mechanistic Uncertainty</span>
+          <span style="font-weight:600; font-size:0.85rem;">Regimen Comparison Matrix & Scenario Uncertainty</span>
         </div>
 
         <!-- Best-Performing Simulated Strategy Banner -->
@@ -534,7 +534,7 @@ function renderTradeOffView(c, patient) {
           <table style="width:100%; font-size:0.7rem; border-collapse:collapse;">
             <tr style="color:var(--text-secondary); border-bottom:1px solid rgba(0,255,255,0.1);">
               <th style="text-align:left; padding:4px;">Regimen Arm</th>
-              <th>ATE (TTP Days) ± 95% CI</th>
+              <th>Projected ΔTTP (Days) ± 95% CI</th>
               <th>Δ Toxicity ± 95% CI</th>
               <th>Dose Reduction ± 95% CI</th>
               <th>Therapeutic Efficiency (TEI)</th>
@@ -583,16 +583,16 @@ function renderTradeOffView(c, patient) {
           </table>
         </div>
 
-        <!-- Causal Assumption Manifest & Reproducibility Hashes -->
+        <!-- Scenario Simulation Assumption Manifest & Reproducibility Hashes -->
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
           <div style="border:1px solid rgba(0,255,255,0.1); border-radius:6px; padding:0.6rem; background:rgba(0,0,0,0.2);">
-            <div style="font-size:0.75rem; font-weight:600; color:var(--cyan); margin-bottom:0.4rem;">Causal Assumption Manifest</div>
+            <div style="font-size:0.75rem; font-weight:600; color:var(--cyan); margin-bottom:0.4rem;">Scenario Simulation Assumption Manifest</div>
             <ul style="font-size:0.68rem; color:var(--text-secondary); padding-left:1rem; margin:0 0 0.4rem 0; line-height:1.4;">
-              <li><strong>Estimand:</strong> Average Treatment Effect on Time to Progression (ATE_TTP)</li>
+              <li><strong>Estimand:</strong> Projected Delta in Time to Progression (ΔTTP)</li>
               <li><strong>Control Arm:</strong> Continuous MTD (10.0 mg/kg Q7D)</li>
               <li><strong>Model:</strong> Lotka-Volterra Competitive Dynamics + One-Compartment PK/PD</li>
               <li><strong>Sampling:</strong> Bounded log-normal and beta biophysical perturbation (N=50)</li>
-              <li><strong>Nature:</strong> Mechanistic simulation counterfactuals; NOT observational causal inference</li>
+              <li><strong>Nature:</strong> Numerical forward scenario simulation; NOT observational causal inference or clinical trial result</li>
             </ul>
           </div>
 
