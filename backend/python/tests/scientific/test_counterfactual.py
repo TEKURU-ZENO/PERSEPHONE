@@ -12,7 +12,7 @@ from backend.python.compute.counterfactual.scenario import CounterfactualScenari
 from backend.python.compute.counterfactual.simulator import CounterfactualSimulator
 from backend.python.compute.counterfactual.outcomes import CounterfactualOutcomes
 from backend.python.compute.counterfactual.uncertainty import CounterfactualUncertaintyEngine
-from backend.python.compute.counterfactual.provenance import CausalProvenanceEngine
+from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine, CausalProvenanceEngine
 from backend.python.compute.counterfactual.comparison import CounterfactualComparator
 from backend.python.compute.counterfactual.registry import CounterfactualRegistry
 
@@ -189,9 +189,15 @@ class TestCounterfactualPlatform(unittest.TestCase):
         causal_manifest = CausalProvenanceEngine.generate_causal_manifest("mtd", "adaptive")
         self.assertEqual(causal_manifest["control_arm"], "mtd")
         self.assertEqual(causal_manifest["intervention_arm"], "adaptive")
+        self.assertEqual(causal_manifest["estimand"], "delta_TTP")
         self.assertIn("assumptions", causal_manifest)
         self.assertGreater(len(causal_manifest["assumptions"]), 0)
         self.assertIn("disclaimer", causal_manifest)
+
+        scenario_manifest = ScenarioProvenanceEngine.generate_scenario_manifest("mtd", "adaptive")
+        self.assertEqual(scenario_manifest["estimand"], "delta_TTP")
+        self.assertTrue(any("assumed parameter values" in a for a in scenario_manifest["assumptions"]))
+        self.assertTrue(any("total volume ≥ 1.2× baseline" in a for a in scenario_manifest["assumptions"]))
 
     def test_counterfactual_comparator_and_best_performing_strategy(self):
         """Verifies comparator computes HR, log-rank p-values, and qualifies best performing simulated strategy."""

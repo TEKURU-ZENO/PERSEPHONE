@@ -34,7 +34,7 @@ class ClinicalAlertGenerator:
                 "severity": "WARNING",
                 "category": "progression",
                 "title": "Molecular Recurrence Lead-Time Warning",
-                "message": f"ctDNA VAF elevated to {biomarkers.get('ctdnaVaf', {}).get('current')}% prior to CT manifestation. Lead time estimated at {progression.get('leadTimeDays', 60)} days.",
+                "message": f"ctDNA VAF elevated to {biomarkers.get('ctdnaVaf', {}).get('current')}% prior to CT manifestation. Lead time estimated at {progression.get('leadTimeDays', 65)} days.",
                 "actionableRecommendation": "Schedule early high-resolution contrast CT scan and repeat liquid biopsy."
             })
             alert_id += 1

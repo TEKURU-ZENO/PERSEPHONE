@@ -246,14 +246,14 @@ export function initSimulationLab(containerEl) {
           <div class="metric-card-sim">
             <span>Max Systemic Toxicity</span>
             <span class="${factual.maxToxicity > 100 ? 'text-red glow-red-text' : 'text-cyan'}">
-              ${factual.maxToxicity.toFixed(0)}%
+              ${factual.maxToxicity.toFixed(0)}
             </span>
           </div>
         </div>
         ${factual.maxToxicity > 100 ? `
           <div class="tox-alert-banner">
             <i data-lucide="alert-triangle"></i>
-            <span>WARNING: Systemic toxicity exceeds safe threshold (100%). Initiate clinical holiday.</span>
+            <span>WARNING: Systemic toxicity exceeds safe threshold (100). Initiate clinical holiday.</span>
           </div>
         ` : ''}
       `;
@@ -273,9 +273,9 @@ export function initSimulationLab(containerEl) {
         : `<span class="text-muted">No Delta</span>`;
 
       const toxDeltaHTML = metrics.toxDelta > 0 
-        ? `<span class="text-green">Reduced by ${metrics.toxDelta.toFixed(0)}%</span>` 
+        ? `<span class="text-green">Reduced by ${metrics.toxDelta.toFixed(0)}</span>` 
         : metrics.toxDelta < 0 
-        ? `<span class="text-red">Increased by ${Math.abs(metrics.toxDelta).toFixed(0)}%</span>` 
+        ? `<span class="text-red">Increased by ${Math.abs(metrics.toxDelta).toFixed(0)}</span>` 
         : `<span class="text-muted">No Delta</span>`;
 
       parent.innerHTML = `
@@ -284,9 +284,9 @@ export function initSimulationLab(containerEl) {
             <thead>
               <tr>
                 <th>Clinical Metric</th>
-                <th>Factual (Primary)</th>
-                <th>Counterfactual</th>
-                <th>Causal Impact Delta</th>
+                <th>Primary regimen</th>
+                <th>Alternative regimen</th>
+                <th>Difference</th>
               </tr>
             </thead>
             <tbody>
@@ -304,8 +304,8 @@ export function initSimulationLab(containerEl) {
               </tr>
               <tr>
                 <td><strong>Max Systemic Toxicity</strong></td>
-                <td>${factual.maxToxicity.toFixed(0)}%</td>
-                <td>${counterfactual.maxToxicity.toFixed(0)}%</td>
+                <td>${factual.maxToxicity.toFixed(0)}</td>
+                <td>${counterfactual.maxToxicity.toFixed(0)}</td>
                 <td>${toxDeltaHTML}</td>
               </tr>
             </tbody>

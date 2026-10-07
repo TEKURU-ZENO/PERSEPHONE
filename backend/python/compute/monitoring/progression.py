@@ -24,7 +24,7 @@ class ProgressionDetector:
             vaf_points = biomarker_analysis.get("ctdnaVaf", {}).get("points", [])
             if len(vaf_points) >= 2:
                 # Approximate lead time between biomarker rise and radiologic scan
-                lead_time_days = 60
+                lead_time_days = 65
 
         # Progression status determination
         if has_radiologic_pd:
@@ -47,7 +47,7 @@ class ProgressionDetector:
         # Longitudinal PFS/TTP calculation
         trajectory = trajectory_analysis.get("trajectory", [])
         total_observed_days = trajectory[-1]["day"] if trajectory else 365
-        pfs_days = total_observed_days if not has_radiologic_pd else max(180, total_observed_days - 60)
+        pfs_days = total_observed_days if not has_radiologic_pd else max(180, total_observed_days - 65)
 
         return {
             "signalLevel": signal_level,

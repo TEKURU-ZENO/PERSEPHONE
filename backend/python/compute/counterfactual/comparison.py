@@ -5,7 +5,7 @@ ATE uncertainty, and ranks arms based on best-performing simulated strategy.
 """
 import math
 from backend.python.compute.counterfactual.uncertainty import CounterfactualUncertaintyEngine
-from backend.python.compute.counterfactual.provenance import CausalProvenanceEngine
+from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine, CausalProvenanceEngine
 from backend.python.compute.counterfactual.treatment_matrix import TreatmentMatrix
 
 class CounterfactualComparator:
@@ -93,7 +93,8 @@ class CounterfactualComparator:
                 "therapeutic_efficiency_index": uncertainty_block.get("therapeutic_efficiency_index"),
                 "resistance_emergence_delta_days": uncertainty_block.get("resistance_emergence_delta_days"),
                 "simulated_utility_score": utility_score,
-                "causal_manifest": CausalProvenanceEngine.generate_causal_manifest(control_arm, arm_id, "ATE_TTP")
+                "scenario_manifest": ScenarioProvenanceEngine.generate_scenario_manifest(control_arm, arm_id, "delta_TTP"),
+                "causal_manifest": ScenarioProvenanceEngine.generate_scenario_manifest(control_arm, arm_id, "delta_TTP")
             }
 
             arm_scores.append((arm_id, utility_score))

@@ -11,7 +11,7 @@ from backend.python.compute.counterfactual.scenario import CounterfactualScenari
 from backend.python.compute.counterfactual.simulator import CounterfactualSimulator
 from backend.python.compute.counterfactual.outcomes import CounterfactualOutcomes
 from backend.python.compute.counterfactual.comparison import CounterfactualComparator
-from backend.python.compute.counterfactual.provenance import CausalProvenanceEngine
+from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine, CausalProvenanceEngine
 
 class CounterfactualRegistry:
     """

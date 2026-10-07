@@ -87,7 +87,7 @@ class TestProgression(unittest.TestCase):
         prog = ProgressionDetector.evaluate_progression(traj, resp, bio)
         self.assertEqual(prog["signalLevel"], "CONFIRMED_PROGRESSION")
         self.assertTrue(prog["hasRadiologicProgression"])
-        self.assertEqual(prog["leadTimeDays"], 60)
+        self.assertEqual(prog["leadTimeDays"], 65)
 
 class TestAlerts(unittest.TestCase):
     def test_generate_alerts(self):

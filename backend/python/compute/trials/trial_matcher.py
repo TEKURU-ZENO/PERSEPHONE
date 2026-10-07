@@ -75,6 +75,8 @@ class TrialMatcher:
                 "biomarkers": trial.get("biomarkers", []),
                 "sponsor": trial.get("sponsor", ""),
                 "locations": trial.get("locations", []),
+                "last_verified": trial.get("last_verified"),
+                "verification_date": trial.get("last_verified"),
                 "matchScore": match_score,
                 "matchType": match_type,
                 "isEligible": eval_res["is_eligible"],

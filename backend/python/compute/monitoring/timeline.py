@@ -118,8 +118,8 @@ class PatientTimeline:
                 "date": "2025-11-06",
                 "category": "genomics",
                 "title": "Molecular Recurrence (ctDNA Inflexion)",
-                "details": "Early molecular signal: ctDNA BRCA1 VAF rose to 4.2%. Serum CA-125 elevated to 42.0 U/mL (early warning 60 days before CT).",
-                "metrics": {"ctdnaVaf": 4.2, "ca125": 42.0, "molecularRelapse": True, "leadTimeDays": 60}
+                "details": "Early molecular signal: ctDNA BRCA1 VAF rose to 4.2%. Serum CA-125 elevated to 42.0 U/mL (early warning 65 days before CT).",
+                "metrics": {"ctdnaVaf": 4.2, "ca125": 42.0, "molecularRelapse": True, "leadTimeDays": 65}
             },
             {
                 "day": 340,

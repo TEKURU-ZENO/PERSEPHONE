@@ -26,7 +26,7 @@ To ensure complete scientific transparency and honest labeling, PERSEPHONE categ
 Across its 20 development phases, PERSEPHONE delivers a comprehensive clinical workstation:
 
 - **Clonal Population Dynamics (Phase 2):** Models Darwinian competition between Treatment-Sensitive ($S_S$) and Treatment-Resistant ($S_R$) tumor clones using competitive Lotka-Volterra equations solved via Runge-Kutta 4th order (RK4) integration, embedding resistance fitness costs ($\alpha_2 < \alpha_1$).
-- **Regimen Scenario Simulator (Phase 2, 17):** Evaluates prospective dosing strategies under the potential outcomes framework $Y(a) = f(X, a, U_Y)$, displaying comparative deltas for Time-to-Progression (TTP), cumulative drug exposure, and toxicity.
+- **Regimen Scenario Simulator (Phase 2, 17):** Evaluates prospective dosing strategies, displaying comparative deltas for Time-to-Progression (TTP), cumulative drug exposure, and toxicity.
 - **Biomedical Knowledge Graph & Graph-RAG v2 (Phase 3, 8):** Zero-dependency HTML5 Canvas 2D force-directed layout engine with depth-first pathfinding, paired with hybrid vector-graph retrieval and clinical grounding gates.
 - **Deterministic Rule-Based Decision Pipeline (Phase 4, 11, 17–20):** Sequences clinical deliberation across 23 specialized rule-based modules coordinated via Directed Acyclic Graphs (DAG) and blackboard state contracts (no external LLMs).
 - **Multi-Omics Feature Store (Phase 6, 13):** Curated schemas and quality control for TCGA, CCLE, GDSC, ClinVar, and DrugBank, integrated with Non-Negative Least Squares (NNLS) deconvolution against COSMIC v3.4 SBS signatures.

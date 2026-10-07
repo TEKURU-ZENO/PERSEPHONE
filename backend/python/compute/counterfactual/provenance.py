@@ -6,7 +6,7 @@ import hashlib
 import json
 import time
 
-class CausalProvenanceEngine:
+class ScenarioProvenanceEngine:
     """
     Constructs research-grade reproducibility manifests and simulation assumption documentation.
     """
@@ -43,7 +43,7 @@ class CausalProvenanceEngine:
         }
 
     @classmethod
-    def generate_causal_manifest(cls, control_arm="mtd", intervention_arm="adaptive", estimand="ATE_TTP"):
+    def generate_scenario_manifest(cls, control_arm="mtd", intervention_arm="adaptive", estimand="delta_TTP"):
         """
         Documents the mathematical assumptions of the regimen scenario simulation run.
         Explicitly distinguishes forward numerical simulation from fitted clinical causal inference.
@@ -56,11 +56,16 @@ class CausalProvenanceEngine:
             "synthetic_sampling": "bounded_biophysical_perturbation",
             "simulation_model": "lotka_volterra_rk4_pkpd",
             "assumptions": [
-                "Index patient biophysical parameter baseline anchored to published literature estimates",
+                "Index patient biophysical and pharmacokinetic/pharmacodynamic parameters use assumed parameter values (no patient-specific calibration or data fitting)",
                 "Tumor subpopulation competition modeled via coupled Lotka-Volterra ODEs with assumed resistant fitness penalty",
-                "Fixed literature-derived pharmacokinetic and pharmacodynamic parameters (no patient-specific calibration or data fitting)",
-                "RECIST progression defined numerically as 20% volume expansion above nadir or baseline",
+                "progression defined as total volume ≥ 1.2× baseline (simplified rule, not RECIST)",
                 "Numerical forward simulation produces regimen scenario projections under declared ODE parameters; does not establish clinical causality or empirical treatment advantage"
             ],
             "disclaimer": "FOR RESEARCH USE ONLY: Simulated research projection under uncalibrated mathematical assumptions; not a clinical directive or validated clinical outcome."
         }
+
+    # Backward compatibility alias
+    generate_causal_manifest = generate_scenario_manifest
+
+# Backward compatibility alias
+CausalProvenanceEngine = ScenarioProvenanceEngine

@@ -39,7 +39,7 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
   *(Note on parameter sensitivity: In Elena Rostova / Patient A, holding dose during regression permits sensitive cell rebound reaching progression threshold at day 77 [TTP = 77 days vs 180 days for MTD], demonstrating that without patient-specific parameter calibration, the uncalibrated model does not confer an adaptive survival advantage across all patient baselines).*
 
 ### Demo 5: 2D Canvas Knowledge Graph Explorer (Tab 3)
-- **Objective:** Trace causal biological pathways interactively.
+- **Objective:** Trace biological pathways interactively.
 - **Narrative Steps:**
   1. Navigate to **Knowledge Graph Explorer** (Tab 3).
   2. Hover over Arthur Pendelton to highlight the resistance bypass route:
@@ -86,7 +86,7 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
 - **Narrative Steps:**
   1. Navigate to **Clinical Monitoring** (Tab 14).
   2. Inspect the time-series plot comparing radiographic sum of longest diameters (RECIST 1.1) with circulating tumor DNA (`ctDNA VAF`).
-  3. Observe the molecular lead-time alert: in this scripted synthetic demonstration timeline, ctDNA rebound precedes radiographic progression by approximately 60 days (day 300 molecular relapse vs day 365 radiographic progression; synthetic lead time: 60-65 days), demonstrating the early regimen re-evaluation workflow.
+  3. Observe the molecular lead-time alert: in this scripted synthetic demonstration timeline, ctDNA rebound precedes radiographic progression by 65 days (day 300 molecular relapse vs day 365 radiographic progression; synthetic lead time: 65 days), demonstrating the early regimen re-evaluation workflow.
   *(Command: `python -c "from backend.python.compute.monitoring.timeline import PatientTimeline; tl=PatientTimeline.get_patient_timeline('patient-a'); print([(e['day'], e['title']) for e in tl if 'Progress' in e['title'] or 'Recurrence' in e['title']])"`)*
 
 ### Demo 10: Regimen Scenario Simulation Lab (Tab 16)
