@@ -81,7 +81,7 @@ Expected result:
 ```
 Total Execution Time: ~10,000 ms
 Passed Suites:        37 / 37
-Status:               ALL TESTS PASSED (100% REPRODUCIBILITY STATUS)
+Status:               ALL TESTS PASSED (37/37 SUITES PASS)
 ```
 
 ---

@@ -6,7 +6,7 @@ This directory contains the zero-dependency test coordinator and integration ver
 
 ## Test Architecture
 
-The testing harness enforces 100% scientific reproducibility and architectural integrity across all 20 phases:
+The testing harness enforces scientific verification and architectural integrity across all 20 phases:
 
 ```
 tests/
@@ -32,14 +32,14 @@ Requires Python SCR on port 5000 and Node gateway on port 3000:
 node tests/run-tests.js
 ```
 - **Coverage:** 37 distinct suites verifying all 20 development phases and performance latency targets.
-- **Status:** 37 / 37 passing (100% Reproducibility Status).
+- **Status:** 37 / 37 passing (37/37 suites pass).
 
 ### 2. Scientific Unit Tests (Python)
 ```bash
-# Full scientific unit test suite (177 tests)
+# Full scientific unit test suite (178 tests)
 python -m unittest discover -s backend/python/tests/scientific -v
 
 # Consistency, parity, and registry invariants (12 tests)
 python -m unittest backend/python/tests/scientific/test_drug_target_consistency.py -v
 ```
-- **Coverage:** 177 unit tests covering Lotka-Volterra ODEs, RL policies, pharmacogenomics, verified trial matching, and PERSEPHONE OS contracts.
+- **Coverage:** 178 unit tests covering Lotka-Volterra ODEs, RL policies, pharmacogenomics, verified trial matching, and PERSEPHONE OS contracts.

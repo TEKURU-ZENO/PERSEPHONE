@@ -12,7 +12,7 @@ PERSEPHONE structures precision oncology intelligence across **5 Coordinated Int
 +===========================================================================================+
 |                                    PERSEPHONE OS KERNEL                                   |
 |   • PersephoneKernel (DAG Scheduler)         • BlackboardMemory (Thread-Safe State)       |
-|   • OSEventBus (Pub/Sub Event Stream)        • ProvenanceLedger (Merkle Causal Chain)     |
+|   • OSEventBus (Pub/Sub Event Stream)        • ProvenanceLedger (SHA-256 Hash Chain)      |
 |   • ExperimentManifest (SHA-256 Sealed)      • CaseReplayEngine (RMSE < 1e-4)             |
 +===========================================================================================+
         │                           │                           │
@@ -20,7 +20,7 @@ PERSEPHONE structures precision oncology intelligence across **5 Coordinated Int
 ┌─────────────────────────┐ ┌─────────────────────────┐ ┌─────────────────────────┐
 │     PATIENT PLANE       │ │    SCIENTIFIC PLANE     │ │     CLINICAL PLANE      │
 ├─────────────────────────┤ ├─────────────────────────┤ ├─────────────────────────┤
-│ • Patient Digital Twins │ │ • RK4 Lotka-Volterra ODE│ │ • Pharmacogenomics (CPIC│
+│ • Patient Profiles      │ │ • RK4 Lotka-Volterra ODE│ │ • Pharmacogenomics (CPIC│
 │ • Stochastic IoT Stream │ │ • Scenario Simulator    │ │ • Drug-Gene Resolvers   │
 │ • Pathology WSI Viewer  │ │ • NNLS COSMIC SBS Engine│ │ • Resistance Escape     │
 │ • Longitudinal Kinetics │ │ • RL (DQN + Actor-Critic│ │ • Multimodal Fusion     │
@@ -106,7 +106,7 @@ Ingests structured biological databases under `datasets/`:
 
 ## 6. The 23-Agent Collaborative Council
 
-PERSEPHONE orchestrates a 23-agent multi-agent council using deterministic rule-based algorithms (no non-deterministic external LLMs):
+PERSEPHONE orchestrates a 23-module rule-based decision pipeline using deterministic algorithms (no non-deterministic external LLMs):
 
 ```
 1.  EvolutionAgent             - Clonal population kinetics and TTP projection

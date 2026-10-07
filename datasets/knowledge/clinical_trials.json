@@ -144,8 +144,7 @@
       "Exon 19 del"
     ],
     "required_prior_therapies": [
-      "osimertinib",
-      "platinum chemotherapy"
+      "osimertinib"
     ],
     "stage": [
       "Stage III",
@@ -198,9 +197,8 @@
     ],
     "required_mutations": [],
     "stage": [
-      "Stage III",
-      "Stage IV",
-      "Recurrent"
+      "Recurrent",
+      "Platinum-Resistant"
     ],
     "enrollmentCriteria": "Inclusion: Recurrent platinum-resistant epithelial ovarian carcinoma. Documented BRCA1/2 alteration or HRD loss of heterozygosity. Female age >= 18. ECOG <= 2. Hemoglobin >= 10 g/dL, ANC >= 1500, platelets >= 100k. Exclusion: Prior CDK4/6 inhibitor therapy, severe gastrointestinal absorption disorders, active thromboembolism.",
     "sponsor": "National Cancer Institute (NCI)",
@@ -501,7 +499,13 @@
       "Stage IIIB",
       "Stage IV"
     ],
-    "enrollmentCriteria": "Inclusion: Treatment-naive locally advanced or metastatic NSCLC with confirmed sensitizing EGFR mutation (Exon 19 del or L858R). Age >= 18. ECOG 0-1. Exclusion: Prior systemic therapy for advanced NSCLC, interstitial lung disease.",
+    "excluded_prior_therapies": [
+      "osimertinib",
+      "EGFR TKI",
+      "gefitinib",
+      "erlotinib"
+    ],
+    "enrollmentCriteria": "Inclusion: Treatment-naive locally advanced or metastatic NSCLC with confirmed sensitizing EGFR mutation (Exon 19 del or L858R). Age >= 18. ECOG 0-1. Exclusion: Prior EGFR TKI or prior systemic therapy for advanced NSCLC, interstitial lung disease.",
     "sponsor": "AstraZeneca",
     "locations": [
       {
@@ -655,7 +659,7 @@
     ],
     "required_mutations": [],
     "stage": [
-      "Stage IIIB",
+      "Stage III",
       "Stage IV"
     ],
     "enrollmentCriteria": "Inclusion: Newly diagnosed advanced FIGO stage IIIB-IV ovarian cancer in response following frontline platinum-taxane chemotherapy plus bevacizumab. Known BRCA/HRD status.",

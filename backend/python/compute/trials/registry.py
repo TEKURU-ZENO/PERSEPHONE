@@ -75,11 +75,15 @@ class ClinicalTrialsRegistry:
         ]
         total_eligible = len([
             t for t in matched_trials
-            if t.get("isEligible", False) or t.get("status_label") in ("eligible", "possibly eligible", "biomarker match, not enrolling")
+            if t.get("isEligible", False)
         ])
         match_rate = round(len(matched_trials) / max(total_screened, 1), 3)
 
-        top_trial = matched_trials[0] if matched_trials else None
+        recruiting_matches = [
+            t for t in matched_trials
+            if t.get("isEligible", False) and "recruiting" in str(t.get("recruitment_status", "")).lower()
+        ]
+        top_trial = recruiting_matches[0] if recruiting_matches else None
         processing_time_ms = round((time.perf_counter() - start_time) * 1000, 2)
 
         return {

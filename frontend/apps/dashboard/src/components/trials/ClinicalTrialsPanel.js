@@ -141,11 +141,10 @@ function renderMatched(c, patient) {
           diagnosis: patient.diagnosis || '',
           stage: patient.stage || '',
           microsatelliteStatus: patient.genomics?.microsatelliteStatus || '',
-          priorTherapies: (patient.clinicalHistory || []).map(h => h.regimen || h.event || ''),
+          priorTherapies: patient.priorTherapies || [],
           variants: variants,
           age: patient.age,
-          country: 'United States',
-          city: 'New York'
+          country: 'United States'
         })
       });
       const data = await res.json();
@@ -174,7 +173,7 @@ function renderMatched(c, patient) {
         </div>
         <div style="display:flex; flex-direction:column; gap:0.5rem;">
           ${trials.slice(0, 6).map(t => {
-            const isTop = t.rank === 1;
+            const isTop = Boolean(data.result?.topTrial && t.trialId === data.result.topTrial.trialId);
             const statusText = t.status_label || (t.status === 'Active, not recruiting' ? 'biomarker match, not enrolling' : t.status);
             return `
               <div style="border:1px solid ${isTop ? 'var(--cyan)' : 'rgba(0,255,255,0.1)'}; background:${isTop ? 'rgba(0,255,255,0.03)' : 'transparent'}; border-radius:6px; padding:0.6rem;">

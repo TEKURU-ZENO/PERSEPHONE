@@ -16,6 +16,7 @@ export const patients = {
     avatar: "👩‍⚕️",
     status: "Active Therapy",
     recommendedTherapy: "Carboplatin + Paclitaxel completion -> Olaparib Maintenance (SOLO-1)",
+    priorTherapies: ["carboplatin", "paclitaxel"],
     clinicalSummary: "Patient presented with abdominal distension and elevated CA-125 (1240 U/mL) in Nov 2025. Underwent primary cytoreductive surgery on Dec 12, 2025, resulting in optimal cytoreduction (<1cm residual disease). Initiated adjuvant carboplatin/paclitaxel chemotherapy. System is modeling potential BRCA1 reversion mutations and PARP-inhibitor susceptibility.",
     
     // Genomic profile
@@ -108,6 +109,7 @@ export const patients = {
     avatar: "👨‍⚕️",
     status: "Progressive Disease",
     recommendedTherapy: "Amivantamab + Carboplatin + Pemetrexed (FDA-approved, MARIPOSA-2); Investigational: Osimertinib + Savolitinib (ORCHARD NCT03944772) or Amivantamab + Lazertinib (CHRYSALIS-2 NCT04077463)",
+    priorTherapies: ["osimertinib"],
     clinicalSummary: "Patient was diagnosed with EGFR-mutant (p.Leu858Arg) lung adenocarcinoma in Mar 2025. Received first-line Osimertinib (Tagrisso 80mg daily) per FLAURA protocol with initial robust response (50% tumor regression). Progressed in Dec 2025 with increasing dyspnea and new osteolytic lesions in the lumbar spine (L3-L4). Re-biopsy and NGS confirmed acquired high-level MET amplification (CN=12) mediating bypass resistance to osimertinib (no T790M). Evolutionary models indicate rapid expansion of the MET-amplified clone under third-generation EGFR TKI selective pressure.",
     
     // Genomic profile
@@ -200,6 +202,7 @@ export const patients = {
     avatar: "👨‍⚕️",
     status: "Active Therapy",
     recommendedTherapy: "FOLFIRI + Bevacizumab continuation (RECIST stable); screen for active KRAS G12D or pan-RAS(ON) trials",
+    priorTherapies: ["FOLFIRI", "bevacizumab"],
     clinicalSummary: "Patient diagnosed with metastatic colon cancer in Aug 2025. Somatic sequencing revealed KRAS G12D (p.Gly12Asp) mutation, precluding anti-EGFR therapy (e.g. Cetuximab/Panitumumab). Started first-line FOLFIRI + Bevacizumab. Restaging imaging shows stable primary rectosigmoid tumor and a 15% volume increase in segment IV liver metastases (corresponding to ~4.8% diameter expansion, which is Stable Disease [SD] per RECIST 1.1 criteria). Recommended to continue current FOLFIRI + Bevacizumab therapy while monitoring. Later-line FDA-approved options upon progression include trifluridine/tipiracil (Lonsurf) ± bevacizumab, regorafenib, or fruquintinib. Screen for active investigational G12D or pan-RAS(ON) clinical trials.",
     
     // Genomic profile

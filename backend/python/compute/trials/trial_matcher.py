@@ -16,7 +16,7 @@ class TrialMatcher:
         Matches a patient profile against an iterable of trial records.
         """
         results = []
-        p_stage = (patient_profile.get("stage") or "Stage III").lower()
+        p_stage = (patient_profile.get("stage") or "").lower()
 
         for trial in trial_list:
             criteria = EligibilityExtractor.extract_criteria(
@@ -25,7 +25,7 @@ class TrialMatcher:
             )
             eval_res = EligibilityExtractor.evaluate_eligibility(patient_profile, criteria)
 
-            has_violations = len(eval_res["violations"]) > 0
+            has_violations = len(eval_res["violations"]) > 0 or len(eval_res["unmatched_criteria"]) > 0
             biomarker_match = eval_res["biomarker_match"]
 
             # 1. Genomic Score (0 to 1)
@@ -37,7 +37,7 @@ class TrialMatcher:
 
             # 3. Stage Score (0 to 1)
             t_stages = [s.lower() for s in criteria.get("stages", [])]
-            stage_score = 1.0 if any(p_stage in s or s in p_stage for s in t_stages) else 0.4
+            stage_score = 1.0 if (p_stage and any(p_stage in s or s in p_stage for s in t_stages)) else 0.4
 
             # 4. Performance Score (0 to 1)
             perf_score = 1.0 if not has_violations else 0.0
@@ -73,7 +73,7 @@ class TrialMatcher:
                 "conditions": trial.get("conditions", []),
                 "drugs": trial.get("drugs", []),
                 "biomarkers": trial.get("biomarkers", []),
-                "sponsor": trial.get("sponsor", "Investigator Initiated"),
+                "sponsor": trial.get("sponsor", ""),
                 "locations": trial.get("locations", []),
                 "matchScore": match_score,
                 "matchType": match_type,

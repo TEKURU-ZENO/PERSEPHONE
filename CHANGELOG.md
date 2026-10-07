@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Phase 20 — PERSEPHONE OS Capstone Layer:**
   - Unified 23-Agent Council orchestrated across 5 Intelligence Planes (Patient, Scientific, Clinical, Evidence, Governance).
   - Implemented `PersephoneKernel` DAG scheduler with 3-tier failure containment.
-  - Implemented thread-safe `BlackboardMemory`, non-blocking `OSEventBus`, and Merkle-tree `ProvenanceLedger`.
+  - Implemented thread-safe `BlackboardMemory`, non-blocking `OSEventBus`, and SHA-256 hash chain `ProvenanceLedger`.
   - Added `ExperimentManifest` (Schema v1.0, SHA-256 seal) and `CaseReplayEngine` with bit-level reproducibility (RMSE $< 1\times 10^{-4}$).
   - Mounted Tab 19 PERSEPHONE OS Cockpit with live telemetry and state replay.
 - **Phase 19 — Clinical Safety, Governance & Validation Platform:**
@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Phase 18 — Clinical Knowledge & Research Intelligence Platform:**
   - Added 22nd Council Agent (`ResearchIntelligenceAgent`).
   - Automated guideline parsing for NCCN, ASCO, and ESMO clinical recommendations.
-  - Implemented temporal validity tracking, guideline contradiction detection, and cryptographic Merkle-tree citation lineage.
+  - Implemented temporal validity tracking, guideline contradiction detection, and cryptographic SHA-256 hash chain citation lineage.
   - Enforced clinical Grounding Gate rejecting ungrounded recommendations.
   - Added Tab 17 Research Intelligence panel.
 - **Phase 17 — Synthetic Cohort & Counterfactual Research Platform:**
@@ -73,7 +73,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Execution context scoping, provider middleware, health check daemons, and initial 14-agent council coordination.
   - Added Tab 10 Clinical AI Runtime panel.
 - **Phase 10 — Clinical Model Calibration & Uncertainty Quantification:**
-  - Bayesian model calibration against clinical benchmarks and 95% conformal prediction intervals.
+  - Model calibration against clinical benchmark parameter ranges and parametric bootstrap confidence intervals.
   - Added Tab 9 Clinical Validation panel.
 - **Phase 9 — Reinforcement Learning Dosing Policy Optimization:**
   - Gymnasium-compatible environment (`OncologyGymEnv`), Deep Q-Network (DQN) trainer, and treatment holiday scheduling.
@@ -86,7 +86,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Cross-language RK4 simulation parity (RMSE $< 1\times 10^{-4}$) and graph pathfinding parity.
 - **Phase 6 — Multi-Omics Dataset Ingestion & Feature Store:**
   - Canonical schemas and ETL quality control pipelines for TCGA, CCLE, GDSC, ClinVar, DrugBank, and Reactome.
-  - Added Tab 6 Digital Twin Biobank panel.
+  - Added Tab 6 Patient Simulation Profile Biobank panel.
 - **Phase 5 — Clinical Memory Workspace & Graph-Linking:**
   - TF-IDF concept parsing, relevance scoring, memory retrieval, REST persistence, and visual graph node dispatching.
   - Added Tab 5 Clinical Memory Workspace panel.

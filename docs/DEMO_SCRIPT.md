@@ -10,7 +10,7 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
 - **Objective:** Demonstrate synthetic lethality and clonal selection modeling.
 - **Narrative Steps:**
   1. In the top header panel, select **Elena Rostova** (Patient A).
-  2. Observe her profile in the left panel: Stage IIIC High-Grade Serous Ovarian Cancer (`Stage IIIC HGSOC`), germline pathogenic `BRCA1 c.1961delA` (VAF 42.3%), and baseline CA-125 kinetics.
+  2. Observe her profile in the left panel: Stage IIIC High-Grade Serous Ovarian Cancer (`Stage IIIC HGSOC`), somatic pathogenic `BRCA1 c.1961delA` (VAF 42.3%), and baseline CA-125 kinetics.
   3. Inspect real-time telemetry fluctuations driven by the stochastic Brownian motion IoT stream.
   4. View the associated histopathology slide rendered via the secure server proxy.
 
@@ -29,12 +29,14 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
   3. Note that Marcus possesses `KRAS G12D`, which is completely distinct from `KRAS G12C`.
 
 ### Demo 4: RK4 Simulator & Regimen Scenario Simulator (Tab 2)
-- **Objective:** Mathematically demonstrate Gatenby-style competitive suppression.
+- **Objective:** Compare forward ODE projections under alternative dosing regimens (MTD vs. Adaptive).
 - **Narrative Steps:**
   1. Open the **Simulation Lab** panel (Tab 2).
-  2. Select the **MTD** strategy. Observe the simulation curve: drug-sensitive cells collapse rapidly, but resistant cells undergo competitive release and expand exponentially (TTP ~47 days for Patient B).
-  3. Switch comparison slider to **Adaptive**. Notice that dosing is suspended when volume drops below 50% and resumes at 100% rebound.
-  4. Time-to-Progression (TTP) extends dramatically to **137.5 days**, achieving a ~38% cumulative drug dose reduction and lower systemic toxicity.
+  2. Select **Arthur Pendelton** (Patient B) and the **MTD** strategy. Observe the numerical simulation curve: continuous therapy delivers cumulative dose 260.0 with peak toxicity 12.26; tumor volume remains controlled below the 120% progression threshold within the 180-day window (TTP: 180 days).
+  3. Switch comparison slider to **Adaptive**. Dosing halts when tumor volume drops below 50% ($0.5 \times V_0$) and resumes when rebounding above 100% ($V_0$).
+  4. For Patient B, adaptive dosing maintains tumor control without progression within 180 days (TTP: 180 days) while reducing cumulative dose from 260.0 to 100.0 (a 61.5% reduction) with lower peak toxicity (11.31 vs 12.26).
+  *(Command: `python -c "from backend.python.compute.simulation.core.simulator import simulate_trajectory; from backend.python.compute.common.models.patient import PatientTwin; p=PatientTwin('patient-b', 'Arthur', 'Stage IV', 'NSCLC'); m=simulate_trajectory(p, 'mtd', {}); a=simulate_trajectory(p, 'adaptive', {}); print(f'MTD: TTP={m.time_to_progression}d, CumDose={m.cumulative_dose}, MaxTox={m.max_toxicity}; Adaptive: TTP={a.time_to_progression}d, CumDose={a.cumulative_dose}, MaxTox={a.max_toxicity}')"`)*
+  *(Note on parameter sensitivity: In Elena Rostova / Patient A, holding dose during regression permits sensitive cell rebound reaching progression threshold at day 77 [TTP = 77 days vs 180 days for MTD], demonstrating that without patient-specific parameter calibration, the uncalibrated model does not confer an adaptive survival advantage across all patient baselines).*
 
 ### Demo 5: 2D Canvas Knowledge Graph Explorer (Tab 3)
 - **Objective:** Trace causal biological pathways interactively.
@@ -84,7 +86,8 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
 - **Narrative Steps:**
   1. Navigate to **Clinical Monitoring** (Tab 14).
   2. Inspect the time-series plot comparing radiographic sum of longest diameters (RECIST 1.1) with circulating tumor DNA (`ctDNA VAF`).
-  3. Observe the molecular lead-time alert: ctDNA rebound precedes radiographic progression by **84 days**, triggering early regimen re-evaluation.
+  3. Observe the molecular lead-time alert: ctDNA rebound precedes radiographic progression by 65 days (day 300 molecular relapse vs day 365 radiographic progression; timeline lead time: 60-65 days), triggering early regimen re-evaluation.
+  *(Command: `python -c "from backend.python.compute.monitoring.timeline import PatientTimeline; tl=PatientTimeline.get_patient_timeline('patient-a'); print([(e['day'], e['title']) for e in tl if 'Progress' in e['title'] or 'Recurrence' in e['title']])"`)*
 
 ### Demo 10: Counterfactual Research Lab (Tab 16)
 - **Objective:** Conduct in-silico multi-arm trial simulation across synthetic cohorts.
@@ -94,13 +97,13 @@ This script provides reviewers, clinicians, and researchers with a step-by-step 
   3. Run parallel RK4 simulations across Arm A (Continuous MTD) and Arm B (Adaptive Dosing).
   4. Inspect the Kaplan-Meier progression-free survival estimates and review the formal Potential Outcomes Causal Assumption Manifest ($Y(a) = f(X, a, U_Y)$).
 
-### Demo 11: Research Intelligence & Merkle Citation Lineage (Tab 17)
+### Demo 11: Research Intelligence & Cryptographic Citation Lineage (Tab 17)
 - **Objective:** Inspect guideline conformance, contradiction detection, and cryptographic provenance.
 - **Narrative Steps:**
   1. Switch to **Research Intelligence** (Tab 17).
   2. Review automated NCCN, ASCO, and ESMO guideline extraction.
   3. Observe contradiction detection highlighting conflicting first-line recommendations.
-  4. Inspect the Merkle-tree provenance root hash verifying cryptographic citation integrity.
+  4. Inspect the SHA-256 hash chain provenance root hash verifying cryptographic citation integrity.
 
 ### Demo 12: Clinical Governance & PERSEPHONE OS Cockpit (Tabs 18 & 19)
 - **Objective:** Trigger deterministic safety gates and audit bit-level case replay.

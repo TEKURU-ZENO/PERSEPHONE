@@ -87,6 +87,7 @@ class EligibilityExtractor:
         cancer_types = [c.lower() for c in (trial.get("cancer_types", []) if trial else [])]
         recruitment_status = (trial.get("recruitment_status") or trial.get("status", "Active")) if trial else "Active"
         required_prior_therapies = [t.lower() for t in (trial.get("required_prior_therapies", []) if trial else [])]
+        excluded_prior_therapies = [t.lower() for t in (trial.get("excluded_prior_therapies", []) if trial else [])]
 
         # Extract required genes
         trial_req_biomarkers = [b.upper() for b in (trial.get("required_biomarkers", []) if trial else [])]
@@ -159,7 +160,8 @@ class EligibilityExtractor:
             "stages": stages,
             "min_age": min_age,
             "max_ecog": ecog_limit,
-            "exclusions": exclusions
+            "exclusions": exclusions,
+            "excluded_prior_therapies": excluded_prior_therapies
         }
 
     @classmethod
@@ -202,9 +204,9 @@ class EligibilityExtractor:
                         patient_mutations.add(norm_alt)
                         gene_to_mutations.setdefault(g, set()).add(norm_alt)
 
-        p_stage = patient.get("stage", "Stage III")
-        p_age = patient.get("age", 58)
-        p_ecog = patient.get("ecog", 1)
+        p_stage = patient.get("stage") or ""
+        p_age = patient.get("age")
+        p_ecog = patient.get("ecog")
         p_prior = [str(t).lower() for t in patient.get("prior_therapies", [])]
         p_prior_therapies = p_prior
 
@@ -295,22 +297,24 @@ class EligibilityExtractor:
 
         # 6. Stage check
         t_stages = criteria.get("stages", [])
-        if any(p_stage.lower() in s.lower() or s.lower() in p_stage.lower() for s in t_stages):
+        if p_stage and any(p_stage.lower() in s.lower() or s.lower() in p_stage.lower() for s in t_stages):
             matched.append(f"Disease stage compatible: {p_stage}")
         elif t_stages:
             missing.append(f"Stage required: {', '.join(t_stages)}")
 
         # 7. ECOG check
-        if p_ecog <= criteria.get("max_ecog", 2):
-            matched.append(f"ECOG status satisfied ({p_ecog} <= {criteria.get('max_ecog', 2)})")
-        else:
-            violations.append(f"ECOG score {p_ecog} exceeds trial ceiling {criteria.get('max_ecog')}")
+        if p_ecog is not None:
+            if p_ecog <= criteria.get("max_ecog", 2):
+                matched.append(f"ECOG status satisfied ({p_ecog} <= {criteria.get('max_ecog', 2)})")
+            else:
+                violations.append(f"ECOG score {p_ecog} exceeds trial ceiling {criteria.get('max_ecog')}")
 
         # 8. Age check
-        if p_age >= criteria.get("min_age", 18):
-            matched.append(f"Age criterion met ({p_age} >= {criteria.get('min_age')})")
-        else:
-            violations.append(f"Age {p_age} below minimum age {criteria.get('min_age')}")
+        if p_age is not None:
+            if p_age >= criteria.get("min_age", 18):
+                matched.append(f"Age criterion met ({p_age} >= {criteria.get('min_age')})")
+            else:
+                violations.append(f"Age {p_age} below minimum age {criteria.get('min_age')}")
 
         # 9. Exclusion audit
         for excl in criteria.get("exclusions", []):
@@ -321,6 +325,11 @@ class EligibilityExtractor:
                 violations.append("Exclusion: Active autoimmune disorder")
             if k == "prior parp" and "Olaparib" in patient.get("prior_therapies", []) and patient.get("is_parp_resistant", False):
                 violations.append("Exclusion: Documented acquired resistance to PARP inhibition")
+
+        # 10. Excluded prior therapies audit
+        for ep in criteria.get("excluded_prior_therapies", []):
+            if any(ep in pt or pt in ep for pt in p_prior):
+                violations.append(f"Exclusion: Prior therapy conflict ({ep.upper()} not permitted; trial requires treatment-naive)")
 
         # Synthesize biomarker match and enrollment eligibility
         biomarker_violations = [v for v in violations if "Cancer type mismatch" in v or "Mutation mismatch" in v or "Biomarker mismatch" in v]
@@ -333,21 +342,18 @@ class EligibilityExtractor:
 
         rec_status = criteria.get("recruitment_status", "Active")
 
-        if not biomarker_match or len(violations) > 0:
+        if not biomarker_match or len(violations) > 0 or len(missing) > 0:
             status_label = "ineligible"
-            is_eligible = False
-        elif prior_therapy_missing:
-            status_label = "possibly eligible"
             is_eligible = False
         elif rec_status.lower() in ("active, not recruiting", "completed", "closed"):
             status_label = "biomarker match, not enrolling"
-            is_eligible = True
+            is_eligible = False
         elif "recruiting" in rec_status.lower():
             status_label = "eligible"
             is_eligible = True
         else:
             status_label = "biomarker match, not enrolling"
-            is_eligible = True
+            is_eligible = False
 
         return {
             "is_eligible": is_eligible,

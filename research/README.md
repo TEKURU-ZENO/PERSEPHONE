@@ -15,7 +15,7 @@ This directory houses the mathematical foundations, biological parameters, and s
 - Solved via Fourth-Order Runge-Kutta (RK4) integration with adaptive step size:
   $$\frac{dS_S}{dt} = \alpha_1 S_S \left(1 - \frac{S_S + S_R}{K}\right) - d(t) E_S S_S$$
   $$\frac{dS_R}{dt} = \alpha_2 S_R \left(1 - \frac{S_S + S_R}{K}\right) - d(t) E_R S_R$$
-- Evaluates Maximum Tolerated Dose (MTD) vs. Gatenby-style Adaptive Therapy (dose suspension at 50% tumor regression, resumption at 100% baseline rebound).
+- Evaluates Maximum Tolerated Dose (MTD) vs. threshold-based adaptive dosing protocol (dose suspension at 50% tumor regression, resumption at 100% baseline rebound; uncalibrated parameters do not confer adaptive survival advantage).
 
 ### 3. Synthetic Cohort & Counterfactual Research Platform (Phase 17)
 - Multi-arm in-silico clinical trial simulation across parameterized patient cohorts.

@@ -18,11 +18,11 @@ The Runge-Kutta 4th-order (RK4) ODE numerical solver, Lotka-Volterra competition
 
 ## 3. Synthetic and De-identified Data Baseline
 To ensure compliance with the Health Insurance Portability and Accountability Act (HIPAA) and international privacy frameworks:
-- All baseline patient twin files (Elena Rostova, Arthur Pendelton, Marcus Vance), longitudinal monitoring records, synthetic cohorts (Phase 17), and multimodal imaging files are entirely **synthetic and simulated**.
+- All baseline patient simulation profile files (Elena Rostova, Arthur Pendelton, Marcus Vance), longitudinal monitoring records, synthetic cohorts (Phase 17), and multimodal imaging files are entirely **synthetic and simulated**.
 - Any resemblance to actual patients, living or deceased, is purely coincidental.
 - No real Protected Health Information (PHI) is processed, stored, or transmitted by this software.
 
 ---
 
-## 4. Multi-Agent Governance & Clinical Abstention
-The 23-agent collaborative council operates via deterministic algorithmic rules and guidelines (KDIGO 2024, CTCAE v5.0, CPIC). Where guidelines conflict, data discordance occurs, or safety boundaries are exceeded, the system triggers formal clinical abstention (`ABSTAIN`). These governance decisions reflect mathematical risk boundaries and must not replace human clinical judgment.
+## 4. Rule-Based Governance & Clinical Abstention
+The 23-module rule-based decision pipeline operates via deterministic algorithmic rules and guidelines (KDIGO 2024, CTCAE v5.0, CPIC). Where guidelines conflict, data discordance occurs, or safety boundaries are exceeded, the system triggers formal clinical abstention (`ABSTAIN`). These governance decisions reflect mathematical risk boundaries and must not replace human clinical judgment.

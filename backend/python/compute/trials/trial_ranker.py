@@ -93,19 +93,11 @@ class TrialRanker:
             else:
                 category = "Low Priority / Exploratory"
 
-            # Explicit matching and eligibility evidence structure for clinical governance
             is_elig = t.get("isEligible", True)
-            if not is_elig or t.get("matchType") == "disqualified":
-                eligibility_status = "ineligible"
-            elif match_score >= 0.85:
-                eligibility_status = "eligible"
-            else:
-                eligibility_status = "potentially_eligible"
 
             item = dict(t)
             item["trial_id"] = t.get("trialId")
             item["eligibility"] = {
-                "status": eligibility_status,
                 "matched_criteria": t.get("matchedCriteria", []),
                 "unmatched_criteria": t.get("unmatchedCriteria", []),
                 "unknown_criteria": t.get("violations", [])

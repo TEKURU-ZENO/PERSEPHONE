@@ -53,6 +53,7 @@ class TestEligibilityExtractor(unittest.TestCase):
             "stages": ["Stage III", "Stage IV"],
             "max_ecog": 2,
             "min_age": 18,
+            "recruitment_status": "Active, Recruiting",
             "exclusions": [{"key": "brain metastases", "description": "active CNS metastases"}]
         }
         # Eligible patient
@@ -218,21 +219,16 @@ class TestClinicalTrialsRegistry(unittest.TestCase):
         matched_b = res_b["matchedTrials"]
         matched_b_ids = [t["trialId"] for t in matched_b]
 
-        # Must match ORCHARD, MARIPOSA-2, and CHRYSALIS-2
+        # Must match ORCHARD, MARIPOSA-2, and CHRYSALIS-2 as non-enrolling supporting evidence
         self.assertIn("NCT03944772", matched_b_ids)  # ORCHARD
         self.assertIn("NCT04988295", matched_b_ids)  # MARIPOSA-2
         self.assertIn("NCT04077463", matched_b_ids)  # CHRYSALIS-2
 
-        # CHRYSALIS-2 should be "possibly eligible" due to missing prior platinum chemo
-        chrysalis = next(t for t in matched_b if t["trialId"] == "NCT04077463")
-        self.assertEqual(chrysalis["status_label"], "possibly eligible")
-        self.assertFalse(chrysalis["isEligible"])
-
-        # ORCHARD & MARIPOSA-2 are closed to enrollment -> "biomarker match, not enrolling"
-        orchard = next(t for t in matched_b if t["trialId"] == "NCT03944772")
-        self.assertEqual(orchard["status_label"], "biomarker match, not enrolling")
-        mariposa = next(t for t in matched_b if t["trialId"] == "NCT04988295")
-        self.assertEqual(mariposa["status_label"], "biomarker match, not enrolling")
+        # All three post-osimertinib trials are active but closed to enrollment -> "biomarker match, not enrolling"
+        for tid in ["NCT03944772", "NCT04988295", "NCT04077463"]:
+            trial = next(t for t in matched_b if t["trialId"] == tid)
+            self.assertEqual(trial["status_label"], "biomarker match, not enrolling")
+            self.assertFalse(trial["isEligible"])
 
         # Zero trials for ovarian, colorectal, or prostate
         for t in matched_b:
@@ -241,6 +237,100 @@ class TestClinicalTrialsRegistry(unittest.TestCase):
             self.assertNotIn("ovarian", c_types)
             self.assertNotIn("colorectal", c_types)
             self.assertNotIn("prostate", c_types)
+
+    def test_fixture_built_panel_request_matching(self):
+        """
+        Tests the exact endpoint payload built by ClinicalTrialsPanel.js from patient fixtures.
+        Verifies:
+        - Patient A: PETRA & NCT04633239 blocked; NRG-GY036 matched & eligible; topTrial is NRG-GY036.
+        - Patient B: FLAURA excluded; ORCHARD, MARIPOSA-2, CHRYSALIS-2 matched as non-enrolling; topTrial is None.
+        - Patient C: KRYSTAL-1 & KEYNOTE-177 blocked; zero matches; topTrial is None.
+        """
+        from backend.python.compute.registry import ComputeRegistry
+
+        # 1. Patient A: Elena Rostova (HGSOC, Stage IIIC, BRCA1 somatic, prior carbo/pacli)
+        payload_a = {
+            "patientId": "patient-a",
+            "cancerType": "ovarian",
+            "diagnosis": "High-Grade Serous Ovarian Cancer (HGSOC)",
+            "stage": "Stage IIIC",
+            "microsatelliteStatus": "MSS (Stable)",
+            "priorTherapies": ["carboplatin", "paclitaxel"],
+            "variants": [
+                {"gene": "BRCA1", "alteration": EligibilityExtractor.normalize_protein_change("p.Glu654Glyfs*14")},
+                {"gene": "TP53", "alteration": EligibilityExtractor.normalize_protein_change("p.Arg273His")},
+                {"gene": "MYC", "alteration": "Amplification"}
+            ],
+            "age": 54,
+            "country": "United States"
+        }
+        res_a = ComputeRegistry.run_trial_matching(payload_a)["result"]
+        matched_a_ids = [t["trialId"] for t in res_a["matchedTrials"]]
+
+        # PETRA (requires Advanced, Metastatic; patient is Stage IIIC) must NOT match
+        self.assertNotIn("NCT04644068", matched_a_ids)
+        # NCT04633239 (requires Recurrent, Platinum-Resistant; patient is newly diagnosed) must NOT match
+        self.assertNotIn("NCT04633239", matched_a_ids)
+        # Actively recruiting trial NRG-GY036 must match and be eligible
+        self.assertIn("NCT06580314", matched_a_ids)
+        nrg = next(t for t in res_a["matchedTrials"] if t["trialId"] == "NCT06580314")
+        self.assertTrue(nrg["isEligible"])
+        self.assertEqual(nrg["status_label"], "eligible")
+        # topTrial must be the recruiting trial NRG-GY036
+        self.assertIsNotNone(res_a["topTrial"])
+        self.assertEqual(res_a["topTrial"]["trialId"], "NCT06580314")
+        self.assertEqual(res_a["totalEligible"], 1)
+
+        # 2. Patient B: Arthur Pendelton (NSCLC, Stage IV, EGFR L858R + MET amp, prior osimertinib)
+        payload_b = {
+            "patientId": "patient-b",
+            "cancerType": "nsclc",
+            "diagnosis": "Lung Adenocarcinoma (NSCLC)",
+            "stage": "Stage IV (Bone Metastases)",
+            "microsatelliteStatus": "MSS (Stable)",
+            "priorTherapies": ["osimertinib"],
+            "variants": [
+                {"gene": "EGFR", "alteration": EligibilityExtractor.normalize_protein_change("p.Leu858Arg")},
+                {"gene": "MET", "alteration": "Amplification"}
+            ],
+            "age": 68,
+            "country": "United States"
+        }
+        res_b = ComputeRegistry.run_trial_matching(payload_b)["result"]
+        matched_b_ids = [t["trialId"] for t in res_b["matchedTrials"]]
+
+        # FLAURA (treatment-naive; excludes prior EGFR TKI) must NOT match
+        self.assertNotIn("NCT02296125", matched_b_ids)
+        # Closed trials match as supporting evidence
+        self.assertIn("NCT03944772", matched_b_ids)  # ORCHARD
+        self.assertIn("NCT04988295", matched_b_ids)  # MARIPOSA-2
+        self.assertIn("NCT04077463", matched_b_ids)  # CHRYSALIS-2
+        for t in res_b["matchedTrials"]:
+            self.assertFalse(t["isEligible"])
+            self.assertEqual(t["status_label"], "biomarker match, not enrolling")
+        # Only recruiting trials can be topTrial -> topTrial must be None
+        self.assertIsNone(res_b["topTrial"])
+        self.assertEqual(res_b["totalEligible"], 0)
+
+        # 3. Patient C: Marcus Vance (Colorectal, Stage IV, KRAS G12D, MSS, prior FOLFIRI/bevacizumab)
+        payload_c = {
+            "patientId": "patient-c",
+            "cancerType": "colorectal",
+            "diagnosis": "Colorectal Adenocarcinoma",
+            "stage": "Stage IV (Hepatic Metastases)",
+            "microsatelliteStatus": "MSS (Stable)",
+            "priorTherapies": ["FOLFIRI", "bevacizumab"],
+            "variants": [
+                {"gene": "KRAS", "alteration": EligibilityExtractor.normalize_protein_change("p.Gly12Asp")}
+            ],
+            "age": 49,
+            "country": "United States"
+        }
+        res_c = ComputeRegistry.run_trial_matching(payload_c)["result"]
+        # Negative screen: zero matching trials in active registry
+        self.assertEqual(len(res_c["matchedTrials"]), 0)
+        self.assertIsNone(res_c["topTrial"])
+        self.assertEqual(res_c["totalEligible"], 0)
 
 if __name__ == '__main__':
     unittest.main()

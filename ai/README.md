@@ -1,6 +1,6 @@
 # 23-Agent Collaborative Council & Orchestration Fabric
 
-This directory coordinates the multi-agent cognitive architecture for the PERSEPHONE Precision Oncology Platform.
+This directory coordinates the rule-based decision pipeline architecture for the PERSEPHONE Precision Oncology Platform.
 
 ---
 

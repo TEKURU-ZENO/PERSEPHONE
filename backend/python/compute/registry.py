@@ -573,16 +573,16 @@ class ComputeRegistry:
     start = time.perf_counter()
     patient_profile = {
       "cancer_type": data.get("cancerType") or data.get("cancer_type", ""),
-      "variants": data.get("variants", ["BRCA1"]),
-      "diagnosis": data.get("diagnosis", "Ovarian Cancer"),
-      "stage": data.get("stage", "Stage III"),
-      "biomarker_tier": data.get("biomarkerTier", "Tier I-A"),
+      "variants": data.get("variants", []),
+      "diagnosis": data.get("diagnosis", ""),
+      "stage": data.get("stage", ""),
+      "biomarker_tier": data.get("biomarkerTier", ""),
       "microsatellite_status": data.get("microsatelliteStatus") or data.get("microsatellite_status", ""),
       "prior_therapies": data.get("priorTherapies") or data.get("prior_therapies", []),
-      "age": data.get("age", 58),
-      "ecog": data.get("ecog", 1),
+      "age": data.get("age"),
+      "ecog": data.get("ecog"),
       "country": data.get("country", "United States"),
-      "city": data.get("city", "New York"),
+      "city": data.get("city", ""),
       "allowed_distance_categories": data.get("allowedDistanceCategories", None),
       "query_online": data.get("queryOnline", False)
     }

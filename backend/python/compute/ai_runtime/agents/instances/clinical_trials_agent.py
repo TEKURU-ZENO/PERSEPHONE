@@ -28,10 +28,10 @@ class ClinicalTrialsAgent(BaseClinicalAgent):
     Formulates clinical profile combining patient demographics, stage, variants,
     and biomarker tiers.
     """
-    variants = self.patient_data.get("variants", ["BRCA1"])
-    diagnosis = self.patient_data.get("diagnosis", "Ovarian Cancer")
-    stage = self.patient_data.get("stage", "Stage III")
-    biomarker_tier = blackboard.read("BIOMARKER_TIER") or "Tier I-A"
+    variants = self.patient_data.get("variants", [])
+    diagnosis = self.patient_data.get("diagnosis", "")
+    stage = self.patient_data.get("stage", "")
+    biomarker_tier = blackboard.read("BIOMARKER_TIER") or ""
 
     self.profile = {
       "cancer_type": self.patient_data.get("cancerType") or self.patient_data.get("cancer_type", ""),
@@ -40,10 +40,10 @@ class ClinicalTrialsAgent(BaseClinicalAgent):
       "stage": stage,
       "biomarker_tier": biomarker_tier,
       "microsatellite_status": self.patient_data.get("microsatellite_status", ""),
-      "age": self.patient_data.get("age", 58),
-      "ecog": self.patient_data.get("ecog", 1),
+      "age": self.patient_data.get("age"),
+      "ecog": self.patient_data.get("ecog"),
       "country": self.patient_data.get("country", "United States"),
-      "city": self.patient_data.get("city", "New York"),
+      "city": self.patient_data.get("city", ""),
       "prior_therapies": self.patient_data.get("prior_therapies", []),
       "contraindications": blackboard.read("CONTRAINDICATIONS") or []
     }

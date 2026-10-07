@@ -181,7 +181,7 @@ async function main() {
     console.log(`Failed Suites:        ${RED}${failed} / ${suites.length}${RESET}`);
     process.exit(1);
   } else {
-    console.log(`Status:               ${GREEN}${BOLD}ALL TESTS PASSED (100% REPRODUCIBILITY STATUS)${RESET}`);
+    console.log(`Status:               ${GREEN}${BOLD}ALL TESTS PASSED (37/37 SUITES PASS)${RESET}`);
     process.exit(0);
   }
 }

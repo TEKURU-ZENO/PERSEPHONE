@@ -17,7 +17,7 @@ This roadmap tracks the development lifecycle of the PERSEPHONE Precision Oncolo
 | **07** | **Scientific Compute Runtime (SCR) & Parity Engine** | ✅ Complete | High-performance Python backend (Port 5000) coupled with Node API gateway (Port 3000), cross-language RK4 simulation parity (RMSE < 1e-4), graph pathfinding parity, and latency benchmarking. |
 | **08** | **Graph-RAG v2 Hybrid Reasoning Engine** | ✅ Complete | Multi-hop clinical retrieval combining biomedical vector similarity search with structured graph traversal, entity resolution, and clinical grounding gate enforcement. |
 | **09** | **Reinforcement Learning Dosing Policy Optimization** | ✅ Complete | Gym-compatible oncology dosing environment (`OncologyGymEnv`), Deep Q-Network (DQN) training loops, continuous/discretized Actor-Critic evaluation, experience replay buffer, and treatment holiday scheduling. |
-| **10** | **Clinical Model Calibration & Uncertainty Bands** | ✅ Complete | Bayesian model calibration against clinical benchmarks, parametric bootstrap uncertainty quantification, 95% confidence intervals, and conformal prediction bands for tumor volume trajectories. |
+| **10** | **Clinical Model Calibration & Uncertainty Bands** | ✅ Complete | Model parameter evaluation against clinical benchmark ranges, parametric bootstrap uncertainty quantification, and 95% confidence intervals for tumor volume trajectories. |
 | **11** | **Clinical AI Runtime (CAIR) & Collaborative Council** | ✅ Complete | Enterprise runtime infrastructure with execution context scoping, provider middleware, health check daemons, and foundational 14-agent council coordination. |
 | **12** | **Multimodal Imaging Intelligence Platform** | ✅ Complete | Whole Slide Image (WSI) loader and grid tiler, tumor purity/necrosis estimator, volumetric CT/MRI segmentation, radiomics shape/texture feature extractors, GradCAM heatmaps, and multi-head attention maps (flagged `is_mock: True`). |
 | **13** | **Genomic Intelligence & Pharmacogenomics Platform** | ✅ Complete | Somatic variant annotator, authentic COSMIC v3.4 SBS 96×86 mutational signature fitting via Non-Negative Least Squares (NNLS), drug-gene interaction resolver, secondary resistance mapping, and combination synergy prediction. |
@@ -25,14 +25,14 @@ This roadmap tracks the development lifecycle of the PERSEPHONE Precision Oncolo
 | **15** | **Clinical Monitoring & Longitudinal Intelligence** | ✅ Complete | Longitudinal time-series biomarker tracking, RECIST 1.1 radiographic tumor burden kinetics, molecular lead-time forecasting (ctDNA detection prior to imaging), and clinical escalation trigger rules. |
 | **16** | **Response Intelligence & Digital Biomarkers Platform** | ✅ Complete | Multimodal response classification, RECIST response kinetic modeling, composite digital biomarker synthesis, resistance escape velocity prediction, and multimodal feature fusion. |
 | **17** | **Synthetic Cohort & Counterfactual Research Platform** | ✅ Complete | 21st Council Agent (`CounterfactualResearchAgent`), multi-arm RK4 cohort simulation, statistical power analysis, and formal potential outcomes causal assumption manifest ($Y(a) = f(X, a, U_Y)$). |
-| **18** | **Clinical Knowledge & Research Intelligence Platform** | ✅ Complete | 22nd Council Agent (`ResearchIntelligenceAgent`), automated guideline parsing (NCCN, ASCO, ESMO), temporal guideline validity tracking, contradiction detection, Merkle-tree cryptographic citation lineage, and clinical Grounding Gate. |
+| **18** | **Clinical Knowledge & Research Intelligence Platform** | ✅ Complete | 22nd Council Agent (`ResearchIntelligenceAgent`), automated guideline parsing (NCCN, ASCO, ESMO), temporal guideline validity tracking, contradiction detection, SHA-256 hash chain cryptographic citation lineage, and clinical Grounding Gate. |
 | **19** | **Clinical Safety, Governance & Validation Platform** | ✅ Complete | 23rd Council Agent (`GovernanceAgent`), deterministic rule engines for KDIGO 2024 (renal), CTCAE v5.0 (toxicity), and CPIC (pharmacogenomics), Clinical Abstention Engine with 4 strict reason codes, Multimodal Discordance Index, and ECE/Brier calibration. |
 | **20** | **PERSEPHONE OS Capstone Integration Layer** | ✅ Complete | Unification of all 23 Council Agents across 5 Intelligence Planes, `ClinicalCaseContext` execution unit, `PersephoneKernel` DAG scheduler with 3-tier failure containment, `ExperimentManifest` (Schema v1.0, SHA-256 seal), `CaseReplayEngine` (RMSE < 1e-4), and PERSEPHONE OS Cockpit. |
 
 ---
 
 ## Technical Verification Summary
-- **Python Scientific Unit Tests**: 177 / 177 tests passing (`backend/python/tests/scientific`)
+- **Python Scientific Unit Tests**: 178 / 178 tests passing (`backend/python/tests/scientific`)
 - **Node Integration & Reproducibility Suite**: 37 / 37 suites passing (`tests/run-tests.js`)
 - **Verified Clinical Trials Registry**: 100% parity enforced across 16 authentic ClinicalTrials.gov protocols
 - **Mutational Signature Engine**: Authentic COSMIC v3.4 96×86 reference matrix with canonical LF SHA-256 hash

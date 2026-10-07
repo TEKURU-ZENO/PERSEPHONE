@@ -1,7 +1,10 @@
 # ADR-004: Structural Causal Counterfactual Projections
 
+> [!NOTE]
+> **Status Note (Superseded)**: This architectural decision record was superseded in Phase 20. The component operates as a **regimen scenario simulator** (comparing forward numerical ODE projections under alternative dosing regimens from identical initial conditions, without formal structural causal discovery or do-calculus). Historical record preserved below.
+
 ## Status
-Accepted
+Superseded (Phase 20)
 
 ## Context
 Oncologists evaluating patients must decide between alternative dosing protocols. Standard clinical dashboards display historical curves or basic projections, but do not provide a direct causal comparison of "what would have happened" if a different dosing path was chosen for the exact same patient baseline.

@@ -16,7 +16,7 @@ To ensure complete scientific transparency and honest labeling, PERSEPHONE categ
 | Tier | Category | Components & Datasets | Fidelity & Verification Notes |
 | :--- | :--- | :--- | :--- |
 | **Tier 1** | **Real Data** | • COSMIC v3.4 SBS Mutational Signatures Matrix<br>• Clinical Trials Knowledge Registry | • Authentic 96×86 matrix from COSMIC catalog (canonical LF SHA-256 verified)<br>• IDs and titles checked against ClinicalTrials.gov (Oct 2026); cancer lineages and biomarker eligibility explicitly curated |
-| **Tier 2** | **Real Algorithm, Sample Data** | • RK4 Numerical ODE Solver<br>• Lotka-Volterra Clonal Competition Model<br>• NNLS Signature Fitting Engine<br>• Knowledge Graph Pathfinding<br>• Reinforcement Learning Engine (DQN training loop, Actor-Critic evaluation)<br>• Biological Reference Knowledge | • Verified mathematical 4th-order Runge-Kutta numerical integration<br>• Assumed parameters, not fitted to data (reproduces Gatenby's adaptive dynamics)<br>• Exact non-negative least squares optimization<br>• Deterministic depth-first path traversal on relational graphs<br>• Functional RL training & policy inference loops<br>• Sample excerpts and representative fixtures of Reactome, DrugBank, ClinVar, TCGA, CCLE, and GDSC |
+| **Tier 2** | **Real Algorithm, Sample Data** | • RK4 Numerical ODE Solver<br>• Lotka-Volterra Clonal Competition Model<br>• NNLS Signature Fitting Engine<br>• Knowledge Graph Pathfinding<br>• Reinforcement Learning Engine (DQN training loop, Actor-Critic evaluation)<br>• Biological Reference Knowledge | • Verified mathematical 4th-order Runge-Kutta numerical integration<br>• Assumed parameters, not fitted to clinical benchmark data<br>• Exact non-negative least squares optimization<br>• Deterministic depth-first path traversal on relational graphs<br>• Functional RL training & policy inference loops<br>• Sample excerpts and representative fixtures of Reactome, DrugBank, ClinVar, TCGA, CCLE, and GDSC |
 | **Tier 3** | **Simulated / Mock Modules** (`is_mock: True`) | • CT Volumetric Segmentor (`ct_segmentor.py`)<br>• MRI Volumetric Segmentor (`mri_segmentor.py`)<br>• Radiomics Feature Extractor (`radiomics.py`)<br>• GradCAM Saliency Heatmap (`gradcam.py`)<br>• Multi-Head Attention Rollout (`attention.py`)<br>• WSI Slide Loader (`wsi_loader.py`)<br>• DICOM / NIfTI Volume Loader (`loader.py`)<br>• Morphology Feature Extractor (`feature_extractor.py`) | • Deterministic simulated pipeline responses flagged explicitly with `is_mock: True`<br>• Real DL imaging models and gigapixel WSI files are not bundled; UI displays simulated state |
 
 ---
@@ -28,10 +28,10 @@ Across its 20 development phases, PERSEPHONE delivers a comprehensive clinical w
 - **Clonal Population Dynamics (Phase 2):** Models Darwinian competition between Treatment-Sensitive ($S_S$) and Treatment-Resistant ($S_R$) tumor clones using competitive Lotka-Volterra equations solved via Runge-Kutta 4th order (RK4) integration, embedding resistance fitness costs ($\alpha_2 < \alpha_1$).
 - **Regimen Scenario Simulator (Phase 2, 17):** Evaluates prospective dosing strategies under the potential outcomes framework $Y(a) = f(X, a, U_Y)$, displaying comparative deltas for Time-to-Progression (TTP), cumulative drug exposure, and toxicity.
 - **Biomedical Knowledge Graph & Graph-RAG v2 (Phase 3, 8):** Zero-dependency HTML5 Canvas 2D force-directed layout engine with depth-first pathfinding, paired with hybrid vector-graph retrieval and clinical grounding gates.
-- **Deterministic 23-Agent Council (Phase 4, 11, 17–20):** Sequences clinical deliberation across 23 specialized rule-based agents coordinated via Directed Acyclic Graphs (DAG) and blackboard state contracts (no external LLMs).
+- **Deterministic Rule-Based Decision Pipeline (Phase 4, 11, 17–20):** Sequences clinical deliberation across 23 specialized rule-based modules coordinated via Directed Acyclic Graphs (DAG) and blackboard state contracts (no external LLMs).
 - **Multi-Omics Feature Store (Phase 6, 13):** Curated schemas and quality control for TCGA, CCLE, GDSC, ClinVar, and DrugBank, integrated with Non-Negative Least Squares (NNLS) deconvolution against COSMIC v3.4 SBS signatures.
 - **Reinforcement Learning Optimization (Phase 9):** `OncologyGymEnv` supporting DQN training loops and Actor-Critic policy evaluations for adaptive dosing holiday discovery.
-- **Model Calibration & Uncertainty Bands (Phase 10):** Parametric bootstrap uncertainty quantification and conformal prediction intervals for numerical trajectories.
+- **Model Calibration & Uncertainty Bands (Phase 10):** Parametric bootstrap uncertainty quantification for numerical trajectories.
 - **Multimodal Diagnostic Lab (Phase 12):** Whole slide imaging (WSI) patch extraction, tumor purity/necrosis metrics, CT/MRI volumetric segmentation, radiomics texture analysis, and GradCAM/Attention interpretability.
 - **Clinical Trials Intelligence (Phase 14):** Biomarker and cancer lineage matching grounded in 16 verified ClinicalTrials.gov protocols with automated protein change normalization (`p.Gly12Asp` $\to$ `G12D`) and negative screening logic.
 - **Longitudinal Monitoring & Response Kinetics (Phase 15, 16):** RECIST 1.1 radiographic tumor burden tracking, molecular lead-time forecasting, and resistance escape velocity modeling.
@@ -90,20 +90,20 @@ The clinical workstation comprises 16 interactive panels mounted in the DTOE int
 1. **DTOE Workstation (Tab 1):** Active patient simulation cards, biometric streams, CA-125 biomarkers, and tissue slides. [View DTOE Mockup](./docs/screenshots/DTOE.png)
 2. **Simulation Lab (Tab 2):** Runge-Kutta numerical trajectories comparing MTD and Adaptive regimens. [View Simulator Mockup](./docs/screenshots/SimulationLab.png)
 3. **Knowledge Graph Explorer (Tab 3):** Mutation-to-drug-to-trial relational maps and DFS path tracing. [View Graph Explorer Mockup](./docs/screenshots/GraphExplorer.png)
-4. **Tumor Board Console (Tab 4):** Stateful multi-agent DAG execution and typewriter logs. [View Tumor Board Mockup](./docs/screenshots/TumorBoard.png)
+4. **Tumor Board Console (Tab 4):** Stateful rule-based decision pipeline DAG execution and typewriter logs. [View Tumor Board Mockup](./docs/screenshots/TumorBoard.png)
 5. **Clinical Memory Workspace (Tab 5):** In-memory TF-IDF concept retrieval and audit trail inspection.
-6. **Digital Twin Biobank (Tab 6):** Reference cell line and clinical cohort multi-omics feature stores.
+6. **Patient Simulation Profile Biobank (Tab 6):** Reference cell line and clinical cohort multi-omics feature stores.
 7. **Evidence Graph-RAG (Tab 7):** Hybrid vector and graph semantic query interface.
 8. **Policy Optimization (Tab 8):** Reinforcement learning training reward curves and policy actions.
-9. **Clinical Validation (Tab 9):** Calibration curves and 95% conformal prediction intervals.
+9. **Clinical Validation (Tab 9):** Calibration curves and parametric bootstrap confidence intervals.
 10. **Clinical AI Runtime (Tab 10):** Provider middleware telemetry, rate limits, and health status.
 11. **Multimodal Lab (Tab 11):** Pathology WSI viewer, CT/MRI segmentation, and GradCAM explainability.
 12. **Genomic Intelligence (Tab 12):** COSMIC mutational signature deconvolution and variant tiering.
 13. **Clinical Trials (Tab 13):** Verified ClinicalTrials.gov search and biomarker eligibility screening.
 14. **Clinical Monitoring (Tab 14):** Longitudinal RECIST 1.1 tumor kinetics and molecular lead-time forecasting.
 15. **Response Intelligence (Tab 15):** Multimodal response classification and resistance escape predictions.
-16. **Counterfactual Lab (Tab 16):** Multi-arm synthetic twin cohort simulation and causal assumption audit.
-17. **Research Intelligence (Tab 17):** Clinical guideline compliance, contradiction detection, and Merkle provenance.
+16. **Counterfactual Lab (Tab 16):** Multi-arm synthetic cohort simulation and regimen scenario assumption audit.
+17. **Research Intelligence (Tab 17):** Clinical guideline compliance, contradiction detection, and SHA-256 provenance.
 18. **Clinical Governance (Tab 18):** Deterministic safety gates (KDIGO, CTCAE, CPIC) and abstention logs.
 19. **PERSEPHONE OS Cockpit (Tab 19):** Kernel telemetry, blackboard inspection, event bus log, and manifest replay.
 
@@ -151,7 +151,7 @@ To execute the comprehensive verification suites (`node tests/run-tests.js`), bo
    ```
 4. **Execute Verification Suites:**
    ```bash
-   # Python scientific unit tests (177 tests)
+   # Python scientific unit tests (178 tests)
    python -m unittest discover -s backend/python/tests/scientific
 
    # Node end-to-end integration and verification suite (37 suites)
@@ -175,10 +175,10 @@ Refer to [PROJECT_ROADMAP.md](./docs/PROJECT_ROADMAP.md) for full phase-by-phase
 ---
 
 ## 9. Research Contributions
-- **Competitive Coexistence Modeling:** Reproduces Gatenby's adaptive therapy competition dynamics in simulation, demonstrating that keeping a subpopulation of drug-sensitive cells alive via treatment holidays prevents competitive release of resistant populations.
+- **Clonal Competition Modeling:** Implements Lotka-Volterra competition dynamics between drug-sensitive and resistant subpopulations under treatment pressure (uncalibrated parameters; does not demonstrate clinical adaptive advantage over MTD without patient-specific calibration).
 - **Evidence-Grounded Recommendation Score:** Defines an audit-ready scoring model (0–100) combining clinical trial records, publication PMIDs, and safety clearances.
 - **Deterministic Multi-Plane Governance:** Implements a zero-LLM deterministic rule fabric enforcing KDIGO 2024, CTCAE v5.0, and CPIC guidelines with formal clinical abstention semantics (`SUPPORTED`, `CAUTION`, `ABSTAIN`).
-- **Cryptographic Provenance Lineage:** Establishes Merkle-tree causal links for every clinical claim and recommendation, backed by SHA-256 experiment manifest seals.
+- **Cryptographic Provenance Lineage:** Establishes SHA-256 hash chains for every clinical claim and recommendation, backed by SHA-256 experiment manifest seals.
 
 ---
 
