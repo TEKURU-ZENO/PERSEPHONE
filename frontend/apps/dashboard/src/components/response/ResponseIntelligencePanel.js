@@ -91,25 +91,25 @@ function renderPredictionView(c, patient) {
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.6rem; margin-bottom:0.75rem;">
             <div style="border:1px solid rgba(0,255,255,0.2); border-radius:6px; padding:0.6rem; background:rgba(0,255,255,0.02);">
               <div style="font-size:0.68rem; color:var(--text-secondary);">Predicted ORR (Objective Response)</div>
-              <div style="font-size:1.4rem; font-weight:700; color:var(--cyan); margin:0.2rem 0;" id="val-orr">75.0%</div>
-              <div style="font-size:0.65rem; color:var(--text-muted);" id="ci-orr">95% CI: [67.0% - 83.0%] · Confidence: 0.90</div>
+              <div style="font-size:1.4rem; font-weight:700; color:var(--cyan); margin:0.2rem 0;" id="val-orr">—</div>
+              <div style="font-size:0.65rem; color:var(--text-muted);" id="ci-orr">95% CI: —</div>
             </div>
 
             <div style="border:1px solid rgba(74,222,128,0.2); border-radius:6px; padding:0.6rem; background:rgba(74,222,128,0.02);">
               <div style="font-size:0.68rem; color:var(--text-secondary);">Predicted DCR (Disease Control)</div>
-              <div style="font-size:1.4rem; font-weight:700; color:#4ade80; margin:0.2rem 0;" id="val-dcr">93.0%</div>
-              <div style="font-size:0.65rem; color:var(--text-muted);" id="ci-dcr">95% CI: [87.0% - 98.0%] · Confidence: 0.90</div>
+              <div style="font-size:1.4rem; font-weight:700; color:#4ade80; margin:0.2rem 0;" id="val-dcr">—</div>
+              <div style="font-size:0.65rem; color:var(--text-muted);" id="ci-dcr">95% CI: —</div>
             </div>
 
             <div style="border:1px solid rgba(168,85,247,0.2); border-radius:6px; padding:0.6rem; background:rgba(168,85,247,0.02);">
               <div style="font-size:0.68rem; color:var(--text-secondary);">Projected PFS Horizon</div>
-              <div style="font-size:1.4rem; font-weight:700; color:#c084fc; margin:0.2rem 0;" id="val-pfs">330.0 <span style="font-size:0.75rem;">days</span></div>
-              <div style="font-size:0.65rem; color:var(--text-muted);" id="ci-pfs">95% CI: [295.0 - 375.0] days (~11.0 mos)</div>
+              <div style="font-size:1.4rem; font-weight:700; color:#c084fc; margin:0.2rem 0;" id="val-pfs">—</div>
+              <div style="font-size:0.65rem; color:var(--text-muted);" id="ci-pfs">95% CI: —</div>
             </div>
 
             <div style="border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:0.6rem; background:rgba(251,191,36,0.02);">
               <div style="font-size:0.68rem; color:var(--text-secondary);">Projected Max Depth of Response</div>
-              <div style="font-size:1.4rem; font-weight:700; color:var(--amber); margin:0.2rem 0;" id="val-depth">-65.0%</div>
+              <div style="font-size:1.4rem; font-weight:700; color:var(--amber); margin:0.2rem 0;" id="val-depth">—</div>
               <div style="font-size:0.65rem; color:var(--text-muted);" id="ci-depth">Projected nadir shrinkage from baseline</div>
             </div>
           </div>
@@ -119,23 +119,20 @@ function renderPredictionView(c, patient) {
             <div style="border:1px solid rgba(0,255,255,0.1); border-radius:6px; padding:0.6rem;">
               <div style="font-size:0.75rem; font-weight:600; color:var(--cyan); margin-bottom:0.4rem;">Multimodal Concordance Status</div>
               <div style="display:flex; align-items:center; gap:0.4rem; margin-bottom:0.3rem;">
-                <span class="badge" style="background:rgba(74,222,128,0.15); color:#4ade80; border:1px solid rgba(74,222,128,0.3); font-size:0.7rem;" id="badge-concordance">
-                  Concordant Response
+                <span class="badge" style="background:rgba(255,255,255,0.05); color:var(--text-secondary); border:1px solid rgba(255,255,255,0.1); font-size:0.7rem;" id="badge-concordance">
+                  Awaiting Model Run
                 </span>
-                <span style="font-size:0.7rem; color:var(--text-secondary);" id="score-concordance">Score: 0.95</span>
+                <span style="font-size:0.7rem; color:var(--text-secondary);" id="score-concordance">Score: —</span>
               </div>
               <p style="font-size:0.7rem; color:var(--text-muted); line-height:1.4;" id="desc-concordance">
-                Radiologic tumor regression concordant with suppressed ctDNA burden.
+                Run prediction model to evaluate multimodal concordance.
               </p>
             </div>
 
             <div style="border:1px solid rgba(0,255,255,0.1); border-radius:6px; padding:0.6rem;">
               <div style="font-size:0.75rem; font-weight:600; color:var(--cyan); margin-bottom:0.4rem;">Model Calibration & Evidence Basis</div>
               <ul style="font-size:0.68rem; color:var(--text-secondary); padding-left:1rem; margin:0;" id="list-evidence-basis">
-                <li>Target drug: Olaparib</li>
-                <li>Genomic context: BRCA1 (HRD score: 42.0)</li>
-                <li>In vitro IC50: 1.80 µM with synergy score: 0.75</li>
-                <li>TIL spatial density: 0.65</li>
+                <li>Select drug and click "Run Model" to generate evidence basis.</li>
               </ul>
             </div>
           </div>
@@ -154,20 +151,51 @@ function renderPredictionView(c, patient) {
     const pfs = pred.predicted_pfs_days || {};
     const depth = pred.predicted_depth_of_response || {};
 
-    c.querySelector('#val-orr').textContent = `${((orr.value || 0.75) * 100).toFixed(1)}%`;
-    c.querySelector('#ci-orr').textContent = `95% CI: [${((orr.uncertainty?.lower_bound || 0.67)*100).toFixed(1)}% - ${((orr.uncertainty?.upper_bound || 0.83)*100).toFixed(1)}%] · Confidence: ${orr.confidence || 0.90}`;
+    if (orr.value !== undefined && orr.value !== null) {
+      c.querySelector('#val-orr').textContent = `${(orr.value * 100).toFixed(1)}%`;
+      const low = orr.uncertainty?.lower_bound !== undefined ? `${(orr.uncertainty.lower_bound * 100).toFixed(1)}%` : '—';
+      const high = orr.uncertainty?.upper_bound !== undefined ? `${(orr.uncertainty.upper_bound * 100).toFixed(1)}%` : '—';
+      const conf = orr.confidence !== undefined ? orr.confidence : '—';
+      c.querySelector('#ci-orr').textContent = `95% CI: [${low} - ${high}] · Confidence: ${conf}`;
+    } else {
+      c.querySelector('#val-orr').textContent = '—';
+      c.querySelector('#ci-orr').textContent = '95% CI: —';
+    }
 
-    c.querySelector('#val-dcr').textContent = `${((dcr.value || 0.93) * 100).toFixed(1)}%`;
-    c.querySelector('#ci-dcr').textContent = `95% CI: [${((dcr.uncertainty?.lower_bound || 0.87)*100).toFixed(1)}% - ${((dcr.uncertainty?.upper_bound || 0.98)*100).toFixed(1)}%] · Confidence: ${dcr.confidence || 0.90}`;
+    if (dcr.value !== undefined && dcr.value !== null) {
+      c.querySelector('#val-dcr').textContent = `${(dcr.value * 100).toFixed(1)}%`;
+      const low = dcr.uncertainty?.lower_bound !== undefined ? `${(dcr.uncertainty.lower_bound * 100).toFixed(1)}%` : '—';
+      const high = dcr.uncertainty?.upper_bound !== undefined ? `${(dcr.uncertainty.upper_bound * 100).toFixed(1)}%` : '—';
+      const conf = dcr.confidence !== undefined ? dcr.confidence : '—';
+      c.querySelector('#ci-dcr').textContent = `95% CI: [${low} - ${high}] · Confidence: ${conf}`;
+    } else {
+      c.querySelector('#val-dcr').textContent = '—';
+      c.querySelector('#ci-dcr').textContent = '95% CI: —';
+    }
 
-    c.querySelector('#val-pfs').innerHTML = `${(pfs.value || 330).toFixed(1)} <span style="font-size:0.75rem;">days</span>`;
-    c.querySelector('#ci-pfs').textContent = `95% CI: [${pfs.uncertainty?.lower_bound || 295} - ${pfs.uncertainty?.upper_bound || 375}] days (~${((pfs.value || 330)/30.4).toFixed(1)} mos)`;
+    if (pfs.value !== undefined && pfs.value !== null) {
+      c.querySelector('#val-pfs').innerHTML = `${pfs.value.toFixed(1)} <span style="font-size:0.75rem;">days</span>`;
+      const low = pfs.uncertainty?.lower_bound !== undefined ? pfs.uncertainty.lower_bound : '—';
+      const high = pfs.uncertainty?.upper_bound !== undefined ? pfs.uncertainty.upper_bound : '—';
+      c.querySelector('#ci-pfs').textContent = `95% CI: [${low} - ${high}] days (~${(pfs.value / 30.4).toFixed(1)} mos)`;
+    } else {
+      c.querySelector('#val-pfs').textContent = '—';
+      c.querySelector('#ci-pfs').textContent = '95% CI: —';
+    }
 
-    c.querySelector('#val-depth').textContent = `${(depth.value || -65).toFixed(1)}%`;
+    if (depth.value !== undefined && depth.value !== null) {
+      c.querySelector('#val-depth').textContent = `${depth.value.toFixed(1)}%`;
+    } else {
+      c.querySelector('#val-depth').textContent = '—';
+    }
 
     if (clsData) {
-      c.querySelector('#badge-concordance').textContent = clsData.category || 'Concordant Response';
-      c.querySelector('#score-concordance').textContent = `Score: ${(clsData.concordance_score || 0.95).toFixed(2)}`;
+      const bEl = c.querySelector('#badge-concordance');
+      bEl.textContent = clsData.category || 'Concordant Response';
+      bEl.style.background = 'rgba(74,222,128,0.15)';
+      bEl.style.color = '#4ade80';
+      bEl.style.borderColor = 'rgba(74,222,128,0.3)';
+      c.querySelector('#score-concordance').textContent = clsData.concordance_score !== undefined ? `Score: ${clsData.concordance_score.toFixed(2)}` : 'Score: —';
       c.querySelector('#desc-concordance').textContent = clsData.description || '';
     }
 

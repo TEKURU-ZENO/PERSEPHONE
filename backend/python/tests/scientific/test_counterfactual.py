@@ -262,9 +262,39 @@ class TestCounterfactualPlatform(unittest.TestCase):
         self.assertIn("treatment_arms", full_res)
         self.assertIn("outcomes_by_arm", full_res)
         self.assertIn("comparisons", full_res)
+        self.assertIn("delta_ttp", full_res["comparisons"]["adaptive"])
         self.assertIn("best_performing_simulated_strategy", full_res)
         self.assertIn("processingTimeMs", full_res)
         self.assertGreater(full_res["processingTimeMs"], 0.0)
+
+    def test_counterfactual_zero_events_not_estimable(self):
+        """Verifies that when zero progression events occur (all censored), HR and log-rank report 'not estimable'."""
+        sim_output = {
+            "arm_results": {
+                "mtd": [
+                    {"ttp": 180.0, "progressed": False, "cumulative_dose": 250.0, "cumulative_toxicity": 10.0, "resistance_emergence_day": None, "depth_of_response": -50.0}
+                    for _ in range(10)
+                ],
+                "adaptive": [
+                    {"ttp": 180.0, "progressed": False, "cumulative_dose": 150.0, "cumulative_toxicity": 6.0, "resistance_emergence_day": None, "depth_of_response": -45.0}
+                    for _ in range(10)
+                ]
+            }
+        }
+        outcomes_by_arm = {
+            "mtd": {"median_pfs_days": 180.0},
+            "adaptive": {"median_pfs_days": 180.0}
+        }
+        res = CounterfactualComparator.compare_arms(sim_output, outcomes_by_arm, control_arm="mtd")
+        adaptive_comp = res["comparisons"]["adaptive"]
+
+        self.assertEqual(adaptive_comp["hazard_ratio"]["interpretation"], "not estimable (0 progression events)")
+        self.assertIsNone(adaptive_comp["hazard_ratio"]["value"])
+        self.assertEqual(adaptive_comp["hazard_ratio"]["uncertainty"]["status"], "not estimable (0 progression events)")
+        self.assertIsNone(adaptive_comp["log_rank_test"]["p_value"])
+        self.assertEqual(adaptive_comp["log_rank_test"]["status"], "not estimable (0 progression events)")
+        self.assertIn("delta_ttp", adaptive_comp)
+        self.assertIn("Delta TTP", res["best_performing_simulated_strategy"]["rationale"])
 
 
 if __name__ == '__main__':

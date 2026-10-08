@@ -109,17 +109,22 @@ export async function run() {
   // Hazard Ratio ± 95% CI
   const hr = adaptiveComp.hazard_ratio;
   assert.ok(hr, 'Adaptive comparison must include hazard_ratio');
-  assert.ok(typeof hr.value === 'number', 'Hazard ratio value must be a number');
-  assert.ok(hr.uncertainty, 'Hazard ratio must include uncertainty bounds');
-  assert.strictEqual(hr.uncertainty.ci_level, 0.95, 'HR confidence level must be 95%');
-  assert.ok(hr.uncertainty.lower_bound <= hr.value && hr.value <= hr.uncertainty.upper_bound, 'HR value must lie within [lower_bound, upper_bound]');
+  if (hr.status === 'not estimable (0 progression events)') {
+    assert.strictEqual(hr.value, null, 'Hazard ratio value must be null when not estimable');
+    assert.strictEqual(hr.uncertainty.status, 'not estimable (0 progression events)');
+  } else {
+    assert.ok(typeof hr.value === 'number', 'Hazard ratio value must be a number');
+    assert.ok(hr.uncertainty, 'Hazard ratio must include uncertainty bounds');
+    assert.strictEqual(hr.uncertainty.ci_level, 0.95, 'HR confidence level must be 95%');
+    assert.ok(hr.uncertainty.lower_bound <= hr.value && hr.value <= hr.uncertainty.upper_bound, 'HR value must lie within [lower_bound, upper_bound]');
+  }
 
-  // ATE ± 95% CI
-  const ate = adaptiveComp.average_treatment_effect;
-  assert.ok(ate, 'Must include Average Treatment Effect (ATE)');
-  assert.ok(ate.uncertainty, 'ATE must include uncertainty bounds');
-  assert.strictEqual(ate.uncertainty.ci_level, 0.95);
-  assert.ok(ate.uncertainty.lower_bound <= ate.value && ate.value <= ate.uncertainty.upper_bound);
+  // Delta TTP (formerly ATE) ± 95% CI
+  assert.ok(adaptiveComp.delta_ttp, 'Must include delta_ttp primary key');
+  const deltaTtp = adaptiveComp.delta_ttp;
+  assert.ok(deltaTtp.uncertainty, 'Delta TTP must include uncertainty bounds');
+  assert.strictEqual(deltaTtp.uncertainty.ci_level, 0.95);
+  assert.ok(deltaTtp.uncertainty.lower_bound <= deltaTtp.value && deltaTtp.value <= deltaTtp.uncertainty.upper_bound);
 
   // Delta Toxicity ± 95% CI
   const dtox = adaptiveComp.delta_toxicity;
