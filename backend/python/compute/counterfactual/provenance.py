@@ -52,7 +52,6 @@ class ScenarioProvenanceEngine:
             "estimand": estimand,
             "control_arm": control_arm,
             "intervention_arm": intervention_arm,
-            "confounders": [],
             "synthetic_sampling": "bounded_biophysical_perturbation",
             "simulation_model": "lotka_volterra_rk4_pkpd",
             "assumptions": [
@@ -63,9 +62,3 @@ class ScenarioProvenanceEngine:
             ],
             "disclaimer": "FOR RESEARCH USE ONLY: Simulated research projection under uncalibrated mathematical assumptions; not a clinical directive or validated clinical outcome."
         }
-
-    # Backward compatibility alias
-    generate_causal_manifest = generate_scenario_manifest
-
-# Backward compatibility alias
-CausalProvenanceEngine = ScenarioProvenanceEngine

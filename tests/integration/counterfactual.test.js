@@ -132,12 +132,12 @@ export async function run() {
   assert.ok(dred, 'Must include dose_reduction_percent');
   assert.ok(dred.uncertainty, 'Dose reduction must include uncertainty bounds');
 
-  // Causal Manifest
-  const causal = adaptiveComp.causal_manifest;
-  assert.ok(causal, 'Must include causal_manifest');
+  // Scenario / Causal Manifest
+  const causal = adaptiveComp.scenario_manifest || adaptiveComp.causal_manifest;
+  assert.ok(causal, 'Must include scenario_manifest');
   assert.strictEqual(causal.control_arm, 'mtd');
   assert.strictEqual(causal.intervention_arm, 'adaptive');
-  assert.ok(Array.isArray(causal.assumptions), 'Causal manifest must list assumptions');
+  assert.ok(Array.isArray(causal.assumptions), 'Scenario manifest must list assumptions');
 
   // 3D. Refinement 1: best_performing_simulated_strategy (never unqualified optimal)
   assert.ok(comp.best_performing_simulated_strategy, 'Must publish best_performing_simulated_strategy');

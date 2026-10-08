@@ -11,7 +11,7 @@ from backend.python.compute.counterfactual.scenario import CounterfactualScenari
 from backend.python.compute.counterfactual.simulator import CounterfactualSimulator
 from backend.python.compute.counterfactual.outcomes import CounterfactualOutcomes
 from backend.python.compute.counterfactual.comparison import CounterfactualComparator
-from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine, CausalProvenanceEngine
+from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine
 
 class CounterfactualRegistry:
     """
@@ -120,7 +120,7 @@ class CounterfactualRegistry:
         )
 
         # 6. Reproducibility Manifest
-        reproducibility = CausalProvenanceEngine.generate_reproducibility_manifest(
+        reproducibility = ScenarioProvenanceEngine.generate_reproducibility_manifest(
             anchor_patient_id=cohort.anchor_patient_id,
             cohort_seed=seed,
             simulation_seed=seed,

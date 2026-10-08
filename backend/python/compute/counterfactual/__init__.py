@@ -10,7 +10,7 @@ from backend.python.compute.counterfactual.scenario import CounterfactualScenari
 from backend.python.compute.counterfactual.simulator import CounterfactualSimulator
 from backend.python.compute.counterfactual.outcomes import CounterfactualOutcomes
 from backend.python.compute.counterfactual.uncertainty import CounterfactualUncertaintyEngine
-from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine, CausalProvenanceEngine
+from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine
 from backend.python.compute.counterfactual.comparison import CounterfactualComparator
 from backend.python.compute.counterfactual.registry import CounterfactualRegistry
 
@@ -24,7 +24,6 @@ __all__ = [
     "CounterfactualOutcomes",
     "CounterfactualUncertaintyEngine",
     "ScenarioProvenanceEngine",
-    "CausalProvenanceEngine",
     "CounterfactualComparator",
     "CounterfactualRegistry"
 ]

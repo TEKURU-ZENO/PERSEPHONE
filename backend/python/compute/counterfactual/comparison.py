@@ -5,7 +5,7 @@ ATE uncertainty, and ranks arms based on best-performing simulated strategy.
 """
 import math
 from backend.python.compute.counterfactual.uncertainty import CounterfactualUncertaintyEngine
-from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine, CausalProvenanceEngine
+from backend.python.compute.counterfactual.provenance import ScenarioProvenanceEngine
 from backend.python.compute.counterfactual.treatment_matrix import TreatmentMatrix
 
 class CounterfactualComparator:
