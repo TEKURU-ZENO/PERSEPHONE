@@ -219,7 +219,7 @@ async function renderDAGView(c, patient) {
           </div>
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; font-size:0.7rem;">
             <span style="padding:2px 8px; border-radius:3px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.06);">
-              Calibrated Confidence: <strong id="os-conf-val" style="color:#22c55e;">0.87</strong>
+              Rule-based confidence: <strong id="os-conf-val" style="color:#22c55e;">—</strong>
             </span>
             <span style="padding:2px 8px; border-radius:3px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.06);">
               Execution Latency: <strong id="os-total-time" style="color:var(--cyan);">0.0 ms</strong>
@@ -274,7 +274,7 @@ async function renderDAGView(c, patient) {
       statusTitle.style.color = gov.decision_status === 'ABSTAIN' ? '#f43f5e' : (gov.decision_status === 'CAUTION' ? 'var(--amber)' : '#22c55e');
 
       c.querySelector('#os-verdict-reason').textContent = (gov.reasons && gov.reasons[0]) || 'Case execution completed.';
-      c.querySelector('#os-conf-val').textContent = (gov.confidence || 0.85).toFixed(2);
+      c.querySelector('#os-conf-val').textContent = gov.confidence != null ? Number(gov.confidence).toFixed(2) : '—';
       c.querySelector('#os-total-time').textContent = `${result.total_execution_time_ms || 0} ms`;
       c.querySelector('#os-agents-count').textContent = `${result.agent_executions_count || 23} / 23`;
 

@@ -139,6 +139,11 @@ class TestFrontendTemplateIntegrity(unittest.TestCase):
             if bracket_matches:
                 violations.append(f"{rel_path}: Found bracketed CI result(s) {bracket_matches}")
 
+            # 7. Prohibited numeric confidence fallbacks (e.g., || 0.85)
+            fb_matches = re.findall(r'\|\|\s*0\.8\d*', raw_content)
+            if fb_matches:
+                violations.append(f"{rel_path}: Found prohibited fallback pattern {fb_matches}")
+
         self.assertEqual(
             violations, [],
             f"Frontend template integrity violations detected:\n" + "\n".join(violations)
