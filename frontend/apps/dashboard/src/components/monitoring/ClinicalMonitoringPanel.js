@@ -358,27 +358,24 @@ function renderToxicityView(c) {
 
 // ── 5. Biomarker Evolution ─────────────────────────────────────────────────
 function renderBiomarkersView(c) {
-  const ca125 = { baseline: 420.0, nadir: 12.4, nadirDay: 240, current: 118.0, rate: '+0.72' };
-  const ctdna = { baseline: 38.5, nadir: 0.08, relapse: 4.2, relapseDay: 300 };
-  const leadTimeDays = 65;
-
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
       <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
         <i data-lucide="dna" style="width:14px; height:14px; color:var(--cyan);"></i>
         <span style="font-weight:600; font-size:0.85rem;">Serum CA-125 & Liquid Biopsy ctDNA VAF Dynamics</span>
+        <span class="badge" style="background:rgba(56,189,248,0.15); color:var(--cyan); font-size:0.65rem; padding:2px 8px; border-radius:3px; margin-left:auto;">Scripted synthetic timeline</span>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem;">
         <div style="border:1px solid rgba(0,255,255,0.15); border-radius:6px; padding:0.6rem;">
           <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
             <strong style="font-size:0.75rem; color:var(--cyan);">Serum CA-125 Kinetics</strong>
-            <span style="font-size:0.65rem; color:#f87171; font-weight:700;">${ca125.rate} U/mL/day</span>
+            <span id="bio-ca125-rate" style="font-size:0.65rem; color:#f87171; font-weight:700;">—</span>
           </div>
           <div style="font-size:0.68rem; color:var(--text-secondary); margin-bottom:0.3rem;">
-            Baseline: <strong>${ca125.baseline.toFixed(1)} U/mL</strong> → Nadir: <strong>${ca125.nadir.toFixed(1)} U/mL</strong> (Day ${ca125.nadirDay}) → Current: <strong style="color:var(--amber);">${ca125.current.toFixed(1)} U/mL</strong>
+            Baseline: <strong id="bio-ca125-base">—</strong> → Nadir: <strong id="bio-ca125-nadir">—</strong> (<span id="bio-ca125-nadir-day">—</span>) → Current: <strong id="bio-ca125-cur" style="color:var(--amber);">—</strong>
           </div>
           <div style="height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
-            <div style="height:100%; width:65%; background:var(--amber); border-radius:3px;"></div>
+            <div id="bio-ca125-bar" style="height:100%; width:0%; background:var(--amber); border-radius:3px; transition:width 0.3s;"></div>
           </div>
         </div>
 
@@ -388,10 +385,10 @@ function renderBiomarkersView(c) {
             <span style="font-size:0.65rem; color:#f87171; font-weight:700;">Molecular Inflexion</span>
           </div>
           <div style="font-size:0.68rem; color:var(--text-secondary); margin-bottom:0.3rem;">
-            Baseline: <strong>${ctdna.baseline.toFixed(1)}%</strong> → Nadir: <strong>${ctdna.nadir.toFixed(2)}%</strong> → Molecular Relapse: <strong style="color:#f87171;">${ctdna.relapse.toFixed(1)}% (Day ${ctdna.relapseDay})</strong>
+            Baseline: <strong id="bio-ctdna-base">—</strong> → Nadir: <strong id="bio-ctdna-nadir">—</strong> → Molecular Relapse: <strong id="bio-ctdna-relapse" style="color:#f87171;">—</strong>
           </div>
           <div style="height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
-            <div style="height:100%; width:42%; background:#c084fc; border-radius:3px;"></div>
+            <div id="bio-ctdna-bar" style="height:100%; width:0%; background:#c084fc; border-radius:3px; transition:width 0.3s;"></div>
           </div>
         </div>
       </div>
@@ -399,14 +396,101 @@ function renderBiomarkersView(c) {
       <div style="border:1px solid rgba(251,191,36,0.15); border-radius:6px; padding:0.6rem; background:rgba(251,191,36,0.02);">
         <div style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; font-weight:700; color:var(--amber); margin-bottom:0.25rem;">
           <i data-lucide="bell" style="width:13px; height:13px;"></i>
-          Molecular Lead-Time Window: ${leadTimeDays} Days
+          Molecular Lead-Time Window: <span id="bio-lead-time-title">—</span>
         </div>
-        <p style="font-size:0.7rem; color:var(--text-secondary); margin:0;">
-          ctDNA VAF rose above detection threshold at Day ${ctdna.relapseDay} (${ctdna.relapse.toFixed(1)}%), preceding radiographic CT progression at Day 365 by <strong>${leadTimeDays} days</strong>. Liquid biopsy provides an actionable clinical intervention window before anatomic failure.
+        <p id="bio-lead-time-desc" style="font-size:0.7rem; color:var(--text-secondary); margin:0;">
+          Synchronizing molecular lead-time window...
         </p>
       </div>
     </div>
   `;
+
+  const updateBiomarkers = async () => {
+    try {
+      const res = await fetch('/api/v1/python/monitoring/timeline', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patientId: 'patient-a' })
+      });
+      const data = await res.json();
+      const events = data.result?.timeline || [];
+      if (!events.length) return;
+
+      const ev0 = events.find(e => e.day === 0) || events[0];
+      const evNadir = events.find(e => e.day === 240 || (e.category === 'lab' && e.metrics?.ca125 != null)) || events[0];
+      const evRelapse = events.find(e => e.metrics && e.metrics.molecularRelapse) || events.find(e => e.day === 300) || events[0];
+      const evProg = events[events.length - 1];
+
+      const ca125Base = ev0?.metrics?.ca125;
+      const ca125Nadir = evNadir?.metrics?.ca125;
+      const nadirDay = evNadir?.day;
+      const ca125Cur = evProg?.metrics?.ca125;
+      const progDay = evProg?.day;
+
+      const ctdnaBase = ev0?.metrics?.ctdnaVaf;
+      const ctdnaNadir = evNadir?.metrics?.ctdnaVaf;
+      const ctdnaRelapse = evRelapse?.metrics?.ctdnaVaf;
+      const relapseDay = evRelapse?.day;
+      const leadTimeDays = evRelapse?.metrics?.leadTimeDays;
+
+      if (ca125Cur != null && ca125Nadir != null && progDay != null && nadirDay != null && progDay > nadirDay) {
+        const rate = (ca125Cur - ca125Nadir) / (progDay - nadirDay);
+        const rateSign = rate >= 0 ? '+' : '';
+        const rateEl = c.querySelector('#bio-ca125-rate');
+        if (rateEl) rateEl.textContent = `${rateSign}${rate.toFixed(2)} U/mL/day`;
+      }
+      if (ca125Base != null) {
+        const el = c.querySelector('#bio-ca125-base');
+        if (el) el.textContent = `${Number(ca125Base).toFixed(1)} U/mL`;
+      }
+      if (ca125Nadir != null) {
+        const el = c.querySelector('#bio-ca125-nadir');
+        if (el) el.textContent = `${Number(ca125Nadir).toFixed(1)} U/mL`;
+      }
+      if (nadirDay != null) {
+        const el = c.querySelector('#bio-ca125-nadir-day');
+        if (el) el.textContent = `Day ${nadirDay}`;
+      }
+      if (ca125Cur != null) {
+        const el = c.querySelector('#bio-ca125-cur');
+        if (el) el.textContent = `${Number(ca125Cur).toFixed(1)} U/mL`;
+      }
+      const ca125Bar = c.querySelector('#bio-ca125-bar');
+      if (ca125Bar) ca125Bar.style.width = '65%';
+
+      if (ctdnaBase != null) {
+        const el = c.querySelector('#bio-ctdna-base');
+        if (el) el.textContent = `${Number(ctdnaBase).toFixed(1)}%`;
+      }
+      if (ctdnaNadir != null) {
+        const el = c.querySelector('#bio-ctdna-nadir');
+        if (el) el.textContent = `${Number(ctdnaNadir).toFixed(2)}%`;
+      }
+      if (ctdnaRelapse != null && relapseDay != null) {
+        const el = c.querySelector('#bio-ctdna-relapse');
+        if (el) el.textContent = `${Number(ctdnaRelapse).toFixed(1)}% (Day ${relapseDay})`;
+      }
+      const ctdnaBar = c.querySelector('#bio-ctdna-bar');
+      if (ctdnaBar) ctdnaBar.style.width = '42%';
+
+      if (leadTimeDays != null) {
+        const leadTitle = c.querySelector('#bio-lead-time-title');
+        if (leadTitle) leadTitle.textContent = `${leadTimeDays} Days`;
+      }
+      if (ctdnaRelapse != null && relapseDay != null && progDay != null && leadTimeDays != null) {
+        const descEl = c.querySelector('#bio-lead-time-desc');
+        if (descEl) {
+          descEl.innerHTML = `ctDNA VAF rose above detection threshold at Day ${relapseDay} (${Number(ctdnaRelapse).toFixed(1)}%), preceding radiographic CT progression at Day ${progDay} by <strong>${leadTimeDays} days</strong>. Liquid biopsy provides an actionable clinical intervention window before anatomic failure.`;
+        }
+      }
+    } catch (e) {
+      console.error('[BIOMARKERS FETCH ERROR]', e);
+    } finally {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  };
+
+  updateBiomarkers();
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 

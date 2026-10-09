@@ -223,6 +223,15 @@ class TestFrontendTemplateIntegrity(unittest.TestCase):
         self.assertNotIn('>8.0 cm³<', content)
         self.assertNotIn('>+0.10 cm³/day<', content)
 
+        # Biomarkers must have synthetic badge and no hardcoded numeric definitions
+        self.assertIn('Scripted synthetic timeline', content)
+        self.assertIn('id="bio-ca125-base">—<', content)
+        self.assertIn('id="bio-ctdna-base">—<', content)
+        self.assertIn('id="bio-lead-time-title">—<', content)
+        self.assertNotIn('const ca125 = { baseline: 420.0', content)
+        self.assertNotIn('const ctdna = { baseline: 38.5', content)
+        self.assertNotIn('const leadTimeDays = 65', content)
+
     def test_counterfactual_comparison_drops_deprecated_keys(self):
         """Backend CounterfactualComparator must not return deprecated keys average_treatment_effect or causal_manifest."""
         simulation_output = {
