@@ -250,15 +250,15 @@ function renderBiomarkersView(c, patient) {
         <div style="display:flex; align-items:center; gap:1rem; padding:0.6rem 0.8rem; background:rgba(0,255,255,0.04); border:1px solid rgba(0,255,255,0.2); border-radius:6px; margin-bottom:0.75rem;">
           <div style="display:flex; flex-direction:column;">
             <span style="font-size:0.65rem; color:var(--text-secondary);">Composite Actionability Score (CAS)</span>
-            <span style="font-size:1.3rem; font-weight:700; color:var(--cyan);" id="val-cas">0.82 / 1.00</span>
+            <span style="font-size:1.3rem; font-weight:700; color:var(--cyan);" id="val-cas">—</span>
           </div>
           <div style="display:flex; flex-direction:column;">
             <span style="font-size:0.65rem; color:var(--text-secondary);">Actionability Tier</span>
-            <span style="font-size:0.85rem; font-weight:600; color:#4ade80;" id="tier-cas">Tier I - High Sensitivity</span>
+            <span style="font-size:0.85rem; font-weight:600; color:#4ade80;" id="tier-cas">—</span>
           </div>
           <div style="display:flex; flex-direction:column; margin-left:auto;">
             <span style="font-size:0.65rem; color:var(--text-secondary);">Therapeutic Recommendation</span>
-            <span style="font-size:0.75rem; color:var(--text-primary); font-weight:500;" id="rec-cas">PARP Inhibitor Monotherapy or Synthetic Lethality Combination</span>
+            <span style="font-size:0.75rem; color:var(--text-primary); font-weight:500;" id="rec-cas">—</span>
           </div>
         </div>
 
@@ -270,11 +270,11 @@ function renderBiomarkersView(c, patient) {
               <i data-lucide="microscope" style="width:12px; height:12px;"></i> Digital Pathology
             </div>
             <table style="width:100%; font-size:0.7rem; border-collapse:collapse;">
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Tumor Purity:</td><td style="text-align:right; font-weight:600;" id="bio-purity">78.5%</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Necrosis Ratio:</td><td style="text-align:right; font-weight:600;" id="bio-necrosis">4.2%</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">TIL Infiltration Score:</td><td style="text-align:right; font-weight:600;" id="bio-til">0.65</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Stroma Proportion:</td><td style="text-align:right; font-weight:600;" id="bio-stroma">17.3%</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Mitosis / 10 HPF:</td><td style="text-align:right; font-weight:600;" id="bio-mitosis">14.0</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Tumor Purity:</td><td style="text-align:right; font-weight:600;" id="bio-purity">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Necrosis Ratio:</td><td style="text-align:right; font-weight:600;" id="bio-necrosis">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">TIL Infiltration Score:</td><td style="text-align:right; font-weight:600;" id="bio-til">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Stroma Proportion:</td><td style="text-align:right; font-weight:600;" id="bio-stroma">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Mitosis / 10 HPF:</td><td style="text-align:right; font-weight:600;" id="bio-mitosis">—</td></tr>
             </table>
           </div>
 
@@ -284,11 +284,11 @@ function renderBiomarkersView(c, patient) {
               <i data-lucide="scan" style="width:12px; height:12px;"></i> Imaging Radiomics
             </div>
             <table style="width:100%; font-size:0.7rem; border-collapse:collapse;">
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Tumor Volume:</td><td style="text-align:right; font-weight:600;" id="bio-vol">82.0 cm³</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Lesion Sphericity:</td><td style="text-align:right; font-weight:600;" id="bio-sphericity">0.72</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">GLCM Contrast:</td><td style="text-align:right; font-weight:600;" id="bio-glcm">0.45</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">GLCM Energy:</td><td style="text-align:right; font-weight:600;" id="bio-energy">0.31</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Heterogeneity Index:</td><td style="text-align:right; font-weight:600;" id="bio-hetero">0.62</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Tumor Volume:</td><td style="text-align:right; font-weight:600;" id="bio-vol">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Lesion Sphericity:</td><td style="text-align:right; font-weight:600;" id="bio-sphericity">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">GLCM Contrast:</td><td style="text-align:right; font-weight:600;" id="bio-glcm">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">GLCM Energy:</td><td style="text-align:right; font-weight:600;" id="bio-energy">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Heterogeneity Index:</td><td style="text-align:right; font-weight:600;" id="bio-hetero">—</td></tr>
             </table>
           </div>
 
@@ -298,11 +298,11 @@ function renderBiomarkersView(c, patient) {
               <i data-lucide="git-branch" style="width:12px; height:12px;"></i> Genomic Signatures
             </div>
             <table style="width:100%; font-size:0.7rem; border-collapse:collapse;">
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">HRD Status:</td><td style="text-align:right; font-weight:600; color:#4ade80;" id="bio-hrd">Positive (42.0)</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">TMB Burden:</td><td style="text-align:right; font-weight:600;" id="bio-tmb">8.4 mut/Mb (Low)</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">MSI Status:</td><td style="text-align:right; font-weight:600;" id="bio-msi">MSS</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Pathogenic Drivers:</td><td style="text-align:right; font-weight:600;" id="bio-drivers">BRCA1, TP53</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Clonal Sensitive:</td><td style="text-align:right; font-weight:600;" id="bio-clonal">85.0%</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">HRD Status:</td><td style="text-align:right; font-weight:600; color:#4ade80;" id="bio-hrd">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">TMB Burden:</td><td style="text-align:right; font-weight:600;" id="bio-tmb">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">MSI Status:</td><td style="text-align:right; font-weight:600;" id="bio-msi">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Pathogenic Drivers:</td><td style="text-align:right; font-weight:600;" id="bio-drivers">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Clonal Sensitive:</td><td style="text-align:right; font-weight:600;" id="bio-clonal">—</td></tr>
             </table>
           </div>
 
@@ -312,11 +312,11 @@ function renderBiomarkersView(c, patient) {
               <i data-lucide="trending-up" style="width:12px; height:12px;"></i> Longitudinal Dynamics
             </div>
             <table style="width:100%; font-size:0.7rem; border-collapse:collapse;">
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Current Velocity:</td><td style="text-align:right; font-weight:600;" id="bio-vel">-0.05 cm³/day</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">ctDNA VAF:</td><td style="text-align:right; font-weight:600;" id="bio-vaf">1.0%</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Synergy Score:</td><td style="text-align:right; font-weight:600; color:#4ade80;" id="bio-syn">0.75</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">In Vitro IC50:</td><td style="text-align:right; font-weight:600;" id="bio-ic50">1.80 µM</td></tr>
-              <tr><td style="color:var(--text-secondary); padding:2px 0;">Missing Modalities:</td><td style="text-align:right; font-weight:600;" id="bio-missing">0 / 5 (None)</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Current Velocity:</td><td style="text-align:right; font-weight:600;" id="bio-vel">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">ctDNA VAF:</td><td style="text-align:right; font-weight:600;" id="bio-vaf">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Synergy Score:</td><td style="text-align:right; font-weight:600; color:#4ade80;" id="bio-syn">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">In Vitro IC50:</td><td style="text-align:right; font-weight:600;" id="bio-ic50">—</td></tr>
+              <tr><td style="color:var(--text-secondary); padding:2px 0;">Missing Modalities:</td><td style="text-align:right; font-weight:600;" id="bio-missing">—</td></tr>
             </table>
           </div>
         </div>
@@ -340,28 +340,28 @@ function renderBiomarkersView(c, patient) {
       const img = r.imaging || {};
       const gen = r.genomic || {};
 
-      c.querySelector('#val-cas').textContent = `${(comp.score || 0.82).toFixed(2)} / 1.00`;
-      c.querySelector('#tier-cas').textContent = comp.tier || 'Tier I - High Sensitivity';
-      c.querySelector('#rec-cas').textContent = comp.recommendation || '';
+      c.querySelector('#val-cas').textContent = comp.score != null ? `${comp.score.toFixed(2)} / 1.00` : '—';
+      c.querySelector('#tier-cas').textContent = comp.tier || '—';
+      c.querySelector('#rec-cas').textContent = comp.recommendation || '—';
 
       if (dig.features) {
-        c.querySelector('#bio-purity').textContent = `${(dig.features.tumor_purity || 78.5).toFixed(1)}%`;
-        c.querySelector('#bio-necrosis').textContent = `${(dig.features.necrosis_ratio || 4.2).toFixed(1)}%`;
-        c.querySelector('#bio-til').textContent = (dig.features.til_density || 0.65).toFixed(2);
-        c.querySelector('#bio-stroma').textContent = `${(dig.features.stroma_proportion || 17.3).toFixed(1)}%`;
-        c.querySelector('#bio-mitosis').textContent = (dig.features.mitosis_count || 14).toFixed(1);
+        c.querySelector('#bio-purity').textContent = dig.features.tumor_purity != null ? `${dig.features.tumor_purity.toFixed(1)}%` : '—';
+        c.querySelector('#bio-necrosis').textContent = dig.features.necrosis_ratio != null ? `${dig.features.necrosis_ratio.toFixed(1)}%` : '—';
+        c.querySelector('#bio-til').textContent = dig.features.til_density != null ? dig.features.til_density.toFixed(2) : '—';
+        c.querySelector('#bio-stroma').textContent = dig.features.stroma_proportion != null ? `${dig.features.stroma_proportion.toFixed(1)}%` : '—';
+        c.querySelector('#bio-mitosis').textContent = dig.features.mitosis_count != null ? dig.features.mitosis_count.toFixed(1) : '—';
       }
       if (img.features) {
-        c.querySelector('#bio-vol').textContent = `${(img.features.tumor_volume_cm3 || 82.0).toFixed(1)} cm³`;
-        c.querySelector('#bio-sphericity').textContent = (img.features.sphericity || 0.72).toFixed(2);
-        c.querySelector('#bio-glcm').textContent = (img.features.glcm_contrast || 0.45).toFixed(2);
-        c.querySelector('#bio-energy').textContent = (img.features.glcm_energy || 0.31).toFixed(2);
-        c.querySelector('#bio-hetero').textContent = (img.features.heterogeneity_index || 0.62).toFixed(2);
+        c.querySelector('#bio-vol').textContent = img.features.tumor_volume_cm3 != null ? `${img.features.tumor_volume_cm3.toFixed(1)} cm³` : '—';
+        c.querySelector('#bio-sphericity').textContent = img.features.sphericity != null ? img.features.sphericity.toFixed(2) : '—';
+        c.querySelector('#bio-glcm').textContent = img.features.glcm_contrast != null ? img.features.glcm_contrast.toFixed(2) : '—';
+        c.querySelector('#bio-energy').textContent = img.features.glcm_energy != null ? img.features.glcm_energy.toFixed(2) : '—';
+        c.querySelector('#bio-hetero').textContent = img.features.heterogeneity_index != null ? img.features.heterogeneity_index.toFixed(2) : '—';
       }
       if (gen.features) {
-        c.querySelector('#bio-hrd').textContent = `${gen.features.hrd_status || 'Positive'} (${(gen.features.hrd_score || 42).toFixed(1)})`;
-        c.querySelector('#bio-tmb').textContent = `${(gen.features.tmb_score || 8.4).toFixed(1)} mut/Mb (${gen.features.tmb_status || 'Low'})`;
-        c.querySelector('#bio-msi').textContent = gen.features.msi_status || 'MSS';
+        c.querySelector('#bio-hrd').textContent = gen.features.hrd_score != null ? `${gen.features.hrd_status || 'Positive'} (${gen.features.hrd_score.toFixed(1)})` : '—';
+        c.querySelector('#bio-tmb').textContent = gen.features.tmb_score != null ? `${gen.features.tmb_score.toFixed(1)} mut/Mb (${gen.features.tmb_status || 'Low'})` : '—';
+        c.querySelector('#bio-msi').textContent = gen.features.msi_status || '—';
       }
     } catch (e) {
       console.error('[BIOMARKER FETCH ERROR]', e);
@@ -379,68 +379,122 @@ function renderKineticsView(c, patient) {
   c.innerHTML = `
     <div style="display:flex; flex-direction:column; gap:0.75rem;">
       <div class="panel-card" style="padding:0.75rem;">
-        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; flex-wrap:wrap;">
           <i data-lucide="activity" style="width:14px; height:14px; color:var(--cyan);"></i>
           <span style="font-weight:600; font-size:0.85rem;">Response Kinetics & Nadir Projection Modeler</span>
+          <button id="btn-run-kinetics" class="btn-sm" style="margin-left:auto;"><i data-lucide="refresh-cw" style="width:11px; height:11px;"></i> Run Kinetics Projection</button>
         </div>
 
         <!-- 4 Key Kinetic Metric Tiles -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.6rem; margin-bottom:0.75rem;">
           <div style="border:1px solid rgba(0,255,255,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
             <div style="font-size:0.65rem; color:var(--text-secondary);">Clearance Rate Constant (kc)</div>
-            <div style="font-size:1.2rem; font-weight:700; color:var(--cyan);">0.0147 <span style="font-size:0.7rem;">/day</span></div>
-            <div style="font-size:0.65rem; color:var(--text-muted);">Exponential tumor decay</div>
+            <div style="font-size:1.2rem; font-weight:700; color:var(--cyan);" id="kin-kc">—</div>
+            <div style="font-size:0.65rem; color:var(--text-muted);" id="kin-kc-sub">Exponential tumor decay</div>
           </div>
           <div style="border:1px solid rgba(74,222,128,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
             <div style="font-size:0.65rem; color:var(--text-secondary);">Projected Time to Nadir</div>
-            <div style="font-size:1.2rem; font-weight:700; color:#4ade80;">128 <span style="font-size:0.7rem;">days</span></div>
-            <div style="font-size:0.65rem; color:var(--text-muted);">Cycle 4-5 horizon (~4.2 mos)</div>
+            <div style="font-size:1.2rem; font-weight:700; color:#4ade80;" id="kin-tnadir">—</div>
+            <div style="font-size:0.65rem; color:var(--text-muted);" id="kin-tnadir-sub">Cycle horizon</div>
           </div>
           <div style="border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
             <div style="font-size:0.65rem; color:var(--text-secondary);">Projected Nadir Volume</div>
-            <div style="font-size:1.2rem; font-weight:700; color:var(--amber);">8.0 <span style="font-size:0.7rem;">cm³</span></div>
-            <div style="font-size:0.65rem; color:var(--text-muted);">-90.2% regression from baseline</div>
+            <div style="font-size:1.2rem; font-weight:700; color:var(--amber);" id="kin-vnadir">—</div>
+            <div style="font-size:0.65rem; color:var(--text-muted);" id="kin-vnadir-sub">Maximum regression</div>
           </div>
           <div style="border:1px solid rgba(248,113,113,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
             <div style="font-size:0.65rem; color:var(--text-secondary);">Projected Post-Nadir Rebound</div>
-            <div style="font-size:1.2rem; font-weight:700; color:#f87171;">+0.004 <span style="font-size:0.7rem;">/day</span></div>
-            <div style="font-size:0.65rem; color:var(--text-muted);">Subclonal resistant expansion</div>
+            <div style="font-size:1.2rem; font-weight:700; color:#f87171;" id="kin-rebound">—</div>
+            <div style="font-size:0.65rem; color:var(--text-muted);" id="kin-rebound-sub">Subclonal resistant expansion</div>
           </div>
         </div>
 
         <!-- Simulated Kinetic Trajectory Schedule -->
         <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.6rem;">
-          <div style="font-size:0.72rem; font-weight:600; color:var(--cyan); margin-bottom:0.4rem;">Simulated 180-Day Volumetric Kinetics Schedule</div>
-          <table style="width:100%; font-size:0.72rem; border-collapse:collapse;">
-            <tr style="color:var(--text-secondary); border-bottom:1px solid rgba(0,255,255,0.1);">
-              <th style="text-align:left; padding:4px;">Checkpoint</th>
-              <th>Simulated Day</th>
-              <th>Projected Volume (cm³)</th>
-              <th>Relative Change</th>
-              <th>Physiological State</th>
-            </tr>
-            ${[
-              { cp: 'Baseline Initiation', day: 0, vol: 82.0, change: '0.0%', state: 'Baseline Staging' },
-              { cp: 'Cycle 1 Midpoint', day: 14, vol: 66.8, change: '-18.5%', state: 'Rapid Clearance Phase' },
-              { cp: 'Cycle 2 Evaluation', day: 28, vol: 54.4, change: '-33.7%', state: 'Exponential Regression' },
-              { cp: 'Cycle 4 Midpoint', day: 56, vol: 36.1, change: '-56.0%', state: 'Partial Response' },
-              { cp: 'Pre-Surgical Restaging', day: 90, vol: 21.8, change: '-73.4%', state: 'Deep Partial Response' },
-              { cp: 'Projected Nadir', day: 128, vol: 8.0, change: '-90.2%', state: 'Maximum Nadir Response' },
-              { cp: 'Post-Nadir Maintenance', day: 180, vol: 9.7, change: '-88.2%', state: 'Subclonal Tolerant Stability' }
-            ].map(r => `
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
-                <td style="padding:4px; font-weight:600; color:var(--cyan);">${r.cp}</td>
-                <td style="padding:4px; text-align:center;">Day ${r.day}</td>
-                <td style="padding:4px; text-align:center; font-weight:700;">${r.vol.toFixed(1)}</td>
-                <td style="padding:4px; text-align:center; color:${r.change.startsWith('-') ? '#4ade80' : '#f87171'};">${r.change}</td>
-                <td style="padding:4px; text-align:center; color:var(--text-secondary);">${r.state}</td>
+          <div style="font-size:0.72rem; font-weight:600; color:var(--cyan); margin-bottom:0.4rem;">Simulated Volumetric Kinetics Schedule</div>
+          <table style="width:100%; font-size:0.72rem; border-collapse:collapse;" id="table-kinetics-schedule">
+            <thead>
+              <tr style="color:var(--text-secondary); border-bottom:1px solid rgba(0,255,255,0.1);">
+                <th style="text-align:left; padding:4px;">Checkpoint</th>
+                <th>Simulated Day</th>
+                <th>Projected Volume</th>
+                <th>Relative Change</th>
+                <th>Physiological State</th>
               </tr>
-            `).join('')}
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="5" style="text-align:center; padding:12px; color:var(--text-muted);">
+                  Awaiting kinetic simulation. Click "Run Kinetics Projection" to generate volumetric schedule.
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
   `;
+
+  const btn = c.querySelector('#btn-run-kinetics');
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/v1/python/response/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patientId: patient.id || 'patient-a', drug: 'Olaparib' })
+      });
+      const data = await res.json();
+      const kin = data.result?.kinetics || {};
+      const kc = kin.clearance_rate_constant;
+      const tnadir = kin.projected_time_to_nadir_days;
+      const vnadir = kin.projected_nadir_volume_cm3;
+      const initVol = kin.initial_volume_cm3 || 35.0;
+      const traj = kin.projected_trajectory || [];
+
+      if (kc != null) {
+        c.querySelector('#kin-kc').innerHTML = `${kc} <span style="font-size:0.7rem;">/day</span>`;
+      }
+      if (tnadir != null) {
+        c.querySelector('#kin-tnadir').innerHTML = `${tnadir} <span style="font-size:0.7rem;">days</span>`;
+        c.querySelector('#kin-tnadir-sub').textContent = `Cycle horizon (~${(tnadir / 30).toFixed(1)} mos)`;
+      }
+      if (vnadir != null) {
+        c.querySelector('#kin-vnadir').innerHTML = `${vnadir.toFixed(1)} <span style="font-size:0.7rem;">cm³</span>`;
+        const pctReg = (((vnadir - initVol) / initVol) * 100).toFixed(1);
+        c.querySelector('#kin-vnadir-sub').textContent = `${pctReg}% regression from baseline`;
+      }
+      c.querySelector('#kin-rebound').innerHTML = `+0.004 <span style="font-size:0.7rem;">/day</span>`;
+
+      const tbody = c.querySelector('#table-kinetics-schedule tbody');
+      if (tbody && traj.length) {
+        tbody.innerHTML = traj.map((pt, idx) => {
+          const rel = (((pt.volume - initVol) / initVol) * 100).toFixed(1);
+          const relStr = pt.day === 0 ? '0.0%' : `${rel}%`;
+          let cp = `Day ${pt.day} Evaluation`;
+          let state = 'Exponential Regression';
+          if (pt.day === 0) { cp = 'Baseline Initiation'; state = 'Baseline Staging'; }
+          else if (pt.day === tnadir || (idx > 0 && traj[idx - 1].day < tnadir && pt.day >= tnadir)) { cp = 'Projected Nadir'; state = 'Maximum Nadir Response'; }
+          else if (pt.day > tnadir) { cp = 'Post-Nadir Maintenance'; state = 'Subclonal Tolerant Stability'; }
+
+          return `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+              <td style="padding:4px; font-weight:600; color:var(--cyan);">${cp}</td>
+              <td style="padding:4px; text-align:center;">Day ${pt.day}</td>
+              <td style="padding:4px; text-align:center; font-weight:700;">${pt.volume.toFixed(1)} cm³</td>
+              <td style="padding:4px; text-align:center; color:${relStr.startsWith('-') ? '#4ade80' : '#f87171'};">${relStr}</td>
+              <td style="padding:4px; text-align:center; color:var(--text-secondary);">${state}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+    } catch (e) {
+      console.error('[KINETICS FETCH ERROR]', e);
+    } finally {
+      btn.disabled = false;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  });
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
@@ -461,16 +515,16 @@ function renderResistanceView(c, patient) {
           <div style="border:1px solid rgba(248,113,113,0.2); border-radius:6px; padding:0.6rem; background:rgba(248,113,113,0.02);">
             <div style="font-size:0.68rem; color:var(--text-secondary);">Current Resistance Classification</div>
             <div style="font-size:1.1rem; font-weight:700; color:#f87171; margin:0.2rem 0;" id="res-state">
-              Sensitive / Emerging Subclonal Resistance
+              —
             </div>
-            <div style="font-size:0.65rem; color:var(--text-muted);" id="res-risk">Resistance Risk Score: 0.35 / 1.00 (Moderate)</div>
+            <div style="font-size:0.65rem; color:var(--text-muted);" id="res-risk">Resistance Risk Score: —</div>
           </div>
 
           <!-- TTAR Card -->
           <div style="border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:0.6rem; background:rgba(251,191,36,0.02);">
             <div style="font-size:0.68rem; color:var(--text-secondary);">Projected Time to Acquired Resistance (TTAR)</div>
             <div style="font-size:1.1rem; font-weight:700; color:var(--amber); margin:0.2rem 0;" id="res-ttar">
-              310.0 <span style="font-size:0.75rem;">days</span>
+              —
             </div>
             <div style="font-size:0.65rem; color:var(--text-muted);">Anticipated onset of molecular resistance prior to radiologic RECIST PD</div>
           </div>

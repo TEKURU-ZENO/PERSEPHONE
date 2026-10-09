@@ -140,70 +140,133 @@ function renderTimelineView(c) {
 function renderTrajectoryView(c) {
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
-      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap;">
         <i data-lucide="trending-up" style="width:14px; height:14px; color:var(--cyan);"></i>
         <span style="font-weight:600; font-size:0.85rem;">Tumor Volumetric Trajectory & Kinetics</span>
+        <button id="btn-fetch-trajectory" class="btn-sm" style="margin-left:auto;"><i data-lucide="refresh-cw" style="width:11px; height:11px;"></i> Synchronize Trajectory</button>
       </div>
       <div id="trajectory-stats" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:0.5rem; margin-bottom:0.75rem;">
         <div style="border:1px solid rgba(0,255,255,0.1); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Baseline Volume</div>
-          <div style="font-size:1.2rem; font-weight:700; color:var(--cyan);">82.0 <span style="font-size:0.7rem;">cm³</span></div>
+          <div style="font-size:1.2rem; font-weight:700; color:var(--cyan);" id="traj-base-vol">—</div>
           <div style="font-size:0.65rem; color:var(--text-secondary);">Day 0 Staging</div>
         </div>
         <div style="border:1px solid rgba(74,222,128,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Nadir Volume</div>
-          <div style="font-size:1.2rem; font-weight:700; color:#4ade80;">8.0 <span style="font-size:0.7rem;">cm³</span></div>
-          <div style="font-size:0.65rem; color:#4ade80;">-90.2% (Day 180)</div>
+          <div style="font-size:1.2rem; font-weight:700; color:#4ade80;" id="traj-nadir-vol">—</div>
+          <div style="font-size:0.65rem; color:#4ade80;" id="traj-nadir-sub">—</div>
         </div>
         <div style="border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Current Volume</div>
-          <div style="font-size:1.2rem; font-weight:700; color:var(--amber);">26.5 <span style="font-size:0.7rem;">cm³</span></div>
-          <div style="font-size:0.65rem; color:var(--amber);">Rebound from Nadir</div>
+          <div style="font-size:1.2rem; font-weight:700; color:var(--amber);" id="traj-cur-vol">—</div>
+          <div style="font-size:0.65rem; color:var(--amber);" id="traj-cur-sub">—</div>
         </div>
         <div style="border:1px solid rgba(248,113,113,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Current Velocity (dV/dt)</div>
-          <div style="font-size:1.2rem; font-weight:700; color:#f87171;">+0.10 <span style="font-size:0.7rem;">cm³/day</span></div>
-          <div style="font-size:0.65rem; color:#f87171;">Progressing Trend</div>
+          <div style="font-size:1.2rem; font-weight:700; color:#f87171;" id="traj-cur-vel">—</div>
+          <div style="font-size:0.65rem; color:#f87171;" id="traj-vel-sub">Progressing Trend</div>
         </div>
       </div>
 
       <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.6rem;">
         <div style="font-size:0.72rem; font-weight:600; color:var(--cyan); margin-bottom:0.4rem;">Volumetric Checkpoint Telemetry</div>
         <table style="width:100%; font-size:0.72rem; border-collapse:collapse;">
-          <tr style="color:var(--text-secondary); border-bottom:1px solid rgba(0,255,255,0.1);">
-            <th style="text-align:left; padding:4px;">Day</th>
-            <th>Event / Scan</th>
-            <th>Volume (cm³)</th>
-            <th>Δ from Baseline</th>
-            <th>Velocity</th>
-            <th>Status</th>
-          </tr>
-          ${[
-            { day: 0, scan: 'Baseline Staging CT', vol: 82.0, delta: '0.0%', vel: '0.00', status: 'Baseline' },
-            { day: 63, scan: 'Cycle 3 Mid-Eval', vol: 52.0, delta: '-36.6%', vel: '-0.48', status: 'Responding' },
-            { day: 84, scan: 'Pre-IDS Contrast CT', vol: 41.2, delta: '-49.8%', vel: '-0.51', status: 'PR' },
-            { day: 120, scan: 'Post-Surgery Adjuvant CT', vol: 14.5, delta: '-82.3%', vel: '-0.74', status: 'PR' },
-            { day: 180, scan: 'Restaging Post-Chemo CT', vol: 8.0, delta: '-90.2%', vel: '-0.11', status: 'CR/Nadir' },
-            { day: 365, scan: 'Restaging CT (Recurrence)', vol: 26.5, delta: '-67.7%', vel: '+0.10', status: 'PD from Nadir' }
-          ].map(r => `
-            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
-              <td style="padding:4px; font-weight:600; color:var(--cyan);">Day ${r.day}</td>
-              <td style="padding:4px;">${r.scan}</td>
-              <td style="padding:4px; font-weight:700;">${r.vol.toFixed(1)}</td>
-              <td style="padding:4px; color:${r.delta.startsWith('-') ? '#4ade80' : '#f87171'};">${r.delta}</td>
-              <td style="padding:4px;">${r.vel}</td>
-              <td style="padding:4px;"><span style="color:${r.status === 'PD from Nadir' ? '#f87171' : '#4ade80'};">${r.status}</span></td>
+          <thead>
+            <tr style="color:var(--text-secondary); border-bottom:1px solid rgba(0,255,255,0.1);">
+              <th style="text-align:left; padding:4px;">Day</th>
+              <th>Event / Scan</th>
+              <th>Volume (cm³)</th>
+              <th>Δ from Baseline</th>
+              <th>Velocity</th>
+              <th>Status</th>
             </tr>
-          `).join('')}
+          </thead>
+          <tbody id="table-trajectory-body">
+            <tr>
+              <td colspan="6" style="padding:12px; text-align:center; color:var(--text-muted);">Synchronizing trajectory telemetry...</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
   `;
+
+  const btn = c.querySelector('#btn-fetch-trajectory');
+  const loadTrajectory = async () => {
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/v1/python/monitoring/response', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patientId: 'patient-a' })
+      });
+      const data = await res.json();
+      const r = data.result || {};
+      const traj = r.trajectory || [];
+      const resp = r.response || {};
+
+      if (resp.baselineVolume != null) {
+        c.querySelector('#traj-base-vol').innerHTML = `${resp.baselineVolume.toFixed(1)} <span style="font-size:0.7rem;">cm³</span>`;
+      }
+      if (resp.nadirVolume != null) {
+        c.querySelector('#traj-nadir-vol').innerHTML = `${resp.nadirVolume.toFixed(1)} <span style="font-size:0.7rem;">cm³</span>`;
+        c.querySelector('#traj-nadir-sub').textContent = `Day ${resp.nadirDay || 180}`;
+      }
+      if (resp.currentVolume != null) {
+        c.querySelector('#traj-cur-vol').innerHTML = `${resp.currentVolume.toFixed(1)} <span style="font-size:0.7rem;">cm³</span>`;
+        c.querySelector('#traj-cur-sub').textContent = 'Rebound from Nadir';
+      }
+      if (resp.currentVelocity != null) {
+        const velSign = resp.currentVelocity >= 0 ? '+' : '';
+        c.querySelector('#traj-cur-vel').innerHTML = `${velSign}${resp.currentVelocity.toFixed(2)} <span style="font-size:0.7rem;">cm³/day</span>`;
+      }
+
+      const tbody = c.querySelector('#table-trajectory-body');
+      if (tbody && traj.length) {
+        tbody.innerHTML = traj.map(row => {
+          const deltaSign = (row.pctChange || 0) >= 0 ? '+' : '';
+          const deltaStr = `${deltaSign}${(row.pctChange || 0).toFixed(1)}%`;
+          const velSign = (row.velocity || 0) >= 0 ? '+' : '';
+          const velStr = `${velSign}${(row.velocity || 0).toFixed(2)}`;
+          return `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+              <td style="padding:4px; font-weight:600; color:var(--cyan);">Day ${row.day}</td>
+              <td style="padding:4px;">${row.eventTitle || 'Restaging Scan'}</td>
+              <td style="padding:4px; text-align:center; font-weight:700;">${row.volume.toFixed(1)}</td>
+              <td style="padding:4px; text-align:center; color:${deltaStr.startsWith('-') ? '#4ade80' : '#f87171'};">${deltaStr}</td>
+              <td style="padding:4px; text-align:center;">${velStr}</td>
+              <td style="padding:4px; text-align:center;"><span style="color:${row.status === 'PD from Nadir' ? '#f87171' : '#4ade80'};">${row.status || 'Evaluation'}</span></td>
+            </tr>
+          `;
+        }).join('');
+      }
+    } catch (e) {
+      console.error('[TRAJECTORY FETCH ERROR]', e);
+    } finally {
+      btn.disabled = false;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  };
+
+  btn.addEventListener('click', loadTrajectory);
+  loadTrajectory();
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // ── 3. Treatment Cycles ────────────────────────────────────────────────────
 function renderCyclesView(c) {
+  const cycles = [
+    { cycle: 'Cycle 1 (Neoadjuvant)', day: 'Day 14', rdi: 100, delay: 0, status: 'On Schedule' },
+    { cycle: 'Cycle 2 (Neoadjuvant)', day: 'Day 42', rdi: 85, delay: 7, status: 'Dose reduced 15% due to ANC 1.1' },
+    { cycle: 'Cycle 3 (Neoadjuvant)', day: 'Day 63', rdi: 85, delay: 0, status: 'Completed' },
+    { cycle: 'Cycle 4 (Adjuvant)', day: 'Day 120', rdi: 90, delay: 0, status: 'Post-operative resumption' },
+    { cycle: 'Cycle 5 (Adjuvant)', day: 'Day 141', rdi: 90, delay: 0, status: 'Completed' },
+    { cycle: 'Cycle 6 (Adjuvant)', day: 'Day 162', rdi: 90, delay: 0, status: 'Frontline Chemotherapy Completed' },
+    { cycle: 'Maintenance (Olaparib)', day: 'Day 195+', rdi: 83, delay: 0, status: 'Active maintenance (dose reduced at Day 340)' }
+  ];
+  const avgRdi = (cycles.reduce((acc, x) => acc + x.rdi, 0) / cycles.length).toFixed(1);
+  const totalDelays = cycles.reduce((acc, x) => acc + x.delay, 0);
+
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
       <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
@@ -213,33 +276,25 @@ function renderCyclesView(c) {
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem; margin-bottom:0.75rem;">
         <div style="border:1px solid rgba(0,255,255,0.1); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Total Delivered Cycles</div>
-          <div style="font-size:1.2rem; font-weight:700; color:var(--cyan);">6 Chemotherapy + Maint.</div>
+          <div style="font-size:1.2rem; font-weight:700; color:var(--cyan);">${cycles.length - 1} Chemotherapy + Maint.</div>
         </div>
         <div style="border:1px solid rgba(74,222,128,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Average RDI</div>
-          <div style="font-size:1.2rem; font-weight:700; color:#4ade80;">91.5%</div>
+          <div style="font-size:1.2rem; font-weight:700; color:#4ade80;">${avgRdi}%</div>
         </div>
         <div style="border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Total Delay Days</div>
-          <div style="font-size:1.2rem; font-weight:700; color:var(--amber);">7 Days (Neutropenia)</div>
+          <div style="font-size:1.2rem; font-weight:700; color:var(--amber);">${totalDelays} Days (Neutropenia)</div>
         </div>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:0.35rem; font-size:0.72rem;">
-        ${[
-          { cycle: 'Cycle 1 (Neoadjuvant)', day: 'Day 14', rdi: '100%', delay: '0 days', status: 'On Schedule' },
-          { cycle: 'Cycle 2 (Neoadjuvant)', day: 'Day 42', rdi: '85%', delay: '7 days', status: 'Dose reduced 15% due to ANC 1.1' },
-          { cycle: 'Cycle 3 (Neoadjuvant)', day: 'Day 63', rdi: '85%', delay: '0 days', status: 'Completed' },
-          { cycle: 'Cycle 4 (Adjuvant)', day: 'Day 120', rdi: '90%', delay: '0 days', status: 'Post-operative resumption' },
-          { cycle: 'Cycle 5 (Adjuvant)', day: 'Day 141', rdi: '90%', delay: '0 days', status: 'Completed' },
-          { cycle: 'Cycle 6 (Adjuvant)', day: 'Day 162', rdi: '90%', delay: '0 days', status: 'Frontline Chemotherapy Completed' },
-          { cycle: 'Maintenance (Olaparib)', day: 'Day 195+', rdi: '100% → 83%', delay: '0 days', status: 'Active maintenance (dose reduced at Day 340)' }
-        ].map(cyc => `
+        ${cycles.map(cyc => `
           <div style="display:flex; align-items:center; gap:0.5rem; padding:0.35rem 0.5rem; background:rgba(0,255,255,0.02); border:1px solid rgba(0,255,255,0.06); border-radius:4px;">
             <strong style="color:var(--cyan); min-width:160px;">${cyc.cycle}</strong>
             <span style="color:var(--text-secondary); min-width:60px;">${cyc.day}</span>
-            <span style="font-weight:700; min-width:50px; color:#4ade80;">${cyc.rdi}</span>
-            <span style="color:var(--amber); min-width:70px;">${cyc.delay}</span>
+            <span style="font-weight:700; min-width:50px; color:#4ade80;">${cyc.rdi}%</span>
+            <span style="color:var(--amber); min-width:70px;">${cyc.delay} days</span>
             <span style="color:var(--text-secondary); flex:1;">${cyc.status}</span>
           </div>
         `).join('')}
@@ -303,6 +358,10 @@ function renderToxicityView(c) {
 
 // ── 5. Biomarker Evolution ─────────────────────────────────────────────────
 function renderBiomarkersView(c) {
+  const ca125 = { baseline: 420.0, nadir: 12.4, nadirDay: 240, current: 118.0, rate: '+0.72' };
+  const ctdna = { baseline: 38.5, nadir: 0.08, relapse: 4.2, relapseDay: 300 };
+  const leadTimeDays = 65;
+
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
       <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
@@ -313,10 +372,10 @@ function renderBiomarkersView(c) {
         <div style="border:1px solid rgba(0,255,255,0.15); border-radius:6px; padding:0.6rem;">
           <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
             <strong style="font-size:0.75rem; color:var(--cyan);">Serum CA-125 Kinetics</strong>
-            <span style="font-size:0.65rem; color:#f87171; font-weight:700;">+0.72 U/mL/day</span>
+            <span style="font-size:0.65rem; color:#f87171; font-weight:700;">${ca125.rate} U/mL/day</span>
           </div>
           <div style="font-size:0.68rem; color:var(--text-secondary); margin-bottom:0.3rem;">
-            Baseline: <strong>420.0 U/mL</strong> → Nadir: <strong>12.4 U/mL</strong> (Day 240) → Current: <strong style="color:var(--amber);">118.0 U/mL</strong>
+            Baseline: <strong>${ca125.baseline.toFixed(1)} U/mL</strong> → Nadir: <strong>${ca125.nadir.toFixed(1)} U/mL</strong> (Day ${ca125.nadirDay}) → Current: <strong style="color:var(--amber);">${ca125.current.toFixed(1)} U/mL</strong>
           </div>
           <div style="height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
             <div style="height:100%; width:65%; background:var(--amber); border-radius:3px;"></div>
@@ -329,7 +388,7 @@ function renderBiomarkersView(c) {
             <span style="font-size:0.65rem; color:#f87171; font-weight:700;">Molecular Inflexion</span>
           </div>
           <div style="font-size:0.68rem; color:var(--text-secondary); margin-bottom:0.3rem;">
-            Baseline: <strong>38.5%</strong> → Nadir: <strong>0.08%</strong> → Molecular Relapse: <strong style="color:#f87171;">4.2% (Day 300)</strong>
+            Baseline: <strong>${ctdna.baseline.toFixed(1)}%</strong> → Nadir: <strong>${ctdna.nadir.toFixed(2)}%</strong> → Molecular Relapse: <strong style="color:#f87171;">${ctdna.relapse.toFixed(1)}% (Day ${ctdna.relapseDay})</strong>
           </div>
           <div style="height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
             <div style="height:100%; width:42%; background:#c084fc; border-radius:3px;"></div>
@@ -340,10 +399,10 @@ function renderBiomarkersView(c) {
       <div style="border:1px solid rgba(251,191,36,0.15); border-radius:6px; padding:0.6rem; background:rgba(251,191,36,0.02);">
         <div style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; font-weight:700; color:var(--amber); margin-bottom:0.25rem;">
           <i data-lucide="bell" style="width:13px; height:13px;"></i>
-          Molecular Lead-Time Window: 60 Days
+          Molecular Lead-Time Window: ${leadTimeDays} Days
         </div>
         <p style="font-size:0.7rem; color:var(--text-secondary); margin:0;">
-          ctDNA VAF rose above detection threshold at Day 300 (4.2%), preceding radiographic CT progression at Day 360 by <strong>60 days</strong>. Liquid biopsy provides an actionable clinical intervention window before anatomic failure.
+          ctDNA VAF rose above detection threshold at Day ${ctdna.relapseDay} (${ctdna.relapse.toFixed(1)}%), preceding radiographic CT progression at Day 365 by <strong>${leadTimeDays} days</strong>. Liquid biopsy provides an actionable clinical intervention window before anatomic failure.
         </p>
       </div>
     </div>
@@ -353,6 +412,20 @@ function renderBiomarkersView(c) {
 
 // ── 6. Response Classification ─────────────────────────────────────────────
 function renderResponseView(c) {
+  const milestones = {
+    bor: 'PR / CR',
+    maxShrinkage: '-90.2%',
+    currentStatus: 'PD',
+    currentLabel: 'Progressive Disease',
+    dorDays: 281,
+    pfsDays: 305,
+    neoadjuvantShrinkage: '-49.8%',
+    nadirVol: 8.0,
+    relapseDay: 300,
+    progressionDay: 365,
+    nadirIncreasePct: '+231%'
+  };
+
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
       <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
@@ -362,22 +435,22 @@ function renderResponseView(c) {
       <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:0.5rem; margin-bottom:0.75rem;">
         <div style="border:1px solid rgba(74,222,128,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Best Overall Response</div>
-          <div style="font-size:1.3rem; font-weight:700; color:#4ade80;">PR / CR</div>
-          <div style="font-size:0.65rem; color:#4ade80;">Max -90.2% Shrinkage</div>
+          <div style="font-size:1.3rem; font-weight:700; color:#4ade80;">${milestones.bor}</div>
+          <div style="font-size:0.65rem; color:#4ade80;">Max ${milestones.maxShrinkage} Shrinkage</div>
         </div>
         <div style="border:1px solid rgba(248,113,113,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Current RECIST Status</div>
-          <div style="font-size:1.3rem; font-weight:700; color:#f87171;">PD</div>
-          <div style="font-size:0.65rem; color:#f87171;">Progressive Disease</div>
+          <div style="font-size:1.3rem; font-weight:700; color:#f87171;">${milestones.currentStatus}</div>
+          <div style="font-size:0.65rem; color:#f87171;">${milestones.currentLabel}</div>
         </div>
         <div style="border:1px solid rgba(0,255,255,0.1); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Duration of Response</div>
-          <div style="font-size:1.3rem; font-weight:700; color:var(--cyan);">281 Days</div>
-          <div style="font-size:0.65rem; color:var(--text-secondary);">Day 84 to Day 365</div>
+          <div style="font-size:1.3rem; font-weight:700; color:var(--cyan);">${milestones.dorDays} Days</div>
+          <div style="font-size:0.65rem; color:var(--text-secondary);">Day 84 to Day ${milestones.progressionDay}</div>
         </div>
         <div style="border:1px solid rgba(251,191,36,0.2); border-radius:6px; padding:0.5rem; text-align:center;">
           <div style="font-size:0.65rem; color:var(--text-secondary);">Progression-Free Horizon</div>
-          <div style="font-size:1.3rem; font-weight:700; color:var(--amber);">305 Days</div>
+          <div style="font-size:1.3rem; font-weight:700; color:var(--amber);">${milestones.pfsDays} Days</div>
           <div style="font-size:0.65rem; color:var(--text-secondary);">Until molecular signal</div>
         </div>
       </div>
@@ -385,7 +458,7 @@ function renderResponseView(c) {
       <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.6rem;">
         <div style="font-size:0.72rem; font-weight:600; color:var(--cyan); margin-bottom:0.3rem;">RECIST 1.1 Criteria Summary for Patient Elena Rostova</div>
         <p style="font-size:0.7rem; color:var(--text-secondary); line-height:1.4; margin:0;">
-          Patient achieved deep Partial Response (PR) after 3 cycles of neoadjuvant carboplatin/paclitaxel (-49.8%), followed by R0 surgical resection and post-chemotherapy nadir at 8.0 cm³ (-90.2%). Maintenance Olaparib controlled disease until Day 300 molecular relapse. Confirmed Progressive Disease (PD) at Day 365 (+231% increase from nadir).
+          Patient achieved deep Partial Response (PR) after 3 cycles of neoadjuvant carboplatin/paclitaxel (${milestones.neoadjuvantShrinkage}), followed by R0 surgical resection and post-chemotherapy nadir at ${milestones.nadirVol.toFixed(1)} cm³ (${milestones.maxShrinkage}). Maintenance Olaparib controlled disease until Day ${milestones.relapseDay} molecular relapse. Confirmed Progressive Disease (PD) at Day ${milestones.progressionDay} (${milestones.nadirIncreasePct} increase from nadir).
         </p>
       </div>
     </div>

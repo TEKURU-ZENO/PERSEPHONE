@@ -367,8 +367,8 @@ async function renderExplainabilityView(container) {
             <span style="font-size:0.6rem; color:rgba(255,255,255,0.6); background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:2px;">Multi-head attention aggregation</span>
           </div>
           <div style="display:flex; justify-content:space-between; margin-top:0.25rem; font-size:0.6rem; color:var(--text-secondary);">
-            <span>Entropy: 2.14</span>
-            <span>Coverage: 78%</span>
+            <span>Entropy: —</span>
+            <span>Coverage: —</span>
           </div>
         </div>
       </div>

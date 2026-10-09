@@ -608,10 +608,10 @@ function renderTradeOffView(c, patient) {
           <span class="badge" style="background:rgba(251,191,36,0.15); color:var(--amber); font-size:0.65rem; margin-left:auto;">SIMULATION-QUALIFIED</span>
         </div>
         <p style="font-size:0.7rem; color:var(--text-secondary); line-height:1.4; margin:0 0 0.4rem 0;">
-          ${best.rationale || 'Intermittent dose vacations preserve drug-sensitive clones, sustaining competitive suppression over resistant subclones.'}
+          ${best.rationale || '—'}
         </p>
         <div style="font-size:0.65rem; color:var(--text-muted); font-style:italic;">
-          Research Qualification: ${best.qualification || 'Best-performing under simulated biophysical Lotka-Volterra assumptions; not a clinical recommendation.'}
+          Research Qualification: ${best.qualification || '—'}
         </div>
       `;
     }
@@ -631,7 +631,7 @@ function renderTradeOffView(c, patient) {
         ${compArms.map(aid => {
           const comp = comparisons[aid] || {};
           const isBest = aid === best.arm_id;
-          const deltaTtp = comp.delta_ttp || comp.average_treatment_effect || {};
+          const deltaTtp = comp.delta_ttp || {};
           const dtox = comp.delta_toxicity || {};
           const dred = comp.dose_reduction_percent || {};
           const tei = comp.therapeutic_efficiency_index || {};

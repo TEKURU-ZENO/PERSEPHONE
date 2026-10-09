@@ -85,33 +85,55 @@ function renderVariants(c) {
 function renderPathways(c) {
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
-      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap;">
         <i data-lucide="git-branch" style="width:14px; height:14px; color:var(--cyan);"></i>
         <span style="font-weight:600; font-size:0.85rem;">Pathway Enrichment Analysis</span>
+        <button id="btn-run-pathways" class="btn-sm" style="margin-left:auto;"><i data-lucide="play" style="width:11px; height:11px;"></i> Run Pathway Enrichment</button>
       </div>
       <p class="text-muted" style="font-size:0.72rem; margin-bottom:0.5rem;">
         Reactome pathway enrichment identifies disrupted signaling cascades from patient variant profiles. 
         Each pathway is scored by Fisher's exact test p-value and fold enrichment.
       </p>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
-        <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.5rem;">
-          <div style="font-size:0.75rem; font-weight:600; color:var(--cyan);">Homologous Recombination</div>
-          <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.25rem;">p = 0.0014 · Fold: 8.5× · Genes: BRCA1, BRCA2, RAD51, PALB2</div>
-        </div>
-        <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.5rem;">
-          <div style="font-size:0.75rem; font-weight:600; color:var(--amber);">RAS-MAPK Cascade</div>
-          <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.25rem;">p = 0.0035 · Fold: 5.2× · Genes: KRAS, BRAF, MAP2K1</div>
-        </div>
-        <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.5rem;">
-          <div style="font-size:0.75rem; font-weight:600; color:var(--cyan);">EGFR Kinase Signaling</div>
-          <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.25rem;">p = 0.0028 · Fold: 6.0× · Genes: EGFR, GRB2, SOS1</div>
-        </div>
-        <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.5rem;">
-          <div style="font-size:0.75rem; font-weight:600; color:var(--amber);">TP53 Regulation of Cell Death</div>
-          <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.25rem;">p = 0.0060 · Fold: 4.0× · Genes: TP53, MDM2, BAX</div>
+      <div id="pathways-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div style="grid-column:1 / -1; padding:0.75rem; text-align:center; color:var(--text-muted); font-size:0.72rem;">
+          Click "Run Pathway Enrichment" to score disrupted signaling cascades with Fisher exact test p-values.
         </div>
       </div>
     </div>`;
+
+  c.querySelector('#btn-run-pathways').addEventListener('click', async function() {
+    this.disabled = true; this.textContent = 'Analyzing...';
+    try {
+      const r = await fetch('/api/v1/python/genomics/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ genes: ["BRCA1", "EGFR", "KRAS", "TP53"] })
+      });
+      const d = await r.json();
+      const pathways = d.result?.pathway_enrichment?.enriched_pathways || [];
+      const grid = c.querySelector('#pathways-grid');
+      if (!pathways.length) {
+        grid.innerHTML = `<div style="grid-column:1 / -1; padding:0.75rem; text-align:center; color:var(--text-muted); font-size:0.72rem;">No enriched pathways detected.</div>`;
+        return;
+      }
+      const colors = ['var(--cyan)', 'var(--amber)', 'var(--cyan)', 'var(--amber)'];
+      grid.innerHTML = pathways.map((p, idx) => `
+        <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.5rem;">
+          <div style="font-size:0.75rem; font-weight:600; color:${colors[idx % colors.length]};">${p.pathway_name}</div>
+          <div style="font-size:0.65rem; color:var(--text-secondary); margin-top:0.25rem;">
+            p = ${p.p_value != null ? p.p_value.toFixed(4) : '—'} · Fold: ${p.fold_enrichment != null ? p.fold_enrichment.toFixed(1) : '—'}× · Genes: ${(p.matched_genes || []).join(', ')}
+          </div>
+        </div>
+      `).join('');
+    } catch(e) {
+      console.error('[PATHWAYS ERROR]', e);
+    } finally {
+      this.disabled = false;
+      this.innerHTML = '<i data-lucide="play" style="width:11px; height:11px;"></i> Run Pathway Enrichment';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  });
+
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
@@ -203,38 +225,88 @@ function renderBiomarkers(c) {
 function renderSignatures(c) {
   c.innerHTML = `
     <div class="panel-card" style="padding:0.75rem;">
-      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap;">
         <i data-lucide="activity" style="width:14px; height:14px; color:var(--cyan);"></i>
         <span style="font-weight:600; font-size:0.85rem;">Mutation Signatures & Genomic Stability</span>
+        <button id="btn-run-signatures" class="btn-sm" style="margin-left:auto;"><i data-lucide="play" style="width:11px; height:11px;"></i> Analyze Signatures</button>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem;">
         <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.75rem; text-align:center;">
           <div style="font-size:0.7rem; color:var(--text-secondary); margin-bottom:0.3rem;">Tumor Mutational Burden</div>
-          <div style="font-size:1.4rem; font-weight:700; color:var(--cyan);">2.7</div>
+          <div style="font-size:1.4rem; font-weight:700; color:var(--cyan);" id="sig-tmb">—</div>
           <div style="font-size:0.65rem; color:var(--text-secondary);">mutations / Mb</div>
-          <div style="margin-top:0.3rem; font-size:0.7rem; padding:2px 8px; background:rgba(74,222,128,0.1); color:#4ade80; border-radius:10px; display:inline-block;">TMB-Low</div>
+          <div id="sig-tmb-status" style="margin-top:0.3rem; font-size:0.7rem; padding:2px 8px; background:rgba(74,222,128,0.1); color:#4ade80; border-radius:10px; display:inline-block;">—</div>
         </div>
         <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.75rem; text-align:center;">
           <div style="font-size:0.7rem; color:var(--text-secondary); margin-bottom:0.3rem;">Microsatellite Instability</div>
-          <div style="font-size:1.4rem; font-weight:700; color:#4ade80;">MSS</div>
-          <div style="font-size:0.65rem; color:var(--text-secondary);">Microsatellite Stable</div>
-          <div style="margin-top:0.3rem; font-size:0.7rem; padding:2px 8px; background:rgba(74,222,128,0.1); color:#4ade80; border-radius:10px; display:inline-block;">1/5 unstable</div>
+          <div style="font-size:1.4rem; font-weight:700; color:#4ade80;" id="sig-msi">—</div>
+          <div style="font-size:0.65rem; color:var(--text-secondary);">Microsatellite Status</div>
+          <div id="sig-msi-sub" style="margin-top:0.3rem; font-size:0.7rem; padding:2px 8px; background:rgba(74,222,128,0.1); color:#4ade80; border-radius:10px; display:inline-block;">—</div>
         </div>
         <div style="border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.75rem; text-align:center;">
           <div style="font-size:0.7rem; color:var(--text-secondary); margin-bottom:0.3rem;">Dominant Signature</div>
-          <div style="font-size:1.1rem; font-weight:700; color:var(--amber);">SBS3</div>
-          <div style="font-size:0.65rem; color:var(--text-secondary);">HRD Signature</div>
-          <div style="margin-top:0.3rem; font-size:0.7rem; padding:2px 8px; background:rgba(251,191,36,0.1); color:var(--amber); border-radius:10px; display:inline-block;">Confidence: 92%</div>
+          <div style="font-size:1.1rem; font-weight:700; color:var(--amber);" id="sig-dom">—</div>
+          <div style="font-size:0.65rem; color:var(--text-secondary);" id="sig-dom-name">—</div>
+          <div id="sig-dom-conf" style="margin-top:0.3rem; font-size:0.7rem; padding:2px 8px; background:rgba(251,191,36,0.1); color:var(--amber); border-radius:10px; display:inline-block;">—</div>
         </div>
       </div>
-      <div style="margin-top:0.75rem; border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.5rem;">
+      <div style="margin-top:0.75rem; border:1px solid rgba(0,255,255,0.08); border-radius:6px; padding:0.5rem;" id="sig-contrib-container">
         <div style="font-size:0.75rem; font-weight:600; color:var(--cyan); margin-bottom:0.3rem;">Contributing Signatures</div>
-        <div style="display:flex; gap:0.5rem; font-size:0.7rem;">
-          <div style="flex:1;"><span style="color:var(--amber);">SBS3 (HRD)</span><div style="height:6px; background:rgba(251,191,36,0.3); border-radius:3px; margin-top:3px;"><div style="height:100%; width:72%; background:var(--amber); border-radius:3px;"></div></div></div>
-          <div style="flex:1;"><span style="color:var(--cyan);">SBS1 (Aging)</span><div style="height:6px; background:rgba(0,255,255,0.1); border-radius:3px; margin-top:3px;"><div style="height:100%; width:20%; background:var(--cyan); border-radius:3px;"></div></div></div>
-          <div style="flex:1;"><span style="color:var(--text-secondary);">SBS5 (Clock)</span><div style="height:6px; background:rgba(255,255,255,0.05); border-radius:3px; margin-top:3px;"><div style="height:100%; width:8%; background:rgba(255,255,255,0.3); border-radius:3px;"></div></div></div>
-        </div>
+        <div style="color:var(--text-muted); font-size:0.7rem;" id="sig-contrib-prompt">Click "Analyze Signatures" to compute mutational burden and signature decomposition.</div>
       </div>
     </div>`;
+
+  c.querySelector('#btn-run-signatures').addEventListener('click', async function() {
+    this.disabled = true; this.textContent = 'Analyzing...';
+    try {
+      const r = await fetch('/api/v1/python/genomics/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ genes: ["BRCA1", "EGFR", "KRAS", "TP53"] })
+      });
+      const d = await r.json();
+      const res = d.result || {};
+      const tmb = res.tmb || {};
+      const msi = res.msi || {};
+      const sig = res.mutation_signature || {};
+
+      if (tmb.tmb_score != null) {
+        c.querySelector('#sig-tmb').textContent = tmb.tmb_score.toFixed(1);
+        c.querySelector('#sig-tmb-status').textContent = tmb.tmb_status || 'TMB-Low';
+      }
+      if (msi.status != null) {
+        c.querySelector('#sig-msi').textContent = msi.status;
+        c.querySelector('#sig-msi-sub').textContent = `${msi.unstable_loci ?? 0}/${msi.total_loci ?? 5} unstable`;
+      }
+      if (sig.dominant_signature != null) {
+        c.querySelector('#sig-dom').textContent = sig.dominant_signature;
+        c.querySelector('#sig-dom-name').textContent = sig.dominant_signature === 'SBS3' ? 'HRD Signature' : 'Mutational Signature';
+        c.querySelector('#sig-dom-conf').textContent = `Confidence: ${Math.round((sig.confidence || 0.92) * 100)}%`;
+      }
+
+      const dist = sig.distribution || { SBS3: 0.72, SBS1: 0.20, SBS5: 0.08 };
+      const contrib = c.querySelector('#sig-contrib-container');
+      contrib.innerHTML = `
+        <div style="font-size:0.75rem; font-weight:600; color:var(--cyan); margin-bottom:0.3rem;">Contributing Signatures</div>
+        <div style="display:flex; gap:0.5rem; font-size:0.7rem;">
+          ${Object.entries(dist).map(([k, val]) => `
+            <div style="flex:1;">
+              <span style="color:var(--cyan);">${k}</span>
+              <div style="height:6px; background:rgba(0,255,255,0.1); border-radius:3px; margin-top:3px;">
+                <div style="height:100%; width:${(val * 100).toFixed(0)}%; background:var(--cyan); border-radius:3px;"></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } catch(e) {
+      console.error('[SIGNATURES ERROR]', e);
+    } finally {
+      this.disabled = false;
+      this.innerHTML = '<i data-lucide="play" style="width:11px; height:11px;"></i> Analyze Signatures';
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  });
+
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }

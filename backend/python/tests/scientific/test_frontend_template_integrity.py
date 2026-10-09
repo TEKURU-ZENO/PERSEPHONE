@@ -1,12 +1,14 @@
 """
 Automated Frontend Template Integrity Test Suite
-Verifies that frontend component templates do NOT contain hardcoded result numbers,
-fabricated simulation claims, or ungrounded static statistics in initial HTML templates.
+Comprehensive regex pattern scanner across all frontend components.
+Verifies that frontend component templates do NOT contain hardcoded clinical results,
+fabricated p-values, static rates (/day), static volumes (cm³), or ungrounded statistics.
 """
 
 import os
 import re
 import unittest
+from backend.python.compute.counterfactual.comparison import CounterfactualComparator
 
 def get_repo_root():
     current = os.path.abspath(os.path.dirname(__file__))
@@ -19,106 +21,230 @@ def get_repo_root():
 
 REPO_ROOT = get_repo_root()
 
+
+def strip_interpolations(text: str) -> str:
+    """Strips ${...} interpolations from template strings, respecting nested braces."""
+    result = []
+    i = 0
+    n = len(text)
+    while i < n:
+        if text[i:i+2] == '${':
+            brace_depth = 1
+            i += 2
+            while i < n and brace_depth > 0:
+                if text[i] == '{':
+                    brace_depth += 1
+                elif text[i] == '}':
+                    brace_depth -= 1
+                i += 1
+        else:
+            result.append(text[i])
+            i += 1
+    return ''.join(result)
+
+
 class TestFrontendTemplateIntegrity(unittest.TestCase):
     """
-    Guards frontend component templates against fabricated defaults, static clinical claims,
-    and invented simulation numbers.
+    Automated pattern scanner guarding all component templates against hardcoded
+    clinical results, static rates, fake p-values, and invented statistics.
     """
 
     def setUp(self):
         self.components_dir = os.path.join(
             REPO_ROOT, "frontend", "apps", "dashboard", "src", "components"
         )
+        self.assertTrue(
+            os.path.exists(self.components_dir),
+            f"Components directory not found: {self.components_dir}"
+        )
 
-    def test_scenario_lab_no_static_overclaims(self):
-        """CounterfactualLabPanel must not contain fabricated result claims or static winner banners."""
+    def test_all_components_scanned_for_static_clinical_patterns(self):
+        """
+        Scans EVERY .js component in frontend/apps/dashboard/src/components/ for prohibited
+        static clinical result patterns in templates.
+        """
+        component_files = []
+        for root, _, files in os.walk(self.components_dir):
+            for f in files:
+                if f.endswith('.js'):
+                    component_files.append(os.path.join(root, f))
+
+        self.assertGreaterEqual(len(component_files), 20, "Must scan all dashboard component files")
+
+        # Prohibited regex patterns for ungrounded results inside static template text
+        pattern_rates = re.compile(r'[+-]?\d+\.?\d*\s*/day')
+        pattern_volumes = re.compile(r'[+-]?\d+\.?\d*\s*cm³')
+        pattern_pvals = re.compile(r'\bp\s*=\s*0\.\d+')
+        pattern_static_hr = re.compile(r'\bHR\s*[:=]?\s*\d+\.\d+')
+        pattern_static_ci_vals = re.compile(r'95%\s*CI\s*[:=]?\s*\[?\d+\.\d+')
+        pattern_bracket_ci = re.compile(r'>\s*0\.\d{2}\s*\[0\.\d{2}\s*-\s*0\.\d{2}\]\s*<')
+
+        # Minimal allowlist for genuine published literature citations and fixed registry prior constants
+        literature_citation_allowlist = {
+            "ResearchIntelligencePanel.js": [
+                "HR 0.30",
+                "95% CI 0.23"
+            ]
+        }
+
+        violations = []
+
+        for file_path in component_files:
+            file_name = os.path.basename(file_path)
+            rel_path = os.path.relpath(file_path, self.components_dir)
+
+            with open(file_path, 'r', encoding='utf-8') as f:
+                raw_content = f.read()
+
+            # Strip all ${...} dynamic interpolations
+            stripped = strip_interpolations(raw_content)
+
+            # Strip HTML tag attributes (style, class, id)
+            clean = re.sub(r'style="[^"]*"', '', stripped)
+            clean = re.sub(r"style='[^']*'", '', clean)
+            clean = re.sub(r'class="[^"]*"', '', clean)
+            clean = re.sub(r'id="[^"]*"', '', clean)
+
+            # 1. Prohibited volumetric rates (e.g., 0.0147/day, +0.004/day, -0.05 cm³/day)
+            rate_matches = pattern_rates.findall(clean)
+            if rate_matches:
+                violations.append(f"{rel_path}: Found static rate(s) {rate_matches}")
+
+            # 2. Prohibited volumes (e.g., 8.0 cm³, 82.0 cm³)
+            vol_matches = pattern_volumes.findall(clean)
+            if vol_matches:
+                violations.append(f"{rel_path}: Found static volume(s) {vol_matches}")
+
+            # 3. Prohibited static p-values (e.g., p = 0.0014, p = 0.0035)
+            pval_matches = pattern_pvals.findall(clean)
+            if pval_matches:
+                violations.append(f"{rel_path}: Found static p-value(s) {pval_matches}")
+
+            # 4. Prohibited static hazard ratios (excluding allowlisted literature citations)
+            hr_matches = pattern_static_hr.findall(clean)
+            allowed_hrs = literature_citation_allowlist.get(file_name, [])
+            filtered_hrs = [m for m in hr_matches if not any(a in m for a in allowed_hrs)]
+            if filtered_hrs:
+                violations.append(f"{rel_path}: Found static hazard ratio(s) {filtered_hrs}")
+
+            # 5. Prohibited static 95% CI numeric values
+            ci_matches = pattern_static_ci_vals.findall(clean)
+            allowed_cis = literature_citation_allowlist.get(file_name, [])
+            filtered_cis = [m for m in ci_matches if not any(a in m for a in allowed_cis)]
+            if filtered_cis:
+                violations.append(f"{rel_path}: Found static 95% CI value(s) {filtered_cis}")
+
+            # 6. Prohibited bracketed CI results (e.g., >0.67 [0.44 - 0.98]<)
+            bracket_matches = pattern_bracket_ci.findall(clean)
+            if bracket_matches:
+                violations.append(f"{rel_path}: Found bracketed CI result(s) {bracket_matches}")
+
+        self.assertEqual(
+            violations, [],
+            f"Frontend template integrity violations detected:\n" + "\n".join(violations)
+        )
+
+    def test_scenario_lab_no_fabricated_narratives_or_static_winners(self):
+        """CounterfactualLabPanel must not contain fabricated winner banner or ungrounded rationale fallback."""
         cf_path = os.path.join(self.components_dir, "counterfactual", "CounterfactualLabPanel.js")
-        self.assertTrue(os.path.exists(cf_path), f"File {cf_path} must exist")
-
         with open(cf_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # Prohibited hardcoded fabricated narrative strings
-        prohibited_strings = [
+        prohibited_narratives = [
             "+38.5 days median TTP gain",
             "reducing cumulative toxic dose burden by 34.2%",
-            "+38.5 [+28.2 to +48.8] d",
-            "+34.2% [+29.0% to +39.4%]",
-            "-5.4 [-7.8 to -3.0]",
-            "+44.0 [+32.0 to +56.0] d"
+            "Intermittent dose vacations preserve drug-sensitive clones",
+            "Best-performing under simulated biophysical Lotka-Volterra assumptions"
         ]
+        for s in prohibited_narratives:
+            self.assertNotIn(s, content, f"Prohibited narrative found in CounterfactualLabPanel.js: '{s}'")
 
-        for s in prohibited_strings:
-            self.assertNotIn(
-                s, content,
-                f"Prohibited fabricated result string found in CounterfactualLabPanel.js: '{s}'"
-            )
+        # Line 611 fallback must be em-dash
+        self.assertIn("${best.rationale || '—'}", content)
+        self.assertIn("${best.qualification || '—'}", content)
 
-    def test_scenario_lab_initial_placeholders_use_em_dash(self):
-        """CounterfactualLabPanel must initialize pre-fetch metric cards and tables with '—' or empty prompts."""
-        cf_path = os.path.join(self.components_dir, "counterfactual", "CounterfactualLabPanel.js")
-        with open(cf_path, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        # KPI cards must default to em-dash in template
-        self.assertIn('id="stat-v0">—<', content)
-        self.assertIn('id="stat-k">—<', content)
-        self.assertIn('id="stat-fr">—<', content)
-        self.assertIn('id="stat-alpha">—<', content)
-        self.assertIn('id="stat-es">—<', content)
-
-        # Prohibited static KPI values
-        self.assertNotIn('id="stat-v0">82.4', content)
-        self.assertNotIn('id="stat-k">203.5', content)
-        self.assertNotIn('id="stat-fr">5.2', content)
-
-        # Survival endpoints table must not contain hardcoded static trial results in template
-        self.assertNotIn('>88.5<', content)
-        self.assertNotIn('>132.0<', content)
-        self.assertNotIn('0.67 [0.44 - 0.98]', content)
-
-        # Survival table must have an initial prompt row
-        self.assertIn('Run simulation to project survival probabilities', content)
-        self.assertIn('Run simulation to compute Kaplan-Meier step probabilities', content)
-
-    def test_response_intelligence_initial_placeholders_use_em_dash(self):
-        """ResponseIntelligencePanel must initialize pre-fetch metric cards with '—' rather than static numbers."""
+    def test_response_kinetics_and_biomarkers_initialized_with_em_dash(self):
+        """ResponseIntelligencePanel must initialize pre-fetch kinetics and biomarker cards with '—'."""
         resp_path = os.path.join(self.components_dir, "response", "ResponseIntelligencePanel.js")
-        self.assertTrue(os.path.exists(resp_path), f"File {resp_path} must exist")
-
         with open(resp_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # KPI cards must default to em-dash in template
+        # KPI cards
         self.assertIn('id="val-orr">—<', content)
         self.assertIn('id="val-dcr">—<', content)
         self.assertIn('id="val-pfs">—<', content)
-        self.assertIn('id="val-depth">—<', content)
 
-        # Prohibited initial static numbers
-        self.assertNotIn('id="val-orr">75.0%<', content)
-        self.assertNotIn('id="val-dcr">93.0%<', content)
-        self.assertNotIn('id="val-pfs">330.0', content)
+        # Kinetics placeholders
+        self.assertIn('id="kin-kc">—<', content)
+        self.assertIn('id="kin-tnadir">—<', content)
+        self.assertIn('id="kin-vnadir">—<', content)
+        self.assertIn('id="kin-rebound">—<', content)
 
-    def test_no_hardcoded_hr_ci_patterns_in_static_templates(self):
-        """Scans component templates to ensure hazard ratios and confidence intervals are not hardcoded in static HTML."""
-        components_to_scan = [
-            os.path.join(self.components_dir, "counterfactual", "CounterfactualLabPanel.js"),
-            os.path.join(self.components_dir, "response", "ResponseIntelligencePanel.js")
-        ]
+        # Prohibited old static numbers
+        self.assertNotIn('0.0147/day', content)
+        self.assertNotIn('8.0 cm³ (−90.2%)', content)
+        self.assertNotIn('+0.004/day', content)
 
-        # Regex matching static HR CI patterns like "0.67 [0.44 - 0.98]" in HTML template strings
-        hr_ci_pattern = re.compile(r'>\s*0\.\d{2}\s*\[0\.\d{2}\s*-\s*0\.\d{2}\]\s*<')
+    def test_genomics_pathways_and_signatures_initialized_with_em_dash(self):
+        """GenomicLabPanel must not contain static pathway p-values and must initialize signatures with '—'."""
+        gen_path = os.path.join(self.components_dir, "genomics", "GenomicLabPanel.js")
+        with open(gen_path, "r", encoding="utf-8") as f:
+            content = f.read()
 
-        for file_path in components_to_scan:
-            with open(file_path, "r", encoding="utf-8") as f:
-                content = f.read()
+        # Prohibited static pathway results
+        self.assertNotIn('p = 0.0014', content)
+        self.assertNotIn('p = 0.0035', content)
+        self.assertNotIn('p = 0.0028', content)
+        self.assertNotIn('p = 0.0060', content)
 
-            matches = hr_ci_pattern.findall(content)
-            self.assertEqual(
-                len(matches), 0,
-                f"Found hardcoded HR CI pattern in {file_path}: {matches}"
-            )
+        # Signatures placeholders
+        self.assertIn('id="sig-tmb">—<', content)
+        self.assertIn('id="sig-msi">—<', content)
+        self.assertIn('id="sig-dom">—<', content)
+
+    def test_clinical_monitoring_initialized_with_em_dash(self):
+        """ClinicalMonitoringPanel must initialize trajectory cards with '—'."""
+        mon_path = os.path.join(self.components_dir, "monitoring", "ClinicalMonitoringPanel.js")
+        with open(mon_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        self.assertIn('id="traj-base-vol">—<', content)
+        self.assertIn('id="traj-nadir-vol">—<', content)
+        self.assertIn('id="traj-cur-vol">—<', content)
+        self.assertIn('id="traj-cur-vel">—<', content)
+
+        # Prohibited old static trajectory numbers
+        self.assertNotIn('>82.0 cm³<', content)
+        self.assertNotIn('>8.0 cm³<', content)
+        self.assertNotIn('>+0.10 cm³/day<', content)
+
+    def test_counterfactual_comparison_drops_deprecated_keys(self):
+        """Backend CounterfactualComparator must not return deprecated keys average_treatment_effect or causal_manifest."""
+        simulation_output = {
+            "arm_results": {
+                "mtd": [{"progressed": False, "ttp": 180.0}],
+                "adaptive": [{"progressed": False, "ttp": 180.0}]
+            }
+        }
+        outcomes_by_arm = {
+            "mtd": {"median_pfs_days": 180.0},
+            "adaptive": {"median_pfs_days": 180.0}
+        }
+        res = CounterfactualComparator.compare_arms(
+            simulation_output=simulation_output,
+            outcomes_by_arm=outcomes_by_arm,
+            control_arm="mtd"
+        )
+        comparisons = res.get("comparisons", {})
+        adaptive_comp = comparisons.get("adaptive", {})
+
+        # Assert deprecated keys are completely dropped
+        self.assertNotIn("average_treatment_effect", adaptive_comp)
+        self.assertNotIn("causal_manifest", adaptive_comp)
+
+        # Assert modern keys exist
+        self.assertIn("delta_ttp", adaptive_comp)
+        self.assertIn("scenario_manifest", adaptive_comp)
 
 
 if __name__ == '__main__':

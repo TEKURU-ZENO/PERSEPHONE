@@ -116,14 +116,12 @@ class CounterfactualComparator:
                 "hazard_ratio": hr_block,
                 "log_rank_test": log_rank_block,
                 "delta_ttp": uncertainty_block.get("ate_ttp_days"),
-                "average_treatment_effect": uncertainty_block.get("ate_ttp_days"),
                 "delta_toxicity": uncertainty_block.get("delta_toxicity"),
                 "dose_reduction_percent": uncertainty_block.get("dose_reduction_percent"),
                 "therapeutic_efficiency_index": uncertainty_block.get("therapeutic_efficiency_index"),
                 "resistance_emergence_delta_days": uncertainty_block.get("resistance_emergence_delta_days"),
                 "simulated_utility_score": utility_score,
-                "scenario_manifest": ScenarioProvenanceEngine.generate_scenario_manifest(control_arm, arm_id, "delta_TTP"),
-                "causal_manifest": ScenarioProvenanceEngine.generate_scenario_manifest(control_arm, arm_id, "delta_TTP")
+                "scenario_manifest": ScenarioProvenanceEngine.generate_scenario_manifest(control_arm, arm_id, "delta_TTP")
             }
 
             arm_scores.append((arm_id, utility_score))
@@ -145,8 +143,8 @@ class CounterfactualComparator:
                 "utility_score": arm_scores[0][1] if arm_scores else 0.0,
                 "rationale": (
                     f"Arm '{best_arm}' achieved highest multi-objective utility under mechanistic simulation assumptions: "
-                    f"Delta TTP = +{comparisons.get(best_arm, {}).get('delta_ttp', {}).get('value', 0)} days, "
-                    f"Dose Reduction = {comparisons.get(best_arm, {}).get('dose_reduction_percent', {}).get('value', 0)}%."
+                    f"Delta TTP = +{(comparisons.get(best_arm, {}).get('delta_ttp') or {}).get('value', 0)} days, "
+                    f"Dose Reduction = {(comparisons.get(best_arm, {}).get('dose_reduction_percent') or {}).get('value', 0)}%."
                 ),
                 "qualification": "Best-performing under simulated biophysical Lotka-Volterra assumptions; not a clinical recommendation.",
                 "model_version": "counterfactual-v1",

@@ -81,8 +81,7 @@ class CounterfactualReasoningAgent(BaseClinicalAgent):
         blackboard.write("REPRODUCIBILITY_MANIFEST", reproducibility)
 
         top_arm = best_strat.get("arm_id", "adaptive")
-        comp_top = comparisons.get(top_arm, {})
-        ate_val = comp_top.get("average_treatment_effect", {}).get("value", 0.0)
+        ate_val = (comp_top.get("delta_ttp") or comp_top.get("average_treatment_effect") or {}).get("value", 0.0)
         hr_val = comp_top.get("hazard_ratio", {}).get("value", 1.0)
 
         blackboard.add_contribution(self.name, {

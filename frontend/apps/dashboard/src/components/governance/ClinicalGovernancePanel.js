@@ -484,16 +484,16 @@ async function renderConsistencyView(c, patient) {
               Multimodal Discordance Index (D)
             </div>
             <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.75rem;">
-              <div id="discordance-index-val" style="font-size:1.8rem; font-weight:700; color:#22c55e;">0.12</div>
+              <div id="discordance-index-val" style="font-size:1.8rem; font-weight:700; color:#22c55e;">—</div>
               <div style="font-size:0.72rem; color:var(--text-secondary);">
-                Status: <strong style="color:#22c55e;">CONCORDANT (D &lt; 0.35)</strong><br>
-                Genomic, imaging, and kinetic signals align without contradiction.
+                Status: <strong id="discordance-status-label" style="color:var(--text-muted);">AWAITING AUDIT</strong><br>
+                <span id="discordance-subtext">Click 'Re-Audit Drift' to evaluate multimodal concordance and feature stability.</span>
               </div>
             </div>
-            <div style="font-size:0.68rem; color:var(--text-muted); line-height:1.4;">
-              • Genomic Biomarker: BRCA1 mutation predicted sensitivity = 0.88<br>
-              • Radiologic RECIST 1.1: Partial Response (PR), Volume Delta = -25%<br>
-              • Longitudinal Tumor Velocity: -0.05 cm³/day (Decreasing)
+            <div id="discordance-bullets" style="font-size:0.68rem; color:var(--text-muted); line-height:1.4;">
+              • Genomic Biomarker: —<br>
+              • Radiologic RECIST 1.1: —<br>
+              • Longitudinal Tumor Velocity: —
             </div>
           </div>
 
@@ -505,23 +505,23 @@ async function renderConsistencyView(c, patient) {
             <div style="display:flex; flex-direction:column; gap:6px; font-size:0.72rem;">
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span>Baseline Tumor Volume:</span>
-                <span style="color:#22c55e; font-weight:600;">PSI 0.04 (Stable)</span>
+                <span id="psi-vol" style="color:var(--text-muted); font-weight:600;">—</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span>Carrying Capacity K:</span>
-                <span style="color:#22c55e; font-weight:600;">PSI 0.06 (Stable)</span>
+                <span id="psi-k" style="color:var(--text-muted); font-weight:600;">—</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span>Resistant Subclone Fraction:</span>
-                <span style="color:#22c55e; font-weight:600;">PSI 0.08 (Stable)</span>
+                <span id="psi-rf" style="color:var(--text-muted); font-weight:600;">—</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span>TMB mut/Mb:</span>
-                <span style="color:#22c55e; font-weight:600;">PSI 0.05 (Stable)</span>
+                <span id="psi-tmb" style="color:var(--text-muted); font-weight:600;">—</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span>HRD Score:</span>
-                <span style="color:#22c55e; font-weight:600;">PSI 0.03 (Stable)</span>
+                <span id="psi-hrd" style="color:var(--text-muted); font-weight:600;">—</span>
               </div>
             </div>
           </div>
@@ -534,13 +534,67 @@ async function renderConsistencyView(c, patient) {
 
   c.querySelector('#btn-run-drift').addEventListener('click', async () => {
     try {
-      const res = await fetch('/api/v1/python/governance/drift', {
+      const res = await fetch('/api/v1/python/governance/validation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ patient: patient })
       });
       const data = await res.json();
-      console.log('Drift Result:', data);
+      const payload = data.result || data;
+      const consistency = payload.consistency || {};
+      const drift = payload.drift || {};
+      const reports = drift.feature_reports || {};
+
+      const dVal = consistency.discordance_index !== undefined ? consistency.discordance_index.toFixed(2) : '0.00';
+      const dEl = c.querySelector('#discordance-index-val');
+      if (dEl) dEl.textContent = dVal;
+
+      const statusEl = c.querySelector('#discordance-status-label');
+      if (statusEl) {
+        if (consistency.is_concordant) {
+          statusEl.style.color = '#22c55e';
+          statusEl.textContent = 'CONCORDANT (D < 0.35)';
+        } else {
+          statusEl.style.color = '#ef4444';
+          statusEl.textContent = 'DISCORDANT (D \u2265 0.35)';
+        }
+      }
+
+      const subEl = c.querySelector('#discordance-subtext');
+      if (subEl) {
+        subEl.textContent = consistency.is_concordant
+          ? 'Genomic, imaging, and kinetic signals align without contradiction.'
+          : 'Contradiction detected across clinical modalities.';
+      }
+
+      const sigs = consistency.signals || {};
+      const bulletsEl = c.querySelector('#discordance-bullets');
+      if (bulletsEl) {
+        bulletsEl.innerHTML = `
+          \u2022 Genomic Sensitivity: ${sigs.genomic_sensitivity || '\u2014'}<br>
+          \u2022 Radiologic RECIST: ${sigs.imaging_assessment || '\u2014'} (Volume \u0394 = ${sigs.volume_delta_pct !== undefined ? sigs.volume_delta_pct + '%' : '\u2014'})<br>
+          \u2022 Longitudinal Velocity: ${sigs.current_velocity_cm3_per_day !== undefined ? sigs.current_velocity_cm3_per_day + ' cm\u00b3/day' : '\u2014'} (${sigs.velocity_trend || '\u2014'})
+        `;
+      }
+
+      const formatPsi = (rep) => {
+        if (!rep) return '\u2014';
+        const p = rep.psi_index !== undefined ? rep.psi_index.toFixed(2) : '0.00';
+        const stat = rep.is_drifted ? 'DRIFT' : 'Stable';
+        const col = rep.is_drifted ? '#ef4444' : '#22c55e';
+        return `<span style="color:${col}; font-weight:600;">PSI ${p} (${stat})</span>`;
+      };
+
+      const setHtml = (sel, html) => {
+        const el = c.querySelector(sel);
+        if (el) el.innerHTML = html;
+      };
+
+      setHtml('#psi-vol', formatPsi(reports.baseline_tumor_volume));
+      setHtml('#psi-k', formatPsi(reports.carrying_capacity_K));
+      setHtml('#psi-rf', formatPsi(reports.resistant_fraction));
+      setHtml('#psi-tmb', formatPsi(reports.tmb_score));
+      setHtml('#psi-hrd', formatPsi(reports.hrd_score));
     } catch (err) {
       console.error(err);
     }

@@ -137,8 +137,10 @@ export async function run() {
   assert.ok(dred, 'Must include dose_reduction_percent');
   assert.ok(dred.uncertainty, 'Dose reduction must include uncertainty bounds');
 
-  // Scenario / Causal Manifest
-  const causal = adaptiveComp.scenario_manifest || adaptiveComp.causal_manifest;
+  // Scenario Manifest (deprecated causal_manifest and average_treatment_effect dropped)
+  assert.strictEqual(adaptiveComp.causal_manifest, undefined, 'Deprecated causal_manifest must be dropped');
+  assert.strictEqual(adaptiveComp.average_treatment_effect, undefined, 'Deprecated average_treatment_effect must be dropped');
+  const causal = adaptiveComp.scenario_manifest;
   assert.ok(causal, 'Must include scenario_manifest');
   assert.strictEqual(causal.control_arm, 'mtd');
   assert.strictEqual(causal.intervention_arm, 'adaptive');

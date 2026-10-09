@@ -465,7 +465,13 @@ export function initTumorBoard(containerEl) {
 
           <div class="scorecard-column">
             <span class="scorecard-label">Overall Confidence</span>
-            <span class="scorecard-val text-amber">94%</span>
+            <span class="scorecard-val text-amber">${
+              result.overallConfidence != null
+                ? `${Math.round(result.overallConfidence * 100)}%`
+                : (result.agentMetrics && result.agentMetrics.length)
+                  ? `${Math.round((result.agentMetrics.reduce((acc, m) => acc + (m.confidence || 0), 0) / result.agentMetrics.length) * 100)}%`
+                  : '—'
+            }</span>
           </div>
 
           <div class="scorecard-column">
