@@ -32,7 +32,7 @@ export function renderClinicalValidation(containerEl) {
           <!-- LEFT COL: TRAJECTORY OVERLAYS & SCORING -->
           <div class="val-left-column">
             <div class="val-section-card">
-              <h5><i data-lucide="trending-up"></i> Observed Data vs. Calibrated RK4 Simulation</h5>
+              <h5><i data-lucide="trending-up"></i> Synthetic reference trajectory vs. RK4 simulation</h5>
               <div id="val-plot-container" class="val-charts-frame">
                 <div class="empty-terminal-prompt">Click 'Calibrate Simulator Parameters' to fit time series data...</div>
               </div>
@@ -300,25 +300,16 @@ export function renderClinicalValidation(containerEl) {
     const H = 180;
     const padding = 20;
 
-    // Elena Rostova observed timelines
-    const observed = [
-      { x: 0, y: 82.0 },
-      { x: 7, y: 76.5 },
-      { x: 14, y: 68.2 },
-      { x: 28, y: 59.7 },
-      { x: 42, y: 51.1 },
-      { x: 56, y: 44.8 },
-      { x: 70, y: 41.2 },
-      { x: 90, y: 38.5 }
-    ];
+    // Synthetic reference trajectory points from API
+    const refPoints = (validationData && validationData.syntheticReference) || [];
 
     // Scale mapping functions
     const getX = (day) => padding + (day / 90.0) * (W - 2 * padding);
     const getY = (vol) => H - padding - (vol / 90.0) * (H - 2 * padding);
 
-    // Render observed dots
-    const dots = observed.map(pt => `
-      <circle cx="${getX(pt.x).toFixed(1)}" cy="${getY(pt.y).toFixed(1)}" r="4" fill="#f59e0b" />
+    // Render reference points
+    const dots = refPoints.map(pt => `
+      <circle cx="${getX(pt.day != null ? pt.day : pt.x).toFixed(1)}" cy="${getY(pt.volume != null ? pt.volume : pt.y).toFixed(1)}" r="4" fill="#f59e0b" />
     `).join('');
 
     // Generate fitted RK4 line
@@ -361,13 +352,13 @@ export function renderClinicalValidation(containerEl) {
           <!-- Fitted Trajectory Line -->
           <path d="M ${fittedPoints.join(' L ')}" fill="none" stroke="#10b981" stroke-width="2" />
           
-          <!-- Observed Data Dots -->
+          <!-- Synthetic Reference Data Points -->
           ${dots}
         </svg>
         <div class="chart-legend-row">
           <div class="legend-item text-small">
             <span class="legend-dot" style="background:#f59e0b"></span>
-            <span>Observed Cohort Days</span>
+            <span>Synthetic Reference Days</span>
           </div>
           <div class="legend-item text-small">
             <span class="legend-dot" style="background:#10b981"></span>

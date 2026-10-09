@@ -1,8 +1,8 @@
 def load_clinical_cohort_timeline(patient_id):
   """
-  Yields observed longitudinal days and total tumor volumes for calibration fitting.
+  Yields synthetic reference longitudinal days and total tumor volumes for calibration fitting.
   """
-  # Elena Rostova observed tumor shrinkage timeline
+  # Elena Rostova synthetic reference tumor shrinkage timeline
   if patient_id == "patient-a":
     return [
       {"day": 0, "volume": 82.0},

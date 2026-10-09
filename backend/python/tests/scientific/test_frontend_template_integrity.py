@@ -246,6 +246,20 @@ class TestFrontendTemplateIntegrity(unittest.TestCase):
         self.assertIn("delta_ttp", adaptive_comp)
         self.assertIn("scenario_manifest", adaptive_comp)
 
+    def test_validation_tab_has_no_observed_label(self):
+        """ClinicalValidationPanel.js and calibration loader.py must not contain the word 'observed'."""
+        val_path = os.path.join(self.components_dir, "validation", "ClinicalValidationPanel.js")
+        loader_path = os.path.join(REPO_ROOT, "backend", "python", "compute", "clinical_validation", "calibration", "loader.py")
+
+        with open(val_path, "r", encoding="utf-8") as f:
+            val_content = f.read().lower()
+        with open(loader_path, "r", encoding="utf-8") as f:
+            loader_content = f.read().lower()
+
+        self.assertNotIn("observed", val_content, "The word 'observed' must not appear in ClinicalValidationPanel.js")
+        self.assertNotIn("observed", loader_content, "The word 'observed' must not appear in loader.py")
+        self.assertIn("synthetic reference trajectory vs. rk4 simulation", val_content)
+
 
 if __name__ == '__main__':
     unittest.main()

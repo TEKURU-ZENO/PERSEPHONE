@@ -339,6 +339,7 @@ class ComputeRegistry:
     return {
       "calibration": fit_results,
       "metrics": fit_metrics,
+      "syntheticReference": empirical_data,
       "markdownReport": report_md,
       "metadata": metrics
     }
