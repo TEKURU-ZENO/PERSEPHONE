@@ -18,8 +18,9 @@ def run_monte_carlo_uncertainty(patient, fitted_params, samples=50):
   duration = 90
   steps = int(duration / h)
   
-  SS_init = 80.0 if patient.patient_id == 'patient-a' else 70.0
-  SR_init = 2.0 if patient.patient_id == 'patient-a' else 10.0
+  p_params = getattr(patient, 'model_params', {}) or {}
+  SS_init = float(p_params.get('SS_init', 80.0 if getattr(patient, 'patient_id', '') == 'patient-a' else 70.0))
+  SR_init = float(p_params.get('SR_init', 2.0 if getattr(patient, 'patient_id', '') == 'patient-a' else 10.0))
   
   trajectories = []
   

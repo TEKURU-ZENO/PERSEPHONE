@@ -6,6 +6,8 @@ from backend.python.compute.optimization.environment.action_space import get_act
 from backend.python.compute.optimization.environment.reward.composite import CompositeReward
 from backend.python.compute.optimization.environment.constraints.validator import SafetyConstraintValidator
 
+from backend.python.compute.simulation.params import get_default_model_params
+
 class TumorEvolutionEnv:
   """
   Oncology simulation environment conforming to OpenAI Gym step transitions.
@@ -13,24 +15,30 @@ class TumorEvolutionEnv:
   def __init__(self, patient, control_params=None):
     self.patient = patient
     self.control_params = control_params or {}
+    defaults = get_default_model_params()
+    p_params = patient.model_params if hasattr(patient, 'model_params') and patient.model_params else {}
+    if not isinstance(p_params, dict):
+      p_params = {}
     
-    # Base coefficients
-    self.a1 = float(self.control_params.get('alpha1', 0.08 if patient.patient_id == 'patient-a' else 0.06 if patient.patient_id == 'patient-b' else 0.07))
-    self.a2 = float(self.control_params.get('alpha2', 0.045 if patient.patient_id == 'patient-a' else 0.035 if patient.patient_id == 'patient-b' else 0.04))
-    self.K_val = float(self.control_params.get('K', 200.0 if patient.patient_id == 'patient-a' else 150.0 if patient.patient_id == 'patient-b' else 180.0))
-    self.es = float(self.control_params.get('ES', 0.16 if patient.patient_id == 'patient-a' else 0.12 if patient.patient_id == 'patient-b' else 0.10))
-    self.er = float(self.control_params.get('ER', 0.015 if patient.patient_id == 'patient-a' else 0.01 if patient.patient_id == 'patient-b' else 0.015))
-    self.ke = float(self.control_params.get('ke', 0.15))
-    self.beta = float(self.control_params.get('beta', 0.25))
-    self.gamma = float(self.control_params.get('gamma', 0.10))
+    # Base coefficients from model_params or central defaults
+    self.a1 = float(self.control_params.get('alpha1', p_params.get('alpha1', defaults['alpha1'])))
+    self.a2 = float(self.control_params.get('alpha2', p_params.get('alpha2', defaults['alpha2'])))
+    self.K_val = float(self.control_params.get('K', p_params.get('K', defaults['K'])))
+    self.es = float(self.control_params.get('ES', p_params.get('ES', defaults['ES'])))
+    self.er = float(self.control_params.get('ER', p_params.get('ER', defaults['ER'])))
+    self.ke = float(self.control_params.get('ke', p_params.get('ke', defaults['ke'])))
+    self.beta = float(self.control_params.get('beta', p_params.get('beta', defaults['beta'])))
+    self.gamma = float(self.control_params.get('gamma', p_params.get('gamma', defaults['gamma'])))
+    self.aSR = float(self.control_params.get('aSR', p_params.get('aSR', defaults.get('aSR', 1.0))))
+    self.aRS = float(self.control_params.get('aRS', p_params.get('aRS', defaults.get('aRS', 1.0))))
 
     self.duration = int(self.control_params.get('duration', 180))
     self.h = 0.5
     self.max_steps = int(self.duration / self.h)
     
     # Establish initial volumes
-    self.SS_init = 80.0 if patient.patient_id == 'patient-a' else 65.0 if patient.patient_id == 'patient-b' else 70.0
-    self.SR_init = 2.0 if patient.patient_id == 'patient-a' else 15.0 if patient.patient_id == 'patient-b' else 10.0
+    self.SS_init = float(self.control_params.get('SS_init', p_params.get('SS_init', 80.0)))
+    self.SR_init = float(self.control_params.get('SR_init', p_params.get('SR_init', 2.0)))
     self.V0 = self.SS_init + self.SR_init
     self.progression_threshold = self.V0 * 1.2
 

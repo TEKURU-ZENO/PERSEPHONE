@@ -1,8 +1,12 @@
 # Pharmacokinetics (PK) Model
-from shared.math.constants import CLEARANCE_RATE
+from backend.python.compute.simulation.params import get_default_model_params
 
-def evaluate_pk_concentration(current_conc, dose):
+_defaults = get_default_model_params()
+CLEARANCE_RATE = _defaults.get("ke", 0.15)
+
+def evaluate_pk_concentration(current_conc, dose, clearance_rate=None):
   """
   Calculates drug concentration decay and dose additions.
   """
-  return current_conc * (1.0 - CLEARANCE_RATE) + dose
+  ke = clearance_rate if clearance_rate is not None else CLEARANCE_RATE
+  return current_conc * (1.0 - ke) + dose

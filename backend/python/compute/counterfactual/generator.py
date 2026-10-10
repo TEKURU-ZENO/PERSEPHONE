@@ -24,17 +24,21 @@ class SyntheticCohortGenerator:
 
         rng = random.Random(seed)
 
+        from backend.python.compute.simulation.params import get_default_model_params
+        defaults = get_default_model_params()
+        p_params = data.get("modelParams") or data.get("model_params") or {}
+
         # Baseline parameters anchored to patient profile
-        base_v0 = float(data.get("tumor_volume", 82.0 if patient_id == "patient-a" else 65.0))
-        base_fr = 0.05 if patient_id == "patient-a" else 0.12
-        base_alpha1 = 0.08
-        base_alpha2 = 0.045
-        base_k = 200.0
-        base_es = 0.18 if is_hrd else 0.10
-        base_er = 0.015
-        base_ke = 0.15
-        base_beta = 0.25
-        base_gamma = 0.10
+        base_v0 = float(data.get("tumor_volume", p_params.get("V0", p_params.get("SS_init", 80.0) + p_params.get("SR_init", 2.0 if patient_id == "patient-a" else 15.0))))
+        base_fr = float(p_params.get("resistant_ratio", (p_params.get("SR_init", 2.0) / max(0.01, base_v0)) if "SR_init" in p_params else (0.05 if patient_id == "patient-a" else 0.12)))
+        base_alpha1 = float(p_params.get("alpha1", defaults["alpha1"]))
+        base_alpha2 = float(p_params.get("alpha2", defaults["alpha2"]))
+        base_k = float(p_params.get("K", defaults["K"]))
+        base_es = float(p_params.get("ES", 0.18 if is_hrd else 0.10))
+        base_er = float(p_params.get("ER", defaults["ER"]))
+        base_ke = float(p_params.get("ke", defaults["ke"]))
+        base_beta = float(p_params.get("beta", defaults["beta"]))
+        base_gamma = float(p_params.get("gamma", defaults["gamma"]))
 
         base_hrd = 52.0 if is_hrd else 24.0
         base_tmb = 7.5

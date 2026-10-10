@@ -10,6 +10,7 @@
  */
 
 import { parameterRegistry } from '../data/parameters.js';
+import { patients } from '../data/patients.js';
 
 export const SimulatorService = {
   // Coupled ODE system derivatives
@@ -27,13 +28,13 @@ export const SimulatorService = {
     const ke = params.ke;         // Drug elimination constant
     const beta = params.beta;     // Toxicity accumulation constant
     const gamma = params.gamma;   // Toxicity clearance constant
-
-    const totalV = SS + SR;
+    const aSR = params.aSR !== undefined ? params.aSR : 1.0;
+    const aRS = params.aRS !== undefined ? params.aRS : 1.0;
 
     // Lotka-Volterra competitive logistic growth with selective drug pressure
-    // Incorporates spatial competition through (1 - totalV / K)
-    const dSS_dt = alpha1 * SS * (1 - totalV / K) - d * ES * SS;
-    const dSR_dt = alpha2 * SR * (1 - totalV / K) - d * ER * SR;
+    // Incorporates cross-competition through (1 - (SS + aSR * SR) / K) and (1 - (SR + aRS * SS) / K)
+    const dSS_dt = alpha1 * SS * (1 - (SS + aSR * SR) / K) - d * ES * SS;
+    const dSR_dt = alpha2 * SR * (1 - (SR + aRS * SS) / K) - d * ER * SR;
 
     // Pharmacokinetics (PK) clearing
     const dd_dt = dose - ke * d;
@@ -66,13 +67,18 @@ export const SimulatorService = {
 
   // Simulates a full trajectory over a set duration (e.g. 180 days)
   async simulateTrajectory(patient, strategy, controlParams = {}) {
+    const pModel = (patient && (patient.modelParams || patient.model_params)) || (patient && patients[patient.id]?.modelParams) || {};
+    const patientPayload = {
+      ...patient,
+      modelParams: pModel
+    };
     try {
       const response = await fetch('/api/v1/python/simulation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ patient, strategy, controlParams })
+        body: JSON.stringify({ patient: patientPayload, strategy, controlParams })
       });
       if (response.ok) {
         const payload = await response.json();
@@ -98,7 +104,7 @@ export const SimulatorService = {
     } catch (err) {
       // Fallback below
     }
-    return this.simulateTrajectoryJS(patient, strategy, controlParams);
+    return this.simulateTrajectoryJS(patientPayload, strategy, controlParams);
   },
 
   simulateTrajectoryJS(patient, strategy, controlParams = {}) {
@@ -106,21 +112,25 @@ export const SimulatorService = {
     const h = 0.5; // step size (in days)
     const steps = duration / h;
 
-    // Patient baseline parameters, calibrated from the Parameter Registry
+    const pModel = (patient && (patient.modelParams || patient.model_params)) || (patient && patients[patient.id]?.modelParams) || {};
+
+    // Patient baseline parameters, loaded from patient.modelParams or registry defaults
     const params = {
-      alpha1: controlParams.alpha1 || (patient.id === 'patient-a' ? parameterRegistry.alpha1.value : patient.id === 'patient-b' ? 0.06 : 0.07),
-      alpha2: controlParams.alpha2 || (patient.id === 'patient-a' ? parameterRegistry.alpha2.value : patient.id === 'patient-b' ? 0.035 : 0.04), // Fitness cost (alpha2 < alpha1)
-      K: controlParams.K || (patient.id === 'patient-a' ? parameterRegistry.K.value : patient.id === 'patient-b' ? 150 : 180),
-      ES: controlParams.ES !== undefined ? controlParams.ES : (patient.id === 'patient-a' ? parameterRegistry.ES.value : patient.id === 'patient-b' ? 0.12 : 0.10),
-      ER: controlParams.ER !== undefined ? controlParams.ER : (patient.id === 'patient-a' ? parameterRegistry.ER.value : patient.id === 'patient-b' ? 0.01 : 0.015),
-      ke: controlParams.ke || parameterRegistry.ke.value,
-      beta: controlParams.beta || parameterRegistry.beta.value,
-      gamma: controlParams.gamma || parameterRegistry.gamma.value
+      alpha1: controlParams.alpha1 !== undefined ? controlParams.alpha1 : (pModel.alpha1 !== undefined ? pModel.alpha1 : parameterRegistry.alpha1.value),
+      alpha2: controlParams.alpha2 !== undefined ? controlParams.alpha2 : (pModel.alpha2 !== undefined ? pModel.alpha2 : parameterRegistry.alpha2.value),
+      K: controlParams.K !== undefined ? controlParams.K : (pModel.K !== undefined ? pModel.K : parameterRegistry.K.value),
+      ES: controlParams.ES !== undefined ? controlParams.ES : (pModel.ES !== undefined ? pModel.ES : parameterRegistry.ES.value),
+      ER: controlParams.ER !== undefined ? controlParams.ER : (pModel.ER !== undefined ? pModel.ER : parameterRegistry.ER.value),
+      ke: controlParams.ke !== undefined ? controlParams.ke : (pModel.ke !== undefined ? pModel.ke : parameterRegistry.ke.value),
+      beta: controlParams.beta !== undefined ? controlParams.beta : (pModel.beta !== undefined ? pModel.beta : parameterRegistry.beta.value),
+      gamma: controlParams.gamma !== undefined ? controlParams.gamma : (pModel.gamma !== undefined ? pModel.gamma : parameterRegistry.gamma.value),
+      aSR: controlParams.aSR !== undefined ? controlParams.aSR : (pModel.aSR !== undefined ? pModel.aSR : 1.0),
+      aRS: controlParams.aRS !== undefined ? controlParams.aRS : (pModel.aRS !== undefined ? pModel.aRS : 1.0)
     };
 
     // Initial State y0 = [SS, SR, drug, toxicity]
-    let SS_init = patient.id === 'patient-a' ? 80 : patient.id === 'patient-b' ? 65 : 70;
-    let SR_init = patient.id === 'patient-a' ? 2.0 : patient.id === 'patient-b' ? 15.0 : 10.0;
+    let SS_init = controlParams.SS_init !== undefined ? controlParams.SS_init : (pModel.SS_init !== undefined ? pModel.SS_init : 80.0);
+    let SR_init = controlParams.SR_init !== undefined ? controlParams.SR_init : (pModel.SR_init !== undefined ? pModel.SR_init : 2.0);
     
     // Override defaults with custom controls if provided
     if (controlParams.initialResistantRatio !== undefined) {

@@ -19,6 +19,22 @@ export const patients = {
     priorTherapies: ["carboplatin", "paclitaxel"],
     clinicalSummary: "Patient presented with abdominal distension and elevated CA-125 (1240 U/mL) in Nov 2025. Underwent primary cytoreductive surgery on Dec 12, 2025, resulting in optimal cytoreduction (<1cm residual disease). Initiated adjuvant carboplatin/paclitaxel chemotherapy. System is modeling potential BRCA1 reversion mutations and PARP-inhibitor susceptibility.",
     
+    // Mechanistic Biophysical Model Parameters
+    modelParams: {
+      alpha1: 0.08,
+      alpha2: 0.045,
+      K: 200.0,
+      ES: 0.16,
+      ER: 0.015,
+      ke: 0.15,
+      beta: 0.25,
+      gamma: 0.10,
+      aSR: 1.0,
+      aRS: 1.0,
+      SS_init: 80.0,
+      SR_init: 2.0
+    },
+
     // Genomic profile
     genomics: {
       tumorMutationalBurden: "4.8 mut/Mb",
@@ -112,6 +128,22 @@ export const patients = {
     priorTherapies: ["osimertinib"],
     clinicalSummary: "Patient was diagnosed with EGFR-mutant (p.Leu858Arg) lung adenocarcinoma in Mar 2025. Received first-line Osimertinib (Tagrisso 80mg daily) per FLAURA protocol with initial robust response (50% tumor regression). Progressed in Dec 2025 with increasing dyspnea and new osteolytic lesions in the lumbar spine (L3-L4). Re-biopsy and NGS confirmed acquired high-level MET amplification (CN=12) mediating bypass resistance to osimertinib (no T790M). Evolutionary models indicate rapid expansion of the MET-amplified clone under third-generation EGFR TKI selective pressure.",
     
+    // Mechanistic Biophysical Model Parameters
+    modelParams: {
+      alpha1: 0.06,
+      alpha2: 0.035,
+      K: 150.0,
+      ES: 0.12,
+      ER: 0.01,
+      ke: 0.15,
+      beta: 0.25,
+      gamma: 0.10,
+      aSR: 1.0,
+      aRS: 1.0,
+      SS_init: 65.0,
+      SR_init: 15.0
+    },
+
     // Genomic profile
     genomics: {
       tumorMutationalBurden: "3.2 mut/Mb",
@@ -205,6 +237,22 @@ export const patients = {
     priorTherapies: ["FOLFIRI", "bevacizumab"],
     clinicalSummary: "Patient diagnosed with metastatic colon cancer in Aug 2025. Somatic sequencing revealed KRAS G12D (p.Gly12Asp) mutation, precluding anti-EGFR therapy (e.g. Cetuximab/Panitumumab). Started first-line FOLFIRI + Bevacizumab. Restaging imaging shows stable primary rectosigmoid tumor and a 15% volume increase in segment IV liver metastases (corresponding to ~4.8% diameter expansion, which is Stable Disease [SD] per RECIST 1.1 criteria). Recommended to continue current FOLFIRI + Bevacizumab therapy while monitoring. Later-line FDA-approved options upon progression include trifluridine/tipiracil (Lonsurf) ± bevacizumab, regorafenib, or fruquintinib. Screen for active investigational G12D or pan-RAS(ON) clinical trials.",
     
+    // Mechanistic Biophysical Model Parameters
+    modelParams: {
+      alpha1: 0.07,
+      alpha2: 0.04,
+      K: 180.0,
+      ES: 0.10,
+      ER: 0.015,
+      ke: 0.15,
+      beta: 0.25,
+      gamma: 0.10,
+      aSR: 1.0,
+      aRS: 1.0,
+      SS_init: 70.0,
+      SR_init: 10.0
+    },
+
     // Genomic profile
     genomics: {
       tumorMutationalBurden: "6.1 mut/Mb",

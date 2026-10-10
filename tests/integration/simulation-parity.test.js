@@ -14,7 +14,21 @@ export async function run() {
     id: "patient-a",
     name: "Elena Rostova",
     stage: "Stage IIIC",
-    diagnosis: "Ovarian Cancer"
+    diagnosis: "Ovarian Cancer",
+    modelParams: {
+      alpha1: 0.08,
+      alpha2: 0.045,
+      K: 200.0,
+      ES: 0.16,
+      ER: 0.015,
+      ke: 0.15,
+      beta: 0.25,
+      gamma: 0.10,
+      aSR: 1.0,
+      aRS: 1.0,
+      SS_init: 80.0,
+      SR_init: 2.0
+    }
   };
 
   const strategy = "adaptive";
@@ -48,6 +62,7 @@ export async function run() {
 
   let sumSqErr = 0.0;
   let sumAbsErr = 0.0;
+  let maxAbsErr = 0.0;
 
   for (let i = 0; i < N; i++) {
     const jsPt = jsResult.timeline[i];
@@ -57,16 +72,18 @@ export async function run() {
     const err = jsPt.totalVolume - pyPt.totalVolume;
     sumSqErr += err * err;
     sumAbsErr += Math.abs(err);
+    if (Math.abs(err) > maxAbsErr) maxAbsErr = Math.abs(err);
   }
 
   const rmse = Math.sqrt(sumSqErr / N);
   const mae = sumAbsErr / N;
 
-  console.log(`    Parity Profile - RMSE: ${rmse.toFixed(6)} | MAE: ${mae.toFixed(6)}`);
+  console.log(`    Parity Profile - RMSE: ${rmse.toFixed(8)} | MAE: ${mae.toFixed(8)} | MaxErr: ${maxAbsErr.toExponential(4)}`);
 
-  // Assertions (target tolerance: < 0.01)
-  assert.ok(rmse < 0.01, `RMSE parity check failed: ${rmse}`);
-  assert.ok(mae < 0.01, `MAE parity check failed: ${mae}`);
+  // Assertions (target tolerance: max error < 1e-6)
+  assert.ok(maxAbsErr < 1e-6, `Max difference parity check failed: ${maxAbsErr} >= 1e-6`);
+  assert.ok(rmse < 1e-6, `RMSE parity check failed: ${rmse}`);
+  assert.ok(mae < 1e-6, `MAE parity check failed: ${mae}`);
 
   console.log('  ✔ simulation-parity.test.js passed');
 }

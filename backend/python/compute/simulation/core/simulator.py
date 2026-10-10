@@ -1,8 +1,9 @@
 # Core Trajectory Simulator Coordinator
 from backend.python.compute.simulation.solvers.rk4 import rk4_step
 from backend.python.compute.common.models.simulation import SimulationResult
+from backend.python.compute.simulation.params import get_default_model_params
 
-def system_derivatives(t, y, alpha1, alpha2, K, ES, ER, ke, beta, gamma, dose):
+def system_derivatives(t, y, alpha1, alpha2, K, ES, ER, ke, beta, gamma, dose, aSR=1.0, aRS=1.0):
   """
   Calculates continuous-time derivative vectors:
   y = [sensitive, resistant, concentration, toxicity]
@@ -11,11 +12,10 @@ def system_derivatives(t, y, alpha1, alpha2, K, ES, ER, ke, beta, gamma, dose):
   SR = y[1]
   d = y[2]
   T = y[3]
-  total = SS + SR
 
-  # Competitive Lotka-Volterra growth
-  dSS = alpha1 * SS * (1.0 - total / K) - d * ES * SS
-  dSR = alpha2 * SR * (1.0 - total / K) - d * ER * SR
+  # Competitive Lotka-Volterra growth with cross-competition
+  dSS = alpha1 * SS * (1.0 - (SS + aSR * SR) / K) - d * ES * SS
+  dSR = alpha2 * SR * (1.0 - (SR + aRS * SS) / K) - d * ER * SR
 
   # PK clearing
   dd = dose - ke * d
@@ -29,9 +29,14 @@ def simulate_trajectory(patient, strategy, control_params):
   """
   Runs a daily step trajectory projection.
   """
+  defaults = get_default_model_params()
+  p_params = patient.model_params if hasattr(patient, 'model_params') and patient.model_params else {}
+  if not isinstance(p_params, dict):
+    p_params = {}
+
   # Patient initial setup
-  SS_init = 80.0 if patient.patient_id == 'patient-a' else 65.0 if patient.patient_id == 'patient-b' else 70.0
-  SR_init = 2.0 if patient.patient_id == 'patient-a' else 15.0 if patient.patient_id == 'patient-b' else 10.0
+  SS_init = float(control_params.get('SS_init', p_params.get('SS_init', 80.0)))
+  SR_init = float(control_params.get('SR_init', p_params.get('SR_init', 2.0)))
 
   if control_params.get('initialResistantRatio') is not None:
     total_vol = SS_init + SR_init
@@ -46,16 +51,17 @@ def simulate_trajectory(patient, strategy, control_params):
   mtd_dose = float(control_params.get('mtdDose', 10.0))
   interval = int(control_params.get('dosingInterval', 7))
 
-  # Resolve parameter coefficients
-  a1 = float(control_params.get('alpha1', 0.08 if patient.patient_id == 'patient-a' else 0.06 if patient.patient_id == 'patient-b' else 0.07))
-  a2 = float(control_params.get('alpha2', 0.045 if patient.patient_id == 'patient-a' else 0.035 if patient.patient_id == 'patient-b' else 0.04))
-  K_val = float(control_params.get('K', 200.0 if patient.patient_id == 'patient-a' else 150.0 if patient.patient_id == 'patient-b' else 180.0))
-  es = float(control_params.get('ES', 0.16 if patient.patient_id == 'patient-a' else 0.12 if patient.patient_id == 'patient-b' else 0.10))
-  er = float(control_params.get('ER', 0.015 if patient.patient_id == 'patient-a' else 0.01 if patient.patient_id == 'patient-b' else 0.015))
-  
-  ke = float(control_params.get('ke', 0.15))
-  beta = float(control_params.get('beta', 0.25))
-  gamma = float(control_params.get('gamma', 0.10))
+  # Resolve parameter coefficients without hardcoded patient ID ternaries
+  a1 = float(control_params.get('alpha1', p_params.get('alpha1', defaults['alpha1'])))
+  a2 = float(control_params.get('alpha2', p_params.get('alpha2', defaults['alpha2'])))
+  K_val = float(control_params.get('K', p_params.get('K', defaults['K'])))
+  es = float(control_params.get('ES', p_params.get('ES', defaults['ES'])))
+  er = float(control_params.get('ER', p_params.get('ER', defaults['ER'])))
+  ke = float(control_params.get('ke', p_params.get('ke', defaults['ke'])))
+  beta = float(control_params.get('beta', p_params.get('beta', defaults['beta'])))
+  gamma = float(control_params.get('gamma', p_params.get('gamma', defaults['gamma'])))
+  aSR = float(control_params.get('aSR', p_params.get('aSR', defaults.get('aSR', 1.0))))
+  aRS = float(control_params.get('aRS', p_params.get('aRS', defaults.get('aRS', 1.0))))
 
   h = 0.5
   steps = int(duration / h)
@@ -97,16 +103,16 @@ def simulate_trajectory(patient, strategy, control_params):
 
     timeline.append({
       "day": t,
-      "sensitive": round(y[0], 4),
-      "resistant": round(y[1], 4),
-      "totalVolume": round(total_vol, 4),
-      "drugConcentration": round(y[2], 5),
-      "toxicity": round(y[3], 4),
+      "sensitive": y[0],
+      "resistant": y[1],
+      "totalVolume": total_vol,
+      "drugConcentration": y[2],
+      "toxicity": y[3],
       "dose": current_dose
     })
 
     # Perform RK4 step integration
-    y = rk4_step(system_derivatives, t, y, h, a1, a2, K_val, es, er, ke, beta, gamma, current_dose)
+    y = rk4_step(system_derivatives, t, y, h, a1, a2, K_val, es, er, ke, beta, gamma, current_dose, aSR, aRS)
 
   return SimulationResult(
     timeline=timeline,
