@@ -42,3 +42,6 @@ __pycache__/
 *$py.class
 *.pt.backup
 
+# External downloaded clinical datasets (git-ignored)
+data/
+
