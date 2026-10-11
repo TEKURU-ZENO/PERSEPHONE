@@ -68,6 +68,16 @@ class SCRHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
       return
 
+    elif clean_path == '/api/v1/python/validation/ias-benchmark':
+      try:
+        response = ComputeRegistry.run_validation_ias_benchmark()
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
     self._set_headers(404)
     self.wfile.write(json.dumps({"error": f"Route not found: {self.path}"}).encode('utf-8'))
 

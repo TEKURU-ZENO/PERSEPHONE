@@ -26,6 +26,9 @@ export function renderClinicalValidation(containerEl) {
           <button id="btn-run-ablation" class="btn-secondary-action">
             <i data-lucide="alert-triangle"></i> <span>Run Ablation Sweep</span>
           </button>
+          <button id="btn-load-ias-benchmark" class="btn-secondary-action">
+            <i data-lucide="database"></i> <span>Prostate Cancer IAS Benchmark (Bruchovsky 2006, Patient #1)</span>
+          </button>
         </div>
 
         <div class="validation-main-layout">
@@ -63,6 +66,17 @@ export function renderClinicalValidation(containerEl) {
             </div>
           </div>
         </div>
+
+        <!-- REAL BENCHMARK SECTION: BRUCHOVSKY 2006 / TANAKA 2010 -->
+        <div class="val-section-card" id="ias-benchmark-card" style="margin-top: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h5><i data-lucide="database"></i> Prostate Cancer IAS Benchmark (Bruchovsky 2006, Patient #1)</h5>
+            <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">Authentic Longitudinal Human Trial</span>
+          </div>
+          <div id="ias-benchmark-workspace">
+            <div class="empty-terminal-prompt">Click 'Prostate Cancer IAS Benchmark' to fetch authentic human clinical fit and 95% CIs...</div>
+          </div>
+        </div>
       </div>
     `;
 
@@ -72,6 +86,7 @@ export function renderClinicalValidation(containerEl) {
     containerEl.querySelector('#btn-run-calibration').addEventListener('click', runCalibration);
     containerEl.querySelector('#btn-run-uncertainty').addEventListener('click', runUncertainty);
     containerEl.querySelector('#btn-run-ablation').addEventListener('click', runAblation);
+    containerEl.querySelector('#btn-load-ias-benchmark').addEventListener('click', loadIASBenchmark);
   }
 
   async function runCalibration() {
@@ -373,6 +388,141 @@ export function renderClinicalValidation(containerEl) {
         </div>
       </div>
     `;
+  }
+
+  async function loadIASBenchmark() {
+    const ws = containerEl.querySelector('#ias-benchmark-workspace');
+    if (!ws) return;
+
+    ws.innerHTML = `<div class="loading-spinner">Fetching authentic Bruchovsky 2006 Patient #1 fit from SCR...</div>`;
+
+    try {
+      const response = await fetch('/api/v1/python/validation/ias-benchmark');
+      if (!response.ok) {
+        throw new Error('Failed to fetch IAS benchmark data.');
+      }
+      const data = await response.json();
+      renderIASBenchmark(ws, data);
+    } catch (err) {
+      console.error(err);
+      ws.innerHTML = `<div class="text-red">Error loading IAS benchmark: ${err.message}</div>`;
+    }
+  }
+
+  function renderIASBenchmark(container, data) {
+    const fitP = data.fittedParameters || {};
+    const cis = data.confidenceIntervals95 || {};
+    const pts = data.clinicalMeasurements || [];
+    const traj = data.predictedTrajectory || [];
+    const rmse = data.logPsaRmse != null ? Number(data.logPsaRmse).toFixed(4) : '—';
+    const condNum = data.conditionNumber != null ? Number(data.conditionNumber).toExponential(2) : '—';
+
+    const W = 450;
+    const H = 180;
+    const pad = 25;
+
+    const maxDay = Math.max(380, ...pts.map(p => p.day || 0), ...traj.map(t => t.day || 0));
+    const maxPsa = Math.max(30, ...pts.map(p => p.psa_obs != null ? p.psa_obs : p.psa || 0));
+
+    const getX = (d) => pad + (d / maxDay) * (W - 2 * pad);
+    const getY = (v) => H - pad - (v / maxPsa) * (H - 2 * pad);
+
+    const dots = pts.map(p => {
+      const dayVal = p.day != null ? p.day : 0;
+      const psaVal = p.psa_obs != null ? p.psa_obs : (p.psa != null ? p.psa : 0);
+      return `<circle cx="${getX(dayVal).toFixed(1)}" cy="${getY(psaVal).toFixed(1)}" r="4" fill="#f59e0b"><title>Day ${dayVal}: ${psaVal} ng/mL</title></circle>`;
+    }).join('');
+
+    const pathPoints = traj.map(t => {
+      const dayVal = t.day != null ? t.day : 0;
+      const psaVal = t.psa_pred != null ? t.psa_pred : (t.psa != null ? t.psa : 0);
+      return `${getX(dayVal).toFixed(1)},${getY(psaVal).toFixed(1)}`;
+    });
+    const curvePath = pathPoints.length > 0 ? `M ${pathPoints.join(' L ')}` : '';
+
+    container.innerHTML = `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+        <div class="val-section-card" style="margin: 0; background: rgba(0,0,0,0.2);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="text-small"><strong>Trajectory Fit (Cycle 1)</strong></span>
+            <span class="badge" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4; font-size: 0.7rem;">Log-PSA RMSE: ${rmse}</span>
+          </div>
+          <svg viewBox="0 0 ${W} ${H}" class="opt-svg-canvas" style="width: 100%; height: auto;">
+            <line x1="${pad}" y1="${H - pad}" x2="${W - pad}" y2="${H - pad}" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+            <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${H - pad}" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+            ${curvePath ? `<path d="${curvePath}" fill="none" stroke="#10b981" stroke-width="2" />` : ''}
+            ${dots}
+          </svg>
+          <div class="chart-legend-row" style="margin-top: 0.5rem;">
+            <div class="legend-item text-small">
+              <span class="legend-dot" style="background:#f59e0b"></span>
+              <span>Clinical PSA Visits (ng/mL)</span>
+            </div>
+            <div class="legend-item text-small">
+              <span class="legend-dot" style="background:#10b981"></span>
+              <span>Lotka-Volterra Model Fit</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="val-section-card" style="margin: 0; background: rgba(0,0,0,0.2);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="text-small"><strong>Fitted Biophysical Parameters & 95% CIs</strong></span>
+            <span class="text-small text-muted">κ(J) = ${condNum}</span>
+          </div>
+          <table class="val-ablation-table text-small" style="width: 100%; font-size: 0.75rem;">
+            <thead>
+              <tr>
+                <th>Param</th>
+                <th>Estimate</th>
+                <th>95% CI</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>alpha1 (r_S)</code></td>
+                <td><strong>${fitP.alpha1 != null ? Number(fitP.alpha1).toFixed(4) : '—'}</strong></td>
+                <td>[${cis.alpha1 ? cis.alpha1[0].toFixed(3) : '—'}, ${cis.alpha1 ? cis.alpha1[1].toFixed(3) : '—'}]</td>
+                <td><span class="text-amber">Collinear (ES)</span></td>
+              </tr>
+              <tr>
+                <td><code>alpha2 (r_R)</code></td>
+                <td><strong>${fitP.alpha2 != null ? Number(fitP.alpha2).toFixed(4) : '—'}</strong></td>
+                <td>[${cis.alpha2 ? cis.alpha2[0].toFixed(3) : '—'}, ${cis.alpha2 ? cis.alpha2[1].toFixed(3) : '—'}]</td>
+                <td><span class="text-amber">Collinear (aRS)</span></td>
+              </tr>
+              <tr>
+                <td><code>ES (k_S)</code></td>
+                <td><strong>${fitP.ES != null ? Number(fitP.ES).toFixed(4) : '—'}</strong></td>
+                <td>[${cis.ES ? cis.ES[0].toFixed(3) : '—'}, ${cis.ES ? cis.ES[1].toFixed(3) : '—'}]</td>
+                <td><span class="text-amber">Collinear (r_S)</span></td>
+              </tr>
+              <tr>
+                <td><code>aRS</code></td>
+                <td><strong>${fitP.aRS != null ? Number(fitP.aRS).toFixed(4) : '—'}</strong></td>
+                <td>[${cis.aRS ? cis.aRS[0].toFixed(3) : '—'}, ${cis.aRS ? cis.aRS[1].toFixed(3) : '—'}]</td>
+                <td><span class="text-muted">Profile Flat</span></td>
+              </tr>
+              <tr>
+                <td><code>aSR</code></td>
+                <td><strong>${fitP.aSR != null ? Number(fitP.aSR).toFixed(4) : '—'}</strong></td>
+                <td>[${cis.aSR ? cis.aSR[0].toFixed(3) : '—'}, ${cis.aSR ? cis.aSR[1].toFixed(3) : '—'}]</td>
+                <td><span class="text-muted">Boundary</span></td>
+              </tr>
+              <tr>
+                <td><code>f_R</code></td>
+                <td><strong>${fitP.f_R != null ? Number(fitP.f_R).toFixed(5) : '—'}</strong></td>
+                <td>[${cis.f_R ? cis.f_R[0].toFixed(5) : '—'}, ${cis.f_R ? cis.f_R[1].toFixed(5) : '—'}]</td>
+                <td><span class="text-amber">Collinear (aRS)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
   // Subscribe to active twin updates

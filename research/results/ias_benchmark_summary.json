@@ -1,0 +1,911 @@
+{
+  "metadata": {
+    "git_commit": "5b0e3f93130a012bc53f02de26d41681b61dc38d",
+    "random_seed": 42,
+    "command": "python scripts/run_phase3.py --restarts 10 --seed 42 --benchmark-patients 5 --trial-patients 5",
+    "timestamp": "2026-10-11T18:22:41.492868+00:00",
+    "runtime_seconds": 62.73
+  },
+  "patient1_fit": {
+    "patient_id": "1",
+    "cohort": "Bruchovsky_et_al",
+    "log_psa_rmse": 0.3857,
+    "fitted_parameters": {
+      "alpha1": 0.034911,
+      "alpha2": 0.01,
+      "ES": 0.054107,
+      "aRS": 1.999994,
+      "aSR": 2.0,
+      "f_R": 0.005021
+    },
+    "confidence_intervals_95": {
+      "alpha1": [
+        0.01,
+        0.15
+      ],
+      "alpha2": [
+        0.01,
+        0.070998
+      ],
+      "ES": [
+        0.05,
+        0.25
+      ],
+      "aRS": [
+        0.1,
+        2.0
+      ],
+      "aSR": [
+        0.1,
+        2.0
+      ],
+      "f_R": [
+        1e-05,
+        0.2
+      ]
+    },
+    "condition_number": 5398894.41,
+    "collinear_pairs": [
+      {
+        "param1": "alpha1",
+        "param2": "ES",
+        "correlation": 0.9995
+      },
+      {
+        "param1": "alpha1",
+        "param2": "aSR",
+        "correlation": 0.9795
+      },
+      {
+        "param1": "alpha2",
+        "param2": "aRS",
+        "correlation": 0.9658
+      },
+      {
+        "param1": "alpha2",
+        "param2": "f_R",
+        "correlation": 0.9633
+      },
+      {
+        "param1": "ES",
+        "param2": "aSR",
+        "correlation": 0.9725
+      },
+      {
+        "param1": "aRS",
+        "param2": "f_R",
+        "correlation": 1.0
+      }
+    ],
+    "unidentifiable_parameters": [
+      "ES",
+      "aRS",
+      "aSR",
+      "alpha1",
+      "alpha2",
+      "f_R"
+    ],
+    "profile_likelihoods": {
+      "alpha1": {
+        "grid": [
+          0.017456,
+          0.026183,
+          0.034911,
+          0.043639,
+          0.052367
+        ],
+        "losses": [
+          3.113451,
+          2.160334,
+          1.934471,
+          1.989123,
+          2.15756
+        ],
+        "relative_variation": 0.6095,
+        "is_flat": false
+      },
+      "alpha2": {
+        "grid": [
+          0.01,
+          0.01125,
+          0.0125,
+          0.01375,
+          0.015
+        ],
+        "losses": [
+          1.934471,
+          2.11115,
+          2.289771,
+          2.473817,
+          2.663393
+        ],
+        "relative_variation": 0.3768,
+        "is_flat": false
+      },
+      "aRS": {
+        "grid": [
+          0.999997,
+          1.249998,
+          1.499999,
+          1.749999,
+          2.0
+        ],
+        "losses": [
+          1.936033,
+          1.935625,
+          1.935297,
+          1.934862,
+          1.934471
+        ],
+        "relative_variation": 0.0008,
+        "is_flat": true
+      }
+    },
+    "parameter_correlation_matrix": [
+      [
+        1.0,
+        -0.7834,
+        0.9995,
+        -0.7495,
+        0.9795,
+        -0.7461
+      ],
+      [
+        -0.7834,
+        1.0,
+        -0.7673,
+        0.9658,
+        -0.8696,
+        0.9633
+      ],
+      [
+        0.9995,
+        -0.7673,
+        1.0,
+        -0.7285,
+        0.9725,
+        -0.7249
+      ],
+      [
+        -0.7495,
+        0.9658,
+        -0.7285,
+        1.0,
+        -0.8634,
+        1.0
+      ],
+      [
+        0.9795,
+        -0.8696,
+        0.9725,
+        -0.8634,
+        1.0,
+        -0.861
+      ],
+      [
+        -0.7461,
+        0.9633,
+        -0.7249,
+        1.0,
+        -0.861,
+        1.0
+      ]
+    ],
+    "parameter_names": [
+      "alpha1",
+      "alpha2",
+      "ES",
+      "aRS",
+      "aSR",
+      "f_R"
+    ],
+    "observed_psa": [
+      {
+        "day": 0.0,
+        "psa_obs": 29.0
+      },
+      {
+        "day": 28.0,
+        "psa_obs": 7.4
+      },
+      {
+        "day": 56.0,
+        "psa_obs": 4.6
+      },
+      {
+        "day": 84.0,
+        "psa_obs": 3.5
+      },
+      {
+        "day": 140.0,
+        "psa_obs": 2.4
+      },
+      {
+        "day": 168.0,
+        "psa_obs": 2.3
+      },
+      {
+        "day": 196.0,
+        "psa_obs": 2.5
+      },
+      {
+        "day": 224.0,
+        "psa_obs": 1.9
+      },
+      {
+        "day": 252.0,
+        "psa_obs": 2.0
+      },
+      {
+        "day": 280.0,
+        "psa_obs": 1.3
+      },
+      {
+        "day": 308.0,
+        "psa_obs": 2.5
+      },
+      {
+        "day": 336.0,
+        "psa_obs": 3.7
+      },
+      {
+        "day": 364.0,
+        "psa_obs": 5.9
+      }
+    ],
+    "predicted_psa": [
+      {
+        "day": 0.0,
+        "psa_pred": 29.0,
+        "sensitive": 28.85,
+        "resistant": 0.15
+      },
+      {
+        "day": 28.0,
+        "psa_pred": 15.36,
+        "sensitive": 15.18,
+        "resistant": 0.18
+      },
+      {
+        "day": 56.0,
+        "psa_pred": 8.6,
+        "sensitive": 8.37,
+        "resistant": 0.23
+      },
+      {
+        "day": 84.0,
+        "psa_pred": 5.03,
+        "sensitive": 4.73,
+        "resistant": 0.3
+      },
+      {
+        "day": 140.0,
+        "psa_pred": 2.08,
+        "sensitive": 1.56,
+        "resistant": 0.52
+      },
+      {
+        "day": 168.0,
+        "psa_pred": 1.58,
+        "sensitive": 0.9,
+        "resistant": 0.69
+      },
+      {
+        "day": 196.0,
+        "psa_pred": 1.42,
+        "sensitive": 0.52,
+        "resistant": 0.9
+      },
+      {
+        "day": 224.0,
+        "psa_pred": 1.49,
+        "sensitive": 0.3,
+        "resistant": 1.19
+      },
+      {
+        "day": 252.0,
+        "psa_pred": 1.75,
+        "sensitive": 0.17,
+        "resistant": 1.57
+      },
+      {
+        "day": 280.0,
+        "psa_pred": 2.18,
+        "sensitive": 0.1,
+        "resistant": 2.08
+      },
+      {
+        "day": 308.0,
+        "psa_pred": 2.99,
+        "sensitive": 0.26,
+        "resistant": 2.74
+      },
+      {
+        "day": 336.0,
+        "psa_pred": 4.26,
+        "sensitive": 0.66,
+        "resistant": 3.6
+      },
+      {
+        "day": 364.0,
+        "psa_pred": 6.4,
+        "sensitive": 1.68,
+        "resistant": 4.72
+      }
+    ],
+    "random_seed": 42,
+    "n_restarts": 10
+  },
+  "prediction_benchmark": {
+    "total_evaluated_patients": 5,
+    "summary_by_model": {
+      "Lotka-Volterra": {
+        "log_psa_rmse": {
+          "median": 0.775,
+          "iqr_25": 0.709,
+          "iqr_75": 2.018
+        },
+        "peak_psa_mape": {
+          "median": 7.65,
+          "iqr_25": 0.0,
+          "iqr_75": 99.57
+        },
+        "time_to_nadir_error_days": {
+          "median": 61.0,
+          "iqr_25": 28.0,
+          "iqr_75": 100.0
+        },
+        "time_to_progression_error_days": {
+          "median": 65.0,
+          "iqr_25": 0.0,
+          "iqr_75": 174.0
+        }
+      },
+      "LVCF": {
+        "log_psa_rmse": {
+          "median": 2.383,
+          "iqr_25": 2.24,
+          "iqr_75": 2.487
+        },
+        "peak_psa_mape": {
+          "median": 17.81,
+          "iqr_25": 10.47,
+          "iqr_75": 33.11
+        },
+        "time_to_nadir_error_days": {
+          "median": 198.0,
+          "iqr_25": 175.0,
+          "iqr_75": 277.0
+        },
+        "time_to_progression_error_days": {
+          "median": 65.0,
+          "iqr_25": 50.0,
+          "iqr_75": 174.0
+        }
+      },
+      "Linear Extrapolation": {
+        "log_psa_rmse": {
+          "median": 2.884,
+          "iqr_25": 2.629,
+          "iqr_75": 2.935
+        },
+        "peak_psa_mape": {
+          "median": 131.38,
+          "iqr_25": 108.11,
+          "iqr_75": 134.52
+        },
+        "time_to_nadir_error_days": {
+          "median": 198.0,
+          "iqr_25": 175.0,
+          "iqr_75": 277.0
+        },
+        "time_to_progression_error_days": {
+          "median": 270.0,
+          "iqr_25": 175.0,
+          "iqr_75": 308.0
+        }
+      },
+      "Single Exponential": {
+        "log_psa_rmse": {
+          "median": 1.467,
+          "iqr_25": 1.101,
+          "iqr_75": 3.475
+        },
+        "peak_psa_mape": {
+          "median": 52.35,
+          "iqr_25": 0.0,
+          "iqr_75": 56.78
+        },
+        "time_to_nadir_error_days": {
+          "median": 90.0,
+          "iqr_25": 31.0,
+          "iqr_75": 133.0
+        },
+        "time_to_progression_error_days": {
+          "median": 65.0,
+          "iqr_25": 0.0,
+          "iqr_75": 174.0
+        }
+      }
+    },
+    "patient_results": [
+      {
+        "patient_id": "1",
+        "cohort": "Bruchovsky_et_al",
+        "cycle1_data_points": 13,
+        "cycle2_data_points": 15,
+        "cycle2_duration_days": 414.0,
+        "models": {
+          "Lotka-Volterra": {
+            "model_name": "Lotka-Volterra",
+            "log_psa_rmse": 0.6792,
+            "peak_psa_mape": 7.65,
+            "time_to_nadir_error_days": 100.0,
+            "time_to_progression_error_days": 0.0,
+            "predicted_peak_psa": 12.01,
+            "observed_peak_psa": 13.0,
+            "predicted_time_to_nadir": 197.0,
+            "observed_time_to_nadir": 297.0,
+            "predicted_time_to_progression": 364.0,
+            "observed_time_to_progression": 364.0
+          },
+          "LVCF": {
+            "model_name": "LVCF",
+            "log_psa_rmse": 0.9267,
+            "peak_psa_mape": 54.62,
+            "time_to_nadir_error_days": 297.0,
+            "time_to_progression_error_days": 50.0,
+            "predicted_peak_psa": 5.9,
+            "observed_peak_psa": 13.0,
+            "predicted_time_to_nadir": 0.0,
+            "observed_time_to_nadir": 297.0,
+            "predicted_time_to_progression": 414.0,
+            "observed_time_to_progression": 364.0
+          },
+          "Linear Extrapolation": {
+            "model_name": "Linear Extrapolation",
+            "log_psa_rmse": 1.8779,
+            "peak_psa_mape": 134.52,
+            "time_to_nadir_error_days": 297.0,
+            "time_to_progression_error_days": 308.0,
+            "predicted_peak_psa": 30.49,
+            "observed_peak_psa": 13.0,
+            "predicted_time_to_nadir": 0.0,
+            "observed_time_to_nadir": 297.0,
+            "predicted_time_to_progression": 56.0,
+            "observed_time_to_progression": 364.0
+          },
+          "Single Exponential": {
+            "model_name": "Single Exponential",
+            "log_psa_rmse": 0.5057,
+            "peak_psa_mape": 52.35,
+            "time_to_nadir_error_days": 31.0,
+            "time_to_progression_error_days": 0.0,
+            "predicted_peak_psa": 19.81,
+            "observed_peak_psa": 13.0,
+            "predicted_time_to_nadir": 266.0,
+            "observed_time_to_nadir": 297.0,
+            "predicted_time_to_progression": 364.0,
+            "observed_time_to_progression": 364.0
+          }
+        }
+      },
+      {
+        "patient_id": "2",
+        "cohort": "Bruchovsky_et_al",
+        "cycle1_data_points": 47,
+        "cycle2_data_points": 36,
+        "cycle2_duration_days": 987.0,
+        "models": {
+          "Lotka-Volterra": {
+            "model_name": "Lotka-Volterra",
+            "log_psa_rmse": 2.0184,
+            "peak_psa_mape": 482.01,
+            "time_to_nadir_error_days": 221.0,
+            "time_to_progression_error_days": 196.0,
+            "predicted_peak_psa": 42.49,
+            "observed_peak_psa": 7.3,
+            "predicted_time_to_nadir": 80.0,
+            "observed_time_to_nadir": 301.0,
+            "predicted_time_to_progression": 672.0,
+            "observed_time_to_progression": 476.0
+          },
+          "LVCF": {
+            "model_name": "LVCF",
+            "log_psa_rmse": 2.3832,
+            "peak_psa_mape": 17.81,
+            "time_to_nadir_error_days": 277.0,
+            "time_to_progression_error_days": 511.0,
+            "predicted_peak_psa": 8.6,
+            "observed_peak_psa": 7.3,
+            "predicted_time_to_nadir": 24.0,
+            "observed_time_to_nadir": 301.0,
+            "predicted_time_to_progression": 987.0,
+            "observed_time_to_progression": 476.0
+          },
+          "Linear Extrapolation": {
+            "model_name": "Linear Extrapolation",
+            "log_psa_rmse": 2.6289,
+            "peak_psa_mape": 131.38,
+            "time_to_nadir_error_days": 277.0,
+            "time_to_progression_error_days": 175.0,
+            "predicted_peak_psa": 16.89,
+            "observed_peak_psa": 7.3,
+            "predicted_time_to_nadir": 24.0,
+            "observed_time_to_nadir": 301.0,
+            "predicted_time_to_progression": 301.0,
+            "observed_time_to_progression": 476.0
+          },
+          "Single Exponential": {
+            "model_name": "Single Exponential",
+            "log_psa_rmse": 1.4671,
+            "peak_psa_mape": 56.78,
+            "time_to_nadir_error_days": 29.0,
+            "time_to_progression_error_days": 462.0,
+            "predicted_peak_psa": 3.16,
+            "observed_peak_psa": 7.3,
+            "predicted_time_to_nadir": 272.0,
+            "observed_time_to_nadir": 301.0,
+            "predicted_time_to_progression": 938.0,
+            "observed_time_to_progression": 476.0
+          }
+        }
+      },
+      {
+        "patient_id": "3",
+        "cohort": "Bruchovsky_et_al",
+        "cycle1_data_points": 14,
+        "cycle2_data_points": 6,
+        "cycle2_duration_days": 498.0,
+        "models": {
+          "Lotka-Volterra": {
+            "model_name": "Lotka-Volterra",
+            "log_psa_rmse": 0.7092,
+            "peak_psa_mape": 0.0,
+            "time_to_nadir_error_days": 0.0,
+            "time_to_progression_error_days": 0.0,
+            "predicted_peak_psa": 14.8,
+            "observed_peak_psa": 14.8,
+            "predicted_time_to_nadir": 175.0,
+            "observed_time_to_nadir": 175.0,
+            "predicted_time_to_progression": 498.0,
+            "observed_time_to_progression": 498.0
+          },
+          "LVCF": {
+            "model_name": "LVCF",
+            "log_psa_rmse": 2.4866,
+            "peak_psa_mape": 33.11,
+            "time_to_nadir_error_days": 175.0,
+            "time_to_progression_error_days": 0.0,
+            "predicted_peak_psa": 9.9,
+            "observed_peak_psa": 14.8,
+            "predicted_time_to_nadir": 0.0,
+            "observed_time_to_nadir": 175.0,
+            "predicted_time_to_progression": 498.0,
+            "observed_time_to_progression": 498.0
+          },
+          "Linear Extrapolation": {
+            "model_name": "Linear Extrapolation",
+            "log_psa_rmse": 2.8844,
+            "peak_psa_mape": 80.81,
+            "time_to_nadir_error_days": 175.0,
+            "time_to_progression_error_days": 323.0,
+            "predicted_peak_psa": 26.76,
+            "observed_peak_psa": 14.8,
+            "predicted_time_to_nadir": 0.0,
+            "observed_time_to_nadir": 175.0,
+            "predicted_time_to_progression": 175.0,
+            "observed_time_to_progression": 498.0
+          },
+          "Single Exponential": {
+            "model_name": "Single Exponential",
+            "log_psa_rmse": 3.4752,
+            "peak_psa_mape": 0.0,
+            "time_to_nadir_error_days": 323.0,
+            "time_to_progression_error_days": 0.0,
+            "predicted_peak_psa": 14.8,
+            "observed_peak_psa": 14.8,
+            "predicted_time_to_nadir": 498.0,
+            "observed_time_to_nadir": 175.0,
+            "predicted_time_to_progression": 498.0,
+            "observed_time_to_progression": 498.0
+          }
+        }
+      },
+      {
+        "patient_id": "4",
+        "cohort": "Bruchovsky_et_al",
+        "cycle1_data_points": 11,
+        "cycle2_data_points": 12,
+        "cycle2_duration_days": 406.0,
+        "models": {
+          "Lotka-Volterra": {
+            "model_name": "Lotka-Volterra",
+            "log_psa_rmse": 0.775,
+            "peak_psa_mape": 0.0,
+            "time_to_nadir_error_days": 28.0,
+            "time_to_progression_error_days": 65.0,
+            "predicted_peak_psa": 8.6,
+            "observed_peak_psa": 8.6,
+            "predicted_time_to_nadir": 226.0,
+            "observed_time_to_nadir": 198.0,
+            "predicted_time_to_progression": 406.0,
+            "observed_time_to_progression": 341.0
+          },
+          "LVCF": {
+            "model_name": "LVCF",
+            "log_psa_rmse": 2.2401,
+            "peak_psa_mape": 10.47,
+            "time_to_nadir_error_days": 198.0,
+            "time_to_progression_error_days": 65.0,
+            "predicted_peak_psa": 7.7,
+            "observed_peak_psa": 8.6,
+            "predicted_time_to_nadir": 0.0,
+            "observed_time_to_nadir": 198.0,
+            "predicted_time_to_progression": 406.0,
+            "observed_time_to_progression": 341.0
+          },
+          "Linear Extrapolation": {
+            "model_name": "Linear Extrapolation",
+            "log_psa_rmse": 2.9354,
+            "peak_psa_mape": 187.21,
+            "time_to_nadir_error_days": 198.0,
+            "time_to_progression_error_days": 270.0,
+            "predicted_peak_psa": 24.7,
+            "observed_peak_psa": 8.6,
+            "predicted_time_to_nadir": 0.0,
+            "observed_time_to_nadir": 198.0,
+            "predicted_time_to_progression": 71.0,
+            "observed_time_to_progression": 341.0
+          },
+          "Single Exponential": {
+            "model_name": "Single Exponential",
+            "log_psa_rmse": 1.1014,
+            "peak_psa_mape": 0.0,
+            "time_to_nadir_error_days": 90.0,
+            "time_to_progression_error_days": 65.0,
+            "predicted_peak_psa": 8.6,
+            "observed_peak_psa": 8.6,
+            "predicted_time_to_nadir": 288.0,
+            "observed_time_to_nadir": 198.0,
+            "predicted_time_to_progression": 406.0,
+            "observed_time_to_progression": 341.0
+          }
+        }
+      },
+      {
+        "patient_id": "6",
+        "cohort": "Bruchovsky_et_al",
+        "cycle1_data_points": 23,
+        "cycle2_data_points": 14,
+        "cycle2_duration_days": 560.0,
+        "models": {
+          "Lotka-Volterra": {
+            "model_name": "Lotka-Volterra",
+            "log_psa_rmse": 4.994,
+            "peak_psa_mape": 99.57,
+            "time_to_nadir_error_days": 61.0,
+            "time_to_progression_error_days": 174.0,
+            "predicted_peak_psa": 0.05,
+            "observed_peak_psa": 10.9,
+            "predicted_time_to_nadir": 224.0,
+            "observed_time_to_nadir": 163.0,
+            "predicted_time_to_progression": 560.0,
+            "observed_time_to_progression": 386.0
+          },
+          "LVCF": {
+            "model_name": "LVCF",
+            "log_psa_rmse": 2.5444,
+            "peak_psa_mape": 3.67,
+            "time_to_nadir_error_days": 86.0,
+            "time_to_progression_error_days": 174.0,
+            "predicted_peak_psa": 10.5,
+            "observed_peak_psa": 10.9,
+            "predicted_time_to_nadir": 77.0,
+            "observed_time_to_nadir": 163.0,
+            "predicted_time_to_progression": 560.0,
+            "observed_time_to_progression": 386.0
+          },
+          "Linear Extrapolation": {
+            "model_name": "Linear Extrapolation",
+            "log_psa_rmse": 2.9548,
+            "peak_psa_mape": 108.11,
+            "time_to_nadir_error_days": 86.0,
+            "time_to_progression_error_days": 120.0,
+            "predicted_peak_psa": 22.68,
+            "observed_peak_psa": 10.9,
+            "predicted_time_to_nadir": 77.0,
+            "observed_time_to_nadir": 163.0,
+            "predicted_time_to_progression": 266.0,
+            "observed_time_to_progression": 386.0
+          },
+          "Single Exponential": {
+            "model_name": "Single Exponential",
+            "log_psa_rmse": 5.2987,
+            "peak_psa_mape": 98.83,
+            "time_to_nadir_error_days": 133.0,
+            "time_to_progression_error_days": 174.0,
+            "predicted_peak_psa": 0.13,
+            "observed_peak_psa": 10.9,
+            "predicted_time_to_nadir": 296.0,
+            "observed_time_to_nadir": 163.0,
+            "predicted_time_to_progression": 560.0,
+            "observed_time_to_progression": 386.0
+          }
+        }
+      }
+    ]
+  },
+  "trial_comparison": {
+    "total_evaluated_patients": 5,
+    "fraction_adaptive_superior": 1.0,
+    "fraction_continuous_superior": 0.0,
+    "fraction_equivalent": 0.0,
+    "median_delta_ttp": 219.5,
+    "iqr_delta_ttp_25": 133.0,
+    "iqr_delta_ttp_75": 261.0,
+    "median_dose_reduction_pct": 39.6,
+    "iqr_dose_reduction_25": 18.8,
+    "iqr_dose_reduction_75": 46.2,
+    "sensitivity_analysis": {
+      "aRS_values": [
+        0.2,
+        0.5,
+        1.0,
+        1.5,
+        2.0
+      ],
+      "fR_values": [
+        0.0001,
+        0.001,
+        0.01,
+        0.05,
+        0.1
+      ],
+      "delta_ttp_matrix": [
+        [
+          52.0,
+          63.0,
+          44.5,
+          28.0,
+          14.5
+        ],
+        [
+          67.5,
+          60.0,
+          44.0,
+          28.5,
+          14.5
+        ],
+        [
+          71.0,
+          61.5,
+          45.0,
+          29.0,
+          14.5
+        ],
+        [
+          87.5,
+          78.5,
+          45.5,
+          28.5,
+          15.5
+        ],
+        [
+          106.0,
+          80.0,
+          63.5,
+          29.0,
+          15.5
+        ]
+      ]
+    },
+    "patient_comparisons": [
+      {
+        "patient_id": "1",
+        "cohort": "Bruchovsky_et_al",
+        "ttp_continuous": 330.0,
+        "ttp_adaptive": 591.0,
+        "delta_ttp": 261.0,
+        "cumulative_dose_continuous": 3300.0,
+        "cumulative_dose_adaptive": 3945.0,
+        "dose_reduction_pct": -19.5,
+        "outcome_category": "adaptive_superior",
+        "parameters_used": {
+          "alpha1": 0.034914,
+          "alpha2": 0.01,
+          "ES": 0.05411,
+          "aSR": 2.0,
+          "aRS": 1.999992,
+          "f_R": 0.005021,
+          "K": 200.0,
+          "V_0": 29.0
+        }
+      },
+      {
+        "patient_id": "2",
+        "cohort": "Bruchovsky_et_al",
+        "ttp_continuous": 607.5,
+        "ttp_adaptive": 740.5,
+        "delta_ttp": 133.0,
+        "cumulative_dose_continuous": 6075.0,
+        "cumulative_dose_adaptive": 3270.0,
+        "dose_reduction_pct": 46.2,
+        "outcome_category": "adaptive_superior",
+        "parameters_used": {
+          "alpha1": 0.061769,
+          "alpha2": 0.010002,
+          "ES": 0.156161,
+          "aSR": 1.569417,
+          "aRS": 0.972031,
+          "f_R": 0.00062,
+          "K": 200.0,
+          "V_0": 7.7
+        }
+      },
+      {
+        "patient_id": "3",
+        "cohort": "Bruchovsky_et_al",
+        "ttp_continuous": 454.0,
+        "ttp_adaptive": 673.5,
+        "delta_ttp": 219.5,
+        "cumulative_dose_continuous": 4540.0,
+        "cumulative_dose_adaptive": 2740.0,
+        "dose_reduction_pct": 39.6,
+        "outcome_category": "adaptive_superior",
+        "parameters_used": {
+          "alpha1": 0.017387,
+          "alpha2": 0.013397,
+          "ES": 0.050001,
+          "aSR": 2.0,
+          "aRS": 2.0,
+          "f_R": 0.00032,
+          "K": 200.0,
+          "V_0": 16.5
+        }
+      },
+      {
+        "patient_id": "4",
+        "cohort": "Bruchovsky_et_al",
+        "ttp_continuous": 394.0,
+        "ttp_adaptive": 510.5,
+        "delta_ttp": 116.5,
+        "cumulative_dose_continuous": 3940.0,
+        "cumulative_dose_adaptive": 3200.0,
+        "dose_reduction_pct": 18.8,
+        "outcome_category": "adaptive_superior",
+        "parameters_used": {
+          "alpha1": 0.027948,
+          "alpha2": 0.015696,
+          "ES": 0.05,
+          "aSR": 2.0,
+          "aRS": 2.0,
+          "f_R": 0.000434,
+          "K": 200.0,
+          "V_0": 12.0
+        }
+      },
+      {
+        "patient_id": "6",
+        "cohort": "Bruchovsky_et_al",
+        "ttp_continuous": 564.5,
+        "ttp_adaptive": 989.5,
+        "delta_ttp": 425.0,
+        "cumulative_dose_continuous": 5645.0,
+        "cumulative_dose_adaptive": 3030.0,
+        "dose_reduction_pct": 46.3,
+        "outcome_category": "adaptive_superior",
+        "parameters_used": {
+          "alpha1": 0.013022,
+          "alpha2": 0.01,
+          "ES": 0.05,
+          "aSR": 2.0,
+          "aRS": 1.999996,
+          "f_R": 0.000286,
+          "K": 200.0,
+          "V_0": 28.4
+        }
+      }
+    ]
+  }
+}

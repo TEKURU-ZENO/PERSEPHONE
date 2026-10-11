@@ -1,5 +1,7 @@
 # Scientific Compute Runtime (SCR) Orchestration Registry
 import time
+import json
+from pathlib import Path
 from backend.python.compute.common.logger import logger
 from backend.python.compute.common.metrics import profile_compute
 
@@ -343,6 +345,58 @@ class ComputeRegistry:
       "markdownReport": report_md,
       "metadata": metrics
     }
+
+  @staticmethod
+  def run_validation_ias_benchmark():
+    """
+    Returns authentic Bruchovsky 2006 / Tanaka 2010 Patient #1 fit and benchmark data.
+    """
+    start = time.perf_counter()
+    summary_path = Path(__file__).resolve().parents[3] / "research" / "results" / "ias_benchmark_summary.json"
+    if summary_path.is_file():
+      with open(summary_path, "r", encoding="utf-8") as fp:
+        raw_data = json.load(fp)
+      p1_fit = raw_data.get("patient1_fit", {})
+      metrics = profile_compute(start, algorithm="Validation_IAS_Benchmark")
+      return {
+        "status": "success",
+        "label": "Prostate Cancer IAS Benchmark (Bruchovsky 2006, Patient #1)",
+        "patientId": p1_fit.get("patient_id", "1"),
+        "cohort": p1_fit.get("cohort", "Bruchovsky_et_al"),
+        "logPsaRmse": p1_fit.get("log_psa_rmse"),
+        "conditionNumber": p1_fit.get("condition_number"),
+        "fittedParameters": p1_fit.get("fitted_parameters", {}),
+        "confidenceIntervals95": p1_fit.get("confidence_intervals_95", {}),
+        "collinearPairs": p1_fit.get("collinear_pairs", []),
+        "unidentifiableParameters": p1_fit.get("unidentifiable_parameters", []),
+        "clinicalMeasurements": p1_fit.get("observed_psa", []),
+        "predictedTrajectory": p1_fit.get("predicted_psa", []),
+        "benchmarkSummary": raw_data.get("prediction_benchmark", {}).get("summary_by_model", {}),
+        "metadata": metrics
+      }
+    else:
+      from backend.python.compute.clinical_validation.calibration.ias_loader import load_all_ias_patients
+      from backend.python.compute.clinical_validation.calibration.fit_ias import fit_ias_patient
+      all_p = load_all_ias_patients()
+      p1 = [p for p in all_p if p.patient_id == "1"][0]
+      fit_res = fit_ias_patient(p1, cycle_nums=[1], n_restarts=10, run_profile_likelihood=False)
+      metrics = profile_compute(start, algorithm="Validation_IAS_Benchmark")
+      return {
+        "status": "success",
+        "label": "Prostate Cancer IAS Benchmark (Bruchovsky 2006, Patient #1)",
+        "patientId": fit_res.patient_id,
+        "cohort": fit_res.cohort,
+        "logPsaRmse": fit_res.log_psa_rmse,
+        "conditionNumber": fit_res.condition_number,
+        "fittedParameters": fit_res.fitted_parameters,
+        "confidenceIntervals95": fit_res.confidence_intervals_95,
+        "collinearPairs": fit_res.collinear_pairs,
+        "unidentifiableParameters": fit_res.unidentifiable_parameters,
+        "clinicalMeasurements": fit_res.observed_psa,
+        "predictedTrajectory": fit_res.predicted_psa,
+        "metadata": metrics
+      }
+
 
   @staticmethod
   def run_validation_sensitivity(data):

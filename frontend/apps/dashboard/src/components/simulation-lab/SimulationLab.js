@@ -56,6 +56,12 @@ export function initSimulationLab(containerEl) {
               </label>
               <input type="range" id="resistance-ratio-slider" min="0" max="50" step="0.5" value="${resistanceRatio}">
             </div>
+
+            <div style="margin-top: 0.75rem;">
+              <button id="btn-toggle-benchmark-preset" class="btn-secondary-action" type="button" style="width: 100%; font-size: 0.75rem; padding: 4px 8px;">
+                <i data-lucide="database"></i> <span>Load Benchmark Parameters (Bruchovsky Patient #1)</span>
+              </button>
+            </div>
           </div>
 
           <!-- Parameter Grounding Metadata Cards -->
@@ -131,6 +137,42 @@ export function initSimulationLab(containerEl) {
       counterfactualStrategy = e.target.value;
       runSimulation();
     });
+
+    const btnBenchmark = containerEl.querySelector('#btn-toggle-benchmark-preset');
+    if (btnBenchmark) {
+      btnBenchmark.addEventListener('click', () => {
+        if (calibratedOverrides && calibratedOverrides.benchmarkLabel) {
+          // Reset to defaults
+          calibratedOverrides = null;
+          resistanceRatio = activePatient.id === 'patient-a' ? 2.4 : activePatient.id === 'patient-b' ? 18.7 : 12.5;
+          resSlider.value = resistanceRatio;
+          containerEl.querySelector('#resistance-ratio-val').textContent = resistanceRatio.toFixed(1);
+          btnBenchmark.innerHTML = '<i data-lucide="database"></i> <span>Load Benchmark Parameters (Bruchovsky Patient #1)</span>';
+          btnBenchmark.classList.remove('btn-primary-action');
+          btnBenchmark.classList.add('btn-secondary-action');
+        } else {
+          // Load authentic Bruchovsky Patient #1 benchmark parameters
+          calibratedOverrides = {
+            alpha1: 0.0349,
+            alpha2: 0.010,
+            ES: 0.0541,
+            ER: 0.0,
+            aRS: 2.0,
+            aSR: 2.0,
+            K: 200.0,
+            benchmarkLabel: 'Bruchovsky Patient #1'
+          };
+          resistanceRatio = 0.5;
+          resSlider.value = resistanceRatio;
+          containerEl.querySelector('#resistance-ratio-val').textContent = resistanceRatio.toFixed(1);
+          btnBenchmark.innerHTML = '<i data-lucide="rotate-ccw"></i> <span>Reset from Benchmark Parameters</span>';
+          btnBenchmark.classList.remove('btn-secondary-action');
+          btnBenchmark.classList.add('btn-primary-action');
+        }
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        runSimulation();
+      });
+    }
   }
 
   // Core execution trigger
@@ -151,6 +193,15 @@ export function initSimulationLab(containerEl) {
     };
 
     if (calibratedOverrides) {
+      if (calibratedOverrides.alpha1 != null) {
+        controlParams.alpha1 = calibratedOverrides.alpha1;
+        controlParams.alpha2 = calibratedOverrides.alpha2;
+        controlParams.ES = calibratedOverrides.ES;
+        controlParams.ER = calibratedOverrides.ER != null ? calibratedOverrides.ER : 0.0;
+        controlParams.aRS = calibratedOverrides.aRS;
+        controlParams.aSR = calibratedOverrides.aSR;
+        controlParams.K = calibratedOverrides.K;
+      }
       const activeDrug = activePatient.id === 'patient-a' ? 'olaparib' : activePatient.id === 'patient-b' ? 'osimertinib' : 'folfiri';
       if (calibratedOverrides[activeDrug]) {
         controlParams.ES = calibratedOverrides[activeDrug].ES;
