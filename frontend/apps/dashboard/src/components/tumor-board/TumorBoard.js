@@ -303,9 +303,16 @@ export function initTumorBoard(containerEl) {
 
         <!-- TERMINAL CONSOLE LOGS -->
         <div class="board-terminal-frame">
-          <div class="terminal-header">
+          <div class="terminal-header" style="display:flex; justify-content:space-between; align-items:center;">
             <span class="terminal-title">PERSEPHONE BOARD TERMINAL // DAG LOG</span>
-            <button id="btn-rerun-board" class="terminal-action-btn">Re-run board</button>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <label for="select-board-mode" style="font-size:0.72rem; color:var(--text-secondary); margin:0;">Mode:</label>
+              <select id="select-board-mode" class="terminal-action-btn" style="padding:2px 8px; background:var(--card-bg, #1e293b); color:var(--text-primary); border:1px solid var(--border-color); border-radius:4px; font-size:0.75rem;">
+                <option value="rule-based" selected>Rule-Based Mode</option>
+                <option value="llm_gate">LLM + Gate Mode</option>
+              </select>
+              <button id="btn-rerun-board" class="terminal-action-btn">Re-run board</button>
+            </div>
           </div>
           <div class="terminal-body" id="board-terminal-logs">
             <!-- Dynamically printed typewriter lines -->
@@ -321,6 +328,13 @@ export function initTumorBoard(containerEl) {
     tabBody.querySelector('#btn-rerun-board').addEventListener('click', () => {
       triggerOrchestrator();
     });
+
+    const modeSelect = tabBody.querySelector('#select-board-mode');
+    if (modeSelect) {
+      modeSelect.addEventListener('change', () => {
+        triggerOrchestrator();
+      });
+    }
   }
 
   // Executes the orchestrator DAG
@@ -333,8 +347,12 @@ export function initTumorBoard(containerEl) {
     const nodes = tabBody.querySelectorAll('.dag-node');
     nodes.forEach(n => n.className = 'dag-node');
 
+    const modeSelect = tabBody.querySelector('#select-board-mode');
+    const boardMode = modeSelect ? modeSelect.value : 'rule-based';
+    const modeLabel = boardMode === 'llm_gate' ? 'LLM + Deterministic Safety Gate' : 'Rule-Based Mode';
+
     const terminal = tabBody.querySelector('#board-terminal-logs');
-    if (terminal) terminal.innerHTML = `<div class="terminal-line text-muted">> Initializing 14-Agent Multi-Agent Clinical Intelligence Platform...</div>`;
+    if (terminal) terminal.innerHTML = `<div class="terminal-line text-muted">> Initializing 14-Agent Multi-Agent Clinical Intelligence Platform [${modeLabel}]...</div>`;
 
     try {
       // Set orchestrator nodes to running
@@ -343,7 +361,7 @@ export function initTumorBoard(containerEl) {
       const response = await fetch('/api/v1/python/agents/debate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ patient: activePatient })
+        body: JSON.stringify({ patient: activePatient, mode: boardMode })
       });
 
       if (!response.ok) {

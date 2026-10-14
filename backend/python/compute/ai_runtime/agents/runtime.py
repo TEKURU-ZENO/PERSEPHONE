@@ -8,7 +8,7 @@ class AgentCouncilRuntime:
   Orchestrator coordinates debate execution cycles for the 23-Agent Council.
   """
   @staticmethod
-  def run_debate(patient_raw_data=None):
+  def run_debate(patient_raw_data=None, mode="rule-based"):
     blackboard = BlackboardMemory()
     bus = AgentEventBus()
 
@@ -37,8 +37,29 @@ class AgentCouncilRuntime:
       
       # Execute lifecycle
       try:
-        agent_instance.run_lifecycle(blackboard)
-        status = "✓"
+        if name == "evidence" and mode in ("llm_gate", "llm + gate"):
+          from backend.python.compute.clinical_evidence.evidence_agent import EvidenceAgent as ClinicalEvidenceAgent
+          from backend.python.compute.clinical_evidence.schemas import PatientClinicalProfile
+          
+          c_agent = ClinicalEvidenceAgent()
+          pt_obj = patient_raw_data or {}
+          c_profile = PatientClinicalProfile(
+            patient_id=pt_obj.get("id", "PT-CURRENT"),
+            cancer_type=pt_obj.get("cancer_type", pt_obj.get("cancerType", "High-Grade Serous Ovarian Cancer")),
+            stage=pt_obj.get("stage", "Stage IV"),
+            somatic_mutations=pt_obj.get("variants", pt_obj.get("somatic_mutations", ["BRCA1"])),
+            germline_variants=pt_obj.get("germline_variants", []),
+            prior_therapies=pt_obj.get("prior_therapies", pt_obj.get("priorTherapies", [])),
+            allergies_hypersensitivities=pt_obj.get("allergies_hypersensitivities", []),
+          )
+          llm_rec = c_agent.generate_recommendation(c_profile, enforce_safety_gate=True)
+          blackboard.write("llm_evidence_recommendation", llm_rec.model_dump())
+          blackboard.write("literature_evidence", llm_rec.model_dump())
+          agent_instance.confidence = llm_rec.confidence if llm_rec.confidence is not None else 0.95
+          status = "✓" if llm_rec.safety_gate_passed else "🛡️"
+        else:
+          agent_instance.run_lifecycle(blackboard)
+          status = "✓"
       except Exception as err:
         status = "✘"
         
@@ -74,6 +95,23 @@ class AgentCouncilRuntime:
       gov_decision = blackboard.read('GOVERNANCE_DECISION') or {}
       gov_status = gov_decision.get('decision_status', 'APPROVED')
 
+      llm_rec_data = blackboard.read("llm_evidence_recommendation")
+      if llm_rec_data and mode in ("llm_gate", "llm + gate"):
+        if llm_rec_data.get("safety_gate_passed"):
+          evidence_msg = (
+            f"[LLM + Safety Gate: PASSED] {llm_rec_data.get('recommendation')}. "
+            f"Evidence Tier: {llm_rec_data.get('evidence_level')}. "
+            f"Confidence: {int((llm_rec_data.get('confidence') or 0.95)*100)}%."
+          )
+        else:
+          evidence_msg = (
+            f"[LLM + Safety Gate: INTERCEPTED] {llm_rec_data.get('recommendation')}. "
+            f"Reason: {llm_rec_data.get('abstain_reason')}. "
+            f"Safety violations blocked: {'; '.join(llm_rec_data.get('safety_violations', []))}."
+          )
+      else:
+        evidence_msg = "Synthesizing PubMed clinical trials. Olaparib choice matches cohort criteria."
+
       # Add conversational dialogue based on agent outputs
       dialogue_map = {
         "Chief Orchestrator": "Tasks partitioned successfully. Initializing Patient Twin demographics validation...",
@@ -82,7 +120,7 @@ class AgentCouncilRuntime:
         "Simulation Agent": f"Mechanistic solver projected progression curve. Time to Progression TTP = {sim_res.get('timeToProgression', 90)} days.",
         "Knowledge Graph": "Resolving gene targets. Causal pathways found between BRCA1 mutation and PARP-1 inhibitor pathways.",
         "Graph-RAG Agent": "Retrieving literature. Grounded evidence packs compiled successfully.",
-        "Evidence Agent": "Synthesizing PubMed clinical trials. Olaparib choice matches cohort criteria.",
+        "Evidence Agent": evidence_msg,
         "Clinical Memory": "Scanning cohort memory. Matching profiles found. Patient outcome is consistent.",
         "Imaging Agent": f"WSI segmentation complete. Tumor purity: {imaging_purity}%, Necrosis: {imaging_necrosis}%. GradCAM overlays generated. Digital Twin carrying capacity K updated.",
         "Genomics Agent": f"Variant annotation complete. Biomarker tier: {biomarker_tier}. TMB: {tmb_data.get('tmb_score', 0):.1f} mut/Mb ({tmb_data.get('tmb_status', 'Unknown')}). Pathway enrichment computed.",
@@ -126,6 +164,7 @@ class AgentCouncilRuntime:
       consensus_status = "degraded"
 
     return {
+      "mode": mode,
       "debateTranscript": transcript,
       "agentMetrics": agent_metrics,
       "consensusStatus": consensus_status,

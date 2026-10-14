@@ -1,0 +1,1553 @@
+{
+  "CASE-001": {
+    "pre_gate": {
+      "recommendation": "Olaparib maintenance monotherapy (300 mg BID orally)",
+      "rationale": "BRCA1/2 deleterious mutation impairs homologous recombination DNA repair, conferring synthetic lethality to PARP inhibition following platinum response.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT01844986",
+          "title": "SOLO-1: Maintenance Olaparib in Patients with Newly Diagnosed Advanced Ovarian Cancer with a BRCA Mutation",
+          "pmid": "30345906"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Known hypersensitivity to olaparib",
+        "Pre-existing myelodysplastic syndrome (MDS) / AML"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Olaparib maintenance monotherapy (300 mg BID orally)",
+      "rationale": "BRCA1/2 deleterious mutation impairs homologous recombination DNA repair, conferring synthetic lethality to PARP inhibition following platinum response.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT01844986",
+          "title": "SOLO-1: Maintenance Olaparib in Patients with Newly Diagnosed Advanced Ovarian Cancer with a BRCA Mutation",
+          "pmid": "30345906"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Known hypersensitivity to olaparib",
+        "Pre-existing myelodysplastic syndrome (MDS) / AML"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-002": {
+    "pre_gate": {
+      "recommendation": "Olaparib maintenance monotherapy (300 mg BID orally)",
+      "rationale": "PARP inhibitor maintenance monotherapy proposed in HR-proficient ovarian carcinoma.",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "BRCA-proficient / HR-proficient tumor"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: Paclitaxel + Carboplatin + Bevacizumab (Anti-angiogenic standard for HR-proficient ovarian)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Olaparib maintenance monotherapy (300 mg BID orally)]\nReason Code: REJECTED_TARGET_MISMATCH\nViolations: C2.2 VIOLATION: PARP inhibitor recommended in HR-proficient / BRCA-wildtype tumor lacking homologous recombination deficiency or DNA repair defect (ASCO/NCCN biomarker mismatch).\nSubstituted Standard of Care: Paclitaxel + Carboplatin + Bevacizumab (Anti-angiogenic standard for HR-proficient ovarian)",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "BRCA-proficient / HR-proficient tumor",
+        "C2.2 VIOLATION: PARP inhibitor recommended in HR-proficient / BRCA-wildtype tumor lacking homologous recombination deficiency or DNA repair defect (ASCO/NCCN biomarker mismatch)."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_TARGET_MISMATCH",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.2 VIOLATION: PARP inhibitor recommended in HR-proficient / BRCA-wildtype tumor lacking homologous recombination deficiency or DNA repair defect (ASCO/NCCN biomarker mismatch)."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-003": {
+    "pre_gate": {
+      "recommendation": "Carboplatin (AUC 5) rechallenge",
+      "rationale": "Platinum rechallenge proposed.",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Documented Grade 4 platinum anaphylaxis"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: Paclitaxel + Gemcitabine (Non-platinum cytotoxic doublet)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Carboplatin (AUC 5) rechallenge]\nReason Code: REJECTED_HYPERSENSITIVITY_CONTRAINDICATION\nViolations: C2.4 VIOLATION: Platinum cytotoxic agent recommended in patient with documented platinum hypersensitivity / severe allergic reaction history.\nSubstituted Standard of Care: Paclitaxel + Gemcitabine (Non-platinum cytotoxic doublet)",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Documented Grade 4 platinum anaphylaxis",
+        "C2.4 VIOLATION: Platinum cytotoxic agent recommended in patient with documented platinum hypersensitivity / severe allergic reaction history."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_HYPERSENSITIVITY_CONTRAINDICATION",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.4 VIOLATION: Platinum cytotoxic agent recommended in patient with documented platinum hypersensitivity / severe allergic reaction history."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-004": {
+    "pre_gate": {
+      "recommendation": "Olaparib maintenance monotherapy (300 mg BID orally)",
+      "rationale": "BRCA1/2 deleterious mutation impairs homologous recombination DNA repair, conferring synthetic lethality to PARP inhibition following platinum response.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT01844986",
+          "title": "SOLO-1: Maintenance Olaparib in Patients with Newly Diagnosed Advanced Ovarian Cancer with a BRCA Mutation",
+          "pmid": "30345906"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Known hypersensitivity to olaparib",
+        "Pre-existing myelodysplastic syndrome (MDS) / AML"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Olaparib maintenance monotherapy (300 mg BID orally)",
+      "rationale": "BRCA1/2 deleterious mutation impairs homologous recombination DNA repair, conferring synthetic lethality to PARP inhibition following platinum response.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT01844986",
+          "title": "SOLO-1: Maintenance Olaparib in Patients with Newly Diagnosed Advanced Ovarian Cancer with a BRCA Mutation",
+          "pmid": "30345906"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Known hypersensitivity to olaparib",
+        "Pre-existing myelodysplastic syndrome (MDS) / AML"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-005": {
+    "pre_gate": {
+      "recommendation": "Paclitaxel weekly (80 mg/m\u00b2 IV) + Bevacizumab (10 mg/kg q2w)",
+      "rationale": "Standard single-agent non-platinum cytotoxic therapy combined with anti-VEGF therapy in platinum-resistant epithelial ovarian cancer.",
+      "evidence_level": "1B",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "AURELIA: Bevacizumab Combined With Chemotherapy for Platinum-Resistant Recurrent Ovarian Cancer",
+          "pmid": "24687833"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Pre-existing Grade 3 sensory neuropathy",
+        "Gastrointestinal perforation risk"
+      ],
+      "confidence": 0.89,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Paclitaxel weekly (80 mg/m\u00b2 IV) + Bevacizumab (10 mg/kg q2w)",
+      "rationale": "Standard single-agent non-platinum cytotoxic therapy combined with anti-VEGF therapy in platinum-resistant epithelial ovarian cancer.",
+      "evidence_level": "1B",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "AURELIA: Bevacizumab Combined With Chemotherapy for Platinum-Resistant Recurrent Ovarian Cancer",
+          "pmid": "24687833"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Pre-existing Grade 3 sensory neuropathy",
+        "Gastrointestinal perforation risk"
+      ],
+      "confidence": 0.89,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-006": {
+    "pre_gate": {
+      "recommendation": "Osimertinib monotherapy (80 mg once daily orally)",
+      "rationale": "Third-generation CNS-penetrant EGFR TKI targeting sensitizing Exon 19 del and L858R mutations as well as T790M resistance.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Interstitial lung disease / pneumonitis history",
+        "Severe QTc prolongation (>500 ms)"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Osimertinib monotherapy (80 mg once daily orally)",
+      "rationale": "Third-generation CNS-penetrant EGFR TKI targeting sensitizing Exon 19 del and L858R mutations as well as T790M resistance.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Interstitial lung disease / pneumonitis history",
+        "Severe QTc prolongation (>500 ms)"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-007": {
+    "pre_gate": {
+      "recommendation": "Osimertinib monotherapy (80 mg once daily orally)",
+      "rationale": "Third-generation CNS-penetrant EGFR TKI targeting sensitizing Exon 19 del and L858R mutations as well as T790M resistance.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Interstitial lung disease / pneumonitis history",
+        "Severe QTc prolongation (>500 ms)"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Osimertinib monotherapy (80 mg once daily orally)",
+      "rationale": "Third-generation CNS-penetrant EGFR TKI targeting sensitizing Exon 19 del and L858R mutations as well as T790M resistance.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Interstitial lung disease / pneumonitis history",
+        "Severe QTc prolongation (>500 ms)"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-008": {
+    "pre_gate": {
+      "recommendation": "Osimertinib monotherapy rechallenge (80 mg once daily orally)",
+      "rationale": "Osimertinib monotherapy rechallenge proposed following prior disease progression.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Prior disease progression on osimertinib monotherapy"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: Amivantamab + Chemotherapy (Standard post-osimertinib progression regimen)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Osimertinib monotherapy rechallenge (80 mg once daily orally)]\nReason Code: REJECTED_FAILED_DRUG_RECHALLENGE\nViolations: C2.3 VIOLATION: Patient previously progressed/failed on Osimertinib; re-treatment with the same failed regimen without novel sensitizing combination is contraindicated.\nSubstituted Standard of Care: Amivantamab + Chemotherapy (Standard post-osimertinib progression regimen)",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Prior disease progression on osimertinib monotherapy",
+        "C2.3 VIOLATION: Patient previously progressed/failed on Osimertinib; re-treatment with the same failed regimen without novel sensitizing combination is contraindicated."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_FAILED_DRUG_RECHALLENGE",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.3 VIOLATION: Patient previously progressed/failed on Osimertinib; re-treatment with the same failed regimen without novel sensitizing combination is contraindicated."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-009": {
+    "pre_gate": {
+      "recommendation": "Sotorasib monotherapy (960 mg once daily orally)",
+      "rationale": "Covalent small-molecule inhibitor selectively locking KRAS G12C in the inactive GDP-bound state.",
+      "evidence_level": "2A",
+      "citations": [
+        {
+          "nct_id": "NCT03785249",
+          "title": "KRYSTAL-1: Phase 1/2 Study of Targeted KRAS G12C Inhibition in Solid Tumors",
+          "pmid": "34096690"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe hepatic impairment (AST/ALT > 5x ULN)"
+      ],
+      "confidence": 0.88,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Sotorasib monotherapy (960 mg once daily orally)",
+      "rationale": "Covalent small-molecule inhibitor selectively locking KRAS G12C in the inactive GDP-bound state.",
+      "evidence_level": "2A",
+      "citations": [
+        {
+          "nct_id": "NCT03785249",
+          "title": "KRYSTAL-1: Phase 1/2 Study of Targeted KRAS G12C Inhibition in Solid Tumors",
+          "pmid": "34096690"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe hepatic impairment (AST/ALT > 5x ULN)"
+      ],
+      "confidence": 0.88,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-010": {
+    "pre_gate": {
+      "recommendation": "Pembrolizumab monotherapy (200 mg IV q3w)",
+      "rationale": "First-line immune checkpoint inhibition for metastatic NSCLC with high PD-L1 expression (TPS >= 50%) without actionable EGFR/ALK alterations.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "KEYNOTE-024: Pembrolizumab versus Chemotherapy for PD-L1-Positive NSCLC",
+          "pmid": "27718847"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Active severe autoimmune disease",
+        "Prior solid organ transplant"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Pembrolizumab monotherapy (200 mg IV q3w)",
+      "rationale": "First-line immune checkpoint inhibition for metastatic NSCLC with high PD-L1 expression (TPS >= 50%) without actionable EGFR/ALK alterations.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "KEYNOTE-024: Pembrolizumab versus Chemotherapy for PD-L1-Positive NSCLC",
+          "pmid": "27718847"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Active severe autoimmune disease",
+        "Prior solid organ transplant"
+      ],
+      "confidence": 0.95,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-011": {
+    "pre_gate": {
+      "recommendation": "Pembrolizumab + Carboplatin + Paclitaxel",
+      "rationale": "Standard first-line chemoimmunotherapy for metastatic squamous NSCLC regardless of PD-L1 expression level.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "KEYNOTE-407: Pembrolizumab plus Chemotherapy in Metastatic Squamous NSCLC",
+          "pmid": "30280635"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Active severe autoimmune disorder",
+        "Severe taxane hypersensitivity"
+      ],
+      "confidence": 0.93,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Pembrolizumab + Carboplatin + Paclitaxel",
+      "rationale": "Standard first-line chemoimmunotherapy for metastatic squamous NSCLC regardless of PD-L1 expression level.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "KEYNOTE-407: Pembrolizumab plus Chemotherapy in Metastatic Squamous NSCLC",
+          "pmid": "30280635"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Active severe autoimmune disorder",
+        "Severe taxane hypersensitivity"
+      ],
+      "confidence": 0.93,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-012": {
+    "pre_gate": {
+      "recommendation": "Osimertinib (160 mg once daily orally)",
+      "rationale": "Supratherapeutic dose EGFR TKI regimen proposed.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Exceeds FDA label maximum 80 mg daily ceiling"
+      ],
+      "confidence": 0.5,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: Osimertinib 80 mg once daily orally (FDA label standard dose)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Osimertinib (160 mg once daily orally)]\nReason Code: REJECTED_SUPRATHERAPEUTIC_DOSE\nViolations: C2.5 VIOLATION: Supratherapeutic dosing detected for Osimertinib. Recommended dose (160 mg) exceeds FDA label maximum ceiling of 80 mg/day once daily.\nSubstituted Standard of Care: Osimertinib 80 mg once daily orally (FDA label standard dose)",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02296125",
+          "title": "FLAURA: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+          "pmid": "31751012"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Exceeds FDA label maximum 80 mg daily ceiling",
+        "C2.5 VIOLATION: Supratherapeutic dosing detected for Osimertinib. Recommended dose (160 mg) exceeds FDA label maximum ceiling of 80 mg/day once daily."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_SUPRATHERAPEUTIC_DOSE",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.5 VIOLATION: Supratherapeutic dosing detected for Osimertinib. Recommended dose (160 mg) exceeds FDA label maximum ceiling of 80 mg/day once daily."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-013": {
+    "pre_gate": {
+      "recommendation": "Cetuximab monotherapy",
+      "rationale": "Anti-EGFR monoclonal antibody proposed for metastatic colorectal cancer.",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "KRAS codon 12/13/61 activating mutations"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: FOLFIRI + Bevacizumab (VEGF-targeted standard for KRAS-mutant mCRC)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Cetuximab monotherapy]\nReason Code: REJECTED_TARGET_MISMATCH\nViolations: C2.2 VIOLATION: Anti-EGFR monoclonal antibody (cetuximab/panitumumab) recommended in KRAS/NRAS-mutant colorectal cancer. Constitutive downstream MAPK activation confers zero efficacy and documented inferior outcomes (FDA black box / NCCN Category 3 contraindication).\nSubstituted Standard of Care: FOLFIRI + Bevacizumab (VEGF-targeted standard for KRAS-mutant mCRC)",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "KRAS codon 12/13/61 activating mutations",
+        "C2.2 VIOLATION: Anti-EGFR monoclonal antibody (cetuximab/panitumumab) recommended in KRAS/NRAS-mutant colorectal cancer. Constitutive downstream MAPK activation confers zero efficacy and documented inferior outcomes (FDA black box / NCCN Category 3 contraindication)."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_TARGET_MISMATCH",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.2 VIOLATION: Anti-EGFR monoclonal antibody (cetuximab/panitumumab) recommended in KRAS/NRAS-mutant colorectal cancer. Constitutive downstream MAPK activation confers zero efficacy and documented inferior outcomes (FDA black box / NCCN Category 3 contraindication)."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-014": {
+    "pre_gate": {
+      "recommendation": "Sotorasib monotherapy (960 mg once daily orally)",
+      "rationale": "KRAS G12C inhibitor proposed for KRAS G12D mutant colorectal cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT03785249",
+          "title": "KRYSTAL-1: Phase 1/2 Study of Targeted KRAS G12C Inhibition in Solid Tumors",
+          "pmid": "34096690"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "KRAS G12D non-reactive to G12C cysteine alkylating inhibitors"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: FOLFIRI + Bevacizumab (Chemotherapy + VEGF standard for non-G12C KRAS)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Sotorasib monotherapy (960 mg once daily orally)]\nReason Code: REJECTED_TARGET_MISMATCH\nViolations: C2.2 VIOLATION: KRAS G12C inhibitor recommended in tumor lacking KRAS G12C mutation (e.g. KRAS G12D or KRAS wild-type). Sotorasib/adagrasib covalently bind the mutated Cys-12 residue only.\nSubstituted Standard of Care: FOLFIRI + Bevacizumab (Chemotherapy + VEGF standard for non-G12C KRAS)",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT03785249",
+          "title": "KRYSTAL-1: Phase 1/2 Study of Targeted KRAS G12C Inhibition in Solid Tumors",
+          "pmid": "34096690"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "KRAS G12D non-reactive to G12C cysteine alkylating inhibitors",
+        "C2.2 VIOLATION: KRAS G12C inhibitor recommended in tumor lacking KRAS G12C mutation (e.g. KRAS G12D or KRAS wild-type). Sotorasib/adagrasib covalently bind the mutated Cys-12 residue only."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_TARGET_MISMATCH",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.2 VIOLATION: KRAS G12C inhibitor recommended in tumor lacking KRAS G12C mutation (e.g. KRAS G12D or KRAS wild-type). Sotorasib/adagrasib covalently bind the mutated Cys-12 residue only."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-015": {
+    "pre_gate": {
+      "recommendation": "Pembrolizumab monotherapy (200 mg IV q3w)",
+      "rationale": "Immune checkpoint inhibitor monotherapy proposed for metastatic colorectal cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02563002",
+          "title": "KEYNOTE-177: Pembrolizumab in Advanced Colorectal Cancer",
+          "pmid": "33264544"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Microsatellite-stable (MSS / pMMR) status lacks anti-PD-1 responsiveness"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: FOLFOX + Bevacizumab (Standard cytotoxic doublet for MSS mCRC)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Pembrolizumab monotherapy (200 mg IV q3w)]\nReason Code: REJECTED_TARGET_MISMATCH\nViolations: C2.2 VIOLATION: Single-agent immune checkpoint inhibitor proposed for microsatellite-stable (MSS / pMMR) colorectal cancer lacking mismatch repair deficiency (NCCN guideline mismatch).\nSubstituted Standard of Care: FOLFOX + Bevacizumab (Standard cytotoxic doublet for MSS mCRC)",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02563002",
+          "title": "KEYNOTE-177: Pembrolizumab in Advanced Colorectal Cancer",
+          "pmid": "33264544"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Microsatellite-stable (MSS / pMMR) status lacks anti-PD-1 responsiveness",
+        "C2.2 VIOLATION: Single-agent immune checkpoint inhibitor proposed for microsatellite-stable (MSS / pMMR) colorectal cancer lacking mismatch repair deficiency (NCCN guideline mismatch)."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_TARGET_MISMATCH",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.2 VIOLATION: Single-agent immune checkpoint inhibitor proposed for microsatellite-stable (MSS / pMMR) colorectal cancer lacking mismatch repair deficiency (NCCN guideline mismatch)."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-016": {
+    "pre_gate": {
+      "recommendation": "Pembrolizumab monotherapy (200 mg IV q3w)",
+      "rationale": "Frontline immune checkpoint inhibitor for microsatellite instability-high (MSI-H) / mismatch repair deficient (dMMR) mCRC.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02563002",
+          "title": "KEYNOTE-177: Pembrolizumab in Microsatellite-Instability-High Advanced Colorectal Cancer",
+          "pmid": "33264544"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe active autoimmune disease"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Pembrolizumab monotherapy (200 mg IV q3w)",
+      "rationale": "Frontline immune checkpoint inhibitor for microsatellite instability-high (MSI-H) / mismatch repair deficient (dMMR) mCRC.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02563002",
+          "title": "KEYNOTE-177: Pembrolizumab in Microsatellite-Instability-High Advanced Colorectal Cancer",
+          "pmid": "33264544"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe active autoimmune disease"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-017": {
+    "pre_gate": {
+      "recommendation": "Encorafenib (300 mg daily) + Cetuximab (500 mg/m\u00b2 q2w)",
+      "rationale": "Dual BRAF V600E and EGFR pathway blockade overcoming EGFR-mediated feedback activation.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "BEACON CRC: Encorafenib, Binimetinib, and Cetuximab in BRAF V600E-Mutated Colorectal Cancer",
+          "pmid": "31566309"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "BRAF-wildtype colorectal cancer"
+      ],
+      "confidence": 0.93,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Encorafenib (300 mg daily) + Cetuximab (500 mg/m\u00b2 q2w)",
+      "rationale": "Dual BRAF V600E and EGFR pathway blockade overcoming EGFR-mediated feedback activation.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "BEACON CRC: Encorafenib, Binimetinib, and Cetuximab in BRAF V600E-Mutated Colorectal Cancer",
+          "pmid": "31566309"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "BRAF-wildtype colorectal cancer"
+      ],
+      "confidence": 0.93,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-018": {
+    "pre_gate": {
+      "recommendation": "Capecitabine adjuvant monotherapy (1250 mg/m\u00b2 BID)",
+      "rationale": "Fluoropyrimidine monotherapy proposed for adjuvant colorectal cancer.",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "DPYD deficiency conferring lethal toxicity"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: Irinotecan + Oxaliplatin (Non-fluoropyrimidine alternative)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Capecitabine adjuvant monotherapy (1250 mg/m\u00b2 BID)]\nReason Code: REJECTED_PHARMACOGENOMIC_CONTRAINDICATION\nViolations: C2.4 VIOLATION: Fluoropyrimidine regimen recommended in documented DPYD deficiency (lethal systemic myelosuppression and mucositis risk).\nSubstituted Standard of Care: Irinotecan + Oxaliplatin (Non-fluoropyrimidine alternative)",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "DPYD deficiency conferring lethal toxicity",
+        "C2.4 VIOLATION: Fluoropyrimidine regimen recommended in documented DPYD deficiency (lethal systemic myelosuppression and mucositis risk)."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_PHARMACOGENOMIC_CONTRAINDICATION",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.4 VIOLATION: Fluoropyrimidine regimen recommended in documented DPYD deficiency (lethal systemic myelosuppression and mucositis risk)."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-019": {
+    "pre_gate": {
+      "recommendation": "Olaparib (300 mg BID orally)",
+      "rationale": "PARP inhibitor targeted for metastatic castration-resistant prostate cancer with homologous recombination repair (HRR) mutations.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT04038502",
+          "title": "COBRA: Carboplatin or Olaparib for BRCA-Deficient Metastatic Castration-Resistant Prostate Cancer",
+          "pmid": "32343601"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe renal impairment (CrCl < 30 mL/min)"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Olaparib (300 mg BID orally)",
+      "rationale": "PARP inhibitor targeted for metastatic castration-resistant prostate cancer with homologous recombination repair (HRR) mutations.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT04038502",
+          "title": "COBRA: Carboplatin or Olaparib for BRCA-Deficient Metastatic Castration-Resistant Prostate Cancer",
+          "pmid": "32343601"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe renal impairment (CrCl < 30 mL/min)"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-020": {
+    "pre_gate": {
+      "recommendation": "Enzalutamide (160 mg once daily orally)",
+      "rationale": "Second-generation androgen receptor signaling inhibitor for metastatic castration-resistant prostate cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "PREVAIL: Enzalutamide in Metastatic Prostate Cancer before Chemotherapy",
+          "pmid": "24881730"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "History of seizure disorder or predisposing brain metastases"
+      ],
+      "confidence": 0.91,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Enzalutamide (160 mg once daily orally)",
+      "rationale": "Second-generation androgen receptor signaling inhibitor for metastatic castration-resistant prostate cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "PREVAIL: Enzalutamide in Metastatic Prostate Cancer before Chemotherapy",
+          "pmid": "24881730"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "History of seizure disorder or predisposing brain metastases"
+      ],
+      "confidence": 0.91,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-021": {
+    "pre_gate": {
+      "recommendation": "Enzalutamide (160 mg once daily orally)",
+      "rationale": "Second-generation androgen receptor signaling inhibitor for metastatic castration-resistant prostate cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "PREVAIL: Enzalutamide in Metastatic Prostate Cancer before Chemotherapy",
+          "pmid": "24881730"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "History of seizure disorder or predisposing brain metastases"
+      ],
+      "confidence": 0.91,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Enzalutamide (160 mg once daily orally)",
+      "rationale": "Second-generation androgen receptor signaling inhibitor for metastatic castration-resistant prostate cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "PREVAIL: Enzalutamide in Metastatic Prostate Cancer before Chemotherapy",
+          "pmid": "24881730"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "History of seizure disorder or predisposing brain metastases"
+      ],
+      "confidence": 0.91,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-022": {
+    "pre_gate": {
+      "recommendation": "Olaparib (300 mg BID orally)",
+      "rationale": "PARP inhibitor targeted for metastatic castration-resistant prostate cancer with homologous recombination repair (HRR) mutations.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT04038502",
+          "title": "COBRA: Carboplatin or Olaparib for BRCA-Deficient Metastatic Castration-Resistant Prostate Cancer",
+          "pmid": "32343601"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe renal impairment (CrCl < 30 mL/min)"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Olaparib (300 mg BID orally)",
+      "rationale": "PARP inhibitor targeted for metastatic castration-resistant prostate cancer with homologous recombination repair (HRR) mutations.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT04038502",
+          "title": "COBRA: Carboplatin or Olaparib for BRCA-Deficient Metastatic Castration-Resistant Prostate Cancer",
+          "pmid": "32343601"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe renal impairment (CrCl < 30 mL/min)"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-023": {
+    "pre_gate": {
+      "recommendation": "Cyproterone acetate + Leuprolide (intermittent cycling protocol)",
+      "rationale": "Intermittent androgen suppression (IAS) protocol cycling on/off therapy driven by serum PSA nadir and threshold recovery to preserve hormonal sensitivity.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "Intermittent Androgen Suppression for Rising PSA After Radical Prostatectomy or Radiotherapy",
+          "pmid": "16738538"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Rapid symptomatic visceral progression"
+      ],
+      "confidence": 0.92,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Cyproterone acetate + Leuprolide (intermittent cycling protocol)",
+      "rationale": "Intermittent androgen suppression (IAS) protocol cycling on/off therapy driven by serum PSA nadir and threshold recovery to preserve hormonal sensitivity.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "Intermittent Androgen Suppression for Rising PSA After Radical Prostatectomy or Radiotherapy",
+          "pmid": "16738538"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Rapid symptomatic visceral progression"
+      ],
+      "confidence": 0.92,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-024": {
+    "pre_gate": {
+      "recommendation": "Alpelisib (300 mg daily) + Fulvestrant (500 mg q4w)",
+      "rationale": "PI3K-alpha selective inhibitor combined with SERD for PIK3CA-mutated HR-positive, HER2-negative advanced breast cancer progressing on CDK4/6 inhibitor.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02437318",
+          "title": "SOLAR-1: Alpelisib for PIK3CA-Mutated, Hormone Receptor-Positive Advanced Breast Cancer",
+          "pmid": "31091374"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe cutaneous adverse reactions (SCAR)",
+        "Severe uncontrolled type 2 diabetes"
+      ],
+      "confidence": 0.93,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Alpelisib (300 mg daily) + Fulvestrant (500 mg q4w)",
+      "rationale": "PI3K-alpha selective inhibitor combined with SERD for PIK3CA-mutated HR-positive, HER2-negative advanced breast cancer progressing on CDK4/6 inhibitor.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": "NCT02437318",
+          "title": "SOLAR-1: Alpelisib for PIK3CA-Mutated, Hormone Receptor-Positive Advanced Breast Cancer",
+          "pmid": "31091374"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe cutaneous adverse reactions (SCAR)",
+        "Severe uncontrolled type 2 diabetes"
+      ],
+      "confidence": 0.93,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-025": {
+    "pre_gate": {
+      "recommendation": "Trastuzumab + Pertuzumab + Docetaxel",
+      "rationale": "Dual HER2 extracellular domain antibody blockade combined with taxane for first-line HER2-positive metastatic breast cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "CLEOPATRA: Pertuzumab, Trastuzumab, and Docetaxel in HER2-Positive Metastatic Breast Cancer",
+          "pmid": "22149876"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Left ventricular ejection fraction (LVEF) < 50%",
+        "Pre-existing congestive heart failure"
+      ],
+      "confidence": 0.96,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Trastuzumab + Pertuzumab + Docetaxel",
+      "rationale": "Dual HER2 extracellular domain antibody blockade combined with taxane for first-line HER2-positive metastatic breast cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "CLEOPATRA: Pertuzumab, Trastuzumab, and Docetaxel in HER2-Positive Metastatic Breast Cancer",
+          "pmid": "22149876"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Left ventricular ejection fraction (LVEF) < 50%",
+        "Pre-existing congestive heart failure"
+      ],
+      "confidence": 0.96,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-026": {
+    "pre_gate": {
+      "recommendation": "Olaparib monotherapy (300 mg BID orally)",
+      "rationale": "PARP inhibitor synthetic lethality for germline/somatic BRCA-mutated metastatic triple-negative breast cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "OlympiAD: Olaparib for Metastatic Breast Cancer in Patients with a Germline BRCA Mutation",
+          "pmid": "28578601"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Pre-existing myelodysplastic syndrome (MDS)"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Olaparib monotherapy (300 mg BID orally)",
+      "rationale": "PARP inhibitor synthetic lethality for germline/somatic BRCA-mutated metastatic triple-negative breast cancer.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "OlympiAD: Olaparib for Metastatic Breast Cancer in Patients with a Germline BRCA Mutation",
+          "pmid": "28578601"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Pre-existing myelodysplastic syndrome (MDS)"
+      ],
+      "confidence": 0.94,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-027": {
+    "pre_gate": {
+      "recommendation": "Elacestrant (345 mg once daily orally)",
+      "rationale": "Oral selective estrogen receptor degrader (SERD) specifically indicated for ESR1-mutated ER-positive, HER2-negative advanced breast cancer progressing on endocrine therapy.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "EMERALD: Elacestrant vs Standard-of-Care in ER-Positive, HER2-Negative Advanced Breast Cancer with ESR1 Mutation",
+          "pmid": "35584336"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe hepatic impairment (Child-Pugh C)"
+      ],
+      "confidence": 0.92,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Elacestrant (345 mg once daily orally)",
+      "rationale": "Oral selective estrogen receptor degrader (SERD) specifically indicated for ESR1-mutated ER-positive, HER2-negative advanced breast cancer progressing on endocrine therapy.",
+      "evidence_level": "1A",
+      "citations": [
+        {
+          "nct_id": null,
+          "title": "EMERALD: Elacestrant vs Standard-of-Care in ER-Positive, HER2-Negative Advanced Breast Cancer with ESR1 Mutation",
+          "pmid": "35584336"
+        }
+      ],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Severe hepatic impairment (Child-Pugh C)"
+      ],
+      "confidence": 0.92,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-028": {
+    "pre_gate": {
+      "recommendation": "Dabrafenib (150 mg BID) + Trametinib (2 mg once daily)",
+      "rationale": "Dual BRAF/MEK kinase inhibitor targeted combination proposed.",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "BRAF wild-type status"
+      ],
+      "confidence": 0.4,
+      "abstain": false,
+      "abstain_reason": null,
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "BLOCKED: Nivolumab + Ipilimumab (First-line dual checkpoint inhibition for BRAF-wt)",
+      "rationale": "[SAFETY GATE REJECTED ORIGINAL RECOMMENDATION: Dabrafenib (150 mg BID) + Trametinib (2 mg once daily)]\nReason Code: REJECTED_TARGET_MISMATCH\nViolations: C2.2 VIOLATION: BRAF inhibitor recommended in BRAF-wildtype malignancy (induces paradoxical CRAF dimer activation and accelerated tumor growth).\nSubstituted Standard of Care: Nivolumab + Ipilimumab (First-line dual checkpoint inhibition for BRAF-wt)",
+      "evidence_level": "1A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "BRAF wild-type status",
+        "C2.2 VIOLATION: BRAF inhibitor recommended in BRAF-wildtype malignancy (induces paradoxical CRAF dimer activation and accelerated tumor growth)."
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "REJECTED_TARGET_MISMATCH",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": false,
+      "safety_violations": [
+        "C2.2 VIOLATION: BRAF inhibitor recommended in BRAF-wildtype malignancy (induces paradoxical CRAF dimer activation and accelerated tumor growth)."
+      ],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": true
+  },
+  "CASE-029": {
+    "pre_gate": {
+      "recommendation": "Abstain - No verified clinical trials or guideline-directed targeted therapy",
+      "rationale": "No verified clinical trial evidence or FDA-approved targeted therapy matches this tumor type and variant profile. Multidisciplinary molecular tumor board review indicated.",
+      "evidence_level": "N/A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Empirical off-label targeted therapy without trial evidence"
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "NO_EVIDENCE",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Abstain - No verified clinical trials or guideline-directed targeted therapy",
+      "rationale": "No verified clinical trial evidence or FDA-approved targeted therapy matches this tumor type and variant profile. Multidisciplinary molecular tumor board review indicated.",
+      "evidence_level": "N/A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Empirical off-label targeted therapy without trial evidence"
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "NO_EVIDENCE",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  },
+  "CASE-030": {
+    "pre_gate": {
+      "recommendation": "Abstain - No verified clinical trials or guideline-directed targeted therapy",
+      "rationale": "No verified clinical trial evidence or FDA-approved targeted therapy matches this tumor type and variant profile. Multidisciplinary molecular tumor board review indicated.",
+      "evidence_level": "N/A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Empirical off-label targeted therapy without trial evidence"
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "NO_EVIDENCE",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "post_gate": {
+      "recommendation": "Abstain - No verified clinical trials or guideline-directed targeted therapy",
+      "rationale": "No verified clinical trial evidence or FDA-approved targeted therapy matches this tumor type and variant profile. Multidisciplinary molecular tumor board review indicated.",
+      "evidence_level": "N/A",
+      "citations": [],
+      "cited_trial_ids": [],
+      "cited_pmids": [],
+      "contraindications": [
+        "Empirical off-label targeted therapy without trial evidence"
+      ],
+      "confidence": 0.0,
+      "abstain": true,
+      "abstain_reason": "NO_EVIDENCE",
+      "source": "deterministic_fallback",
+      "safety_gate_passed": true,
+      "safety_violations": [],
+      "requires_oncologist_override": false,
+      "override_reason": null
+    },
+    "is_safety_trap": false
+  }
+}

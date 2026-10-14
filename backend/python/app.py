@@ -253,6 +253,16 @@ class SCRHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
       return
 
+    elif self.path == '/api/v1/python/evidence/recommend':
+      try:
+        response = ComputeRegistry.run_evidence_recommend(data)
+        self._set_headers(200)
+        self.wfile.write(json.dumps(response).encode('utf-8'))
+      except Exception as err:
+        self._set_headers(500)
+        self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
+      return
+
     elif self.path == '/api/v1/python/multimodal/segment':
       try:
         response = ComputeRegistry.run_multimodal_segment(data)

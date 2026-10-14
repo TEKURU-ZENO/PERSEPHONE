@@ -514,19 +514,55 @@ class ComputeRegistry:
   def run_board_debate(data):
     """
     Orchestrates the 14-agent council debate sequence using shared blackboard state.
+    Supports mode='rule-based' and mode='llm_gate'.
     """
     start = time.perf_counter()
     patient_raw = data.get("patient", {})
-    logger.info("SCR: Running autonomous 14-agent clinical debate")
+    mode = data.get("mode", "rule-based")
+    logger.info(f"SCR: Running autonomous clinical debate in mode: {mode}")
     
-    debate_results = AgentCouncilRuntime.run_debate(patient_raw)
+    debate_results = AgentCouncilRuntime.run_debate(patient_raw, mode=mode)
     
-    metrics = profile_compute(start, algorithm="Agent_Council_Debate")
+    metrics = profile_compute(start, algorithm=f"Agent_Council_Debate_{mode}")
     return {
+      "mode": mode,
       "debateTranscript": debate_results["debateTranscript"],
       "agentMetrics": debate_results["agentMetrics"],
       "consensusStatus": debate_results["consensusStatus"],
       "finalDecision": debate_results["finalDecision"],
+      "metadata": metrics
+    }
+
+  @staticmethod
+  def run_evidence_recommend(data):
+    """
+    Clinical Evidence Agent recommendation pipeline supporting rule-based and LLM+gate modes.
+    """
+    start = time.perf_counter()
+    mode = data.get("mode", "llm_gate")
+    patient_raw = data.get("patient", {})
+    target_drug = data.get("target_drug_or_query")
+    
+    from backend.python.compute.clinical_evidence.evidence_agent import EvidenceAgent
+    from backend.python.compute.clinical_evidence.schemas import PatientClinicalProfile
+    
+    profile = PatientClinicalProfile(
+      patient_id=patient_raw.get("id", "PT-CURRENT"),
+      cancer_type=patient_raw.get("cancer_type", patient_raw.get("cancerType", "High-Grade Serous Ovarian Cancer")),
+      stage=patient_raw.get("stage", "Stage IV"),
+      somatic_mutations=patient_raw.get("variants", patient_raw.get("somatic_mutations", ["BRCA1"])),
+      germline_variants=patient_raw.get("germline_variants", []),
+      prior_therapies=patient_raw.get("prior_therapies", patient_raw.get("priorTherapies", [])),
+      allergies_hypersensitivities=patient_raw.get("allergies_hypersensitivities", []),
+    )
+    
+    enforce_gate = (mode != "rule-based-ungated")
+    agent = EvidenceAgent()
+    rec = agent.generate_recommendation(profile, target_drug_or_query=target_drug, enforce_safety_gate=enforce_gate)
+    metrics = profile_compute(start, algorithm=f"Evidence_Recommend_{mode}")
+    return {
+      "mode": mode,
+      "recommendation": rec.model_dump(),
       "metadata": metrics
     }
 
