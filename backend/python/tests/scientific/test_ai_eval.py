@@ -64,11 +64,11 @@ def test_ai_eval_cases_dataset_integrity():
     assert len(no_ev_cases) >= 2, f"Expected at least 2 no-evidence cases, found {len(no_ev_cases)}"
 
 
-def test_ai_eval_benchmark_metrics_and_safety_gate():
+def test_ai_eval_benchmark_metrics_and_safety_gate(tmp_path):
     """Verifies benchmark metrics against cached responses: gate rejection rate, no-evidence abstention, accuracy."""
     cases_path = ROOT_DIR / DEFAULT_CASES_PATH
     cache_path = ROOT_DIR / DEFAULT_CACHE_PATH
-    report_path = ROOT_DIR / DEFAULT_REPORT_PATH
+    report_path = tmp_path / "test_ai_eval_report.md"
 
     summary = run_benchmark(
         cases_path=cases_path,
