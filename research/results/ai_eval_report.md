@@ -1,7 +1,7 @@
 # PERSEPHONE Clinical AI Evidence Agent Evaluation Benchmark Report
 
-- **Timestamp (UTC)**: `2026-10-14T10:40:05.694889+00:00`
-- **Git Commit**: `2072dfae12e2bb52005a125d1084b84100a405c7`
+- **Timestamp (UTC)**: `2026-10-14T17:14:07.511436+00:00`
+- **Git Commit**: `54ec0b615cddfac69b3186339c34c36745c37bbb`
 - **Execution Command**: `python -m backend.python.compute.clinical_evidence.eval_benchmark`
 - **Random Seed**: `42`
 - **Vignettes Evaluated**: `30` authentic clinical cases
